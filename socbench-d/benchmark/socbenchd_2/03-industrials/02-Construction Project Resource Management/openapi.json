@@ -1,0 +1,520 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Construction Project Management API",
+        "description": "This API provides real-time tracking and organization of resources in construction projects, including project planning, workforce assignment, material logistics, and Gantt chart generation for efficient execution.",
+        "version": "1.0.0",
+        "contact": {
+            "name": "Support",
+            "email": "support@constructionapi.com"
+        }
+    },
+    "servers": [
+        {
+            "url": "https://api.constructionproject.com/v1",
+            "description": "Production Server"
+        },
+        {
+            "url": "https://sandbox.api.constructionproject.com/v1",
+            "description": "Sandbox Server"
+        }
+    ],
+    "paths": {
+        "/projects": {
+            "get": {
+                "summary": "Retrieve a list of construction projects",
+                "description": "Fetch a list of all construction projects along with their statuses (e.g., active, completed, on hold).",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "List of projects retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "projectId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the project"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the project"
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current status of the project (e.g., active, on-hold, completed)"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new construction project",
+                "description": "Create a new project by specifying its details such as the name, description, and start date.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "name",
+                                    "startDate"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the project"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Detailed description of the project"
+                                    },
+                                    "startDate": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Start date of the project"
+                                    },
+                                    "endDate": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Optional end date of the project"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Project created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "projectId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the created project"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}/details": {
+            "get": {
+                "summary": "Retrieve project details",
+                "description": "Fetch detailed information about a specific construction project by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the project",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Project details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "projectId": {
+                                            "type": "string",
+                                            "description": "Unique identifier"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "description": "Name of the project"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "description": "Project description"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the project"
+                                        },
+                                        "startDate": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "Project start date"
+                                        },
+                                        "endDate": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "Project end date"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}": {
+            "patch": {
+                "summary": "Update specific project properties",
+                "description": "Modify specific attributes of an existing project, such as status or endDate.",
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the project to be updated",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "description": "New status of the project"
+                                    },
+                                    "endDate": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "New end date of the project"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Project updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Confirmation message"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/workforce": {
+            "get": {
+                "summary": "Retrieve workforce directory",
+                "description": "Get an overview of workforce members and their current assignments.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Workforce directory retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "workerId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the worker"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the workforce member"
+                                            },
+                                            "assignedTask": {
+                                                "type": "string",
+                                                "description": "Current task assigned to the workforce member, if any"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/workforce/assign": {
+            "post": {
+                "summary": "Assign a workforce member to a task",
+                "description": "Assign a specific workforce member to a task in a construction project.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "workerId",
+                                    "taskId",
+                                    "projectId"
+                                ],
+                                "properties": {
+                                    "workerId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the workforce member"
+                                    },
+                                    "taskId": {
+                                        "type": "string",
+                                        "description": "Identifier of the task the member is being assigned to"
+                                    },
+                                    "projectId": {
+                                        "type": "string",
+                                        "description": "Identifier of the project the task belongs to"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Workforce member assigned successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Confirmation message"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/materials": {
+            "get": {
+                "summary": "Retrieve material inventory",
+                "description": "Fetch the current inventory of materials and their availability statuses.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Material inventory retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "materialId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the material"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the material"
+                                            },
+                                            "quantityAvailable": {
+                                                "type": "integer",
+                                                "description": "Number of units available"
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Availability status (e.g., in-stock, limited, out-of-stock)"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/materials/request": {
+            "post": {
+                "summary": "Request additional materials",
+                "description": "Submit a request for delivering additional materials to a project site.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "materialId",
+                                    "quantity",
+                                    "projectId"
+                                ],
+                                "properties": {
+                                    "materialId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the requested material"
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "description": "Quantity of material being requested"
+                                    },
+                                    "projectId": {
+                                        "type": "string",
+                                        "description": "Identifier of the project the materials are for"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Materials requested successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "requestId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the request"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the request"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}/gantt": {
+            "get": {
+                "summary": "Generate Gantt chart for a project",
+                "description": "Retrieve a Gantt chart visualization of a construction project's timeline and tasks.",
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the project",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Gantt chart generated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "chartData": {
+                                            "type": "object",
+                                            "description": "Data for rendering the Gantt chart in visualization tools"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}/tasks": {
+            "post": {
+                "summary": "Add a task to a project",
+                "description": "Insert a new task into the schedule of an existing project.",
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the project",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "name",
+                                    "startDate",
+                                    "endDate"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the task"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Description of the task"
+                                    },
+                                    "startDate": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Start date of the task"
+                                    },
+                                    "endDate": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "End date of the task"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Task added successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "taskId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the added task"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

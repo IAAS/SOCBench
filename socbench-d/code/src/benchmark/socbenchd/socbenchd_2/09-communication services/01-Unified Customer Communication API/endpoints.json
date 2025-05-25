@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /messages/send",
+            "description": "Send a message to a customer using specified channels such as SMS, email, or messaging applications."
+        },
+        {
+            "endpoint": "GET /messages/status",
+            "description": "Retrieve the delivery and engagement status of a previously sent message."
+        },
+        {
+            "endpoint": "POST /templates/create",
+            "description": "Create a new content template for personalized message delivery."
+        },
+        {
+            "endpoint": "GET /templates",
+            "description": "Fetch a list of all existing message templates."
+        },
+        {
+            "endpoint": "POST /contacts/import",
+            "description": "Bulk upload customer contact information for targeted communication."
+        },
+        {
+            "endpoint": "GET /contacts",
+            "description": "Retrieve the list of all stored customer contact profiles."
+        },
+        {
+            "endpoint": "POST /analytics/events",
+            "description": "Send and store engagement tracking events for messages sent via the service."
+        },
+        {
+            "endpoint": "GET /analytics/report",
+            "description": "Generate a detailed report of customer interactions for a defined time period."
+        },
+        {
+            "endpoint": "PUT /settings/notification-config",
+            "description": "Update notification configurations for real-time engagement tracking events."
+        },
+        {
+            "endpoint": "DELETE /messages/{messageID}",
+            "description": "Remove a previously sent message record from the system."
+        }
+    ]
+}

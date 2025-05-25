@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+Service:
+Provides a systematic approach for validating health insurance policies and streamlining claim submissions for medical services. Organizations can confirm policy coverage in real time, ensuring a smoother interaction between patients, insurers, and healthcare providers.
+
+Endpoints:
+GET /policies: Retrieve a list of available health insurance policies.
+POST /policies/validate: Submit policy details to validate coverage status in real time.
+GET /claims: Retrieve the status of submitted insurance claims.
+POST /claims/submit: Submit a new insurance claim for a patient's medical services.
+PUT /claims/{claim_id}: Update the details of an existing insurance claim.
+DELETE /claims/{claim_id}: Delete an existing insurance claim from the system.
+GET /policies/{policy_id}/coverage: Retrieve coverage details for a specific health insurance policy.
+POST /providers/register: Register a new healthcare provider in the system.
+GET /patients/{patient_id}/history: Fetch claim and coverage history for a specific patient.
+GET /analytics/claim-statistics: Retrieve aggregated statistics regarding claim submissions and their outcomes.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

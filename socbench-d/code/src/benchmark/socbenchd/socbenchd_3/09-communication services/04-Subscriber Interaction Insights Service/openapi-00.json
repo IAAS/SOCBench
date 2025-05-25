@@ -1,0 +1,347 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Telecom Service Manager API",
+    "description": "This API provides insights into customer interactions, subscription trends, and service feedback for telecom service managers to improve operations and enhance consumer satisfaction.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/customer_interactions": {
+      "get": {
+        "summary": "Retrieve Customer Interactions Summary",
+        "description": "Fetch a summary of customer interactions over a specified time period.",
+        "parameters": [
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "The starting date of the period for which customer interactions are to be retrieved (YYYY-MM-DD).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "The ending date of the period for which customer interactions are to be retrieved (YYYY-MM-DD).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer interactions retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "total_interactions": 1500,
+                  "interaction_breakdown": {
+                    "calls": 800,
+                    "emails": 300,
+                    "chats": 400
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscription_trends": {
+      "post": {
+        "summary": "Submit Subscription Trends Data",
+        "description": "Submit relevant data to analyze and update subscriber trend metrics.",
+        "requestBody": {
+          "description": "Subscription trend data for analysis.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "region": {
+                    "type": "string",
+                    "example": "North America"
+                  },
+                  "new_subscriptions": {
+                    "type": "integer",
+                    "example": 2000
+                  },
+                  "churn_rate": {
+                    "type": "number",
+                    "format": "float",
+                    "example": 0.05
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Subscription trends submitted successfully."
+          }
+        }
+      }
+    },
+    "/service_feedback": {
+      "get": {
+        "summary": "Retrieve Aggregated Service Feedback",
+        "description": "Access aggregated feedback regarding various services provided by the telecom company.",
+        "responses": {
+          "200": {
+            "description": "Aggregated feedback successfully retrieved.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "service_feedback": {
+                    "internet": {
+                      "average_rating": 4.5,
+                      "total_reviews": 1200
+                    },
+                    "phone": {
+                      "average_rating": 4.2,
+                      "total_reviews": 800
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/popular_services": {
+      "get": {
+        "summary": "Identify Popular Services",
+        "description": "Retrieve a list of services with the highest customer adherence to aid in promotional focus.",
+        "responses": {
+          "200": {
+            "description": "Popular services retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "popular_services": ["High-Speed Internet", "Streaming Bundle", "Unlimited Phone Plan"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/promotion_strategy": {
+      "post": {
+        "summary": "Generate Promotional Strategies",
+        "description": "Submit parameters to generate a custom promotional strategy tailored to meet company goals.",
+        "requestBody": {
+          "description": "Parameters for generating strategic promotions.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "target_audience": {
+                    "type": "string",
+                    "example": "Millennials"
+                  },
+                  "budget": {
+                    "type": "integer",
+                    "example": 50000
+                  },
+                  "target_services": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": ["Streaming Bundle", "Phone Plan"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Promotional strategy generated successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "strategy": "Discount-based promotional campaign targeting Millennials for Streaming Bundle."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/usage_statistics": {
+      "get": {
+        "summary": "Retrieve Service Usage Statistics",
+        "description": "Fetch detailed usage statistics of telecom services across various regions.",
+        "parameters": [
+          {
+            "name": "region",
+            "in": "query",
+            "description": "Specify a region to filter the statistics. If omitted, retrieves global statistics.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usage statistics retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "region": "North America",
+                  "usage": {
+                    "internet": 5000,
+                    "phone": 3500,
+                    "bundles": 2000
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer_feedback": {
+      "post": {
+        "summary": "Send Customer Feedback",
+        "description": "Submit customer feedback data for analysis to improve satisfaction and identify actionable insights.",
+        "requestBody": {
+          "description": "Customer feedback data for analysis.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customer_id": {
+                    "type": "string",
+                    "example": "12345"
+                  },
+                  "feedback": {
+                    "type": "string",
+                    "example": "Great service but slow response times."
+                  },
+                  "rating": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5,
+                    "example": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Customer feedback submitted successfully."
+          }
+        }
+      }
+    },
+    "/trend_analysis": {
+      "get": {
+        "summary": "Obtain Trend Analysis",
+        "description": "Retrieve insights into service adoption trends including predictive capabilities for future adoption trends.",
+        "responses": {
+          "200": {
+            "description": "Trend analysis retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "trend_insights": {
+                    "highest_growth_service": "Streaming Bundle",
+                    "predicted_adoption_increase": "15% next quarter"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/obsolete_services": {
+      "delete": {
+        "summary": "Delete Obsolete Services",
+        "description": "Remove information related to services marked as obsolete.",
+        "requestBody": {
+          "description": "Details of the obsolete services to delete.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "service_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": ["service123", "service456"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Obsolete services removed successfully."
+          }
+        }
+      }
+    },
+    "/update_service_data": {
+      "put": {
+        "summary": "Update Service Data",
+        "description": "Update and maintain detailed data about available services.",
+        "requestBody": {
+          "description": "Service data to update.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "service_id": {
+                    "type": "string",
+                    "example": "service123"
+                  },
+                  "service_name": {
+                    "type": "string",
+                    "example": "High-Speed Internet"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "High-speed fiber-optic internet with speeds up to 1Gbps."
+                  },
+                  "status": {
+                    "type": "string",
+                    "example": "active"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Service data updated successfully."
+          }
+        }
+      }
+    }
+  }
+}

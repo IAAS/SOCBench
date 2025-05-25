@@ -1,0 +1,366 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Forest Yield Management API",
+    "description": "This API provides tools for logging companies to calculate and forecast yields from forest product harvesting based on data such as location, tree type, and environmental factors.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/forecasts": {
+      "get": {
+        "summary": "Retrieve projected yield estimates",
+        "description": "Retrieve projected yield estimates for forest harvesting based on specific input parameters such as location, tree species, and environmental factors.",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "query",
+            "description": "The geographical location for which to calculate yield estimates.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tree_type",
+            "in": "query",
+            "description": "The type of tree for which yield estimates are needed.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "environmental_factors",
+            "in": "query",
+            "description": "Optional environmental factors such as rainfall or soil type for yield refinement.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of yield estimates.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "location": { "type": "string" },
+                    "tree_type": { "type": "string" },
+                    "predicted_yield": { "type": "number" },
+                    "unit": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request due to invalid or missing parameters."
+          }
+        }
+      }
+    },
+    "/logs": {
+      "post": {
+        "summary": "Submit logging data",
+        "description": "Submit data related to a recent logging operation. This data will be stored and analyzed for further use.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "location": { "type": "string", "description": "The location where the logging operation occurred." },
+                  "tree_type": { "type": "string", "description": "The type of trees harvested during the operation." },
+                  "quantity": { "type": "integer", "description": "The number of logs harvested." },
+                  "date": { "type": "string", "format": "date", "description": "The date of the logging operation." }
+                },
+                "required": ["location", "tree_type", "quantity", "date"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Logging data successfully submitted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "logId": { "type": "string", "description": "Unique ID of the submitted log." },
+                    "status": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logs/{logId}": {
+      "delete": {
+        "summary": "Delete a specific log entry",
+        "description": "Remove a specific log entry identified by its unique ID.",
+        "parameters": [
+          {
+            "name": "logId",
+            "in": "path",
+            "description": "The unique identifier of the log entry to delete.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Log entry successfully deleted."
+          },
+          "404": {
+            "description": "Log entry not found."
+          }
+        }
+      }
+    },
+    "/treespecies": {
+      "get": {
+        "summary": "Retrieve supported tree species",
+        "description": "Retrieve a list of tree species supported for analysis and yield calculations.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved list of tree species.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/environmental-factors/{region}": {
+      "get": {
+        "summary": "Retrieve environmental factor data",
+        "description": "Obtain environmental factors for a specific region such as rainfall or soil type that may affect yield calculations.",
+        "parameters": [
+          {
+            "name": "region",
+            "in": "path",
+            "description": "The region for which environmental data is requested.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Environmental data successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "region": { "type": "string" },
+                    "factors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/locations/{id}": {
+      "get": {
+        "summary": "Retrieve location details",
+        "description": "Retrieve details of a specific location based on its unique identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier of the location.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Location details successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string" },
+                    "name": { "type": "string" },
+                    "coordinates": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/yield-calculation": {
+      "post": {
+        "summary": "Calculate forest yield",
+        "description": "Submit specific parameters to calculate the forest yield for a particular operation.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "location": { "type": "string", "description": "The location of the forest area." },
+                  "tree_type": { "type": "string", "description": "Type of trees in the forest area." },
+                  "area_size": { "type": "integer", "description": "Size of the forest area in acres." },
+                  "environmental_factors": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Environmental factors affecting the yield." }
+                },
+                "required": ["location", "tree_type", "area_size"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Yield calculation successfully performed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "predicted_yield": { "type": "number", "description": "The calculated yield." },
+                    "unit": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/{reportId}": {
+      "get": {
+        "summary": "Fetch analytics report",
+        "description": "Fetch analytics based on a specific report ID.",
+        "parameters": [
+          {
+            "name": "reportId",
+            "in": "path",
+            "description": "The unique identifier of the analytics report.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Analytics report successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reportId": { "type": "string" },
+                    "data": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logging-operations/{operationId}": {
+      "patch": {
+        "summary": "Update logging operation data",
+        "description": "Update the information of a specific logging operation.",
+        "parameters": [
+          {
+            "name": "operationId",
+            "in": "path",
+            "description": "The unique identifier of the logging operation to update.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string", "description": "The updated status of the operation." },
+                  "notes": { "type": "string", "description": "Optional notes about the operation update." }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Logging operation successfully updated."
+          },
+          "404": {
+            "description": "Logging operation not found."
+          }
+        }
+      }
+    },
+    "/compliance/{locationId}/rules": {
+      "get": {
+        "summary": "Retrieve compliance rules",
+        "description": "Retrieve compliance rules and guidelines applicable to a specific location.",
+        "parameters": [
+          {
+            "name": "locationId",
+            "in": "path",
+            "description": "The unique identifier of the location.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Compliance rules successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "locationId": { "type": "string" },
+                    "rules": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

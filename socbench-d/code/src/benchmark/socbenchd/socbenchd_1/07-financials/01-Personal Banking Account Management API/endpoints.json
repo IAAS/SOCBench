@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /account/balance",
+            "description": "Fetch the current available balance for a user's bank account."
+        },
+        {
+            "endpoint": "GET /account/transactions",
+            "description": "Retrieve the transaction history of a user for a specified period."
+        },
+        {
+            "endpoint": "POST /account/transfer",
+            "description": "Initiate a fund transfer between user-specified accounts."
+        },
+        {
+            "endpoint": "GET /account/statements",
+            "description": "Download electronic statements of a user's account in a selected time range."
+        },
+        {
+            "endpoint": "GET /account/details",
+            "description": "Access detailed information regarding the user's linked accounts."
+        },
+        {
+            "endpoint": "POST /account/register",
+            "description": "Register a new banking account in the service."
+        },
+        {
+            "endpoint": "PUT /account/update",
+            "description": "Update existing account details such as contact information."
+        },
+        {
+            "endpoint": "DELETE /account/remove",
+            "description": "Delete or deactivate a specified bank account."
+        },
+        {
+            "endpoint": "GET /exchange/rates",
+            "description": "Retrieve the latest foreign exchange rates for supported currencies."
+        },
+        {
+            "endpoint": "POST /savings/deposit",
+            "description": "Deposit a specified amount into the user's savings account."
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /electricity-demand",
+            "description": "Fetch the historical electricity demand data for analysis."
+        },
+        {
+            "endpoint": "POST /electricity-demand/prediction",
+            "description": "Submit parameters for predicting future electricity demand."
+        },
+        {
+            "endpoint": "GET /real-time-data",
+            "description": "Retrieve the current real-time data related to energy consumption and demand."
+        },
+        {
+            "endpoint": "POST /smart-meters/data",
+            "description": "Upload data collected from smart meters for processing."
+        },
+        {
+            "endpoint": "GET /grid/balance/status",
+            "description": "Obtain the current status of grid stability and balance."
+        },
+        {
+            "endpoint": "POST /alerts/configure",
+            "description": "Set up configurations to receive alerts related to demand and supply issues."
+        },
+        {
+            "endpoint": "GET /reports/monthly",
+            "description": "Download monthly reports on electricity consumption and grid performance."
+        },
+        {
+            "endpoint": "PUT /sensors/calibration",
+            "description": "Adjust sensor calibration settings for accurate measurements."
+        },
+        {
+            "endpoint": "GET /weather-impact-analysis",
+            "description": "Analyze and display the impact of weather conditions on electricity demand."
+        },
+        {
+            "endpoint": "POST /renewable/integration/status",
+            "description": "Submit data regarding the integration of renewable energy sources into the grid."
+        }
+    ]
+}

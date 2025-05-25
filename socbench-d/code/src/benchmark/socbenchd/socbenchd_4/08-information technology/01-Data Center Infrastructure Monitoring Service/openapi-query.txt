@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+Service:
+This RESTful API enables real-time monitoring and analysis of data center infrastructure metrics, supporting administrators in optimizing resources, managing energy consumption, and ensuring system integrity.
+
+Endpoints:
+GET /metrics: Retrieve current metrics data collected from the data center infrastructure for analysis.
+POST /alerts: Send an alert configuration to be triggered on specific conditions met within the metrics.
+GET /alerts: Retrieve the list of active alert configurations for monitoring infrastructure status.
+PUT /sensors/{sensorId}: Update the configuration of a specific sensor by its unique identifier.
+DELETE /sensors/{sensorId}: Remove a specific sensor configuration by its unique identifier.
+GET /reports/daily: Generate and retrieve the daily performance report of the data center infrastructure.
+POST /reports/custom: Request and generate a custom report based on specified metrics and time ranges.
+GET /energy-consumption: Retrieve the current breakdown of energy consumption across the data center components.
+PATCH /optimization-settings: Adjust the parameters and thresholds for resource optimization strategies.
+GET /system-health: Retrieve a health overview of the entire data center system integrity status.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

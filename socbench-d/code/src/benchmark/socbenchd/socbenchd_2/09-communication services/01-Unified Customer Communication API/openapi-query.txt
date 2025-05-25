@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+A versatile API enabling seamless multi-channel communication with customers via SMS, email, and message applications. It supports personalized content delivery, real-time engagement tracking, and enhances customer interaction experiences.
+
+Endpoints:
+POST /messages/send: Send a message to a customer using specified channels such as SMS, email, or messaging applications.
+GET /messages/status: Retrieve the delivery and engagement status of a previously sent message.
+POST /templates/create: Create a new content template for personalized message delivery.
+GET /templates: Fetch a list of all existing message templates.
+POST /contacts/import: Bulk upload customer contact information for targeted communication.
+GET /contacts: Retrieve the list of all stored customer contact profiles.
+POST /analytics/events: Send and store engagement tracking events for messages sent via the service.
+GET /analytics/report: Generate a detailed report of customer interactions for a defined time period.
+PUT /settings/notification-config: Update notification configurations for real-time engagement tracking events.
+DELETE /messages/{messageID}: Remove a previously sent message record from the system.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

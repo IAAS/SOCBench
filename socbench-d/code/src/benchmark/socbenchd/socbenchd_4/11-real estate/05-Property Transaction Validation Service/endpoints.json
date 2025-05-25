@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /properties",
+            "description": "Retrieve a comprehensive list of all registered properties."
+        },
+        {
+            "endpoint": "POST /property",
+            "description": "Submit a new property record for verification and registration."
+        },
+        {
+            "endpoint": "GET /property/{id}",
+            "description": "Fetch detailed information of a specific property using its unique identifier."
+        },
+        {
+            "endpoint": "PUT /property/{id}",
+            "description": "Update details related to a registered property."
+        },
+        {
+            "endpoint": "DELETE /property/{id}",
+            "description": "Remove a specific property's record from the database."
+        },
+        {
+            "endpoint": "GET /ownership-history/{id}",
+            "description": "Retrieve the ownership history of a specified property."
+        },
+        {
+            "endpoint": "GET /legal-compliance-check/{id}",
+            "description": "Check and verify the legal compliance status of a property."
+        },
+        {
+            "endpoint": "GET /region/{region_id}/properties",
+            "description": "Fetch all properties located within a specific region."
+        },
+        {
+            "endpoint": "GET /property/compliance-status",
+            "description": "Obtain a report on compliance checks performed on a property."
+        },
+        {
+            "endpoint": "POST /ownership-transfer",
+            "description": "Facilitate the transfer of ownership from one entity to another with proper validation."
+        }
+    ]
+}

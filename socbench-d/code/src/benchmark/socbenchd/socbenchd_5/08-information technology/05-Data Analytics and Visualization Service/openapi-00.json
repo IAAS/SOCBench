@@ -1,0 +1,433 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Advanced Analytical Tools API",
+    "description": "This service offers advanced analytical tools for processing, modeling, and visualizing datasets. It includes customizable dashboards to present actionable insights for informed decision-making.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/data/upload": {
+      "post": {
+        "summary": "Upload a dataset for processing",
+        "description": "Uploads a dataset that will be used for processing, analysis, or model training.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The dataset file to upload for analysis."
+                  }
+                },
+                "required": ["file"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dataset uploaded successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "datasetId": {
+                      "type": "string",
+                      "description": "Unique identifier for the uploaded dataset."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Upload status message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data/summary": {
+      "get": {
+        "summary": "Retrieve a summary of datasets",
+        "description": "Fetches metadata and summaries of all datasets that have been uploaded.",
+        "responses": {
+          "200": {
+            "description": "List of dataset summaries.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "datasetId": {
+                        "type": "string",
+                        "description": "Unique identifier for the dataset."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "The name of the dataset."
+                      },
+                      "size": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "The size of the dataset in bytes."
+                      },
+                      "uploadDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp when the dataset was uploaded."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analysis/start": {
+      "post": {
+        "summary": "Initiate analytical processing",
+        "description": "Starts the analysis process on the selected dataset.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "datasetId": {
+                    "type": "string",
+                    "description": "The ID of the dataset to analyze."
+                  }
+                },
+                "required": ["datasetId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Analysis initiated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "analysisId": {
+                      "type": "string",
+                      "description": "Unique identifier for the analysis process."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Analysis initiation message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analysis/results": {
+      "get": {
+        "summary": "Retrieve analysis results",
+        "description": "Fetches the results of a completed analysis for a specific dataset.",
+        "parameters": [
+          {
+            "name": "analysisId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the analysis to fetch results for."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Analysis results retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "analysisId": {
+                      "type": "string",
+                      "description": "Unique identifier for the analysis process."
+                    },
+                    "results": {
+                      "type": "object",
+                      "description": "Analysis results as a structured data object."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/model/train": {
+      "post": {
+        "summary": "Train a predictive model",
+        "description": "Initiates the training of a predictive model using a specified dataset.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "datasetId": {
+                    "type": "string",
+                    "description": "ID of the dataset to be used for training."
+                  }
+                },
+                "required": ["datasetId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Model training started successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "modelId": {
+                      "type": "string",
+                      "description": "Unique identifier for the training process."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Model training initiation message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/model/status": {
+      "get": {
+        "summary": "Retrieve model training status",
+        "description": "Fetches the current training status of a predictive model.",
+        "parameters": [
+          {
+            "name": "modelId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the model training process."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Model training status retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "modelId": {
+                      "type": "string",
+                      "description": "Unique identifier for the model."
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Current training status (e.g., pending, in-progress, completed)."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/visualizations": {
+      "get": {
+        "summary": "Retrieve available visualizations",
+        "description": "Lists all available visualizations for processed datasets.",
+        "responses": {
+          "200": {
+            "description": "List of available visualizations.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "visualizationId": {
+                        "type": "string",
+                        "description": "Unique identifier for the visualization."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the visualization."
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Description of the visualization."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard/configure": {
+      "post": {
+        "summary": "Customize dashboard settings",
+        "description": "Allows for customizing the dashboard by adding or removing visualizations.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "visualizations": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "IDs of the visualizations to add to the dashboard."
+                    }
+                  }
+                },
+                "required": ["visualizations"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dashboard configured successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Configuration success message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard/view": {
+      "get": {
+        "summary": "Access the configured dashboard",
+        "description": "Displays the interactive dashboard with the selected visualizations and insights.",
+        "responses": {
+          "200": {
+            "description": "Dashboard data retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "visualizations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "visualizationId": {
+                            "type": "string",
+                            "description": "Unique identifier for the visualization."
+                          },
+                          "data": {
+                            "type": "object",
+                            "description": "Data for the visualization."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts/set": {
+      "post": {
+        "summary": "Set up alerts for key indicators",
+        "description": "Allows for the creation of alerts based on key indicators derived from dataset analysis.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "indicator": {
+                    "type": "string",
+                    "description": "The indicator to set an alert for."
+                  },
+                  "threshold": {
+                    "type": "number",
+                    "description": "The threshold value for triggering the alert."
+                  },
+                  "alertType": {
+                    "type": "string",
+                    "description": "The type of alert (e.g., email, notification)."
+                  }
+                },
+                "required": ["indicator", "threshold", "alertType"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Alert set successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "alertId": {
+                      "type": "string",
+                      "description": "Unique identifier for the alert."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Alert setup success message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

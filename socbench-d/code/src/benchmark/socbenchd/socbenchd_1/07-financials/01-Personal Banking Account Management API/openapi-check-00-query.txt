@@ -1,0 +1,435 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Banking Account Management API",
+        "description": "API for managing banking accounts with features like balance inquiries, transaction history, fund transfers, statement downloads, and account updates.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.bankingservice.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/account/balance": {
+            "get": {
+                "summary": "Fetch Account Balance",
+                "description": "Retrieve the current available balance for a bank account associated with the authenticated user.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with the account balance.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "balance": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "description": "The available balance in the account."
+                                        },
+                                        "currency": {
+                                            "type": "string",
+                                            "description": "The currency of the account balance (e.g., USD, EUR)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/account/transactions": {
+            "get": {
+                "summary": "Retrieve Transaction History",
+                "description": "Fetch the transaction history for a user's account within a specified date range.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The start date for the transaction history in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The end date for the transaction history in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response containing a list of transactions.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "The date and time of the transaction."
+                                            },
+                                            "amount": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "The transaction amount."
+                                            },
+                                            "currency": {
+                                                "type": "string",
+                                                "description": "The currency in which the transaction was made."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "A brief description of the transaction."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/account/transfer": {
+            "post": {
+                "summary": "Initiate Fund Transfer",
+                "description": "Transfer funds between the user's specified accounts.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "from_account": {
+                                        "type": "string",
+                                        "description": "The account number from which funds will be transferred."
+                                    },
+                                    "to_account": {
+                                        "type": "string",
+                                        "description": "The account number to which the funds will be transferred."
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "description": "The amount of money to transfer."
+                                    },
+                                    "currency": {
+                                        "type": "string",
+                                        "description": "The currency in which the transfer is made (e.g., USD, EUR)."
+                                    }
+                                },
+                                "required": [
+                                    "from_account",
+                                    "to_account",
+                                    "amount",
+                                    "currency"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response indicating the transfer was initiated."
+                    }
+                }
+            }
+        },
+        "/account/statements": {
+            "get": {
+                "summary": "Download Account Statements",
+                "description": "Retrieve electronic statements for a user's account for a specified time range.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The start date of the statement period in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The end date of the statement period in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response containing account statements as files.",
+                        "content": {
+                            "application/pdf": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary",
+                                    "description": "A PDF file containing the account statements."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/account/details": {
+            "get": {
+                "summary": "Fetch Account Details",
+                "description": "Access detailed information about the user's linked accounts.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with account details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "account_number": {
+                                                "type": "string",
+                                                "description": "The account number."
+                                            },
+                                            "account_type": {
+                                                "type": "string",
+                                                "description": "The type of account (e.g., savings, checking)."
+                                            },
+                                            "balance": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "The current balance for the account."
+                                            },
+                                            "currency": {
+                                                "type": "string",
+                                                "description": "The currency of the account."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/account/register": {
+            "post": {
+                "summary": "Register New Account",
+                "description": "Register a new banking account in the service.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "account_name": {
+                                        "type": "string",
+                                        "description": "The name of the new account."
+                                    },
+                                    "currency": {
+                                        "type": "string",
+                                        "description": "The currency for the account (e.g., USD, EUR)."
+                                    },
+                                    "initial_deposit": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "description": "The initial deposit amount for the account."
+                                    }
+                                },
+                                "required": [
+                                    "account_name",
+                                    "currency",
+                                    "initial_deposit"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful response indicating the account was registered."
+                    }
+                }
+            }
+        },
+        "/account/update": {
+            "put": {
+                "summary": "Update Account Details",
+                "description": "Update account details such as contact information for an existing account.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "account_number": {
+                                        "type": "string",
+                                        "description": "The account number to update."
+                                    },
+                                    "contact_info": {
+                                        "type": "object",
+                                        "description": "New contact information for the account.",
+                                        "properties": {
+                                            "email": {
+                                                "type": "string",
+                                                "format": "email",
+                                                "description": "The new email address."
+                                            },
+                                            "phone": {
+                                                "type": "string",
+                                                "description": "The new phone number."
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "account_number"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response indicating the account was updated."
+                    }
+                }
+            }
+        },
+        "/account/remove": {
+            "delete": {
+                "summary": "Delete/Deactivate Account",
+                "description": "Delete or deactivate a specified bank account.",
+                "parameters": [
+                    {
+                        "name": "account_number",
+                        "in": "query",
+                        "required": true,
+                        "description": "The account number to delete or deactivate.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response indicating the account was deleted or deactivated."
+                    }
+                }
+            }
+        },
+        "/exchange/rates": {
+            "get": {
+                "summary": "Fetch Forex Exchange Rates",
+                "description": "Retrieve the latest foreign exchange rates for supported currencies.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with forex exchange rates.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "currency_pair": {
+                                                "type": "string",
+                                                "description": "The currency pair (e.g., USD/EUR)."
+                                            },
+                                            "rate": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "The exchange rate for the currency pair."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/savings/deposit": {
+            "post": {
+                "summary": "Deposit Funds into Savings Account",
+                "description": "Deposit a specified amount into the user's linked savings account.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "account_number": {
+                                        "type": "string",
+                                        "description": "The savings account number."
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "description": "The amount of money to deposit."
+                                    },
+                                    "currency": {
+                                        "type": "string",
+                                        "description": "The currency of the deposit amount."
+                                    }
+                                },
+                                "required": [
+                                    "account_number",
+                                    "amount",
+                                    "currency"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response indicating the deposit was made."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

@@ -1,0 +1,431 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Pipeline Monitoring and Incident Management API",
+        "description": "Provides monitoring capabilities for gas pipelines, including tracking conditions, detecting leaks via IoT sensors, and facilitating timely responses to maintain safety and operational integrity.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.gasmonitoring.example.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/pipelines": {
+            "get": {
+                "tags": [
+                    "Pipelines"
+                ],
+                "summary": "Retrieve all monitored pipelines",
+                "description": "Fetch a list of all pipelines currently being monitored, including their details such as location, operational status, and basic metadata.",
+                "responses": {
+                    "200": {
+                        "description": "List of monitored pipelines retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Pipeline"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Pipelines"
+                ],
+                "summary": "Add a new pipeline",
+                "description": "Add a new pipeline to the monitoring system by providing details such as pipeline name, location, and specifications.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PipelineInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pipeline successfully added",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Pipeline"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/pipelines/{id}/status": {
+            "get": {
+                "tags": [
+                    "Pipelines"
+                ],
+                "summary": "Get pipeline status",
+                "description": "Retrieve the current status and condition details (e.g., pressure, temperature) of a specific pipeline.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the pipeline",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pipeline status fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PipelineStatus"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "get": {
+                "tags": [
+                    "Alerts"
+                ],
+                "summary": "Retrieve all alerts",
+                "description": "Retrieve a list of all alerts triggered by issues in pipeline operations. Each alert carries metadata such as severity and timestamp.",
+                "responses": {
+                    "200": {
+                        "description": "List of alerts retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Alert"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Alerts"
+                ],
+                "summary": "Report an observed issue",
+                "description": "Report an anomaly or issue observed in a pipeline's operations, which can be logged for further investigation.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AlertInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Alert successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Alert"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/pipelines/{id}/maintenance": {
+            "patch": {
+                "tags": [
+                    "Pipelines"
+                ],
+                "summary": "Update pipeline maintenance details",
+                "description": "Update the maintenance status or schedule for a specific pipeline, such as marking it as under maintenance or scheduling maintenance for a future date.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the pipeline",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PipelineMaintenance"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Pipeline maintenance status updated successfully"
+                    }
+                }
+            }
+        },
+        "/sensors/{id}/readings": {
+            "get": {
+                "tags": [
+                    "Sensors"
+                ],
+                "summary": "Retrieve IoT sensor readings",
+                "description": "Get the latest readings from a specific IoT sensor monitoring a pipeline.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the IoT sensor",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sensor readings retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SensorReading"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensors/{id}/calibrate": {
+            "post": {
+                "tags": [
+                    "Sensors"
+                ],
+                "summary": "Calibrate IoT sensor",
+                "description": "Calibrate a specific IoT sensor to ensure accurate readings are maintained.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the IoT sensor",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "IoT sensor calibrated successfully"
+                    }
+                }
+            }
+        },
+        "/pipelines/{id}": {
+            "delete": {
+                "tags": [
+                    "Pipelines"
+                ],
+                "summary": "Remove a pipeline",
+                "description": "Remove a pipeline from the monitoring system by specifying its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the pipeline to be removed",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Pipeline successfully removed"
+                    }
+                }
+            }
+        },
+        "/statistics/overview": {
+            "get": {
+                "tags": [
+                    "Statistics"
+                ],
+                "summary": "Retrieve monitoring analytics overview",
+                "description": "Get an overview of the monitored system's performance, including aggregated data trends such as average system health, incident rates, and key performance indicators.",
+                "responses": {
+                    "200": {
+                        "description": "Overview statistics retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StatisticsOverview"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Pipeline": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the pipeline"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the pipeline"
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Geographical location of the pipeline"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Operational status of the pipeline"
+                    }
+                }
+            },
+            "PipelineInput": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Pipeline name"
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Pipeline location"
+                    },
+                    "specifications": {
+                        "type": "object",
+                        "description": "Detailed specifications of the pipeline"
+                    }
+                },
+                "required": [
+                    "name",
+                    "location"
+                ]
+            },
+            "PipelineStatus": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Current operational status of the pipeline"
+                    },
+                    "condition": {
+                        "type": "object",
+                        "description": "Current condition details of the pipeline"
+                    }
+                }
+            },
+            "Alert": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the alert"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp when the alert was triggered"
+                    },
+                    "severity": {
+                        "type": "string",
+                        "description": "Severity level of the alert"
+                    }
+                }
+            },
+            "AlertInput": {
+                "type": "object",
+                "properties": {
+                    "pipelineId": {
+                        "type": "string",
+                        "description": "Identifier of the pipeline associated with the alert"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of the observed issue"
+                    }
+                },
+                "required": [
+                    "pipelineId",
+                    "description"
+                ]
+            },
+            "SensorReading": {
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of the sensor reading"
+                    },
+                    "value": {
+                        "type": "number",
+                        "description": "Value recorded by the sensor"
+                    }
+                }
+            },
+            "PipelineMaintenance": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "New maintenance status of the pipeline"
+                    },
+                    "schedule": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Scheduled date for future maintenance"
+                    }
+                }
+            },
+            "StatisticsOverview": {
+                "type": "object",
+                "properties": {
+                    "averageHealth": {
+                        "type": "number",
+                        "description": "Average health score of the system"
+                    },
+                    "incidentRate": {
+                        "type": "number",
+                        "description": "Rate of incidents over time"
+                    },
+                    "otherMetrics": {
+                        "type": "object",
+                        "description": "Other aggregated metrics related to pipeline monitoring"
+                    }
+                }
+            }
+        }
+    }
+}

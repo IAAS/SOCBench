@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /household/consumption",
+            "description": "Retrieve energy consumption data at the household level."
+        },
+        {
+            "endpoint": "GET /industrial/consumption",
+            "description": "Access energy usage data for industrial facilities."
+        },
+        {
+            "endpoint": "GET /grid/efficiency",
+            "description": "View the efficiency statistics of the smart grid system."
+        },
+        {
+            "endpoint": "GET /energy/load-distribution",
+            "description": "Examine the load distribution across various grid segments."
+        },
+        {
+            "endpoint": "POST /optimize/household",
+            "description": "Submit parameters to optimize an individual household's energy usage patterns."
+        },
+        {
+            "endpoint": "POST /optimize/industrial",
+            "description": "Provide details to enhance energy usage efficiency of industrial operations."
+        },
+        {
+            "endpoint": "GET /renewable/usage-stats",
+            "description": "Access statistics regarding the utilization of renewable energy sources."
+        },
+        {
+            "endpoint": "GET /analytics/trend",
+            "description": "Analyze and retrieve trends in overall energy consumption."
+        },
+        {
+            "endpoint": "GET /report/custom",
+            "description": "Request a customized report tailored to specific energy consumption parameters."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit user feedback regarding the system to encourage enhancements."
+        }
+    ]
+}

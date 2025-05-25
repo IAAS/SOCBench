@@ -1,0 +1,388 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Real-time Trading API",
+        "description": "An API for executing real-time buy or sell orders on various financial instruments such as stocks, bonds, and commodities. This service supports integration with user trading accounts to enable secure and efficient market participation.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.financials.example.com",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/orders": {
+            "post": {
+                "summary": "Place a new buy or sell order",
+                "description": "Submit a request to buy or sell a specific financial instrument in real-time.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "instrumentId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the financial instrument being traded."
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "buy",
+                                            "sell"
+                                        ],
+                                        "description": "The type of trade (buy or sell)."
+                                    },
+                                    "quantity": {
+                                        "type": "number",
+                                        "description": "The quantity of the financial instrument to trade."
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "description": "The price at which the order should be placed."
+                                    }
+                                },
+                                "required": [
+                                    "instrumentId",
+                                    "type",
+                                    "quantity",
+                                    "price"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order placed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "orderId": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the placed order."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "The status of the order (e.g., submitted, pending, completed)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/orders/{orderId}": {
+            "get": {
+                "summary": "Retrieve details of a specific order",
+                "description": "Fetch detailed information about a specific order using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the order."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "orderId": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the order."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "The status of the order."
+                                        },
+                                        "details": {
+                                            "type": "object",
+                                            "description": "Additional details about the order."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Order not found."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/orders/{orderId}/cancel": {
+            "put": {
+                "summary": "Cancel an active order",
+                "description": "Cancel an active buy or sell order specified by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the active order to be canceled."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order canceled successfully."
+                    },
+                    "400": {
+                        "description": "Invalid order ID or order cannot be canceled."
+                    },
+                    "404": {
+                        "description": "Order not found."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/markets": {
+            "get": {
+                "summary": "Fetch available markets",
+                "description": "Retrieve a list of available markets for trading and their current operational status.",
+                "responses": {
+                    "200": {
+                        "description": "Markets retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "marketId": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the market."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "The current status of the market (e.g., open, closed)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/instruments": {
+            "get": {
+                "summary": "Retrieve financial instruments",
+                "description": "Get details of available financial instruments such as stocks, bonds, and commodities.",
+                "responses": {
+                    "200": {
+                        "description": "List of financial instruments retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "instrumentId": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the financial instrument."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "The name of the instrument."
+                                            },
+                                            "category": {
+                                                "type": "string",
+                                                "description": "The category of the instrument (e.g., stock, bond, commodity)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/instruments/{instrumentId}/price": {
+            "get": {
+                "summary": "Get real-time price of a financial instrument",
+                "description": "Retrieve the real-time price information for a specified financial instrument.",
+                "parameters": [
+                    {
+                        "name": "instrumentId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the financial instrument."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Price retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "instrumentId": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the financial instrument."
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "description": "The real-time price of the instrument."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/accounts/portfolio": {
+            "post": {
+                "summary": "Retrieve account portfolio snapshot",
+                "description": "Get a snapshot of the user's trading account portfolio including holdings and valuation.",
+                "responses": {
+                    "200": {
+                        "description": "Portfolio snapshot retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "description": "Details of the user's portfolio."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/accounts/settings": {
+            "patch": {
+                "summary": "Update trading account settings",
+                "description": "Modify trading preferences and account-specific parameters.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "description": "The settings to be updated."
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Settings updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/analytics/trends": {
+            "get": {
+                "summary": "Analyze trading trends",
+                "description": "Retrieve curated insights and historical data for analyzing trading trends.",
+                "responses": {
+                    "200": {
+                        "description": "Trading trends retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "description": "Insights about trading trends."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/news/market": {
+            "get": {
+                "summary": "Get latest market news",
+                "description": "Fetch the latest news and updates for informed trading decisions.",
+                "responses": {
+                    "200": {
+                        "description": "Market news retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "headline": {
+                                                "type": "string",
+                                                "description": "The headline of the news article."
+                                            },
+                                            "content": {
+                                                "type": "string",
+                                                "description": "The content of the news article."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        }
+    }
+}

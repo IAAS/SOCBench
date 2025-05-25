@@ -1,0 +1,520 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Utility Energy Analysis API",
+        "description": "This API provides utilities companies insights into energy usage patterns, enabling them to provide tailored energy-saving recommendations and personalized billing solutions.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.utilityenergy.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/energy-patterns": {
+            "post": {
+                "summary": "Submit Client Energy Consumption Data",
+                "description": "Submit the energy consumption data of a new client for analysis to identify patterns and generate actionable insights.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "client_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the client."
+                                    },
+                                    "consumption_data": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "timestamp": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "description": "Time of the energy usage event."
+                                                },
+                                                "consumption": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "description": "Recorded energy consumption in kWh."
+                                                }
+                                            },
+                                            "required": [
+                                                "timestamp",
+                                                "consumption"
+                                            ]
+                                        },
+                                        "description": "Array of consumption records for the client."
+                                    }
+                                },
+                                "required": [
+                                    "client_id",
+                                    "consumption_data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data successfully processed.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the operation."
+                                        },
+                                        "analysis_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the analysis performed."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/clients/{client_id}/usage": {
+            "get": {
+                "summary": "Retrieve Historical Energy Usage",
+                "description": "Fetch historical energy usage data for a specific client.",
+                "parameters": [
+                    {
+                        "name": "client_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the client.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historical usage data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Time of the energy usage event."
+                                            },
+                                            "consumption": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Recorded energy consumption in kWh."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analysis/overview": {
+            "get": {
+                "summary": "Energy Usage Overview",
+                "description": "Retrieve a summary snapshot of energy usage patterns across all clients.",
+                "responses": {
+                    "200": {
+                        "description": "Overview successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "total_clients": {
+                                            "type": "integer",
+                                            "description": "Total number of clients being analyzed."
+                                        },
+                                        "average_consumption": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "description": "Average energy consumption across all clients in kWh."
+                                        },
+                                        "peak_consumption_times": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Time periods of peak energy consumption."
+                                            },
+                                            "description": "Array of peak energy consumption times."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/recommendations/generate": {
+            "post": {
+                "summary": "Generate Energy-Saving Recommendations",
+                "description": "Analyze energy consumption data to generate energy-saving recommendations.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "analysis_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the analysis performed."
+                                    }
+                                },
+                                "required": [
+                                    "analysis_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Recommendations successfully generated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "recommendations_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the generated recommendations."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the operation."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/clients/{client_id}/recommendations": {
+            "get": {
+                "summary": "Fetch Client-Specific Recommendations",
+                "description": "Retrieve energy-saving recommendations tailored to a specific client.",
+                "parameters": [
+                    {
+                        "name": "client_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the client.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Client-specific recommendations successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "recommendations": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "suggestion": {
+                                                        "type": "string",
+                                                        "description": "Energy-saving suggestion for the client."
+                                                    },
+                                                    "impact": {
+                                                        "type": "string",
+                                                        "description": "Estimated impact of implementing this suggestion (e.g., cost savings)."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/billing/templates": {
+            "post": {
+                "summary": "Create Billing Template",
+                "description": "Create a new customizable billing template for personalized invoicing.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "template_name": {
+                                        "type": "string",
+                                        "description": "Name of the billing template."
+                                    },
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Customizable billing parameters.",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "template_name",
+                                    "parameters"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Billing template created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "template_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the billing template."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/billing/{template_id}": {
+            "get": {
+                "summary": "Retrieve Billing Template",
+                "description": "Retrieve details of a specific billing template.",
+                "parameters": [
+                    {
+                        "name": "template_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the billing template.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Billing template details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "template_name": {
+                                            "type": "string",
+                                            "description": "Name of the billing template."
+                                        },
+                                        "parameters": {
+                                            "type": "object",
+                                            "description": "Customizable billing parameters.",
+                                            "additionalProperties": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update Billing Template",
+                "description": "Update an existing billing template with new parameters.",
+                "parameters": [
+                    {
+                        "name": "template_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the billing template to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "template_name": {
+                                        "type": "string",
+                                        "description": "Updated name of the billing template."
+                                    },
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "New or updated customizable billing parameters.",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "parameters"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Billing template updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the operation, e.g., success or failed."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "post": {
+                "summary": "Set Up Alert System",
+                "description": "Set up an alert system to detect unusual energy consumption patterns.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "client_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the client."
+                                    },
+                                    "threshold": {
+                                        "type": "number",
+                                        "description": "Consumption threshold value to trigger an alert."
+                                    }
+                                },
+                                "required": [
+                                    "client_id",
+                                    "threshold"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Alert successfully configured.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "alert_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the configured alert."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/{alert_id}": {
+            "get": {
+                "summary": "Retrieve Alert Configuration",
+                "description": "Retrieve details of a specific alert configuration.",
+                "parameters": [
+                    {
+                        "name": "alert_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the alert configuration.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Alert configuration retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "client_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the client associated with the alert."
+                                        },
+                                        "threshold": {
+                                            "type": "number",
+                                            "description": "Consumption threshold value to trigger an alert."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

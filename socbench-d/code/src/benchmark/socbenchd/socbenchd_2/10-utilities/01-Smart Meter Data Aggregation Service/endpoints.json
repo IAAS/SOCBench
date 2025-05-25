@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /meters",
+            "description": "Retrieve the list of all meter devices associated with the service."
+        },
+        {
+            "endpoint": "GET /meters/{meter_id}/data",
+            "description": "Fetch historical data for a specific meter by its ID."
+        },
+        {
+            "endpoint": "POST /meters/add",
+            "description": "Add a new meter to be monitored within the service."
+        },
+        {
+            "endpoint": "PUT /meters/{meter_id}",
+            "description": "Update details such as metadata for a specific meter."
+        },
+        {
+            "endpoint": "DELETE /meters/{meter_id}",
+            "description": "Remove a specific meter and its associated records from the service."
+        },
+        {
+            "endpoint": "GET /analytics/consumption-pattern",
+            "description": "Access aggregated insights and patterns derived from consumption data."
+        },
+        {
+            "endpoint": "GET /analytics/leak-detection",
+            "description": "Identify potential anomalies or leaks in the system based on real-time data."
+        },
+        {
+            "endpoint": "GET /analytics/demand-forecast",
+            "description": "Retrieve predictions for future utility demand based on historical trends."
+        },
+        {
+            "endpoint": "POST /alerts/setup",
+            "description": "Configure custom alerts such as usage thresholds and performance monitoring."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Retrieve the list of all configured alerts and their current statuses."
+        }
+    ]
+}

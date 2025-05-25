@@ -1,0 +1,417 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Mining Operations Tracking API",
+        "description": "API designed for mining industry professionals to track equipment, production metrics, maintenance schedules, and operational status in real-time, facilitating improved management of mining activities.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.mining-operations.com/v1",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/equipment/{id}/status": {
+            "get": {
+                "summary": "Retrieve Equipment Status",
+                "description": "Fetch the current operational status for a specific equipment unit by providing its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The unique identifier of the equipment unit to retrieve its status.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with the equipment's operational status.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Equipment ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current operational status, e.g., 'Operational', 'Under Maintenance', etc."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Equipment not found."
+                    }
+                }
+            }
+        },
+        "/equipment/{id}/assign": {
+            "post": {
+                "summary": "Assign Task to Equipment",
+                "description": "Assign a specific task or operation to the equipment identified by the given ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The unique identifier of the equipment unit.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Details of the task to be assigned.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "task": {
+                                        "type": "string",
+                                        "description": "Description of the assigned task."
+                                    },
+                                    "deadline": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Deadline for completing the task."
+                                    }
+                                },
+                                "required": [
+                                    "task",
+                                    "deadline"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Task assigned successfully."
+                    },
+                    "404": {
+                        "description": "Equipment not found."
+                    }
+                }
+            }
+        },
+        "/production/daily": {
+            "get": {
+                "summary": "Daily Production Metrics",
+                "description": "Retrieve the overall daily production metrics for the mining site.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with daily production data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "date": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "description": "Date of the metrics."
+                                        },
+                                        "total_production": {
+                                            "type": "number",
+                                            "description": "Total production in metric tons."
+                                        },
+                                        "units_operational": {
+                                            "type": "integer",
+                                            "description": "Number of equipment units operational."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/maintenance/schedule": {
+            "get": {
+                "summary": "Maintenance Schedule",
+                "description": "Access the upcoming maintenance schedule for all equipment on the mining site.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with the maintenance schedule.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "equipment_id": {
+                                                "type": "string",
+                                                "description": "Unique ID of the equipment."
+                                            },
+                                            "scheduled_date": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Date and time of the scheduled maintenance."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Maintenance description or details."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/create": {
+            "post": {
+                "summary": "Create Alert",
+                "description": "Set up a new alert to monitor specific equipment or operational metrics.",
+                "requestBody": {
+                    "description": "Details of the alert to be created.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "target_id": {
+                                        "type": "string",
+                                        "description": "ID of the equipment or metric to monitor."
+                                    },
+                                    "threshold": {
+                                        "type": "number",
+                                        "description": "Threshold value for triggering the alert."
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "Type of alert, e.g., 'Temperature', 'Power', etc."
+                                    }
+                                },
+                                "required": [
+                                    "target_id",
+                                    "threshold",
+                                    "type"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert created successfully."
+                    }
+                }
+            }
+        },
+        "/inventory/materials": {
+            "get": {
+                "summary": "List Available Materials",
+                "description": "Fetch a list of all available materials in storage along with their quantities.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with inventory of materials.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "material_name": {
+                                                "type": "string",
+                                                "description": "Name of the material."
+                                            },
+                                            "quantity": {
+                                                "type": "number",
+                                                "description": "Quantity available in storage."
+                                            },
+                                            "unit": {
+                                                "type": "string",
+                                                "description": "Unit of measurement, e.g., 'kg', 'tons'."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inspection/{id}/log": {
+            "put": {
+                "summary": "Log Inspection Results",
+                "description": "Log the results of an inspection for a specific equipment or location.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique identifier of the equipment or location being inspected.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Inspection results to be logged.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "description": "Status of the equipment or location after inspection."
+                                    },
+                                    "issues_found": {
+                                        "type": "string",
+                                        "description": "Any issues identified during inspection."
+                                    },
+                                    "recommendations": {
+                                        "type": "string",
+                                        "description": "Recommendations based on the inspection."
+                                    }
+                                },
+                                "required": [
+                                    "status"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inspection results logged successfully."
+                    }
+                }
+            }
+        },
+        "/site/power-usage": {
+            "get": {
+                "summary": "Retrieve Power Usage Metrics",
+                "description": "Fetch site-wide power consumption metrics for operational monitoring.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with power usage data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "total_usage": {
+                                            "type": "number",
+                                            "description": "Total power consumption in kWh."
+                                        },
+                                        "timestamp": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "Timestamp of the usage report."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/{id}": {
+            "delete": {
+                "summary": "Delete Alert",
+                "description": "Delete a previously created alert identified by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique ID of the alert to be deleted.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Alert deleted successfully."
+                    },
+                    "404": {
+                        "description": "Alert not found."
+                    }
+                }
+            }
+        },
+        "/training/schedule": {
+            "post": {
+                "summary": "Add Training Schedule",
+                "description": "Create a new training session schedule for the operations team.",
+                "requestBody": {
+                    "description": "Details of the training session to be scheduled.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "topic": {
+                                        "type": "string",
+                                        "description": "Topic of the training session."
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Date and time of the training session."
+                                    },
+                                    "instructor": {
+                                        "type": "string",
+                                        "description": "Name of the instructor leading the session."
+                                    }
+                                },
+                                "required": [
+                                    "topic",
+                                    "date"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Training session scheduled successfully."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

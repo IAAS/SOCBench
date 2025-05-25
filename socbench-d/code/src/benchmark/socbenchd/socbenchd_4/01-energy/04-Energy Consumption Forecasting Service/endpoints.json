@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /predict-demand",
+            "description": "Submit data to predict future energy demand based on the provided parameters and data."
+        },
+        {
+            "endpoint": "GET /model-info",
+            "description": "Retrieve information about the machine learning models used for predictions, including version and features."
+        },
+        {
+            "endpoint": "PUT /update-environment-data",
+            "description": "Upload new environmental data to refine the predictive model's accuracy and comprehensiveness."
+        },
+        {
+            "endpoint": "GET /historical-demand",
+            "description": "Access historical energy demand data for analysis and reference."
+        },
+        {
+            "endpoint": "DELETE /clear-dataset",
+            "description": "Remove unnecessary or outdated datasets from the service database."
+        },
+        {
+            "endpoint": "GET /resource-planning-guides",
+            "description": "Obtain insights and resources for efficient energy resource planning."
+        },
+        {
+            "endpoint": "POST /forecast-validation",
+            "description": "Mark and comment on forecast results to improve the learning process of the models."
+        },
+        {
+            "endpoint": "GET /usage-statistics",
+            "description": "Retrieve statistics on service usage and performance metrics."
+        },
+        {
+            "endpoint": "PATCH /update-demand-profile",
+            "description": "Modify the characteristics of existing demand profiles used in predictions."
+        },
+        {
+            "endpoint": "GET /regional-demand-trends",
+            "description": "Analyze energy demand trends across different geographical areas using multidimensional filtering."
+        }
+    ]
+}

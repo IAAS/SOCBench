@@ -1,0 +1,317 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Telecom Network Management API",
+    "description": "This API enables telecom companies to monitor and manage their network infrastructure in real time using features like outage detection, performance analytics, predictive maintenance, and more.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.telecomservices.com/v1",
+      "description": "Production Server"
+    },
+    {
+      "url": "https://sandbox.api.telecomservices.com/v1",
+      "description": "Sandbox Server"
+    }
+  ],
+  "paths": {
+    "/network/status": {
+      "get": {
+        "summary": "Retrieve Network Status",
+        "description": "Fetch the current status of the entire network in real time, including availability, health, and general performance indicators.",
+        "responses": {
+          "200": {
+            "description": "Successful fetch of network status.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Operational",
+                  "uptimePercentage": 99.95,
+                  "issues": []
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/outage/report": {
+      "post": {
+        "summary": "Report Network Outage",
+        "description": "Report a new network outage incident for immediate attention by the support team.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "location": "Region_Name",
+                "description": "Fiber cut reported in the area.",
+                "severity": "High"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Outage reported successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Outage reported successfully",
+                  "outageId": "12345"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/performance/metrics": {
+      "get": {
+        "summary": "Get Performance Metrics",
+        "description": "Fetch performance metrics and analytics for the specified time period.",
+        "parameters": [
+          {
+            "name": "startTime",
+            "in": "query",
+            "description": "Start time of the performance metrics period in ISO 8601 format.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endTime",
+            "in": "query",
+            "description": "End time of the performance metrics period in ISO 8601 format.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Performance metrics retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "cpuUsage": "75%",
+                  "bandwidthUtilization": "60%",
+                  "latency": "20ms"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/schedule": {
+      "post": {
+        "summary": "Schedule Maintenance Task",
+        "description": "Schedule predictive maintenance tasks to prevent potential failures.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "deviceId": "876",
+                "scheduledTime": "2023-11-01T10:00:00Z",
+                "taskDetails": "Replace worn-out components."
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Maintenance task scheduled successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Task scheduled successfully",
+                  "taskId": "56789"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/infrastructure/devices": {
+      "get": {
+        "summary": "Retrieve List of Network Devices",
+        "description": "Fetch a list of all devices in the network with associated details.",
+        "responses": {
+          "200": {
+            "description": "Devices retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "deviceId": "1",
+                    "type": "Router",
+                    "status": "Operational"
+                  },
+                  {
+                    "deviceId": "2",
+                    "type": "Switch",
+                    "status": "Offline"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/infrastructure/device/{id}": {
+      "put": {
+        "summary": "Update Device Configuration",
+        "description": "Update the configuration or properties of a specific network device.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of the network device to update.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "configuration": {
+                  "ipAddress": "192.168.1.1",
+                  "dnsServers": ["8.8.8.8", "8.8.4.4"]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device updated successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Device configuration updated successfully"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts/active": {
+      "get": {
+        "summary": "Retrieve Active Alerts",
+        "description": "Fetch a list of alerts and notifications currently active in the system.",
+        "responses": {
+          "200": {
+            "description": "Active alerts retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "alertId": "101",
+                    "message": "High CPU Usage on Device 3",
+                    "severity": "Critical"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts/{alert_id}": {
+      "delete": {
+        "summary": "Resolve Alert by Its ID",
+        "description": "Resolve a specific alert by providing its unique identifier.",
+        "parameters": [
+          {
+            "name": "alert_id",
+            "in": "path",
+            "description": "Unique identifier of the alert to resolve.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alert resolved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Alert resolved successfully"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/summary": {
+      "get": {
+        "summary": "Generate Analytics Summary",
+        "description": "Generate a summarized report of network performance and usage trends.",
+        "responses": {
+          "200": {
+            "description": "Analytics summary generated successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "averageUptime": "99.87%",
+                  "peakTrafficTime": "15:00",
+                  "criticalAlerts": 2
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/workflow/run": {
+      "post": {
+        "summary": "Execute Operational Workflow",
+        "description": "Run an operational workflow for real-time network analysis.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "workflowId": "wf12345",
+                "parameters": {
+                  "targetDevice": "Router1"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Workflow executed successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "workflowId": "wf12345",
+                  "status": "Completed",
+                  "output": "Traffic analysis completed successfully."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

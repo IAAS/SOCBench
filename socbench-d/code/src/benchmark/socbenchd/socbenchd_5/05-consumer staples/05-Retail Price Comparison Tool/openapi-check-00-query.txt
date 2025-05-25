@@ -1,0 +1,444 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Consumer Staples Price Comparison API",
+        "description": "This API enables users to compare retail prices for consumer staples across various store chains. It promotes price transparency, healthy competition among retailers, and helps consumers make cost-effective choices.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.consumerstaplespricing.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/products/{product_id}": {
+            "get": {
+                "summary": "Retrieve Product Details",
+                "description": "Fetch detailed information about a specific product, including its name, category, and description.",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the product.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product details successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "product_id": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "category": {
+                                            "type": "string"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found."
+                    }
+                }
+            }
+        },
+        "/products/{product_id}/prices": {
+            "get": {
+                "summary": "Fetch Product Pricing Information",
+                "description": "Retrieve pricing information for a specific product across various retailers and locations.",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the product.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pricing information successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "retailer": {
+                                                "type": "string"
+                                            },
+                                            "location": {
+                                                "type": "string"
+                                            },
+                                            "price": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "currency": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product or pricing data not found."
+                    }
+                }
+            }
+        },
+        "/compare": {
+            "post": {
+                "summary": "Compare Product Prices",
+                "description": "Input a list of product identifiers to receive a comparative analysis of prices across retailers.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "product_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "product_ids"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Comparison results successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "comparisons": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "product_id": {
+                                                        "type": "string"
+                                                    },
+                                                    "retailer": {
+                                                        "type": "string"
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    },
+                                                    "currency": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/retailers": {
+            "get": {
+                "summary": "List Retailers",
+                "description": "Retrieve a list of all retailers providing pricing data in the service.",
+                "responses": {
+                    "200": {
+                        "description": "List of retailers successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "retailer_id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "locations": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/retailers/{retailer_id}/products": {
+            "get": {
+                "summary": "List Products by Retailer",
+                "description": "Retrieve a list of products available for a specific retailer.",
+                "parameters": [
+                    {
+                        "name": "retailer_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the retailer.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of products successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "product_id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "category": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/search": {
+            "post": {
+                "summary": "Search Products",
+                "description": "Search for products based on specified criteria such as name, category, or brand.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "query": {
+                                        "type": "string"
+                                    },
+                                    "category": {
+                                        "type": "string"
+                                    },
+                                    "brand": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Search results successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "product_id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "category": {
+                                                "type": "string"
+                                            },
+                                            "brand": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/categories": {
+            "get": {
+                "summary": "Get Product Categories",
+                "description": "Retrieve a list of product categories available in the service.",
+                "responses": {
+                    "200": {
+                        "description": "Categories successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/locations": {
+            "get": {
+                "summary": "Get Supported Locations",
+                "description": "Retrieve a list of geographical locations supported by the service.",
+                "responses": {
+                    "200": {
+                        "description": "Locations successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/request_update": {
+            "post": {
+                "summary": "Request Price Update",
+                "description": "Submit a request to update the price of a product to enhance data accuracy.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "product_id": {
+                                        "type": "string"
+                                    },
+                                    "suggested_price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "currency": {
+                                        "type": "string"
+                                    },
+                                    "reason": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Price update request successfully submitted."
+                    }
+                }
+            }
+        },
+        "/offers": {
+            "get": {
+                "summary": "View Ongoing Offers",
+                "description": "Retrieve a list of ongoing promotions and offers across retailers.",
+                "responses": {
+                    "200": {
+                        "description": "Offers successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "offer_id": {
+                                                "type": "string"
+                                            },
+                                            "product_id": {
+                                                "type": "string"
+                                            },
+                                            "retailer": {
+                                                "type": "string"
+                                            },
+                                            "discount": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "valid_until": {
+                                                "type": "string",
+                                                "format": "date"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

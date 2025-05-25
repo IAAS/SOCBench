@@ -1,0 +1,311 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Clothing Retail Inventory Management API",
+        "description": "API service for clothing retailers to manage inventory, track stock levels, streamline the supply chain, ensure customer satisfaction, and maintain operational efficiency.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/inventory": {
+            "get": {
+                "summary": "Retrieve Current Inventory Levels",
+                "description": "Fetch the current inventory levels for all products available in the database.",
+                "responses": {
+                    "200": {
+                        "description": "Inventory retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "products": [
+                                        {
+                                            "id": "123",
+                                            "name": "T-shirt",
+                                            "stock": 100
+                                        },
+                                        {
+                                            "id": "124",
+                                            "name": "Jeans",
+                                            "stock": 50
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Update Inventory Details",
+                "description": "Update inventory details for a specific product, including the stock level and other relevant attributes.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "productId": "123",
+                                "stock": 150,
+                                "price": 19.99
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inventory updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid data provided."
+                    }
+                }
+            }
+        },
+        "/stock/alerts": {
+            "get": {
+                "summary": "Retrieve Low/Out-of-Stock Notifications",
+                "description": "Fetch notifications for products that are low in stock or out-of-stock to take timely action.",
+                "responses": {
+                    "200": {
+                        "description": "Stock alerts retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "alerts": [
+                                        {
+                                            "productId": "124",
+                                            "name": "Jeans",
+                                            "status": "low stock",
+                                            "stock": 5
+                                        },
+                                        {
+                                            "productId": "125",
+                                            "name": "Jacket",
+                                            "status": "out of stock",
+                                            "stock": 0
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/orders": {
+            "post": {
+                "summary": "Record New Supply Orders",
+                "description": "Record a new order to restock inventory for specific products.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "orderId": "ORD56789",
+                                "items": [
+                                    {
+                                        "productId": "123",
+                                        "quantity": 200
+                                    },
+                                    {
+                                        "productId": "124",
+                                        "quantity": 150
+                                    }
+                                ],
+                                "supplierId": "SUP001",
+                                "orderDate": "2023-10-20"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Supply order recorded successfully."
+                    },
+                    "400": {
+                        "description": "Invalid order details provided."
+                    }
+                }
+            }
+        },
+        "/sales/trends": {
+            "get": {
+                "summary": "Retrieve Sales Trends",
+                "description": "Retrieve sales trends and data showcasing demand over time.",
+                "responses": {
+                    "200": {
+                        "description": "Sales trends retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "trends": [
+                                        {
+                                            "productId": "123",
+                                            "sales": [
+                                                {
+                                                    "date": "2023-10-01",
+                                                    "unitsSold": 30
+                                                },
+                                                {
+                                                    "date": "2023-10-02",
+                                                    "unitsSold": 25
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{productId}": {
+            "put": {
+                "summary": "Modify Product Information",
+                "description": "Update the details (e.g., name, price, or category) of a specific product in the inventory.",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the product to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "name": "New T-shirt",
+                                "price": 25.99
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Product updated successfully."
+                    },
+                    "404": {
+                        "description": "Product not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove Product from Inventory",
+                "description": "Delete a specific product from the inventory database.",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the product to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product deleted successfully."
+                    },
+                    "404": {
+                        "description": "Product not found."
+                    }
+                }
+            }
+        },
+        "/supply-chain/status": {
+            "get": {
+                "summary": "Retrieve Supply Chain Status",
+                "description": "Fetch the operational status of the supply chain to monitor performance or identify bottlenecks.",
+                "responses": {
+                    "200": {
+                        "description": "Supply chain status retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "status": "Operational",
+                                    "lastUpdate": "2023-10-19T14:35:00Z"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/suppliers": {
+            "get": {
+                "summary": "Retrieve Supplier Details",
+                "description": "Fetch details of all suppliers associated with the system to facilitate communication and orders.",
+                "responses": {
+                    "200": {
+                        "description": "Suppliers retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "suppliers": [
+                                        {
+                                            "id": "SUP001",
+                                            "name": "Global Textiles Co.",
+                                            "contact": "contact@globaltextiles.com"
+                                        },
+                                        {
+                                            "id": "SUP002",
+                                            "name": "Fashion Supplies Ltd.",
+                                            "contact": "sales@fashionsupplies.com"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "summary": "Submit Feedback on Inventory Operations",
+                "description": "Submit feedback regarding inventory management operations to improve service performance.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "feedback": "Overall inventory tracking is smooth, but notifications for low-stock could be more timely."
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Feedback submitted successfully."
+                    },
+                    "400": {
+                        "description": "Invalid feedback format."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

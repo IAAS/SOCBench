@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /products/{productId}/rating",
+            "description": "Retrieve the comprehensive sustainability rating for a specific product identified by its ID."
+        },
+        {
+            "endpoint": "GET /categories",
+            "description": "Retrieve the hierarchical list of product categories available in the system."
+        },
+        {
+            "endpoint": "POST /products/rate",
+            "description": "Submit a new product rating with detailed specifications of the assessment."
+        },
+        {
+            "endpoint": "GET /products/search",
+            "description": "Search for products in the system by their names or attributes, supporting pagination."
+        },
+        {
+            "endpoint": "GET /retailers/{retailerId}/products",
+            "description": "Retrieve a list of products associated with a particular retailer using their ID."
+        },
+        {
+            "endpoint": "PATCH /products/{productId}",
+            "description": "Update detailed information or attributes related to a specific product."
+        },
+        {
+            "endpoint": "GET /products/top-rated",
+            "description": "Retrieve the top-rated products within each category based on sustainability."
+        },
+        {
+            "endpoint": "DELETE /products/{productId}",
+            "description": "Remove a specified product and its associated data from the system."
+        },
+        {
+            "endpoint": "GET /products/compare",
+            "description": "Retrieve a comparative analysis of multiple products based on given IDs."
+        },
+        {
+            "endpoint": "GET /environmental-impact-report",
+            "description": "Generate a detailed report summarizing the environmental impact assessments across products."
+        }
+    ]
+}

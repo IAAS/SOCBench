@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /products",
+            "description": "Retrieve a list of consumer staples products with detailed ingredient information."
+        },
+        {
+            "endpoint": "GET /products/{id}",
+            "description": "Retrieve detailed information for a specific product identified by its ID."
+        },
+        {
+            "endpoint": "POST /products/compare",
+            "description": "Compare detailed ingredient and sourcing information between multiple products."
+        },
+        {
+            "endpoint": "GET /categories",
+            "description": "Retrieve a list of product categories."
+        },
+        {
+            "endpoint": "GET /categories/{id}/products",
+            "description": "Retrieve all products belonging to a specific category ID."
+        },
+        {
+            "endpoint": "GET /sources",
+            "description": "List all ingredient sources and their practices."
+        },
+        {
+            "endpoint": "GET /sources/{id}",
+            "description": "Retrieve detailed practices and information on a specific source."
+        },
+        {
+            "endpoint": "PUT /products/{id}/report",
+            "description": "Update a report associated with a specific product ID."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit user feedback about the service or specific products."
+        },
+        {
+            "endpoint": "GET /trends",
+            "description": "Analyze and retrieve current trends in consumer staples product sourcing and composition."
+        }
+    ]
+}

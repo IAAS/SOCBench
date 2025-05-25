@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+This service provides analytics for media platforms offering interactive gaming content. It supplies developers and publishers with insights into user engagement, session durations, in-game purchases, and player retention. Accessible via user-friendly API endpoints, the service supports advanced queries for performance optimization decisions.
+
+Endpoints:
+GET /user-engagement: Retrieve user engagement metrics including total active users and interaction rates.
+GET /session-duration: Obtain detailed session duration data categorized by user segments.
+GET /in-game-purchases: Access analytics on in-game purchase behaviors and preferences.
+GET /player-retention: Retrieve metrics related to player retention over specific time periods.
+POST /custom-insights: Submit custom query parameters to generate specific insights.
+GET /game-performance: Get an overview of the game performance metrics including latency and error rates.
+GET /demographic-stats: Access demographic statistics of players engaged with the platform.
+POST /event-upload: Submit raw event data for analysis and storage.
+GET /trend-analysis: Retrieve trend analysis data to observe changes over time.
+DELETE /event-data: Request deletion of specific event data from the dataset.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

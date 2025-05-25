@@ -1,0 +1,401 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Travel and Accommodation Recommendation Service",
+        "description": "This API provides customized travel and accommodation suggestions based on user preferences. Utilizing user profiles and machine learning algorithms, it delivers personalized hotel, restaurant, and leisure activity recommendations along with itinerary planning functionality.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.travelrecommendation.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/user/preferences": {
+            "post": {
+                "summary": "Submit and update user travel preferences",
+                "description": "Allows the user to submit or update their travel preferences and profile. This includes budget, preferred destinations, travel dates, and specific requirements for personalized recommendations.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the user"
+                                    },
+                                    "budget": {
+                                        "type": "number",
+                                        "description": "Maximum budget for travel costs"
+                                    },
+                                    "destinations": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of desired travel destinations"
+                                    },
+                                    "preferences": {
+                                        "type": "object",
+                                        "description": "Additional preferences for travel recommendations"
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "budget",
+                                    "destinations"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Preferences updated successfully"
+                    },
+                    "400": {
+                        "description": "Invalid request payload"
+                    }
+                }
+            }
+        },
+        "/recommendations/hotels": {
+            "get": {
+                "summary": "Retrieve hotel recommendations",
+                "description": "Provides a list of hotel recommendations based on user preferences and chosen destination.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique user ID"
+                    },
+                    {
+                        "name": "destination",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Specified destination for recommendations"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of recommended hotels"
+                    },
+                    "400": {
+                        "description": "Missing or invalid parameters"
+                    }
+                }
+            }
+        },
+        "/recommendations/restaurants": {
+            "get": {
+                "summary": "Retrieve restaurant recommendations",
+                "description": "Provides a list of restaurant suggestions based on user preferences and destination.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique user ID"
+                    },
+                    {
+                        "name": "destination",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Specified destination for recommendations"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of recommended restaurants"
+                    },
+                    "400": {
+                        "description": "Missing or invalid parameters"
+                    }
+                }
+            }
+        },
+        "/recommendations/leisure": {
+            "get": {
+                "summary": "Retrieve leisure activity recommendations",
+                "description": "Provides personalized leisure activity suggestions based on user preferences and destination.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique user ID"
+                    },
+                    {
+                        "name": "destination",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Specified destination for recommendations"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of recommended activities"
+                    },
+                    "400": {
+                        "description": "Missing or invalid parameters"
+                    }
+                }
+            }
+        },
+        "/itinerary/plan": {
+            "post": {
+                "summary": "Submit travel plan",
+                "description": "Submit desired destinations and receive a tailored travel itinerary.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the user"
+                                    },
+                                    "destinations": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of destinations for the itinerary"
+                                    },
+                                    "preferences": {
+                                        "type": "object",
+                                        "description": "Custom preferences for the itinerary"
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "destinations"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Travel itinerary successfully generated"
+                    },
+                    "400": {
+                        "description": "Invalid request payload"
+                    }
+                }
+            }
+        },
+        "/itinerary/modify": {
+            "put": {
+                "summary": "Modify itinerary details",
+                "description": "Adjust or update an existing travel itinerary with new constraints or updated preferences.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the user"
+                                    },
+                                    "itineraryId": {
+                                        "type": "string",
+                                        "description": "Identifier for the itinerary to be modified"
+                                    },
+                                    "updates": {
+                                        "type": "object",
+                                        "description": "Updated preferences or changes to be applied"
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "itineraryId",
+                                    "updates"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Itinerary updated successfully"
+                    },
+                    "400": {
+                        "description": "Invalid request payload or missing parameters"
+                    }
+                }
+            }
+        },
+        "/itinerary/remove": {
+            "delete": {
+                "summary": "Delete itinerary",
+                "description": "Remove an individual element or delete the entire itinerary from the travel plan.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "User's unique identifier"
+                    },
+                    {
+                        "name": "itineraryId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Identifier for the itinerary to be deleted"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Itinerary removed successfully"
+                    },
+                    "400": {
+                        "description": "Invalid parameters or request"
+                    }
+                }
+            }
+        },
+        "/locations/info": {
+            "get": {
+                "summary": "Retrieve location information",
+                "description": "Fetch detailed information about a specific location, including its attractions and historical context.",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Name or identifier of the location"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Location information retrieved successfully"
+                    },
+                    "400": {
+                        "description": "Invalid location parameter"
+                    }
+                }
+            }
+        },
+        "/feedback/submit": {
+            "post": {
+                "summary": "Submit user feedback",
+                "description": "Allow users to provide feedback regarding recommendations or the overall travel experience.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Identifier of the user"
+                                    },
+                                    "feedback": {
+                                        "type": "string",
+                                        "description": "User's feedback"
+                                    },
+                                    "rating": {
+                                        "type": "number",
+                                        "description": "Overall rating between 1 and 5"
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "feedback",
+                                    "rating"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback submitted successfully"
+                    },
+                    "400": {
+                        "description": "Invalid feedback payload"
+                    }
+                }
+            }
+        },
+        "/user/history": {
+            "get": {
+                "summary": "Access user travel history",
+                "description": "Retrieve past travel history and prior recommendations for reference.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "User's unique identifier"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User's travel history retrieved successfully"
+                    },
+                    "400": {
+                        "description": "Invalid user ID or request parameters"
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

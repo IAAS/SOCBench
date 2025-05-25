@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+Designed for transportation industries, this service assists with routing optimization, vehicle tracking, and delivery scheduling to enhance logistics efficiency and reduce operational costs.
+
+Endpoints:
+POST /route/optimize: Submit routing data to obtain optimized routes for a fleet of vehicles.
+GET /vehicle/{id}/location: Retrieve the current location of a specified vehicle in real time.
+PUT /delivery/schedule: Update and schedule deliveries for specific vehicles in the fleet.
+GET /vehicles: Retrieve a list of all vehicles managed within the service.
+DELETE /vehicle/{id}: Remove a specified vehicle from the managed fleet.
+POST /incident/report: Report an incident or delay along a specific route for attention.
+GET /delivery/history: Access the historical delivery data of fleet vehicles.
+PATCH /vehicle/{id}/config: Modify configuration settings for a specified vehicle in the fleet.
+GET /analytics/performance: Retrieve analytics data about the performance of the fleet's delivery operations.
+POST /feedback: Submit user or customer feedback regarding the service or individual deliveries.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

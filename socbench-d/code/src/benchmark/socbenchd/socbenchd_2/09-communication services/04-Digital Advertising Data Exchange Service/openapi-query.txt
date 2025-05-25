@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+Designed for media and advertisement platforms, this service facilitates the secure and scalable exchange of ad-related data. Offers inventory tracking, campaign performance metrics, and click-through analytics.
+
+Endpoints:
+GET /campaigns: Retrieve a list of all advertising campaigns, including their identifiers and metadata.
+GET /campaigns/{campaign_id}: Get detailed information about a specific advertising campaign specified by its ID.
+POST /campaigns: Create a new advertising campaign by specifying required parameters and content.
+PUT /campaigns/{campaign_id}: Update an existing advertising campaign's details using the campaign's ID.
+DELETE /campaigns/{campaign_id}: Remove an advertised campaign using its unique identifier.
+GET /analytics/performance: Fetch performance metrics for campaigns over a given period and segmentations.
+GET /inventory: List available advertisement inventory items and their current statuses.
+POST /click-tracking: Submit click data associated with advertisements for analysis and recording.
+GET /user-activity: Retrieve anonymized aggregated user interaction data with ads.
+PATCH /settings/privacy: Update advertisement platform privacy configurations and consent settings.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

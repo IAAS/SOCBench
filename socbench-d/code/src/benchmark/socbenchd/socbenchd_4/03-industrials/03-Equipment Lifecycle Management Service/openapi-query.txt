@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+This API-based service tracks and optimizes the lifecycle of industrial machinery. By monitoring maintenance schedules, performance metrics, and operational history, the service aims to reduce downtime and extend equipment lifespans. Features include alert systems for upcoming maintenance and analytics for cost and benefit assessments. Users can access dashboards highlighting critical statuses. As an example, a factory utilizing machinery A can receive a reminder for scheduled maintenance and access insights demonstrating the operational efficiency.
+
+Endpoints:
+GET /machines: Retrieve a list of all monitored industrial machines and their current status.
+GET /machines/{id}/details: Fetch detailed information, including specifications and operational history, of a specific machine identified by 'id'.
+POST /maintenance/schedule: Submit a maintenance schedule entry for a specific machine to plan future service activities.
+GET /maintenance/reminders: Retrieve a list of upcoming maintenance reminders categorized by urgency and machine.
+GET /analytics/performance: Obtain detailed performance analytics for a selected timeframe and set of machines.
+POST /alerts/configure: Configure alert parameters for specific conditions such as temperature thresholds or operational hours.
+GET /alerts/log: Access logs of all generated alerts including timestamps and significance levels.
+POST /machines/register: Register a new industrial machine into the monitoring system.
+DELETE /machines/{id}: Remove a specific machine identified by 'id' from the monitoring database.
+GET /report/summary: Generate a comprehensive summary report for all managed machines over a chosen period.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,316 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Predictive Maintenance Platform",
+    "description": "A predictive maintenance platform for monitoring machinery status, forecasting potential failures, and scheduling timely repairs to minimize operational interruptions.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.maintenanceplatform.com",
+      "description": "Production Server"
+    }
+  ],
+  "paths": {
+    "/machinery/status": {
+      "get": {
+        "summary": "Retrieve current machinery status and health metrics",
+        "description": "Fetch the current status and health data, such as temperature, vibration, and operating conditions, for all monitored machinery units.",
+        "responses": {
+          "200": {
+            "description": "A list of machinery statuses and their health metrics.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string", "description": "Unique identifier for the machinery unit." },
+                      "status": { "type": "string", "description": "Current operating status (e.g., 'Operational', 'Warning', 'Critical')." },
+                      "healthMetrics": {
+                        "type": "object",
+                        "description": "Key health metrics of the machinery.",
+                        "properties": {
+                          "temperature": { "type": "number", "description": "Current temperature in Celsius." },
+                          "vibration": { "type": "number", "description": "Current vibration level in m/s²." },
+                          "uptime": { "type": "number", "description": "Cumulative operational time in hours." }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/schedule": {
+      "post": {
+        "summary": "Schedule a maintenance task",
+        "description": "Schedule a maintenance task for specific machinery based on predictive analysis to prevent potential failures.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "machineryId": { "type": "string", "description": "The unique identifier of the machinery unit to schedule maintenance for." },
+                  "scheduledDate": { "type": "string", "format": "date-time", "description": "Date and time for the maintenance task." },
+                  "priority": { "type": "string", "description": "Priority level (e.g., 'High', 'Medium', 'Low')." }
+                },
+                "required": ["machineryId", "scheduledDate"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Maintenance task successfully scheduled.",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string", "description": "Confirmation message." } } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/failures": {
+      "get": {
+        "summary": "Retrieve past failure reports",
+        "description": "Retrieve detailed reports of previous machinery failures, including causes and downtime data.",
+        "responses": {
+          "200": {
+            "description": "A list of past failure reports.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "date": { "type": "string", "format": "date-time", "description": "Date and time of the failure." },
+                      "cause": { "type": "string", "description": "Identified cause of the failure." },
+                      "downtime": { "type": "number", "description": "Total downtime in hours." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts/notifications": {
+      "post": {
+        "summary": "Set custom maintenance alerts",
+        "description": "Configure custom notifications and alert thresholds for specific maintenance conditions.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "machineryId": { "type": "string", "description": "The machinery unit to set alerts for." },
+                  "parameter": { "type": "string", "description": "Machine parameter to monitor (e.g., 'temperature', 'vibration')." },
+                  "threshold": { "type": "number", "description": "Threshold value that triggers the alert." }
+                },
+                "required": ["machineryId", "parameter", "threshold"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Alert successfully configured.",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string", "description": "Confirmation message." } } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sensors/{sensorId}": {
+      "delete": {
+        "summary": "Remove a sensor",
+        "description": "Remove a sensor from the monitoring system.",
+        "parameters": [
+          {
+            "name": "sensorId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The unique identifier of the sensor to be removed."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sensor successfully removed.",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string", "description": "Confirmation message." } } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/settings/thresholds": {
+      "put": {
+        "summary": "Update machinery thresholds",
+        "description": "Update warning and critical thresholds for specific machinery parameters.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "parameter": { "type": "string", "description": "The parameter to update thresholds for (e.g., 'temperature', 'vibration')." },
+                  "warningThreshold": { "type": "number", "description": "Warning level threshold value." },
+                  "criticalThreshold": { "type": "number", "description": "Critical level threshold value." }
+                },
+                "required": ["parameter", "warningThreshold", "criticalThreshold"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Thresholds successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string", "description": "Confirmation message." } } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/predictive-analysis": {
+      "get": {
+        "summary": "Retrieve predictive failure analysis",
+        "description": "Fetch predictive data for machinery failures within a specified time range.",
+        "responses": {
+          "200": {
+            "description": "Predictive analysis data for machinery failures.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "machineryId": { "type": "string", "description": "Identifier for the machinery." },
+                      "predictedFailureDate": { "type": "string", "format": "date-time", "description": "Date and time of the predicted failure." },
+                      "probability": { "type": "number", "description": "Probability of failure, expressed as a percentage." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback/issues": {
+      "post": {
+        "summary": "Submit issues identified by operators",
+        "description": "Submit issues or observations raised by operators to be reviewed on the platform.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "machineryId": { "type": "string", "description": "Identifier of the affected machinery." },
+                  "issueDetail": { "type": "string", "description": "Detailed description of the issue." },
+                  "submittedBy": { "type": "string", "description": "Name or ID of the submitting operator." }
+                },
+                "required": ["machineryId", "issueDetail", "submittedBy"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Issue successfully submitted.",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string", "description": "Confirmation message." } } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/history/alerts": {
+      "get": {
+        "summary": "Retrieve alert history",
+        "description": "Fetch the history of all alerts sent and their acknowledgment status.",
+        "responses": {
+          "200": {
+            "description": "Alert history successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "alertId": { "type": "string", "description": "Unique identifier for the alert." },
+                      "sentDate": { "type": "string", "format": "date-time", "description": "Date and time the alert was sent." },
+                      "acknowledgedBy": { "type": "string", "description": "Name or ID of the person who acknowledged the alert." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/machinery/metadata": {
+      "patch": {
+        "summary": "Update machinery metadata",
+        "description": "Update descriptive metadata for specific machinery units, such as location or name.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "machineryId": { "type": "string", "description": "Identifier for the machinery to update." },
+                  "metadata": {
+                    "type": "object",
+                    "description": "Metadata object with key-value pairs to update.",
+                    "additionalProperties": { "type": "string" }
+                  }
+                },
+                "required": ["machineryId", "metadata"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Metadata successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string", "description": "Confirmation message." } } }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+Service:
+Allows for the real-time tracking and recording of patient health metrics such as blood pressure, glucose levels, and heart rate. Medical professionals can access this data for ongoing assessments, enabling proactive interventions and personalized treatment plans.
+
+Endpoints:
+POST /patients: Create a new patient profile allowing association with health metrics.
+GET /patients: Retrieve a list of registered patients in the system.
+GET /patients/{id}: Return detailed information about a specific patient using their unique ID.
+POST /readings: Submit health metric readings from specific sensors for a patient.
+GET /readings: Retrieve all health metric readings within a specified time frame.
+GET /readings/{patient_id}: Fetch all health metric readings associated with a particular patient.
+POST /alerts: Create an alert based on predefined thresholds for health metrics.
+GET /alerts: Retrieve the list of active alerts requiring attention.
+PUT /patients/{id}: Update information related to a specific patient profile.
+DELETE /patients/{id}: Remove a patient's profile and associated data from the system.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

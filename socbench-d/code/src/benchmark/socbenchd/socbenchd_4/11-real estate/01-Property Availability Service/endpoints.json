@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /properties",
+            "description": "Retrieve a list of real estate properties based on provided search criteria such as location, price range, and property type."
+        },
+        {
+            "endpoint": "GET /properties/{id}",
+            "description": "Fetch detailed information for a specific property identified by its unique ID."
+        },
+        {
+            "endpoint": "POST /favorites",
+            "description": "Add a property to a user's list of favorite properties for easy reference."
+        },
+        {
+            "endpoint": "GET /favorites",
+            "description": "Retrieve the user's list of favorite properties."
+        },
+        {
+            "endpoint": "GET /amenities",
+            "description": "List available amenities by location or property category."
+        },
+        {
+            "endpoint": "GET /multimedia/{id}",
+            "description": "Access multimedia resources, such as images and videos, for a specific property."
+        },
+        {
+            "endpoint": "POST /inquiries",
+            "description": "Submit an inquiry regarding a specific property, including user contact details and questions."
+        },
+        {
+            "endpoint": "GET /inquiries",
+            "description": "View the user's submitted inquiries and their statuses."
+        },
+        {
+            "endpoint": "GET /developers",
+            "description": "Retrieve information on developers and companies associated with the properties."
+        },
+        {
+            "endpoint": "GET /locations",
+            "description": "List available locations or regions for real estate searches."
+        }
+    ]
+}

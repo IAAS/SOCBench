@@ -1,0 +1,385 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Pharmaceutical Inventory Management API",
+        "description": "This API enables pharmacies and healthcare facilities to manage pharmaceutical stock levels, track expiration dates, and ensure seamless inventory operations. It reduces waste, guarantees essential medication availability, and supports informed decision-making with consumption trends and feedback mechanisms.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.pharma-inventory.com"
+        }
+    ],
+    "paths": {
+        "/stock-levels": {
+            "get": {
+                "summary": "Retrieve current stock levels",
+                "description": "Fetch the current stock levels of all pharmaceutical items in the inventory to monitor supply and ensure sufficient stock is available.",
+                "responses": {
+                    "200": {
+                        "description": "A list of pharmaceutical items and their current stock levels.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "item_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the item."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the pharmaceutical item."
+                                            },
+                                            "stock_level": {
+                                                "type": "integer",
+                                                "description": "Current quantity of the item in stock."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/stock-levels/{item-id}": {
+            "get": {
+                "summary": "Retrieve stock level for a specific item",
+                "description": "Fetch the stock levels for a specific pharmaceutical item using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "item-id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the pharmaceutical item.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Stock level details for the specified item.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "item_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the item."
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "description": "Name of the pharmaceutical item."
+                                        },
+                                        "stock_level": {
+                                            "type": "integer",
+                                            "description": "Current quantity of the item in stock."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Item not found."
+                    }
+                }
+            }
+        },
+        "/inventory-update": {
+            "post": {
+                "summary": "Update inventory stock levels",
+                "description": "Submit updates to stock levels, reflecting recently received or dispensed items in the inventory.",
+                "requestBody": {
+                    "description": "Details of the updates to be applied to inventory stock levels.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "item_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the item."
+                                        },
+                                        "adjustment": {
+                                            "type": "integer",
+                                            "description": "Change in stock level (positive for addition, negative for reduction)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Stock levels updated successfully."
+                    }
+                }
+            }
+        },
+        "/expiration-dates": {
+            "get": {
+                "summary": "Retrieve expiration dates for items",
+                "description": "Get a list of all pharmaceutical items and their respective expiration dates.",
+                "responses": {
+                    "200": {
+                        "description": "List of pharmaceutical items with their expiration dates.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "item_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the item."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the item."
+                                            },
+                                            "expiration_date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Expiration date of the item."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/expiration-dates/near-expiry": {
+            "get": {
+                "summary": "Retrieve items nearing expiration",
+                "description": "Fetch a list of pharmaceutical items that are approaching their expiration dates, to prioritize usage and reduce waste.",
+                "responses": {
+                    "200": {
+                        "description": "List of items nearing expiration.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "item_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the item."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the item."
+                                            },
+                                            "expiration_date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Expiration date of the item."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory-requirements": {
+            "get": {
+                "summary": "Retrieve inventory restocking requirements",
+                "description": "Generate a report that details which inventory items require restocking, based on current stock levels and minimum thresholds.",
+                "responses": {
+                    "200": {
+                        "description": "List of items and their respective stock requirements.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "item_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the item."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the item."
+                                            },
+                                            "required_stock": {
+                                                "type": "integer",
+                                                "description": "Quantity that needs to be restocked."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/restock-notifications": {
+            "post": {
+                "summary": "Set up a restock notification",
+                "description": "Configure notifications for items that fall below a specified stock level threshold, to ensure timely restocking.",
+                "requestBody": {
+                    "description": "Details required to set up a restock notification.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "item_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the item to be monitored."
+                                    },
+                                    "threshold": {
+                                        "type": "integer",
+                                        "description": "Stock level at which notification should trigger."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Restock notification created successfully."
+                    }
+                }
+            }
+        },
+        "/restock-notifications/{notification-id}": {
+            "delete": {
+                "summary": "Remove a restock notification",
+                "description": "Delete a previously configured restock notification using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "notification-id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the restock notification.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Restock notification removed successfully."
+                    },
+                    "404": {
+                        "description": "Notification not found."
+                    }
+                }
+            }
+        },
+        "/reports/consumption-trends": {
+            "get": {
+                "summary": "Retrieve consumption trends",
+                "description": "Analyze and retrieve historical trends of pharmaceutical consumption to support inventory planning and decision-making.",
+                "responses": {
+                    "200": {
+                        "description": "Report on consumption trends over a specified time frame.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "trends": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "item_id": {
+                                                        "type": "string",
+                                                        "description": "Unique identifier of the item."
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "description": "Name of the item."
+                                                    },
+                                                    "trend": {
+                                                        "type": "string",
+                                                        "description": "Consumption trend analysis (e.g., increasing, decreasing, consistent)."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "summary": "Submit user feedback",
+                "description": "Send feedback regarding stock management issues or suggestions to improve the service.",
+                "requestBody": {
+                    "description": "Details of the user feedback.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "message": {
+                                        "type": "string",
+                                        "description": "The feedback provided by the user."
+                                    },
+                                    "user_contact": {
+                                        "type": "string",
+                                        "description": "Contact information for follow-up (optional)."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Feedback submitted successfully."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

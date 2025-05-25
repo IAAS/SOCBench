@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+Facilitates seamless reservation coordination for hotels and resorts, offering integration with online booking platforms, real-time availability updates, and guest preference tracking to improve user satisfaction.
+
+Endpoints:
+GET /reservations: Retrieve a list of all reservations with their details.
+POST /reservations: Create a new reservation for a guest based on their preferences.
+PUT /reservations/{id}: Update an existing reservation identified by its unique ID.
+DELETE /reservations/{id}: Cancel a reservation by its unique ID.
+GET /rooms: Retrieve a list of all rooms with their current availability status and details.
+GET /rooms/{id}: Fetch details of a specific room by its unique ID.
+POST /rooms: Add a new room to the system with all required details.
+PUT /rooms/{id}: Modify the details of an existing room identified by its unique ID.
+GET /guest-preferences/{id}: Retrieve saved preferences of a guest based on their unique ID.
+POST /guest-preferences/{id}: Update or save preferences for a guest identified by their unique ID.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

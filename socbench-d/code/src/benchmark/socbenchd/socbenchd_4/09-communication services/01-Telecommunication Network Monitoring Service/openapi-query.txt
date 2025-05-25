@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+This RESTful API enables telecom companies to monitor and manage their network infrastructure in real time. Features include outage detection, performance analytics, and predictive maintenance tools, ensuring uninterrupted service delivery.
+
+Endpoints:
+GET /network/status: Retrieve the current status of the entire network in real time.
+POST /outage/report: Report a new network outage incident for immediate attention.
+GET /performance/metrics: Fetch detailed performance metrics for the specified time period.
+POST /maintenance/schedule: Schedule predictive maintenance tasks to prevent potential failures.
+GET /infrastructure/devices: Retrieve a list of all network devices with their associated details.
+PUT /infrastructure/device/{id}: Update the configurations or properties of a specified network device.
+GET /alerts/active: Retrieve active alerts and notifications related to the network.
+DELETE /alerts/{alert_id}: Resolve a specific alert by its unique identifier.
+GET /analytics/summary: Generate a summarized report of network performance and usage trends.
+POST /workflow/run: Execute a specific operational workflow for real-time network analysis.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

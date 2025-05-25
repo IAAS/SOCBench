@@ -1,0 +1,489 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Real-Time Data Processing and Analytical Service",
+        "description": "This service enables organizations to process and analyze large datasets in real-time. With capabilities for data stream ingestion, transformation, and advanced analytics, the service helps businesses derive actionable insights and make data-driven decisions effectively.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.it-sector-service.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/data/ingest": {
+            "post": {
+                "summary": "Upload and initiate ingestion of data streams for processing",
+                "description": "This endpoint allows users to upload and start the ingestion of data streams for further transformation and analysis.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "dataSource": {
+                                        "type": "string",
+                                        "description": "The source or identifier of the data stream."
+                                    },
+                                    "dataMeta": {
+                                        "type": "object",
+                                        "description": "Metadata describing the data stream.",
+                                        "properties": {
+                                            "format": {
+                                                "type": "string",
+                                                "description": "The format of the data (e.g., JSON, CSV)."
+                                            },
+                                            "size": {
+                                                "type": "integer",
+                                                "description": "The size of the data stream in bytes."
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "dataSource",
+                                    "dataMeta"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data ingestion initiated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ingestionID": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the data ingestion process."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "The status of the ingestion process."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input payload or parameters."
+                    }
+                }
+            }
+        },
+        "/data/validate": {
+            "get": {
+                "summary": "Retrieve validation results of the ingested data streams",
+                "description": "Fetch the results of validation checks performed on recently ingested data streams.",
+                "parameters": [
+                    {
+                        "name": "ingestionID",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier for the data ingestion process."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Validation results retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ingestionID": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the data ingestion process."
+                                        },
+                                        "isValid": {
+                                            "type": "boolean",
+                                            "description": "Indicates whether the data is valid."
+                                        },
+                                        "validationErrors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "description": "List of validation errors (if any)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ingestion ID not found."
+                    }
+                }
+            }
+        },
+        "/data/transform": {
+            "post": {
+                "summary": "Transform uploaded datasets based on predefined configurations",
+                "description": "Apply predefined transformation rules to the ingested datasets.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "ingestionID": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the data ingestion process."
+                                    },
+                                    "transformationRuleID": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the transformation rule to be applied."
+                                    }
+                                },
+                                "required": [
+                                    "ingestionID",
+                                    "transformationRuleID"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Transformation applied successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "transformationID": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the transformation process."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "The status of the transformation process."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input for transformation."
+                    }
+                }
+            }
+        },
+        "/analytics/summary": {
+            "get": {
+                "summary": "Fetch summarized analytical reports of processed datasets",
+                "description": "Retrieve analytical summaries based on processed datasets for actionable insights.",
+                "parameters": [
+                    {
+                        "name": "ingestionID",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier for the data ingestion."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Analytical summaries fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ingestionID": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the data ingestion process."
+                                        },
+                                        "statistics": {
+                                            "type": "object",
+                                            "description": "Summary statistics for the processed data."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ingestion ID not found."
+                    }
+                }
+            }
+        },
+        "/analytics/realtime": {
+            "get": {
+                "summary": "Stream real-time analytical updates for active datasets",
+                "description": "Receive continuous real-time updates of analytics data for an active dataset.",
+                "parameters": [
+                    {
+                        "name": "ingestionID",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the active dataset."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Real-time analytics streaming initiated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "streamURL": {
+                                            "type": "string",
+                                            "description": "URL to connect to the real-time analytics stream."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ingestion ID not found."
+                    }
+                }
+            }
+        },
+        "/config/rules": {
+            "post": {
+                "summary": "Define new transformation and analytical rules",
+                "description": "Create rules for data transformation and analytics processing.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "ruleName": {
+                                        "type": "string",
+                                        "description": "A name describing the rule."
+                                    },
+                                    "ruleDefinition": {
+                                        "type": "object",
+                                        "description": "The logic and parameters of the rule."
+                                    }
+                                },
+                                "required": [
+                                    "ruleName",
+                                    "ruleDefinition"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Rule created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ruleID": {
+                                            "type": "string",
+                                            "description": "Unique ID of the created rule."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input for rule creation."
+                    }
+                }
+            },
+            "get": {
+                "summary": "List all existing transformation and analytical rules",
+                "description": "Fetch the list of all transformation and analytical rules available for processing.",
+                "responses": {
+                    "200": {
+                        "description": "Rules listed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "ruleID": {
+                                                "type": "string",
+                                                "description": "Unique ID of the rule."
+                                            },
+                                            "ruleName": {
+                                                "type": "string",
+                                                "description": "Name of the rule."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/config/rules/{ruleID}": {
+            "put": {
+                "summary": "Update specific transformation or analytical rules by ID",
+                "description": "Modify existing transformation or analytical rules using their unique ID.",
+                "parameters": [
+                    {
+                        "name": "ruleID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the rule to be updated."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "ruleName": {
+                                        "type": "string",
+                                        "description": "Updated name of the rule."
+                                    },
+                                    "ruleDefinition": {
+                                        "type": "object",
+                                        "description": "Updated logic and parameters of the rule."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Rule updated successfully."
+                    },
+                    "404": {
+                        "description": "Rule not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove specific transformation or analytical rules by ID",
+                "description": "Delete existing transformation or analytical rules using their unique ID.",
+                "parameters": [
+                    {
+                        "name": "ruleID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the rule to be removed."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Rule deleted successfully."
+                    },
+                    "404": {
+                        "description": "Rule not found."
+                    }
+                }
+            }
+        },
+        "/logs/activities": {
+            "get": {
+                "summary": "Retrieve user activity and operation logs for monitoring",
+                "description": "Fetch logs of all user activities and operations performed using the service for purposes such as auditing and monitoring.",
+                "parameters": [
+                    {
+                        "name": "startTime",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "description": "Start date-time for filtering logs."
+                    },
+                    {
+                        "name": "endTime",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "description": "End date-time for filtering logs."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logs retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Timestamp of the activity."
+                                            },
+                                            "userID": {
+                                                "type": "string",
+                                                "description": "Unique ID of the user performing the activity."
+                                            },
+                                            "operation": {
+                                                "type": "string",
+                                                "description": "Description of the activity."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

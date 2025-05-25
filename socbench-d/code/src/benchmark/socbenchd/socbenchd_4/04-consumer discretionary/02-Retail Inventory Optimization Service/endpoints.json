@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /inventory/update",
+            "description": "Receive updated inventory information from the point-of-sale system."
+        },
+        {
+            "endpoint": "GET /inventory/status",
+            "description": "Retrieve the current stock levels and inventory status for all listed products."
+        },
+        {
+            "endpoint": "PUT /inventory/restock",
+            "description": "Submit a request to restock specific items based on predicted requirements."
+        },
+        {
+            "endpoint": "GET /reports/stockouts",
+            "description": "Generate a report detailing items that experienced stockouts within a specified timeframe."
+        },
+        {
+            "endpoint": "GET /recommendations/restock",
+            "description": "Retrieve a list of suggested restocking actions based on analysis of sales trends."
+        },
+        {
+            "endpoint": "POST /sales/data",
+            "description": "Submit detailed point-of-sale transaction data for inventory analysis."
+        },
+        {
+            "endpoint": "GET /analytics/trends",
+            "description": "Access analyzed sales data trends to assist in inventory planning."
+        },
+        {
+            "endpoint": "DELETE /inventory/item/{itemId}",
+            "description": "Remove a specific item from the inventory tracking system."
+        },
+        {
+            "endpoint": "PATCH /inventory/item/{itemId}",
+            "description": "Update details of a specific inventory item."
+        },
+        {
+            "endpoint": "GET /inventory/item/{itemId}",
+            "description": "Retrieve detailed information for a specific inventory item."
+        }
+    ]
+}

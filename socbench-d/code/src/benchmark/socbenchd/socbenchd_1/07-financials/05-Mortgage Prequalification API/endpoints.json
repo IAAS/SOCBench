@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /applications",
+            "description": "Submit a new mortgage application with complete financial and personal information."
+        },
+        {
+            "endpoint": "GET /applications/{id}",
+            "description": "Retrieve the details of a submitted mortgage application using a unique identifier."
+        },
+        {
+            "endpoint": "PUT /applications/{id}",
+            "description": "Update information on an existing mortgage application."
+        },
+        {
+            "endpoint": "DELETE /applications/{id}",
+            "description": "Remove a specific mortgage application by its unique identifier."
+        },
+        {
+            "endpoint": "POST /applications/{id}/calculate",
+            "description": "Analyze and estimate loan feasibility for a specific application."
+        },
+        {
+            "endpoint": "GET /applications/{id}/status",
+            "description": "Check the current status and progress of a submitted mortgage application."
+        },
+        {
+            "endpoint": "POST /applications/{id}/submit",
+            "description": "Formalize and submit the mortgage application for further review."
+        },
+        {
+            "endpoint": "GET /loans/interest-rates",
+            "description": "Fetch the current interest rates for different loan types and durations."
+        },
+        {
+            "endpoint": "POST /users/{id}/documents",
+            "description": "Upload required documents for mortgage processing to a user's profile."
+        },
+        {
+            "endpoint": "GET /users/{id}/documents",
+            "description": "Retrieve a list of documents uploaded for a user's mortgage applications."
+        }
+    ]
+}

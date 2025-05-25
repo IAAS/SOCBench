@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /system/health",
+            "description": "Retrieve the overall health status of the monitored system."
+        },
+        {
+            "endpoint": "POST /notifications/subscription",
+            "description": "Create a subscription to receive notifications for emerging issues."
+        },
+        {
+            "endpoint": "DELETE /notifications/subscription/{id}",
+            "description": "Remove a specific notification subscription by its ID."
+        },
+        {
+            "endpoint": "GET /diagnostics/logs",
+            "description": "Fetch diagnostic logs to assist with root cause analysis."
+        },
+        {
+            "endpoint": "POST /diagnostics/analysis",
+            "description": "Initiate a deep analysis process for diagnosing a specific issue."
+        },
+        {
+            "endpoint": "GET /reliability/metrics",
+            "description": "Access metrics to assess and improve system reliability."
+        },
+        {
+            "endpoint": "POST /system/optimization",
+            "description": "Request system optimization procedures to enhance uptime."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Retrieve a list of active alerts and warnings for the system."
+        },
+        {
+            "endpoint": "PUT /alerts/{id}/acknowledge",
+            "description": "Acknowledge a specific alert to change its status."
+        },
+        {
+            "endpoint": "GET /trends/failure-patterns",
+            "description": "Analyze past failures to identify recurring patterns."
+        }
+    ]
+}

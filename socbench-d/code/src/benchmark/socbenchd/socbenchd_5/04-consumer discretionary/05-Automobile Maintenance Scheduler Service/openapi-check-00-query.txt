@@ -1,0 +1,443 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Vehicle Maintenance Service API",
+        "description": "This API provides automobile owners with functionalities like reminders, appointment scheduling, and maintenance record updates to promote efficient and timely servicing of vehicles, enhancing their longevity and improving user satisfaction.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.vehiclemaintenance.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/vehicles": {
+            "get": {
+                "summary": "Retrieve registered vehicles",
+                "description": "Fetches a list of all vehicles associated with the authenticated user.",
+                "responses": {
+                    "200": {
+                        "description": "A list of registered vehicles for the user.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the vehicle."
+                                            },
+                                            "make": {
+                                                "type": "string",
+                                                "description": "The make of the vehicle."
+                                            },
+                                            "model": {
+                                                "type": "string",
+                                                "description": "The model of the vehicle."
+                                            },
+                                            "year": {
+                                                "type": "integer",
+                                                "description": "The manufacturing year of the vehicle."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicle/{id}/maintenancerecords": {
+            "get": {
+                "summary": "Retrieve maintenance records",
+                "description": "Fetches all maintenance records for a specific vehicle.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the vehicle.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of maintenance records for the specified vehicle.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "recordId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the maintenance record."
+                                            },
+                                            "serviceDate": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "The date the maintenance service was performed."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Description of the maintenance service."
+                                            },
+                                            "cost": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Cost of the maintenance service."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicle/{id}/schedule": {
+            "post": {
+                "summary": "Create a maintenance schedule",
+                "description": "Allows the user to create a new maintenance schedule for a specified vehicle.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the vehicle.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Details about the maintenance schedule.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "serviceDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "The scheduled date for the maintenance."
+                                    },
+                                    "serviceType": {
+                                        "type": "string",
+                                        "description": "Type of maintenance service."
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "description": "Optional notes for the maintenance."
+                                    }
+                                },
+                                "required": [
+                                    "serviceDate",
+                                    "serviceType"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Maintenance schedule successfully created."
+                    }
+                }
+            }
+        },
+        "/vehicle/{id}/details": {
+            "patch": {
+                "summary": "Update vehicle details",
+                "description": "Updates specific details like make, model, or year for a specified vehicle.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the vehicle.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated details of the vehicle.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "make": {
+                                        "type": "string",
+                                        "description": "Updated make of the vehicle."
+                                    },
+                                    "model": {
+                                        "type": "string",
+                                        "description": "Updated model of the vehicle."
+                                    },
+                                    "year": {
+                                        "type": "integer",
+                                        "description": "Updated manufacturing year of the vehicle."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Vehicle details updated successfully."
+                    }
+                }
+            }
+        },
+        "/notifications": {
+            "get": {
+                "summary": "Retrieve notifications",
+                "description": "Fetches all maintenance reminders and notifications for the authenticated user.",
+                "responses": {
+                    "200": {
+                        "description": "A list of notifications for the user.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "notificationId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the notification."
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "description": "Content of the notification."
+                                            },
+                                            "createdAt": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "The date and time when the notification was created."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notification/{id}": {
+            "delete": {
+                "summary": "Delete a notification",
+                "description": "Allows the user to delete a specific notification by its identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the notification.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Notification deleted successfully."
+                    }
+                }
+            }
+        },
+        "/history": {
+            "get": {
+                "summary": "View activity history",
+                "description": "Retrieves the user's activity history related to their vehicle maintenance interactions.",
+                "responses": {
+                    "200": {
+                        "description": "A list of past maintenance activities and interactions by the user.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "activityId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the activity."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Description of the activity."
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "When the activity occurred."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/suggestions": {
+            "post": {
+                "summary": "Submit user feedback",
+                "description": "Allows the user to submit feedback or suggestions to improve the service.",
+                "requestBody": {
+                    "description": "Feedback details.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "feedback": {
+                                        "type": "string",
+                                        "description": "The user's feedback or suggestion."
+                                    }
+                                },
+                                "required": [
+                                    "feedback"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Feedback submitted successfully."
+                    }
+                }
+            }
+        },
+        "/vehicle/{id}/recommendations": {
+            "get": {
+                "summary": "Fetch maintenance recommendations",
+                "description": "Provides recommended maintenance services based on the vehicle's type and usage patterns.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the vehicle.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of recommended maintenance services for the specified vehicle.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "serviceType": {
+                                                "type": "string",
+                                                "description": "Type of recommended maintenance service."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Details about the recommended service."
+                                            },
+                                            "estimatedCost": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Estimated cost for the maintenance service."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/maintenancecenter/{id}/details": {
+            "put": {
+                "summary": "Update service center details",
+                "description": "Allows updating details of a maintenance center, like opening hours and contact details.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the maintenance center.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated details of the maintenance center.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The name of the maintenance center."
+                                    },
+                                    "openingHours": {
+                                        "type": "string",
+                                        "description": "Updated opening hours of the maintenance center."
+                                    },
+                                    "contact": {
+                                        "type": "string",
+                                        "description": "Updated contact information for the maintenance center."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Maintenance center details updated successfully."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

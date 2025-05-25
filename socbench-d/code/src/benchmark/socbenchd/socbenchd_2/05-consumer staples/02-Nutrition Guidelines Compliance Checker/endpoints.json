@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /products",
+            "description": "Retrieve the list of all food and beverage products available for evaluation."
+        },
+        {
+            "endpoint": "POST /evaluate",
+            "description": "Submit a product for alignment evaluation against dietary recommendations."
+        },
+        {
+            "endpoint": "GET /recommendations",
+            "description": "Fetch a summary of dietary guidelines used for evaluation."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit user feedback for enhancing evaluation processes."
+        },
+        {
+            "endpoint": "GET /products/{id}",
+            "description": "Retrieve detailed information about a specific product using its unique identifier."
+        },
+        {
+            "endpoint": "DELETE /products/{id}",
+            "description": "Remove a product previously submitted for evaluation from the system."
+        },
+        {
+            "endpoint": "PATCH /products/{id}",
+            "description": "Update details of a previously submitted product."
+        },
+        {
+            "endpoint": "GET /evaluation-history",
+            "description": "View the evaluation history for all previously assessed products."
+        },
+        {
+            "endpoint": "GET /compliance/{region}",
+            "description": "Obtain compliance requirements for a specific geographical region."
+        },
+        {
+            "endpoint": "GET /trends",
+            "description": "Access data on current health and wellness trends derived from evaluations."
+        }
+    ]
+}

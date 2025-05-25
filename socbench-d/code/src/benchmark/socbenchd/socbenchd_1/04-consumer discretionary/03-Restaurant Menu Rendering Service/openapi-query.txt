@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+Allows restaurants to dynamically design and display menus based on availability, season, and customer preferences, ensuring an engaging and relevant dining experience for patrons.
+
+Endpoints:
+GET /menus: Retrieve the list of all currently configured menus for the establishment.
+GET /menus/{id}: Fetch details of a specific menu by its identifier.
+POST /menus: Create a new menu with customizable options and configurations.
+PUT /menus/{id}: Update an existing menu identified by its ID with new details.
+DELETE /menus/{id}: Remove a specific menu based on its ID.
+GET /ingredients: List all available ingredients for menu customization.
+POST /ingredients: Add new ingredients to the available pool for menu creation.
+DELETE /ingredients/{id}: Delete a specific ingredient entry by its identifier.
+GET /customer-preferences: Gather customer dining preferences to enhance menu recommendations.
+POST /simulate-preview: Simulate and preview menu presentation as seen by customers.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /resource-allocation",
+            "description": "Retrieve current status of allocated resources across leisure facilities."
+        },
+        {
+            "endpoint": "POST /resource-allocation",
+            "description": "Submit resource allocation updates for leisure facilities."
+        },
+        {
+            "endpoint": "GET /customer-behavior",
+            "description": "Fetch aggregated data of customer behavior for analysis."
+        },
+        {
+            "endpoint": "GET /seasonal-demands",
+            "description": "Obtain predictions for seasonal demand shifts in facility usage."
+        },
+        {
+            "endpoint": "GET /facilities",
+            "description": "Retrieve the list and details of all managed leisure facilities."
+        },
+        {
+            "endpoint": "PUT /facilities/{id}",
+            "description": "Update specific configurations for a leisure facility by ID."
+        },
+        {
+            "endpoint": "GET /optimization-reports",
+            "description": "Access historical optimization reports to assess past performance."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit feedback to refine resource optimization models."
+        },
+        {
+            "endpoint": "GET /dashboard",
+            "description": "View summarized key metrics for operation management in a dashboard."
+        },
+        {
+            "endpoint": "DELETE /cache",
+            "description": "Clear cached predictive data to initialize recalculation."
+        }
+    ]
+}

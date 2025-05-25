@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /forecasts",
+            "description": "Retrieve projected yield estimates based on specific input parameters."
+        },
+        {
+            "endpoint": "POST /logs",
+            "description": "Submit data related to a recent logging operation for analysis and storage."
+        },
+        {
+            "endpoint": "GET /treespecies",
+            "description": "Retrieve a list of supported tree species for data processing."
+        },
+        {
+            "endpoint": "GET /environmental-factors/{region}",
+            "description": "Obtain environmental factor data for a specified region."
+        },
+        {
+            "endpoint": "GET /locations/{id}",
+            "description": "Retrieve details of a specific location based on its unique identifier."
+        },
+        {
+            "endpoint": "POST /yield-calculation",
+            "description": "Submit specific parameters to calculate forest yield."
+        },
+        {
+            "endpoint": "GET /analytics/{reportId}",
+            "description": "Fetch analytics for a particular report specified by its identifier."
+        },
+        {
+            "endpoint": "PATCH /logging-operations/{operationId}",
+            "description": "Update information for a specific logging operation."
+        },
+        {
+            "endpoint": "DELETE /logs/{logId}",
+            "description": "Remove a specific log entry identified by its unique ID."
+        },
+        {
+            "endpoint": "GET /compliance/{locationId}/rules",
+            "description": "Retrieve compliance rules and guidelines for a specific location."
+        }
+    ]
+}

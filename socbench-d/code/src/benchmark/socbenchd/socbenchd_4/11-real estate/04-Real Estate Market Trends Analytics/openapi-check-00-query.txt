@@ -1,0 +1,518 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Real Estate Analytics API",
+        "description": "This service provides developers and investors with market analytics such as price trends, demand forecasts, investment hotspots, and support for custom reports and visualizations to enable data-driven real estate decisions.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.realestate-analytics.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/market-data/price-trends": {
+            "get": {
+                "summary": "Retrieve market price trends for various property types and locations",
+                "description": "Fetch historical and current real estate market price trends based on the specified property type and location filters.",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "The location or region to retrieve the price trends for.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "propertyType",
+                        "in": "query",
+                        "description": "Type of property (e.g., residential, commercial) to filter the price trend data.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "dateRange",
+                        "in": "query",
+                        "description": "Date range in the format 'start-end' to limit the price trend data.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of market price trends.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "The date for the price trend."
+                                            },
+                                            "price": {
+                                                "type": "number",
+                                                "format": "double",
+                                                "description": "The market price at the given date."
+                                            },
+                                            "propertyType": {
+                                                "type": "string",
+                                                "description": "The type of property."
+                                            },
+                                            "location": {
+                                                "type": "string",
+                                                "description": "The location for the price trend."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/market-data/demand-forecasts": {
+            "post": {
+                "summary": "Generate a demand forecast report for specific areas",
+                "description": "Submit parameters such as location and property type to receive a demand forecast report analyzing future demand trends.",
+                "requestBody": {
+                    "description": "The parameters to generate the demand forecast report.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "location": {
+                                        "type": "string",
+                                        "description": "The location or region for which the demand forecast is generated."
+                                    },
+                                    "propertyType": {
+                                        "type": "string",
+                                        "description": "Type of property to analyze demand trends."
+                                    },
+                                    "timeframe": {
+                                        "type": "string",
+                                        "description": "The timeframe for the forecast, e.g., '2023-2025'."
+                                    }
+                                },
+                                "required": [
+                                    "location",
+                                    "timeframe"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns the demand forecast report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "forecastId": {
+                                            "type": "string",
+                                            "description": "The identification for the generated forecast report."
+                                        },
+                                        "report": {
+                                            "type": "string",
+                                            "description": "The demand forecast report details."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/investment-opportunities/hotspots": {
+            "get": {
+                "summary": "Discover latest investment hotspots",
+                "description": "Retrieve insights into the latest high-potential investment hotspots based on submitted filters.",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "Filter hotspots by a specific region or location.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "propertyType",
+                        "in": "query",
+                        "description": "Filter hotspots by property type.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of identified investment hotspots.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "hotspotId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the investment hotspot."
+                                            },
+                                            "location": {
+                                                "type": "string",
+                                                "description": "The location of the hotspot."
+                                            },
+                                            "propertyType": {
+                                                "type": "string",
+                                                "description": "Type of property in this hotspot."
+                                            },
+                                            "potential": {
+                                                "type": "string",
+                                                "description": "A qualitative description of the potential of the hotspot."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/custom": {
+            "post": {
+                "summary": "Generate custom analytics reports",
+                "description": "Create a fully customized analytics report based on user-defined criteria.",
+                "requestBody": {
+                    "description": "The criteria to generate a custom report.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "criteria": {
+                                        "type": "object",
+                                        "description": "Key-value pairs defining the custom criteria for the report.",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "criteria"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The generated custom report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reportId": {
+                                            "type": "string",
+                                            "description": "Unique ID assigned to the custom report."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the report generation process."
+                                        },
+                                        "report": {
+                                            "type": "string",
+                                            "description": "The detailed analytics report generated."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/market-data/property-types": {
+            "get": {
+                "summary": "Fetch available property types and their classifications",
+                "description": "Retrieve a comprehensive list of property types and their classifications that are available in the system.",
+                "responses": {
+                    "200": {
+                        "description": "A list of property types and their classifications.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "typeId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the property type."
+                                            },
+                                            "classification": {
+                                                "type": "string",
+                                                "description": "Classification of the property type (e.g., residential, commercial)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/preferences/user-settings": {
+            "put": {
+                "summary": "Update user-specific analytics and filtering preferences",
+                "description": "Modify user settings related to analytics filters and preferences.",
+                "requestBody": {
+                    "description": "User settings to update.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "filters": {
+                                        "type": "object",
+                                        "description": "User-defined filters for analytics outputs.",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "preferences": {
+                                        "type": "object",
+                                        "description": "Personalized preferences for using the service.",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "filters",
+                                    "preferences"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Confirmation of successful update."
+                    }
+                }
+            }
+        },
+        "/regional-analysis/zoning-laws": {
+            "get": {
+                "summary": "Access zoning law details",
+                "description": "Retrieve details about zoning laws for the selected locations.",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "The location for which zoning law details are requested.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of zoning laws for the specified locations.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "zoneId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the zone."
+                                            },
+                                            "zoningDetails": {
+                                                "type": "string",
+                                                "description": "Information on the zoning laws and restrictions in the area."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user-saved-reports/{report_id}": {
+            "delete": {
+                "summary": "Remove a previously saved custom report",
+                "description": "Delete a specific custom analytics report identified by its unique report ID.",
+                "parameters": [
+                    {
+                        "name": "report_id",
+                        "in": "path",
+                        "description": "The unique identifier of the report to be deleted.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Confirmation of deletion."
+                    }
+                }
+            }
+        },
+        "/visualizations/custom-charts": {
+            "post": {
+                "summary": "Create tailored data visualizations",
+                "description": "Submit parameters to create a customized chart or visual representation of data.",
+                "requestBody": {
+                    "description": "Parameters for tailored visualization creation.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Key-value pairs defining the visualization's data and structure.",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "parameters"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The generated visualization.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "chartId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the created chart."
+                                        },
+                                        "chartUrl": {
+                                            "type": "string",
+                                            "description": "URL to access the generated chart."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/market-comparisons": {
+            "get": {
+                "summary": "Compare market analytics across selected regions",
+                "description": "Retrieve a comparative analysis of market analytics data across regions specified by the user.",
+                "parameters": [
+                    {
+                        "name": "regions",
+                        "in": "query",
+                        "description": "Comma-separated list of regions to include in the market comparison.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "metrics",
+                        "in": "query",
+                        "description": "Comma-separated list of metrics to compare (e.g., price, demand, investment potential).",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Market comparison analytics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "region": {
+                                                "type": "string",
+                                                "description": "Region being analyzed."
+                                            },
+                                            "metrics": {
+                                                "type": "object",
+                                                "additionalProperties": {
+                                                    "type": "number",
+                                                    "description": "Values for the specified metric."
+                                                },
+                                                "description": "Key-value pairs of metric names and their values."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

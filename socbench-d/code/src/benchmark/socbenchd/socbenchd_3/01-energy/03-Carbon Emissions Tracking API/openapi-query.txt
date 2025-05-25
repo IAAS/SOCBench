@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+This RESTful service facilitates the calculation and reporting of carbon emissions from various sourcing, processing, and distribution activities within the energy sector. An energy company can input operational data into the system to generate tailored emissions reports, helping meet regulatory compliance and sustainability goals.
+
+Endpoints:
+POST /emissions/reports: Generate a tailored emissions report based on the provided operational data inputs.
+GET /emissions/reports/{report_id}: Retrieve details of a previously generated emissions report using its unique identifier.
+PUT /emissions/reports/{report_id}: Update an existing emissions report with new operational data or corrections.
+DELETE /emissions/reports/{report_id}: Remove a previously generated emissions report from the system.
+POST /data/uploads: Upload operational data files for analysis and inclusion in emissions calculations.
+GET /data/processing/status: Check the status of data currently being processed for emissions calculations.
+GET /factors/emissions: Retrieve standardized carbon emission factors related to various activities within the energy sector.
+POST /factors/emissions/calculations: Submit calculations for specific emissions scenarios using pre-defined factors.
+GET /regulations/requirements: List the current regulatory requirements related to emissions reporting applicable to the energy sector.
+GET /sustainability/goals: View user-defined sustainability targets and associated progress measures.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

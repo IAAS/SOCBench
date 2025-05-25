@@ -1,0 +1,268 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Clinical Trial Matching Service API",
+    "description": "This API facilitates the matching of patients' anonymized profiles with clinical trial qualification criteria. Medical staff can input anonymized patient data, retrieve trial recommendations, and manage participation status, greatly expediting the clinical trial enrollment process and advancing medical research.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.clinicaltrials.example.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/clinical_trials": {
+      "get": {
+        "summary": "Retrieve a list of clinical trials",
+        "description": "Fetch a list of clinical trials that match specified filtering criteria. Parameters may include therapeutic area, location, trial phase, and more.",
+        "parameters": [
+          {
+            "name": "therapeutic_area",
+            "in": "query",
+            "description": "The therapeutic area of interest (e.g., oncology, cardiology).",
+            "required": false,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "The geographic location to filter clinical trials by.",
+            "required": false,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "phase",
+            "in": "query",
+            "description": "Clinical trial phase (e.g., Phase I, Phase II, Phase III).",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of clinical trials matching the criteria.",
+            "content": { "application/json": { "schema": { "type": "array", "items": { "type": "object" } } } }
+          }
+        }
+      }
+    },
+    "/patient_profiles": {
+      "post": {
+        "summary": "Submit an anonymized patient profile",
+        "description": "Submit a patient's anonymized profile for analysis to identify suitable clinical trials.",
+        "requestBody": {
+          "description": "Details of the anonymized patient profile, including health history and demographics.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "age": { "type": "integer" },
+                  "gender": { "type": "string" },
+                  "medical_conditions": { "type": "array", "items": { "type": "string" } }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Patient profile successfully submitted."
+          }
+        }
+      }
+    },
+    "/recommended_trials/{patient_id}": {
+      "get": {
+        "summary": "Fetch recommended trials for a patient",
+        "description": "Retrieve recommended clinical trials for a specific anonymized patient based on their profile.",
+        "parameters": [
+          {
+            "name": "patient_id",
+            "in": "path",
+            "description": "The ID of the anonymized patient.",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of recommended clinical trials.",
+            "content": { "application/json": { "schema": { "type": "array", "items": { "type": "object" } } } }
+          }
+        }
+      }
+    },
+    "/update_trial_status/{trial_id}": {
+      "put": {
+        "summary": "Update enrollment status of a clinical trial",
+        "description": "Update the enrollment status or participation details for a specific clinical trial.",
+        "parameters": [
+          {
+            "name": "trial_id",
+            "in": "path",
+            "description": "The unique ID of the clinical trial.",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated information about trial enrollment status.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string", "description": "The updated trial status (e.g., 'enrolled', 'completed')." },
+                  "note": { "type": "string", "description": "Additional details about the update." }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Trial status successfully updated."
+          }
+        }
+      }
+    },
+    "/trial_criteria/{trial_id}": {
+      "get": {
+        "summary": "View trial qualification criteria",
+        "description": "Retrieve the qualification criteria for a specific clinical trial to determine eligibility.",
+        "parameters": [
+          {
+            "name": "trial_id",
+            "in": "path",
+            "description": "The unique ID of the clinical trial.",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trial qualification criteria retrieved.",
+            "content": { "application/json": { "schema": { "type": "object" } } }
+          }
+        }
+      }
+    },
+    "/feedback": {
+      "post": {
+        "summary": "Submit feedback",
+        "description": "Submit feedback about the service or specific trials to assist with operational improvements.",
+        "requestBody": {
+          "description": "Details of the feedback, including the subject and message.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "subject": { "type": "string" },
+                  "message": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Feedback successfully submitted."
+          }
+        }
+      }
+    },
+    "/trial_statistics": {
+      "get": {
+        "summary": "Retrieve trial participation statistics",
+        "description": "Get statistical insights about clinical trial participation and outcomes across trials.",
+        "responses": {
+          "200": {
+            "description": "Clinical trial statistics retrieved.",
+            "content": { "application/json": { "schema": { "type": "object" } } }
+          }
+        }
+      }
+    },
+    "/search_trials": {
+      "get": {
+        "summary": "Search for clinical trials",
+        "description": "Search for clinical trials with advanced filtering options.",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "description": "Search by keyword (e.g., condition or trial title).",
+            "required": false,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "Filter by location.",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results returned.",
+            "content": { "application/json": { "schema": { "type": "array", "items": { "type": "object" } } } }
+          }
+        }
+      }
+    },
+    "/patient_profiles/{patient_id}": {
+      "delete": {
+        "summary": "Remove a patient profile",
+        "description": "Delete an anonymized patient profile from the system.",
+        "parameters": [
+          {
+            "name": "patient_id",
+            "in": "path",
+            "description": "The ID of the patient profile to remove.",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Patient profile successfully deleted."
+          }
+        }
+      }
+    },
+    "/update_contact_info": {
+      "patch": {
+        "summary": "Update contact information for trial coordinators",
+        "description": "Update the contact information of clinical trial coordinators to ensure accurate communication.",
+        "requestBody": {
+          "description": "Details of the updated contact information.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "coordinator_id": { "type": "string" },
+                  "email": { "type": "string" },
+                  "phone": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Contact information successfully updated."
+          }
+        }
+      }
+    }
+  }
+}

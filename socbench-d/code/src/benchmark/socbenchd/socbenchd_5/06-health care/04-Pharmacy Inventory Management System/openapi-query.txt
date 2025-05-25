@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+Service:
+A platform for pharmacy management to monitor and adjust inventory levels based on prescription demands and expiration dates, ensuring stock optimization and reducing waste.
+
+Endpoints:
+GET /inventory: Retrieve the current state of pharmacy inventory including stock levels and expiry dates.
+POST /inventory: Add new pharmaceutical items and records to the inventory database.
+PUT /inventory/{item_id}: Update details of a specific inventory item such as quantity or expiration date.
+DELETE /inventory/{item_id}: Remove a specific item record from the inventory database.
+GET /inventory/insights: Generate and retrieve insights and trends on inventory turnover and waste.
+POST /thresholds: Set or update dynamic thresholds for inventory levels based on predicted demand.
+GET /thresholds: Retrieve current thresholds configured for inventory management.
+GET /alerts: Retrieve a list of active alerts including low stock and expiration warnings.
+POST /alerts: Manually create or trigger alerts related to inventory issues.
+PUT /alerts/{alert_id}: Resolve or update the status of a specific inventory alert.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

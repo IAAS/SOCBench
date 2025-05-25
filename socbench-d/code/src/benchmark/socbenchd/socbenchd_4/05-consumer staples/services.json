@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Nutritional Information Retrieval API",
+            "description": "This service provides detailed nutritional content of various food items, enabling users to plan diets and maintain healthy lifestyles. Users can query by food category, brand, or ingredients. The service includes features such as calorie tracking, allergen information, and portion size customization."
+        },
+        {
+            "name": "Sustainability Assessment API",
+            "description": "This service evaluates the environmental impact of products within the consumer staples domain. Users can inquire about carbon footprint, recyclability, and sustainability certifications of goods. The service is beneficial for companies aiming to meet eco-friendly standards."
+        },
+        {
+            "name": "Personal Care Products Recommendation API",
+            "description": "Designed to assist consumers in finding suitable personal care products based on preferences and sensitivities. Users can input skin type, allergies, and desired features like organic ingredients to receive curated suggestions."
+        },
+        {
+            "name": "Tobacco Products Age Verification Service",
+            "description": "This API ensures age restrictions are adhered to for tobacco product sales. Retailers can integrate this service to verify customer eligibility based on age criteria securely and efficiently."
+        },
+        {
+            "name": "Food Retail Inventory Management API",
+            "description": "Facilitates real-time inventory tracking for retail companies dealing with consumer staples. Features include stock level alerts, demand forecasting, and integration with ERP systems to streamline supply chain management."
+        }
+    ]
+}

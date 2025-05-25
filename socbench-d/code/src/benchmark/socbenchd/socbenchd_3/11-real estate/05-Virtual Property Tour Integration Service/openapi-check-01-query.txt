@@ -1,0 +1,406 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Virtual Property Explorer API",
+        "description": "This API allows potential clients to explore properties through 360-degree videos or augmented reality experiences. It enables realtors to integrate interactive and immersive tours into property listings, which enhances user engagement.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.virtualpropertyexplorer.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/properties": {
+            "get": {
+                "summary": "Retrieve all properties",
+                "description": "Fetch a list of all available properties in the database. Each property includes basic details such as address, price, size, and a list of media associated with it.",
+                "responses": {
+                    "200": {
+                        "description": "List of available properties retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "properties": [
+                                        {
+                                            "id": "1",
+                                            "address": "123 Main Street",
+                                            "price": 500000,
+                                            "size": "2000 sqft",
+                                            "media": [
+                                                "image1.jpg",
+                                                "tour1.mp4"
+                                            ]
+                                        },
+                                        {
+                                            "id": "2",
+                                            "address": "456 Elm Street",
+                                            "price": 750000,
+                                            "size": "3000 sqft",
+                                            "media": [
+                                                "image2.jpg",
+                                                "tour2.mp4"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/properties/new": {
+            "post": {
+                "summary": "Add a new property",
+                "description": "Create a new property listing by providing details such as address, price, size, and associated media like photos and 360-degree videos.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "address": "789 Oak Avenue",
+                                "price": 600000,
+                                "size": "2500 sqft",
+                                "media": [
+                                    "image3.jpg",
+                                    "tour3.mp4"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Property successfully created.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Property added successfully",
+                                    "propertyId": "3"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/properties/{id}": {
+            "get": {
+                "summary": "Get property details",
+                "description": "Retrieve detailed information about a specific property, including its address, price, size, and any associated media such as images and 360-degree videos.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the property.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Property details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": "1",
+                                    "address": "123 Main Street",
+                                    "price": 500000,
+                                    "size": "2000 sqft",
+                                    "media": [
+                                        "image1.jpg",
+                                        "tour1.mp4"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update property details",
+                "description": "Update the details or add new media for an existing property.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the property to be updated.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "address": "123 Updated Avenue",
+                                "price": 550000,
+                                "media": [
+                                    "image_updated.jpg",
+                                    "tour_updated.mp4"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Property successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Property updated successfully"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a property",
+                "description": "Remove a specific property based on its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the property to be deleted.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Property successfully deleted.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Property deleted successfully"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/properties/search": {
+            "get": {
+                "summary": "Search properties",
+                "description": "Search for properties using filters such as price range, location, and size.",
+                "parameters": [
+                    {
+                        "name": "priceMin",
+                        "in": "query",
+                        "required": false,
+                        "description": "Minimum price for the property.",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "priceMax",
+                        "in": "query",
+                        "required": false,
+                        "description": "Maximum price for the property.",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "required": false,
+                        "description": "Location of the property.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sizeMin",
+                        "in": "query",
+                        "required": false,
+                        "description": "Minimum size of the property.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of properties matching the search criteria.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "results": [
+                                        {
+                                            "id": "4",
+                                            "address": "101 Pine Street",
+                                            "price": 400000,
+                                            "size": "1800 sqft"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tours/{id}": {
+            "get": {
+                "summary": "Retrieve virtual tour data",
+                "description": "Retrieve the virtual tour data for a specific property by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the property.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tour data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "tourData": "360-tour.mp4"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tours/{id}/feedback": {
+            "post": {
+                "summary": "Submit feedback for a tour",
+                "description": "Submit user feedback about the virtual tour of a specific property.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the property.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "rating": 4,
+                                "comments": "The tour was great, but navigation could be smoother."
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback successfully submitted.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Feedback submitted successfully"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/augmentExperience": {
+            "post": {
+                "summary": "Initiate augmented reality visualization",
+                "description": "Start an augmented reality visualization for specified properties.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "propertyIds": [
+                                    "1",
+                                    "2"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Augmented reality visualization initiated successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Augmented reality visualization started",
+                                    "sessionId": "abc123"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/realtors": {
+            "get": {
+                "summary": "Retrieve realtor list",
+                "description": "Get a list of all realtors associated with the property listings.",
+                "responses": {
+                    "200": {
+                        "description": "List of realtors retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "realtors": [
+                                        {
+                                            "id": "1",
+                                            "name": "John Doe",
+                                            "contact": "john.doe@example.com"
+                                        },
+                                        {
+                                            "id": "2",
+                                            "name": "Jane Smith",
+                                            "contact": "jane.smith@example.com"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

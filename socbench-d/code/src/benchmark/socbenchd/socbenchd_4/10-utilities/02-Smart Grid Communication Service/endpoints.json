@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /devices",
+            "description": "Retrieve a list of all connected smart grid devices."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Send customized notifications to specific smart grid devices."
+        },
+        {
+            "endpoint": "GET /power-quality",
+            "description": "Access real-time data on power quality parameters for the network."
+        },
+        {
+            "endpoint": "POST /control/commands",
+            "description": "Send operational commands to manage smart grid devices remotely."
+        },
+        {
+            "endpoint": "GET /faults",
+            "description": "Retrieve current and historical fault data within the grid network."
+        },
+        {
+            "endpoint": "PUT /load-balancing/settings",
+            "description": "Update the configured load balancing settings to optimize power distribution."
+        },
+        {
+            "endpoint": "GET /usage-statistics",
+            "description": "Access historical and real-time usage statistics for analysis."
+        },
+        {
+            "endpoint": "DELETE /devices/{device_id}",
+            "description": "Remove a specific smart grid device from the network."
+        },
+        {
+            "endpoint": "GET /grid-performance",
+            "description": "Access overall performance metrics of the utilities grid."
+        },
+        {
+            "endpoint": "PATCH /maintenance/schedule",
+            "description": "Update the maintenance schedule for specific devices or grid areas."
+        }
+    ]
+}

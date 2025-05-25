@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /distributed-resources",
+            "description": "Retrieve the detailed information on all connected distributed energy resources."
+        },
+        {
+            "endpoint": "POST /distributed-resources/sync",
+            "description": "Initiate synchronization of distributed energy resources with the main grid."
+        },
+        {
+            "endpoint": "GET /energy-storage/status",
+            "description": "Fetch the current status and performance metrics of the energy storage systems."
+        },
+        {
+            "endpoint": "POST /energy-balancing/calibrate",
+            "description": "Perform calibration operations for optimal energy load balancing."
+        },
+        {
+            "endpoint": "GET /demand-trends",
+            "description": "Obtain analytics data about the grid's energy demand trends over time."
+        },
+        {
+            "endpoint": "PUT /resource-config/{id}",
+            "description": "Update configuration options for a specific distributed energy resource identified by its ID."
+        },
+        {
+            "endpoint": "DELETE /distributed-resources/{id}",
+            "description": "Remove a distributed energy resource from the management system using its ID."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Provide a list of current alerts related to energy resource operations."
+        },
+        {
+            "endpoint": "POST /renewable-sources/analytics",
+            "description": "Submit analytic data for monitoring renewable energy source performance."
+        },
+        {
+            "endpoint": "GET /grid-synchronization/logs",
+            "description": "Access logs of synchronization events between the main grid and distributed resources."
+        }
+    ]
+}

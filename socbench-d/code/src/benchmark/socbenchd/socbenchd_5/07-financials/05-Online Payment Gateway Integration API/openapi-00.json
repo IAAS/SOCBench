@@ -1,0 +1,323 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Financials Sector Transaction Service API",
+    "description": "This API enables secure and seamless transaction processing for e-commerce and banking purposes. It provides a range of operations to manage financial transactions, user accounts, foreign exchange rates, and summaries of financial activities.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.financialssector.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/transactions": {
+      "get": {
+        "summary": "Retrieve Recent Transactions",
+        "description": "Fetch a list of recent financial transactions for the authenticated user.",
+        "responses": {
+          "200": {
+            "description": "A list of recent financial transactions.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "transaction_id": "tx123",
+                    "amount": 150.00,
+                    "currency": "USD",
+                    "status": "completed",
+                    "date": "2023-10-01T12:30:00Z"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      },
+      "post": {
+        "summary": "Initiate a New Transaction",
+        "description": "Creates a new financial transaction between specified accounts.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "source_account": "acc123",
+                "destination_account": "acc456",
+                "amount": 100.00,
+                "currency": "USD",
+                "note": "Payment for invoice #5678"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Transaction created successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "transaction_id": "tx567",
+                  "status": "pending"
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    },
+    "/transactions/{transaction_id}": {
+      "get": {
+        "summary": "Retrieve Transaction Details",
+        "description": "Fetches detailed information about a specific transaction by its ID.",
+        "parameters": [
+          {
+            "name": "transaction_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the transaction.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detailed information about the transaction.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "transaction_id": "tx123",
+                  "amount": 150.00,
+                  "currency": "USD",
+                  "status": "completed",
+                  "date": "2023-10-01T12:30:00Z",
+                  "note": "Payment for services"
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      },
+      "delete": {
+        "summary": "Cancel a Pending Transaction",
+        "description": "Cancels a transaction if its status is still pending.",
+        "parameters": [
+          {
+            "name": "transaction_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the transaction to be canceled.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction canceled successfully."
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    },
+    "/accounts": {
+      "get": {
+        "summary": "Fetch Linked Accounts",
+        "description": "Gets detailed information about the authenticated user's linked accounts.",
+        "responses": {
+          "200": {
+            "description": "List of accounts linked to the user.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "account_id": "acc123",
+                    "type": "checking",
+                    "currency": "USD",
+                    "balance": 1200.00
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      },
+      "post": {
+        "summary": "Add a New Account",
+        "description": "Adds a new banking or financial account to the user's profile.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "account_type": "savings",
+                "currency": "USD",
+                "account_holder_name": "John Doe"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Account added successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "account_id": "acc789",
+                  "status": "active"
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    },
+    "/accounts/{account_id}": {
+      "put": {
+        "summary": "Update Account Details",
+        "description": "Updates the details of an existing financial account.",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "required": true,
+            "description": "The identifier of the account to update.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "account_holder_name": "John A. Doe",
+                "status": "active"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Account updated successfully."
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    },
+    "/currency-rates": {
+      "get": {
+        "summary": "Get Currency Exchange Rates",
+        "description": "Retrieves the current foreign exchange rates for multiple currencies.",
+        "responses": {
+          "200": {
+            "description": "A list of exchange rates for various currencies.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "USD": 1.0,
+                  "EUR": 0.85,
+                  "GBP": 0.75
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    },
+    "/transfers": {
+      "post": {
+        "summary": "Create Account Transfer",
+        "description": "Initiates a transfer of funds from one user account to another.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "source_account": "acc123",
+                "destination_account": "acc789",
+                "amount": 200.00,
+                "currency": "USD",
+                "note": "Savings Transfer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Transfer completed successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "transfer_id": "tr456",
+                  "status": "completed"
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    },
+    "/financial-summary": {
+      "get": {
+        "summary": "Generate Financial Summary",
+        "description": "Generates a summary of the user's financial activities over a specific time period.",
+        "parameters": [
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": true,
+            "description": "The start date of the financial summary period (YYYY-MM-DD).",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": true,
+            "description": "The end date of the financial summary period (YYYY-MM-DD).",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The financial summary for the specified time period.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "total_credits": 5000.00,
+                  "total_debits": 4500.00,
+                  "net_balance": 500.00
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

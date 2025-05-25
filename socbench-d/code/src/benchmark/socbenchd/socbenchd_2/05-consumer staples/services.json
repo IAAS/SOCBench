@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Household Goods Consumption Analytics Service",
+            "description": "Provides comprehensive insights into consumer habits on non-durable household items, enabling manufacturers and retailers to make data-driven decisions for product development and inventory strategies."
+        },
+        {
+            "name": "Nutrition Guidelines Compliance Checker",
+            "description": "A service that evaluates food and beverage products against recognized dietary recommendations, assisting companies in aligning with health and wellness trends and regulatory standards."
+        },
+        {
+            "name": "Personal Care Product Label Management System",
+            "description": "Streamlines the management and compliance of ingredient lists and labeling for manufacturers of personal care products, ensuring adherence to international regulations and standards."
+        },
+        {
+            "name": "Tobacco Alternative Product Development Support",
+            "description": "Offers analytical tools for tobacco companies to innovate and test alternative products, catering to evolving consumer preferences and regulatory frameworks."
+        },
+        {
+            "name": "Consumer Staples Supply Chain Optimization Service",
+            "description": "Optimizes order fulfillment, inventory tracking, and distribution routes for companies in the sector, enhancing operational efficiency and customer satisfaction."
+        }
+    ]
+}

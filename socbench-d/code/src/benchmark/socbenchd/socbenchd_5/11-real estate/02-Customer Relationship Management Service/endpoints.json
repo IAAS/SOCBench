@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /properties",
+            "description": "Retrieve a list of all properties currently managed by the system."
+        },
+        {
+            "endpoint": "POST /properties",
+            "description": "Add a new property to the management system."
+        },
+        {
+            "endpoint": "GET /properties/{propertyId}",
+            "description": "Retrieve detailed information about a specific property using its unique identifier."
+        },
+        {
+            "endpoint": "PUT /properties/{propertyId}",
+            "description": "Update the details of an existing property."
+        },
+        {
+            "endpoint": "DELETE /properties/{propertyId}",
+            "description": "Remove a property from the system using its unique identifier."
+        },
+        {
+            "endpoint": "GET /inquiries",
+            "description": "Retrieve a list of all recorded inquiries related to properties."
+        },
+        {
+            "endpoint": "POST /inquiries",
+            "description": "Create a new entry for a prospective buyer inquiry."
+        },
+        {
+            "endpoint": "GET /reports",
+            "description": "Generate and retrieve aggregated reports of inquiries and property interactions."
+        },
+        {
+            "endpoint": "GET /stakeholders",
+            "description": "Retrieve a list of all stakeholders associated with the real estate services."
+        },
+        {
+            "endpoint": "POST /stakeholders",
+            "description": "Add a new stakeholder to the service for record keeping and communication purposes."
+        }
+    ]
+}

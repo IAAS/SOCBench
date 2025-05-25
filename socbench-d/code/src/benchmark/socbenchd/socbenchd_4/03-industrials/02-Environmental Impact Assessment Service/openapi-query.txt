@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+This service evaluates industrial projects for environmental compliance and sustainability. By providing insights into emissions, resource utilization, and eco-impact metrics, stakeholders can ensure projects meet regulatory requirements. Facilitated by integration with IoT sensors, the service aggregates data related to pollutants and energy consumption. Users access consolidated reports outlining areas requiring improvement. For example, a construction company could submit site-specific data, receiving an assessment outlining key environmental risks and mitigation strategies.
+
+Endpoints:
+POST /projects: Submit a new industrial project for environmental analysis and assessment.
+GET /projects/{id}: Retrieve the detailed analysis and compliance report of a specific industrial project.
+PUT /projects/{id}: Update the site-specific data of an existing project to reflect current metrics.
+DELETE /projects/{id}: Remove an existing industrial project from the system.
+GET /compliance-standards: Obtain a list of all supported environmental compliance standards and regulations.
+GET /projects/{id}/recommendations: Retrieve tailored mitigation strategies to improve environmental compliance for a project.
+POST /projects/{id}/metrics: Submit new monitoring data (e.g., emissions and usage) for an ongoing project.
+GET /projects: List all submitted projects along with their assessment statuses.
+GET /project-stats: Retrieve aggregated statistics and trends across analyzed projects.
+GET /projects/{id}/alerts: View alerts for critical environmental compliance breaches in a project.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

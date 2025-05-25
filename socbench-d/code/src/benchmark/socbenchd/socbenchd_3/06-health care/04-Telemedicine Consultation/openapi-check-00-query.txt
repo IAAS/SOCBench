@@ -1,0 +1,454 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Telemedicine Consultation API",
+        "version": "1.0.0",
+        "description": "API for the Telemedicine Consultation service, which facilitates secure video consultations between patients and healthcare providers, document sharing, and consultation record management."
+    },
+    "servers": [
+        {
+            "url": "https://api.telemedicine.example.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/consultations": {
+            "post": {
+                "summary": "Initiate a new telemedicine consultation session",
+                "description": "Create a new video consultation session with a healthcare provider. This allows patients to connect securely with a provider for medical advice.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "patient_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the patient initiating the consultation."
+                                    },
+                                    "provider_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the healthcare provider."
+                                    },
+                                    "scheduled_time": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "The scheduled time for the consultation."
+                                    },
+                                    "reason": {
+                                        "type": "string",
+                                        "description": "Reason for the consultation."
+                                    }
+                                },
+                                "required": [
+                                    "patient_id",
+                                    "provider_id",
+                                    "scheduled_time"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Consultation created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the created consultation."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the newly created consultation."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/consultations/{id}": {
+            "get": {
+                "summary": "Retrieve consultation details",
+                "description": "Fetch details of a specific consultation session using its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the consultation.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the consultation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "patient_id": {
+                                            "type": "string"
+                                        },
+                                        "provider_id": {
+                                            "type": "string"
+                                        },
+                                        "scheduled_time": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update consultation details",
+                "description": "Modify information or status of an existing consultation session.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the consultation.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "scheduled_time": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "description": "Updated status of the consultation."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Consultation updated successfully."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete consultation",
+                "description": "Remove a specific consultation session by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the consultation to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Consultation deleted successfully."
+                    }
+                }
+            }
+        },
+        "/providers": {
+            "get": {
+                "summary": "List available healthcare providers",
+                "description": "Retrieve a list of healthcare providers available for consultations.",
+                "responses": {
+                    "200": {
+                        "description": "List of available healthcare providers.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the provider."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the provider."
+                                            },
+                                            "specialty": {
+                                                "type": "string",
+                                                "description": "Provider's medical specialty."
+                                            },
+                                            "availability": {
+                                                "type": "string",
+                                                "description": "Provider's availability status."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/documents": {
+            "post": {
+                "summary": "Upload a medical document",
+                "description": "Allows a patient to upload a medical document and associate it with a consultation session.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "consultation_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the consultation associated with this document."
+                                    },
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "The medical document to upload."
+                                    }
+                                },
+                                "required": [
+                                    "consultation_id",
+                                    "file"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Document uploaded successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the uploaded document."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Upload status of the document."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/documents/{id}": {
+            "get": {
+                "summary": "Retrieve a medical document",
+                "description": "Fetch the content and details of a specific medical document by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the medical document.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the medical document.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "consultation_id": {
+                                            "type": "string"
+                                        },
+                                        "file_url": {
+                                            "type": "string",
+                                            "format": "uri"
+                                        },
+                                        "uploaded_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/records": {
+            "get": {
+                "summary": "Get past consultation records",
+                "description": "Retrieve stored records of past consultations for a patient.",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "query",
+                        "required": true,
+                        "description": "Unique identifier of the patient whose records are being retrieved.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of past consultation records.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "provider_id": {
+                                                "type": "string"
+                                            },
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "status": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications": {
+            "post": {
+                "summary": "Send notification for upcoming consultations",
+                "description": "Send notifications to remind patients of upcoming consultation sessions.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "patient_id": {
+                                        "type": "string"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "patient_id",
+                                    "message"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Notification sent successfully."
+                    }
+                }
+            }
+        },
+        "/analytics": {
+            "get": {
+                "summary": "Fetch aggregated consultation analytics",
+                "description": "Generate and retrieve aggregated performance metrics for consultations.",
+                "responses": {
+                    "200": {
+                        "description": "Aggregated analytics data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "total_consultations": {
+                                            "type": "integer"
+                                        },
+                                        "average_duration": {
+                                            "type": "number"
+                                        },
+                                        "status_breakdown": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

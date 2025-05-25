@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /inventory-levels",
+            "description": "Retrieve the current inventory levels for all products across all locations."
+        },
+        {
+            "endpoint": "POST /inventory-check",
+            "description": "Trigger a manual check for inventory accuracy at specified locations."
+        },
+        {
+            "endpoint": "GET /locations",
+            "description": "Fetch a list of all store locations managed by the retailer."
+        },
+        {
+            "endpoint": "PUT /update-stock",
+            "description": "Update the inventory stock level for a specific product at a specific location."
+        },
+        {
+            "endpoint": "DELETE /remove-location",
+            "description": "Remove a store location from the inventory management system."
+        },
+        {
+            "endpoint": "GET /restock-status",
+            "description": "Retrieve the current status of restocking processes for specific products."
+        },
+        {
+            "endpoint": "POST /forecast-demand",
+            "description": "Submit data for demand forecast analysis and receive predictive insights."
+        },
+        {
+            "endpoint": "PATCH /set-low-stock-alert",
+            "description": "Configure alert thresholds for low stock levels per product."
+        },
+        {
+            "endpoint": "GET /inventory-tracking",
+            "description": "Obtain tracking information for inventory shipments in transit."
+        },
+        {
+            "endpoint": "POST /export-data",
+            "description": "Export the inventory and sales data for external processing."
+        }
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Patient Appointment Scheduling Service",
+            "description": "This RESTful service allows health care providers to manage and schedule patient appointments efficiently. Users can view available time slots, book new appointments, update existing ones, and send automated reminders to patients to reduce no-shows and enhance accessibility."
+        },
+        {
+            "name": "Electronic Health Record (EHR) Access Service",
+            "description": "The EHR Access Service provides authorized medical professionals with seamless and secure access to patient health records. Integration ensures streamlined retrieval, viewing, and updating of pertinent data while complying with all privacy regulations."
+        },
+        {
+            "name": "Pharmacy Inventory Management Service",
+            "description": "Designed for pharmacies, this service facilitates the monitoring and management of inventory levels, automatic order placements for replenishment, expiration tracking, and sales analysis to optimize stock management."
+        },
+        {
+            "name": "Diagnostic Test Result Notification Service",
+            "description": "Patients and healthcare professionals can receive timely notifications when diagnostic test results are available. This service ensures fast communication and enables a prompt response to medical conditions."
+        },
+        {
+            "name": "Health Analytics Visualization Service",
+            "description": "This service aggregates and analyzes patient health data to generate visual reports and insights. Healthcare providers can use these insights for efficient monitoring, predictive care, and improving treatment outcomes."
+        }
+    ]
+}

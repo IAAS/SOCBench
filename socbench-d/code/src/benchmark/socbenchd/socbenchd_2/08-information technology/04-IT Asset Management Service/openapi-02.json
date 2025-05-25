@@ -1,0 +1,132 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "IT Asset Tracking and Lifecycle Management API",
+        "description": "This API facilitates maintaining up-to-date records of hardware and software assets for IT asset tracking and lifecycle management. It provides comprehensive details for auditing, compliance adherence, and resource usage optimization, ensuring efficient IT governance.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/assets": {
+            "get": {
+                "summary": "Retrieve all IT assets",
+                "description": "Fetches a list of all hardware and software assets managed by the system, including their details such as ID, name, type, status, and other metadata.",
+                "responses": {
+                    "200": {
+                        "description": "List of IT assets retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Asset"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new IT asset",
+                "description": "Adds a new hardware or software asset to the tracking system.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Asset"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "IT asset added successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Asset"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data provided for the asset"
+                    }
+                }
+            }
+        },
+        "/audit/reports": {
+            "get": {
+                "summary": "Generate and fetch an audit report",
+                "description": "Generates and retrieves a comprehensive IT asset audit report to aid in compliance adherence and monitoring.",
+                "responses": {
+                    "200": {
+                        "description": "Audit report generated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reportId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the generated report"
+                                        },
+                                        "generatedTimestamp": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "The timestamp of when the report was generated"
+                                        },
+                                        "reportDetails": {
+                                            "type": "object",
+                                            "description": "Detailed contents of the audit report",
+                                            "additionalProperties": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Asset": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the asset"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name or label of the asset"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Type of the asset (e.g., 'hardware', 'software')"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Current status of the asset (e.g., 'active', 'retired')"
+                    },
+                    "metadata": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "description": "Additional details and metadata related to the asset"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "type",
+                    "status"
+                ]
+            }
+        }
+    }
+}

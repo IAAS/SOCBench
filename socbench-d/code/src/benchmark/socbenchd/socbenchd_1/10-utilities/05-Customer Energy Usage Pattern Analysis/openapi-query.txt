@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+This analytical tool allows utility companies to investigate energy usage patterns across their clientele base, offering insights for tailored energy-saving recommendations and personalized billing solutions.
+
+Endpoints:
+POST /energy-patterns: Submit the energy consumption data of a new client for analysis.
+GET /clients/{client_id}/usage: Retrieve the historical energy usage data for a specific client.
+GET /analysis/overview: Obtain a summary snapshot of energy usage patterns across all clients.
+POST /recommendations/generate: Generate energy-saving recommendations based on consumption analysis.
+GET /clients/{client_id}/recommendations: Fetch tailored energy-saving suggestions for a specific client.
+POST /billing/templates: Create a customizable billing template for personalized invoicing.
+GET /billing/{template_id}: Retrieve details of a specific billing template.
+PUT /billing/{template_id}: Update an existing billing template with new parameters.
+POST /alerts: Set up an alert system for unusual consumption patterns detection.
+GET /alerts/{alert_id}: Retrieve the configuration of a specific alert setting.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

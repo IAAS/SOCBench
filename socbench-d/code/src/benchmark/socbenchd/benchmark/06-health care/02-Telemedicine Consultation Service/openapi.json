@@ -1,0 +1,419 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Telemedicine Consultation Service API",
+        "version": "1.0.0",
+        "description": "A RESTful API to support remote patient consultations with health care providers. This API allows for virtual appointments, video conferencing, e-prescriptions, and feedback collection."
+    },
+    "paths": {
+        "/patients/register": {
+            "post": {
+                "summary": "Register a new patient for telemedicine.",
+                "description": "Allows a new patient to register by providing essential information such as name, contact details, and medical history.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Full name of the patient."
+                                    },
+                                    "contactDetails": {
+                                        "type": "string",
+                                        "description": "Contact information including phone or email."
+                                    },
+                                    "medicalHistory": {
+                                        "type": "string",
+                                        "description": "A brief overview of the patient's medical history."
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "contactDetails"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Patient registered successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/appointments/available": {
+            "get": {
+                "summary": "List available appointment slots.",
+                "description": "Returns a list of available slots for appointments with various specialists, allowing patients to choose their preferred consultation time.",
+                "responses": {
+                    "200": {
+                        "description": "A list of available appointment slots.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Date of the available slot."
+                                            },
+                                            "time": {
+                                                "type": "string",
+                                                "format": "time",
+                                                "description": "Time of the available slot."
+                                            },
+                                            "specialistName": {
+                                                "type": "string",
+                                                "description": "Name of the available specialist."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/appointments/book": {
+            "post": {
+                "summary": "Book a virtual consultation appointment.",
+                "description": "Allows patients to book a virtual consultation with a specified healthcare provider, confirming the appointment and sending notifications to the patient and provider.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "patientId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the patient."
+                                    },
+                                    "specialistId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the specialist."
+                                    },
+                                    "dateTime": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Scheduled date and time for the appointment."
+                                    }
+                                },
+                                "required": [
+                                    "patientId",
+                                    "specialistId",
+                                    "dateTime"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Appointment booked successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input or unavailable slot."
+                    }
+                }
+            }
+        },
+        "/appointments/upcoming": {
+            "get": {
+                "summary": "Retrieve upcoming appointments.",
+                "description": "Fetches a list of all upcoming virtual consultations for a logged-in patient or healthcare provider.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the patient or healthcare provider."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of upcoming appointments.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "appointmentId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the appointment."
+                                            },
+                                            "dateTime": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Scheduled date and time for the appointment."
+                                            },
+                                            "specialistName": {
+                                                "type": "string",
+                                                "description": "Name of the specialist."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/video/start": {
+            "post": {
+                "summary": "Initiate a video conference for a consultation.",
+                "description": "Starts a video conference session for a scheduled telemedicine appointment.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "appointmentId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the appointment."
+                                    }
+                                },
+                                "required": [
+                                    "appointmentId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Video conference started successfully."
+                    },
+                    "404": {
+                        "description": "Appointment not found."
+                    }
+                }
+            }
+        },
+        "/prescriptions/generate": {
+            "post": {
+                "summary": "Generate an e-prescription.",
+                "description": "Allows healthcare providers to create and send e-prescriptions to a patient's preferred pharmacy following a consultation.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "patientId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the patient."
+                                    },
+                                    "medication": {
+                                        "type": "string",
+                                        "description": "Details of the prescribed medication."
+                                    },
+                                    "pharmacyId": {
+                                        "type": "string",
+                                        "description": "Identifier for the patient's preferred pharmacy."
+                                    }
+                                },
+                                "required": [
+                                    "patientId",
+                                    "medication"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Prescription generated and sent to pharmacy."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/prescriptions/check": {
+            "get": {
+                "summary": "Check the status of an e-prescription.",
+                "description": "Enables patients to verify the status and pick-up details of their e-prescriptions.",
+                "parameters": [
+                    {
+                        "name": "prescriptionId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the prescription."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The current status of the prescription.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the prescription (e.g., sent, ready for pickup)."
+                                        },
+                                        "pickupDetails": {
+                                            "type": "string",
+                                            "description": "Information on how and where to pick up the prescription."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback/submit": {
+            "post": {
+                "summary": "Submit consultation feedback.",
+                "description": "Allows patients to submit feedback about their recent consultation using a structured form or survey.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "appointmentId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the appointment."
+                                    },
+                                    "rating": {
+                                        "type": "integer",
+                                        "description": "Rating given by the patient, typically from 1 to 5."
+                                    },
+                                    "comments": {
+                                        "type": "string",
+                                        "description": "Additional comments or feedback provided by the patient."
+                                    }
+                                },
+                                "required": [
+                                    "appointmentId",
+                                    "rating"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Feedback submitted successfully."
+                    },
+                    "400": {
+                        "description": "Invalid feedback data."
+                    }
+                }
+            }
+        },
+        "/feedback/retrieve": {
+            "get": {
+                "summary": "Retrieve submitted feedback.",
+                "description": "Provides access to submitted feedback, allowing healthcare providers and administrators to review patient comments.",
+                "parameters": [
+                    {
+                        "name": "appointmentId",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the appointment to filter feedback by specific consultations."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of feedback for specified parameters.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "appointmentId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the appointment."
+                                            },
+                                            "rating": {
+                                                "type": "integer",
+                                                "description": "Rating given by the patient."
+                                            },
+                                            "comments": {
+                                                "type": "string",
+                                                "description": "Comments or feedback provided by the patient."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notes/add": {
+            "post": {
+                "summary": "Add consultation notes.",
+                "description": "Enables healthcare providers to add consultation notes for patients after a virtual appointment.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "appointmentId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the appointment."
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "description": "Consultation notes written by the healthcare provider."
+                                    }
+                                },
+                                "required": [
+                                    "appointmentId",
+                                    "notes"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Notes added successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        }
+    }
+}

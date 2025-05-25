@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /projects",
+            "description": "Retrieve a list of all construction projects and their respective statuses."
+        },
+        {
+            "endpoint": "POST /projects",
+            "description": "Create a new construction project with specified parameters."
+        },
+        {
+            "endpoint": "GET /projects/{projectId}/details",
+            "description": "Fetch detailed information about a specific project using its unique identifier."
+        },
+        {
+            "endpoint": "PATCH /projects/{projectId}",
+            "description": "Update specific properties of an existing project."
+        },
+        {
+            "endpoint": "GET /workforce",
+            "description": "Retrieve the directory of all workforce members and their assignments."
+        },
+        {
+            "endpoint": "POST /workforce/assign",
+            "description": "Assign a workforce member to a specific task within a project."
+        },
+        {
+            "endpoint": "GET /materials",
+            "description": "Fetch current inventory of materials and their availability statuses."
+        },
+        {
+            "endpoint": "POST /materials/request",
+            "description": "Submit a request for additional materials to be delivered to a project site."
+        },
+        {
+            "endpoint": "GET /projects/{projectId}/gantt",
+            "description": "Generate and retrieve the Gantt chart visualization of the specified project plan."
+        },
+        {
+            "endpoint": "POST /projects/{projectId}/tasks",
+            "description": "Add a new task to the specified project's schedule."
+        }
+    ]
+}

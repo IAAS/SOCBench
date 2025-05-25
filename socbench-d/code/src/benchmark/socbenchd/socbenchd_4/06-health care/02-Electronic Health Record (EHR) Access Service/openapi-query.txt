@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+Service:
+The EHR Access Service provides authorized medical professionals with seamless and secure access to patient health records. Integration ensures streamlined retrieval, viewing, and updating of pertinent data while complying with all privacy regulations.
+
+Endpoints:
+GET /patients/{patientID}/records: Retrieve the complete health records of a specific patient.
+POST /patients/{patientID}/records/update: Submit updated health record information for a specific patient.
+GET /patients: Access the list of patients accessible to the user based on their authorization level.
+POST /patients/new: Add a new patient to the system.
+DELETE /patients/{patientID}: Remove a patient's records from the system, adhering to all compliance requirements.
+GET /healthcare-providers: Retrieve the list of healthcare providers using this service.
+GET /metrics/utilization: Obtain utilization metrics regarding EHR system usage.
+POST /patients/{patientID}/share: Facilitate the sharing of a patient's records with another authorized entity.
+PUT /configuration/settings: Update secure access settings and configurations for record management.
+GET /logs/audit: Retrieve an audit trail of all access and modifications to patient records.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

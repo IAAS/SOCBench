@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+Service:
+Designed to assist consumers in finding suitable personal care products based on preferences and sensitivities. Users can input skin type, allergies, and desired features like organic ingredients to receive curated suggestions.
+
+Endpoints:
+GET /product/recommendations: Retrieve a list of recommended personal care products based on user input parameters such as skin type and allergies.
+POST /user/preferences: Submit user preferences, including skin type, allergies, and other desired features, to tailor recommendations.
+GET /products/{id}: Retrieve detailed information about a specific product, including ingredients and suitability analysis.
+GET /categories: Retrieve a list of all available product categories.
+GET /categories/{id}/products: Retrieve products belonging to a specific category.
+GET /ingredients: Retrieve a list of all ingredients used in products along with detailed properties.
+GET /ingredients/{id}: Retrieve specific details about an individual ingredient.
+POST /reviews: Submit a review for a specific product, including feedback and ratings.
+GET /reviews/{id}: Retrieve reviews for a particular product.
+GET /trends: Retrieve information on trending products and popular categories based on current user data.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

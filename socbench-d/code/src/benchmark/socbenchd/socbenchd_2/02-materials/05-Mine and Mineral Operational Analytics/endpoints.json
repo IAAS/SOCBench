@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /excavation-progress",
+            "description": "Fetches the progress data of ongoing excavation operations."
+        },
+        {
+            "endpoint": "POST /output-levels",
+            "description": "Submits output data for a specific excavation site."
+        },
+        {
+            "endpoint": "GET /regulation-compliance",
+            "description": "Retrieves reports on compliance with mining regulatory standards."
+        },
+        {
+            "endpoint": "PUT /excavation/{id}/update",
+            "description": "Updates details related to a specific excavation operation."
+        },
+        {
+            "endpoint": "DELETE /excavation/{id}",
+            "description": "Removes an excavation operation record from the system."
+        },
+        {
+            "endpoint": "GET /mineral-distribution",
+            "description": "Provides data regarding mineral distribution within the surveyed area."
+        },
+        {
+            "endpoint": "POST /incident-report",
+            "description": "Allows operators to log safety incidents at excavation sites."
+        },
+        {
+            "endpoint": "PATCH /sensor-calibration",
+            "description": "Adjusts calibration settings for deployed sensors."
+        },
+        {
+            "endpoint": "GET /fleet-status",
+            "description": "Returns current statuses of the excavation fleet."
+        },
+        {
+            "endpoint": "PUT /training-materials",
+            "description": "Uploads or updates training materials for operators to ensure best practices adherence."
+        }
+    ]
+}

@@ -1,0 +1,653 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Leisure Activity Booking and Management Service",
+        "description": "Service for organizing and promoting leisure activities like events or tours. It allows users to book activities, manage itineraries, provide feedback, and more.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/events/list": {
+            "get": {
+                "summary": "Retrieve a list of available leisure events",
+                "description": "Fetch a list of events that users can book. Includes filters for location, dates, and categories.",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "Filter events by location (e.g., city or region).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "description": "Filter events by date (YYYY-MM-DD format).",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Filter events by category (e.g., music, sports, art).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of available events",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Event"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/events/book": {
+            "post": {
+                "summary": "Book a specific leisure event",
+                "description": "Allow users to book an event based on its unique ID. Requires payment information and user details.",
+                "requestBody": {
+                    "description": "Details for booking an event.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BookingRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Booking confirmed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookingResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid booking details provided"
+                    }
+                }
+            }
+        },
+        "/tours/list": {
+            "get": {
+                "summary": "Retrieve available tours",
+                "description": "Fetch details of tours that users can select and book. Includes filters for destination and duration.",
+                "parameters": [
+                    {
+                        "name": "destination",
+                        "in": "query",
+                        "description": "Filter tours by destination (e.g., city, country).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "duration",
+                        "in": "query",
+                        "description": "Filter tours by duration in days.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of available tours",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Tour"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tours/schedule": {
+            "post": {
+                "summary": "Schedule and book a tour",
+                "description": "Allow users to schedule and book a tour by providing details such as tour ID, preferred dates, and traveler information.",
+                "requestBody": {
+                    "description": "Details for scheduling and booking a tour.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TourBookingRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tour booked successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TourBookingResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid booking details provided"
+                    }
+                }
+            }
+        },
+        "/itinerary/view": {
+            "get": {
+                "summary": "View personalized itinerary",
+                "description": "Retrieve the user\u2019s personalized itinerary, which includes events and tours they have booked.",
+                "responses": {
+                    "200": {
+                        "description": "User's itinerary",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Itinerary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/payment/checkout": {
+            "post": {
+                "summary": "Complete payment",
+                "description": "Make a payment for booked events or tours by providing payment details and booking references.",
+                "requestBody": {
+                    "description": "Details for processing payment.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaymentRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Payment successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaymentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid payment details provided"
+                    }
+                }
+            }
+        },
+        "/destinations/highlights": {
+            "get": {
+                "summary": "Get destination highlights",
+                "description": "Fetch recommendations for popular destinations based on user preferences or trending activities.",
+                "responses": {
+                    "200": {
+                        "description": "List of destination highlights",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DestinationHighlight"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback/submit": {
+            "post": {
+                "summary": "Submit feedback",
+                "description": "Allow users to provide feedback or reviews for completed events or tours.",
+                "requestBody": {
+                    "description": "Feedback details for an event or tour.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Feedback"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Feedback submitted successfully"
+                    },
+                    "400": {
+                        "description": "Invalid feedback details provided"
+                    }
+                }
+            }
+        },
+        "/notifications/list": {
+            "get": {
+                "summary": "Get notifications and updates",
+                "description": "Retrieve notifications and updates for booked events and tours.",
+                "responses": {
+                    "200": {
+                        "description": "List of notifications",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Notification"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/itinerary/cancel": {
+            "delete": {
+                "summary": "Cancel an item from the itinerary",
+                "description": "Remove a specific booked event or tour from the user\u2019s itinerary using its unique ID.",
+                "parameters": [
+                    {
+                        "name": "itemId",
+                        "in": "query",
+                        "description": "The unique ID of the itinerary item to be canceled.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item canceled successfully"
+                    },
+                    "404": {
+                        "description": "Item not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Event": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the event."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the event."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Location of the event."
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Date of the event."
+                    },
+                    "category": {
+                        "type": "string",
+                        "description": "Category of the event."
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "location",
+                    "date"
+                ]
+            },
+            "BookingRequest": {
+                "type": "object",
+                "properties": {
+                    "eventId": {
+                        "type": "string",
+                        "description": "Unique identifier for the event."
+                    },
+                    "userDetails": {
+                        "$ref": "#/components/schemas/UserDetails"
+                    },
+                    "paymentInfo": {
+                        "$ref": "#/components/schemas/PaymentInfo"
+                    }
+                },
+                "required": [
+                    "eventId",
+                    "userDetails",
+                    "paymentInfo"
+                ]
+            },
+            "BookingResponse": {
+                "type": "object",
+                "properties": {
+                    "confirmationId": {
+                        "type": "string",
+                        "description": "Unique confirmation ID for the event booking."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Status of the booking."
+                    }
+                },
+                "required": [
+                    "confirmationId",
+                    "status"
+                ]
+            },
+            "Tour": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the tour."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the tour."
+                    },
+                    "destination": {
+                        "type": "string",
+                        "description": "Main destination of the tour."
+                    },
+                    "duration": {
+                        "type": "integer",
+                        "description": "Duration of the tour in days."
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "destination",
+                    "duration"
+                ]
+            },
+            "TourBookingRequest": {
+                "type": "object",
+                "properties": {
+                    "tourId": {
+                        "type": "string",
+                        "description": "Unique identifier for the tour."
+                    },
+                    "userDetails": {
+                        "$ref": "#/components/schemas/UserDetails"
+                    },
+                    "preferredDates": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "Preferred dates for the tour."
+                    }
+                },
+                "required": [
+                    "tourId",
+                    "userDetails",
+                    "preferredDates"
+                ]
+            },
+            "TourBookingResponse": {
+                "type": "object",
+                "properties": {
+                    "confirmationId": {
+                        "type": "string",
+                        "description": "Unique confirmation ID for the tour booking."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Status of the booking."
+                    }
+                },
+                "required": [
+                    "confirmationId",
+                    "status"
+                ]
+            },
+            "Itinerary": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ItineraryItem"
+                        },
+                        "description": "List of items in the itinerary."
+                    }
+                },
+                "required": [
+                    "items"
+                ]
+            },
+            "ItineraryItem": {
+                "type": "object",
+                "properties": {
+                    "itemId": {
+                        "type": "string",
+                        "description": "Unique ID of the itinerary item."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Type of the item (event or tour)."
+                    },
+                    "details": {
+                        "type": "object",
+                        "description": "Details about the item."
+                    }
+                },
+                "required": [
+                    "itemId",
+                    "type",
+                    "details"
+                ]
+            },
+            "PaymentRequest": {
+                "type": "object",
+                "properties": {
+                    "bookingReferences": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of booking reference IDs to be paid for."
+                    },
+                    "paymentMethod": {
+                        "type": "string",
+                        "description": "The payment method (e.g., credit card, PayPal)."
+                    },
+                    "paymentDetails": {
+                        "$ref": "#/components/schemas/PaymentInfo"
+                    }
+                },
+                "required": [
+                    "bookingReferences",
+                    "paymentMethod",
+                    "paymentDetails"
+                ]
+            },
+            "PaymentResponse": {
+                "type": "object",
+                "properties": {
+                    "transactionId": {
+                        "type": "string",
+                        "description": "Unique transaction ID for the payment."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Status of the payment."
+                    }
+                },
+                "required": [
+                    "transactionId",
+                    "status"
+                ]
+            },
+            "DestinationHighlight": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the destination."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of the destination highlight."
+                    }
+                },
+                "required": [
+                    "name",
+                    "description"
+                ]
+            },
+            "Feedback": {
+                "type": "object",
+                "properties": {
+                    "activityId": {
+                        "type": "string",
+                        "description": "ID of the event or tour for which feedback is provided."
+                    },
+                    "rating": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Rating given by the user (1-5 scale)."
+                    },
+                    "comments": {
+                        "type": "string",
+                        "description": "Comments or feedback from the user."
+                    }
+                },
+                "required": [
+                    "activityId",
+                    "rating",
+                    "comments"
+                ]
+            },
+            "Notification": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the notification."
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Notification message text."
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of the notification."
+                    }
+                },
+                "required": [
+                    "id",
+                    "message",
+                    "timestamp"
+                ]
+            },
+            "UserDetails": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the user."
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "Email address of the user."
+                    },
+                    "phone": {
+                        "type": "string",
+                        "description": "Phone number of the user."
+                    }
+                },
+                "required": [
+                    "name",
+                    "email"
+                ]
+            },
+            "PaymentInfo": {
+                "type": "object",
+                "properties": {
+                    "cardNumber": {
+                        "type": "string",
+                        "description": "Credit card number."
+                    },
+                    "expiryDate": {
+                        "type": "string",
+                        "description": "Expiry date of the card (MM/YY)."
+                    },
+                    "cvv": {
+                        "type": "string",
+                        "description": "CVV code of the credit card."
+                    }
+                },
+                "required": [
+                    "cardNumber",
+                    "expiryDate",
+                    "cvv"
+                ]
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

@@ -1,0 +1,419 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Consumer Staples Sustainability and Ratings API",
+    "description": "This API provides ratings and environmental impact assessments for consumer staple products, enabling manufacturers, retailers, and consumers to assess and promote eco-friendly choices.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/products/{productId}/rating": {
+      "get": {
+        "summary": "Retrieve Sustainability Rating",
+        "description": "Fetch the comprehensive sustainability rating for a specific product using its unique identifier.",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the product.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of the product's sustainability rating.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "productId": {
+                      "type": "string"
+                    },
+                    "sustainabilityRating": {
+                      "type": "number",
+                      "format": "float"
+                    },
+                    "feedback": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found."
+          }
+        }
+      }
+    },
+    "/categories": {
+      "get": {
+        "summary": "List Product Categories",
+        "description": "Retrieve a hierarchical list of product categories available in the system.",
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of product categories.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "categoryId": {
+                        "type": "string"
+                      },
+                      "categoryName": {
+                        "type": "string"
+                      },
+                      "parentCategoryId": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/rate": {
+      "post": {
+        "summary": "Submit Product Rating",
+        "description": "Submit a new product rating including detailed specifications of the assessment.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["productId", "sustainabilityRating", "feedback"],
+                "properties": {
+                  "productId": {
+                    "type": "string"
+                  },
+                  "sustainabilityRating": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "feedback": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Product rating successfully submitted."
+          }
+        }
+      }
+    },
+    "/products/search": {
+      "get": {
+        "summary": "Search Products",
+        "description": "Search for products in the system using their names or attributes. Supports pagination.",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "description": "The search query (e.g., product name or attributes).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "The page number for pagination.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "description": "The number of results per page.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Products successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "products": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "productId": {
+                            "type": "string"
+                          },
+                          "productName": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "totalResults": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/retailers/{retailerId}/products": {
+      "get": {
+        "summary": "List Retailer Products",
+        "description": "Retrieve a list of products associated with a retail shop using the retailer's ID.",
+        "parameters": [
+          {
+            "name": "retailerId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the retailer.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Products successfully retrieved for the retailer.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "productId": {
+                        "type": "string"
+                      },
+                      "productName": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{productId}": {
+      "patch": {
+        "summary": "Update Product Details",
+        "description": "Update detailed information or attributes of a specific product using its ID.",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the product.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "productName": {
+                    "type": "string"
+                  },
+                  "details": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product successfully updated."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a Product",
+        "description": "Remove a specific product and all its associated data using its ID.",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the product.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product successfully deleted."
+          },
+          "404": {
+            "description": "Product not found."
+          }
+        }
+      }
+    },
+    "/products/top-rated": {
+      "get": {
+        "summary": "Retrieve Top-Rated Products",
+        "description": "Retrieve the top-rated products within each category based on sustainability.",
+        "responses": {
+          "200": {
+            "description": "Top-rated products retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "categoryId": {
+                        "type": "string"
+                      },
+                      "products": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "productId": {
+                              "type": "string"
+                            },
+                            "productName": {
+                              "type": "string"
+                            },
+                            "sustainabilityRating": {
+                              "type": "number",
+                              "format": "float"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/compare": {
+      "get": {
+        "summary": "Compare Products",
+        "description": "Retrieve a comparative analysis of multiple products based on their sustainability using their IDs.",
+        "parameters": [
+          {
+            "name": "productIds",
+            "in": "query",
+            "required": true,
+            "description": "Comma-separated list of product IDs to compare.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comparative product analysis retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "productId": {
+                        "type": "string"
+                      },
+                      "sustainabilityRating": {
+                        "type": "number",
+                        "format": "float"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/environmental-impact-report": {
+      "get": {
+        "summary": "Generate Environmental Impact Report",
+        "description": "Retrieve a detailed report summarizing environmental impact assessments for products across the system.",
+        "responses": {
+          "200": {
+            "description": "Environmental impact report successfully generated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reportDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "summary": {
+                      "type": "string"
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "productId": {
+                            "type": "string"
+                          },
+                          "impactScore": {
+                            "type": "number",
+                            "format": "float"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

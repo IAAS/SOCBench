@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Nutritional Information Service",
+            "description": "This service provides detailed nutritional data for various food products, supporting diet planning and health management with API-enabled features."
+        },
+        {
+            "name": "Consumer Feedback Collection Service",
+            "description": "Designed to collect, store, and analyze customer feedback on household and personal products, enhancing product improvement initiatives."
+        },
+        {
+            "name": "Sustainability Assessment Service",
+            "description": "Allows manufacturers to assess and monitor the sustainability metrics of their product supply chain within the consumer staples domain."
+        },
+        {
+            "name": "Retail Inventory Optimization Service",
+            "description": "Enables retailers to optimize inventory levels by analyzing purchase and restock patterns, improving efficiency and reducing waste."
+        },
+        {
+            "name": "E-Commerce Integration Service",
+            "description": "Supports distributors and retailers by offering seamless integration of consumer staple products into e-commerce platforms, enhancing digital presence."
+        }
+    ]
+}

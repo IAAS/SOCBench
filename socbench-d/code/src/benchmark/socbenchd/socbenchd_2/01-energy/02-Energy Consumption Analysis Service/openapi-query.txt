@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+This service enables end-users to understand and optimize their energy consumption patterns. By integrating with smart home devices and utility platforms, the API collects data on energy usage and presents analytical insights and custom recommendations. Endpoint interactions include submitting device energy profiles to generate tips for reducing wastage—helping users achieve cost-effective energy use.
+
+Endpoints:
+GET /energy-data: Retrieve energy consumption data from integrated smart devices.
+GET /insights: Acquire analytical insights based on collected energy consumption data.
+POST /device-profile: Submit a new smart device energy usage profile for analysis.
+GET /recommendations: Receive customized recommendations for energy consumption optimization.
+PUT /update-device-profile/{deviceId}: Update the energy usage profile of a specific smart device.
+DELETE /remove-device/{deviceId}: Remove a specific smart device from the energy tracking service.
+POST /utility-integration: Submit utility platform information for further energy consumption insights.
+GET /dashboard-overview: Retrieve an overview dashboard showing energy usage and savings.
+GET /report/{reportId}: Download a detailed report on energy consumption and recommendations.
+POST /feedback: Send user feedback on the provided insights and recommendations.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

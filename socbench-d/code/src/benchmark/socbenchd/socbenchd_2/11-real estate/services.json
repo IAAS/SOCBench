@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Property Listing Management Service",
+            "description": "Enables real estate agencies to list, update, and delete property advertisements dynamically with support for high-resolution photo and document storage."
+        },
+        {
+            "name": "Market Analysis and Trends Service",
+            "description": "Provides real-time insights into property price trends, neighborhood growth statistics, and market demand analysis for informed decision-making."
+        },
+        {
+            "name": "Tenant Screening and Verification Service",
+            "description": "Supports landlords by offering identity verification, credit checks, and rental history reporting of prospective tenants."
+        },
+        {
+            "name": "Real Estate Legal Document Service",
+            "description": "Offers templates and customizations for common real estate contracts and documents to streamline property transactions."
+        },
+        {
+            "name": "Property Maintenance and Service Scheduling API",
+            "description": "Facilitates property managers in scheduling regular maintenance, tracking repairs, and managing service provider interactions efficiently."
+        }
+    ]
+}

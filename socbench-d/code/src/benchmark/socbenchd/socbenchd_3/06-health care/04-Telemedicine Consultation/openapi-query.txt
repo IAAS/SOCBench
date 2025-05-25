@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+Service:
+The Telemedicine Consultation service facilitates video conferencing between patients and healthcare providers. It includes features for secure patient-provider communication, sharing medical documents, and storing consultation records for future reference, ensuring convenient and accessible medical advice.
+
+Endpoints:
+POST /consultations: Initiate a new telemedicine consultation session with a healthcare provider.
+GET /consultations/{id}: Retrieve details of a specific consultation session using its unique identifier.
+PUT /consultations/{id}: Update the information or status of an existing consultation session.
+DELETE /consultations/{id}: Remove a specific consultation session.
+GET /providers: Retrieve a list of available healthcare providers for consultations.
+POST /documents: Upload a medical document to associate it with a consultation session.
+GET /documents/{id}: Access the content and details of a specific medical document.
+GET /records: Retrieve stored records of past consultations for a given patient.
+POST /notifications: Send a notification to remind patients about upcoming consultation sessions.
+GET /analytics: Generate aggregated analytics on consultations for performance reviews.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

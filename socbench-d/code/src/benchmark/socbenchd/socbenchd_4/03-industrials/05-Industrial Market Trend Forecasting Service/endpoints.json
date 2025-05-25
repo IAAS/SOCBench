@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /market-trends",
+            "description": "Retrieve historical and forecasted market trends data for the specified industrial sub-sector."
+        },
+        {
+            "endpoint": "POST /scenario-analysis",
+            "description": "Submit hypothetical market scenarios to understand potential impacts in the industrial sector."
+        },
+        {
+            "endpoint": "GET /insights-summary",
+            "description": "Get a summarized analysis of actionable insights for the specified industry category."
+        },
+        {
+            "endpoint": "GET /trend-visualizations",
+            "description": "Access graphical visualizations and analytics representations of market trends."
+        },
+        {
+            "endpoint": "POST /demand-prediction",
+            "description": "Send parameters to predict future demands for specific industrial category products."
+        },
+        {
+            "endpoint": "GET /sector-comparison",
+            "description": "Obtain comparative statistics between multiple industrial sub-sectors."
+        },
+        {
+            "endpoint": "POST /resource-optimization",
+            "description": "Provide input for optimal resource allocation recommendations based on trends."
+        },
+        {
+            "endpoint": "GET /regional-distribution",
+            "description": "Retrieve distribution analysis data of industrial resources and demands by region."
+        },
+        {
+            "endpoint": "POST /investment-opportunities",
+            "description": "Submit criteria to generate investment opportunities and risk assessments."
+        },
+        {
+            "endpoint": "GET /support-documents",
+            "description": "Access comprehensive documentation and guides about the dataset and methodologies utilized by this service."
+        }
+    ]
+}

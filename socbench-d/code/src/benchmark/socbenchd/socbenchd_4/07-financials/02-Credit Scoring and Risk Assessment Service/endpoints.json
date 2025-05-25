@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /creditScore",
+            "description": "Calculate the credit score based on supplied user financial data."
+        },
+        {
+            "endpoint": "GET /userScore/{userId}",
+            "description": "Retrieve the calculated credit score for the specified user by their unique identifier."
+        },
+        {
+            "endpoint": "GET /criteria",
+            "description": "List the criteria used for calculating a credit score."
+        },
+        {
+            "endpoint": "POST /criteria",
+            "description": "Add or update criteria for credit score calculation."
+        },
+        {
+            "endpoint": "GET /scoreHistory/{userId}",
+            "description": "Retrieve the credit score history for a given user."
+        },
+        {
+            "endpoint": "POST /bulkScore",
+            "description": "Calculate credit scores for multiple users or businesses through batch processing."
+        },
+        {
+            "endpoint": "GET /businessTypes",
+            "description": "List supported business types for credit score evaluation."
+        },
+        {
+            "endpoint": "POST /riskEvaluation",
+            "description": "Perform a comprehensive risk evaluation based on credit scores and additional contextual data."
+        },
+        {
+            "endpoint": "DELETE /criteria/{criteriaId}",
+            "description": "Remove a specified scoring criterion by its unique identifier."
+        },
+        {
+            "endpoint": "GET /scoringMetrics",
+            "description": "Retrieve detailed extrapolation data utilized for credit risk metrics."
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /energy-model/create",
+            "description": "Create a new energy supply-demand model with specific parameters."
+        },
+        {
+            "endpoint": "GET /energy-models",
+            "description": "Retrieve a list of all energy models available within the system."
+        },
+        {
+            "endpoint": "PATCH /energy-model/{modelId}",
+            "description": "Update parameters of an existing energy model by supplying its unique identifier."
+        },
+        {
+            "endpoint": "DELETE /energy-model/{modelId}",
+            "description": "Remove an energy model permanently."
+        },
+        {
+            "endpoint": "GET /energy-insights",
+            "description": "Retrieve actionable insights based on current energy data and predictions."
+        },
+        {
+            "endpoint": "POST /energy-storage/action",
+            "description": "Perform specific actions related to energy storage or release within defined parameters."
+        },
+        {
+            "endpoint": "GET /energy-usage/analytics",
+            "description": "Gather analytical insights on energy usage patterns."
+        },
+        {
+            "endpoint": "POST /alert-config/create",
+            "description": "Set up an alert mechanism to notify stakeholders about energy events."
+        },
+        {
+            "endpoint": "GET /recommendations/strategy",
+            "description": "Receive recommended strategies for energy management optimization."
+        },
+        {
+            "endpoint": "PUT /user-preferences/storage-strategy",
+            "description": "Update user preferences regarding energy storage strategies."
+        }
+    ]
+}

@@ -1,0 +1,391 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Media Platform Analytics API",
+        "description": "This API provides analytics for media platforms offering interactive gaming content, enabling developers and publishers with insights into user engagement, session durations, in-game purchases, and player retention. It includes advanced querying capabilities for performance optimization.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.mediaplatforms.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/user-engagement": {
+            "get": {
+                "summary": "Retrieve user engagement metrics",
+                "description": "Returns metrics such as total active users and interaction rates across the platform.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of user engagement metrics",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "active_users": {
+                                            "type": "integer",
+                                            "description": "Total number of active users"
+                                        },
+                                        "interaction_rates": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "number"
+                                            },
+                                            "description": "List of interaction rates"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/session-duration": {
+            "get": {
+                "summary": "Retrieve session duration data",
+                "description": "Provides session duration metrics categorized by different user segments.",
+                "parameters": [
+                    {
+                        "name": "segment",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The user segment for session duration data (e.g., age group, location)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of session duration data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "segment": {
+                                                "type": "string",
+                                                "description": "User segment category"
+                                            },
+                                            "average_duration": {
+                                                "type": "number",
+                                                "description": "Average session duration in seconds"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/in-game-purchases": {
+            "get": {
+                "summary": "Retrieve in-game purchase analytics",
+                "description": "Provides analytics on in-game purchase behaviors and preferences.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of in-game purchase data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "purchase_type": {
+                                                "type": "string",
+                                                "description": "Type of purchase (e.g., skins, power-ups)"
+                                            },
+                                            "purchase_count": {
+                                                "type": "integer",
+                                                "description": "Number of purchases"
+                                            },
+                                            "average_spend": {
+                                                "type": "number",
+                                                "description": "Average spend per purchase in dollars"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/player-retention": {
+            "get": {
+                "summary": "Retrieve player retention metrics",
+                "description": "Provides metrics on retention rates over specific periods of time.",
+                "parameters": [
+                    {
+                        "name": "time_period",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The time period for retention data (e.g., daily, weekly, monthly)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of player retention metrics",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "retention_rate": {
+                                            "type": "number",
+                                            "description": "Retention percentage rate"
+                                        },
+                                        "time_period": {
+                                            "type": "string",
+                                            "description": "Time period of the metrics (e.g., daily, weekly)"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/custom-insights": {
+            "post": {
+                "summary": "Submit custom query parameters for specific insights",
+                "description": "Enables submission of custom parameters for generating specific insights.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "query_parameters": {
+                                        "type": "object",
+                                        "description": "Custom query parameters"
+                                    }
+                                },
+                                "required": [
+                                    "query_parameters"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful submission and retrieval of custom insights",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "insights": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            },
+                                            "description": "Custom insights data"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/game-performance": {
+            "get": {
+                "summary": "Retrieve game performance metrics",
+                "description": "Returns a performance overview including latency and error rates.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of game performance metrics",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "latency_ms": {
+                                            "type": "number",
+                                            "description": "Average latency in milliseconds"
+                                        },
+                                        "error_rate": {
+                                            "type": "number",
+                                            "description": "Error rate percentage"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/demographic-stats": {
+            "get": {
+                "summary": "Retrieve demographic statistics",
+                "description": "Provides demographic analytics for the player base.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of demographic statistics",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "demographic_segment": {
+                                                "type": "string",
+                                                "description": "Demographic category (e.g., age, region)"
+                                            },
+                                            "percentage": {
+                                                "type": "number",
+                                                "description": "Percentage of the player base in this segment"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/event-upload": {
+            "post": {
+                "summary": "Submit raw event data for analysis and storage",
+                "description": "Allows the submission of raw event data to be processed and analyzed.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "event_data": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        },
+                                        "description": "Array of event objects"
+                                    }
+                                },
+                                "required": [
+                                    "event_data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Event data successfully uploaded",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Confirmation message for the upload status"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trend-analysis": {
+            "get": {
+                "summary": "Retrieve trend analysis data",
+                "description": "Provides trend analytics to observe changes over time in various metrics.",
+                "parameters": [
+                    {
+                        "name": "metric",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The specific metric to analyze (e.g., user engagement, retention)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of trend analysis data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "time_period": {
+                                                "type": "string",
+                                                "description": "Time period of the trend"
+                                            },
+                                            "value": {
+                                                "type": "number",
+                                                "description": "Metric value during the time period"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/event-data": {
+            "delete": {
+                "summary": "Request deletion of specific event data",
+                "description": "Enables the deletion of event data based on specified criteria.",
+                "parameters": [
+                    {
+                        "name": "event_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID of the event to be deleted."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful deletion of the specified event data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Confirmation message for the deletion status"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

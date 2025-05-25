@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /messages/send",
+            "description": "Send an encrypted message to a specified recipient."
+        },
+        {
+            "endpoint": "GET /messages/received",
+            "description": "Retrieve all encrypted messages received by the authenticated user."
+        },
+        {
+            "endpoint": "POST /messages/reply",
+            "description": "Send a reply to a received encrypted message."
+        },
+        {
+            "endpoint": "GET /messages/status",
+            "description": "Fetch the status (delivered, read) of a specific sent message."
+        },
+        {
+            "endpoint": "POST /calls/start",
+            "description": "Initiate an encrypted voice or video call with another user."
+        },
+        {
+            "endpoint": "GET /calls/history",
+            "description": "View the call history of the authenticated user."
+        },
+        {
+            "endpoint": "POST /user/encrypt-keys",
+            "description": "Generate and store encryption keys for secure communication."
+        },
+        {
+            "endpoint": "GET /user/settings",
+            "description": "Retrieve the current privacy and app settings of the authenticated user."
+        },
+        {
+            "endpoint": "POST /group/create",
+            "description": "Create a new group for secure messaging and calling."
+        },
+        {
+            "endpoint": "POST /group/add-user",
+            "description": "Add new members to an existing communication group."
+        }
+    ]
+}

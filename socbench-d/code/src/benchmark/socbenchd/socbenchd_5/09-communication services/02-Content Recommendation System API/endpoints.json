@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /recommendations",
+            "description": "Fetch personalized content recommendations for a user based on their preferences and behavior."
+        },
+        {
+            "endpoint": "POST /user/preferences",
+            "description": "Submit or update a user's content preferences for tailored suggestions."
+        },
+        {
+            "endpoint": "GET /content/popular",
+            "description": "Retrieve a list of currently trending or popular content items on the platform."
+        },
+        {
+            "endpoint": "POST /user/behavior",
+            "description": "Log specific user interactions or behaviors with content to improve recommendation models."
+        },
+        {
+            "endpoint": "GET /content/similar/{id}",
+            "description": "Find and return content items similar to a specified item using advanced similarity algorithms."
+        },
+        {
+            "endpoint": "GET /genres",
+            "description": "List all available content genres to support the user in exploring options within thematic categories."
+        },
+        {
+            "endpoint": "PUT /notifications/settings",
+            "description": "Modify notification preferences for tailored updates regarding new content releases."
+        },
+        {
+            "endpoint": "GET /analytics/{user_id}",
+            "description": "Provide an overview of a user's historical interaction metrics."
+        },
+        {
+            "endpoint": "POST /admin/training",
+            "description": "Initiate retraining of machine learning models with updated datasets."
+        },
+        {
+            "endpoint": "GET /platform/status",
+            "description": "Check the operational status and uptime information of the platform infrastructure."
+        }
+    ]
+}

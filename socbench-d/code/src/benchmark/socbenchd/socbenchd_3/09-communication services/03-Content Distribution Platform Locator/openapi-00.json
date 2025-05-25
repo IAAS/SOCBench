@@ -1,0 +1,399 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Content Distribution Channel Discovery Service API",
+    "description": "This API service aids users in discovering content distribution channels based on region, language, and genre preferences, enabling informed decision-making. By integrating this service, virtual libraries and streaming platforms can customize recommendations for a targeted audience while ensuring secure and private interactions.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/content-distribution": {
+      "get": {
+        "summary": "Retrieve Content Distribution Channels",
+        "description": "Fetches a list of available content distribution channels based on specified criteria such as region, language, and genre.",
+        "parameters": [
+          {
+            "name": "region",
+            "in": "query",
+            "description": "The targeted region to filter content distribution channels.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "The preferred language to filter content distribution channels.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "genre",
+            "in": "query",
+            "description": "The genre of content to filter the distribution channels.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of content distribution channels matching the provided criteria.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The unique identifier for the distribution channel."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "The name of the distribution channel."
+                      },
+                      "region": {
+                        "type": "string",
+                        "description": "The region associated with this channel."
+                      },
+                      "language": {
+                        "type": "string",
+                        "description": "The language supported by this channel."
+                      },
+                      "genre": {
+                        "type": "string",
+                        "description": "The genre of content available on this channel."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/recommendations/preferences": {
+      "post": {
+        "summary": "Submit User Preferences",
+        "description": "Submit user preferences to generate personalized content distribution recommendations.",
+        "requestBody": {
+          "description": "User preferences for generating personalized recommendations.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "region": {
+                    "type": "string",
+                    "description": "The user's preferred region for content distribution."
+                  },
+                  "language": {
+                    "type": "string",
+                    "description": "The user's preferred language for content distribution."
+                  },
+                  "genre": {
+                    "type": "string",
+                    "description": "The user's preferred genre for content distribution."
+                  }
+                },
+                "required": ["region", "language", "genre"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A confirmation that the user preferences have been submitted successfully."
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Update Existing Preferences",
+        "description": "Refine previously submitted preferences to generate better content distribution recommendations.",
+        "requestBody": {
+          "description": "Updated user preferences.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "region": {
+                    "type": "string",
+                    "description": "The updated preferred region."
+                  },
+                  "language": {
+                    "type": "string",
+                    "description": "The updated preferred language."
+                  },
+                  "genre": {
+                    "type": "string",
+                    "description": "The updated preferred genre."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A confirmation that the preferences have been updated successfully."
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/recommendations": {
+      "get": {
+        "summary": "Get Recommended Content Distribution Channels",
+        "description": "Obtain recommended content distribution channels tailored to the user's preferences.",
+        "responses": {
+          "200": {
+            "description": "A list of recommended content distribution channels.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the recommended distribution channel."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "The name of the recommended distribution channel."
+                      },
+                      "region": {
+                        "type": "string",
+                        "description": "The region associated with this recommendation."
+                      },
+                      "language": {
+                        "type": "string",
+                        "description": "The language offered by this recommendation."
+                      },
+                      "genre": {
+                        "type": "string",
+                        "description": "The genre provided by this recommendation."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/languages/available": {
+      "get": {
+        "summary": "Fetch Supported Languages",
+        "description": "Retrieve a list of languages supported by the service for personalized recommendations.",
+        "responses": {
+          "200": {
+            "description": "A list of supported languages.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/user/preferences": {
+      "post": {
+        "summary": "Save User Preferences",
+        "description": "Save user-specific preferences for content customization.",
+        "requestBody": {
+          "description": "Preferences data to be saved for a user.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "region": {
+                    "type": "string",
+                    "description": "The user's preferred region."
+                  },
+                  "language": {
+                    "type": "string",
+                    "description": "The user's preferred language."
+                  },
+                  "genre": {
+                    "type": "string",
+                    "description": "The user's preferred genre."
+                  }
+                },
+                "required": ["region", "language", "genre"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A confirmation that the user preferences were saved successfully."
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Remove User Preferences",
+        "description": "Delete previously saved preferences from the service.",
+        "responses": {
+          "200": {
+            "description": "A confirmation that the user preferences were removed."
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/content/genres": {
+      "get": {
+        "summary": "Fetch Available Content Genres",
+        "description": "Retrieve an overview of content genres available in the service for discovery.",
+        "responses": {
+          "200": {
+            "description": "A list of available content genres.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/regions/supported": {
+      "get": {
+        "summary": "Fetch Supported Regions",
+        "description": "Retrieve a list of regions currently supported by the content distribution service.",
+        "responses": {
+          "200": {
+            "description": "A list of supported regions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/platform-statistics": {
+      "get": {
+        "summary": "Access Platform Statistics",
+        "description": "Retrieve user engagement insights based on content distribution platforms.",
+        "responses": {
+          "200": {
+            "description": "Platform statistics and user engagement metrics.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalUsers": {
+                      "type": "integer",
+                      "description": "The total number of users interacting with the platforms."
+                    },
+                    "activeRegions": {
+                      "type": "integer",
+                      "description": "The number of regions actively engaging with platforms."
+                    },
+                    "topGenres": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Popular genres based on user activity."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "x-api-key",
+        "in": "header"
+      }
+    }
+  }
+}

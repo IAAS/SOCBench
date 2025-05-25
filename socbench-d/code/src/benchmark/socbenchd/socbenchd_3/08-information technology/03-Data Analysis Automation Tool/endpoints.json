@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /data/upload",
+            "description": "Upload data sets for integration and analysis."
+        },
+        {
+            "endpoint": "GET /data/schemas",
+            "description": "Retrieve a list of available data schemas for mapping."
+        },
+        {
+            "endpoint": "POST /data/process",
+            "description": "Initiate processing of the uploaded data sets."
+        },
+        {
+            "endpoint": "GET /insights",
+            "description": "Fetch the generated actionable insights."
+        },
+        {
+            "endpoint": "GET /reports/formats",
+            "description": "Retrieve available formats for output reports."
+        },
+        {
+            "endpoint": "POST /reports/export",
+            "description": "Generate an exportable report based on analyzed data."
+        },
+        {
+            "endpoint": "GET /visualizations/templates",
+            "description": "List predefined templates for visualizing insights."
+        },
+        {
+            "endpoint": "POST /visualizations/create",
+            "description": "Create a visualization using designated data and template."
+        },
+        {
+            "endpoint": "GET /integration/partners",
+            "description": "View available third-party integration options."
+        },
+        {
+            "endpoint": "POST /integration/sync",
+            "description": "Synchronize processed data with integrated platforms."
+        }
+    ]
+}

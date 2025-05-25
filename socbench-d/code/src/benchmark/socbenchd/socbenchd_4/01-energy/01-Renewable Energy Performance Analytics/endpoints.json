@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /real-time-data",
+            "description": "Retrieve real-time data for all monitored renewable energy installations."
+        },
+        {
+            "endpoint": "POST /analytics/predictive-maintenance",
+            "description": "Submit a request for predictive maintenance schedule generation for a specified installation."
+        },
+        {
+            "endpoint": "GET /performance/summary",
+            "description": "Obtain a summarized performance report for all managed renewable energy sources to identify trends."
+        },
+        {
+            "endpoint": "GET /analytics/efficiency-reports",
+            "description": "Access detailed efficiency analytics for a targeted renewable energy system."
+        },
+        {
+            "endpoint": "PUT /devices/configuration",
+            "description": "Update configuration settings of a specific device within the renewable energy network."
+        },
+        {
+            "endpoint": "POST /alerts/configure",
+            "description": "Define custom alert triggers for anomalies detected in energy production or equipment functioning."
+        },
+        {
+            "endpoint": "GET /alerts/history",
+            "description": "View historical records of alerts and triggers for all systems."
+        },
+        {
+            "endpoint": "DELETE /data/obsolete-records",
+            "description": "Remove outdated and non-relevant historical performance data from the database."
+        },
+        {
+            "endpoint": "GET /weather-impact",
+            "description": "Retrieve analysis of weather data impact on energy production from connected systems."
+        },
+        {
+            "endpoint": "POST /insights/data-share",
+            "description": "Share aggregate analytical insights with selected stakeholders for collaborative evaluation."
+        }
+    ]
+}

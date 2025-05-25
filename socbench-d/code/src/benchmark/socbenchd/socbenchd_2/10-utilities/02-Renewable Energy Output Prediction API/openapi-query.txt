@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+Aimed at renewable power producers, this API utilizes weather forecasting and historical performance data to generate predictive analytics for power output from wind, solar, and hydropower sources, enhancing grid stability and resource allocation.
+
+Endpoints:
+GET /power/forecast: Retrieve power output forecast data based on specific weather conditions and location.
+POST /power/forecast: Submit new weather data to update the power output forecast.
+GET /weather/trends: Access historical and present weather trends data to assess its impact on renewable energy production.
+GET /performance/history: Retrieve past performance metrics of renewable power generation for analysis.
+POST /alert/settings: Define alert thresholds for power generation deviation and receive notifications.
+GET /grid/stability: Obtain analytics on current grid stability and insights to enhance distribution.
+GET /resource/allocation: Access recommendations for optimal resource allocation among renewable sources.
+POST /model/training: Initiate training of predictive models using newly uploaded performance datasets.
+GET /renewable/overview: Gain comprehensive overviews of renewable energy sector trends and statistics.
+PUT /api/settings: Update specific settings for the API service to customize its functionalities.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

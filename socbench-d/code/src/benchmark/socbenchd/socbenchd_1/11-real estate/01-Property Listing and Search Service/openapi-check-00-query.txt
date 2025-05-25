@@ -1,0 +1,421 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Real Estate Property Service API",
+        "version": "1.0.0",
+        "description": "This API allows users to manage real estate property listings and perform searches for properties available for sale or rent. Endpoints include functions for property management, browsing, saved searches, and personalized recommendations."
+    },
+    "paths": {
+        "/properties": {
+            "get": {
+                "summary": "Retrieve properties matching filters",
+                "description": "Fetch a list of properties available for sale or rent. The results can be filtered based on location, price range, amenities, and other optional parameters.",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "Filter properties by location (e.g., city, neighborhood, or address).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "min_price",
+                        "in": "query",
+                        "description": "Filter properties by minimum price range.",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "max_price",
+                        "in": "query",
+                        "description": "Filter properties by maximum price range.",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "amenities",
+                        "in": "query",
+                        "description": "Filter properties by required amenities (e.g., parking, pool, garden).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "property_type",
+                        "in": "query",
+                        "description": "Filter properties by type (e.g., apartment, house, commercial).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of properties matching the specified filters.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Property"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new property listing",
+                "description": "Add a new property to the platform with detailed information such as title, description, price, location, images, and amenities.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PropertyInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Property successfully created and listed.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Property"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/properties/{property_id}": {
+            "get": {
+                "summary": "Fetch property details",
+                "description": "Retrieve detailed information about a specific property using its unique property ID.",
+                "parameters": [
+                    {
+                        "name": "property_id",
+                        "in": "path",
+                        "description": "Unique identifier of the property.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detailed information about the property.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Property"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update property details",
+                "description": "Update the details of a specific property listing using its unique property ID.",
+                "parameters": [
+                    {
+                        "name": "property_id",
+                        "in": "path",
+                        "description": "Unique identifier of the property to update.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PropertyInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Property details updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Property"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove property listing",
+                "description": "Delete a property listing from the platform based on its unique property ID.",
+                "parameters": [
+                    {
+                        "name": "property_id",
+                        "in": "path",
+                        "description": "Unique identifier of the property to delete.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Property successfully deleted."
+                    }
+                }
+            }
+        },
+        "/search-saved": {
+            "get": {
+                "summary": "Retrieve saved search criteria",
+                "description": "Fetch a list of the user's saved search configurations for easy property browsing in the future.",
+                "responses": {
+                    "200": {
+                        "description": "A list of saved search configurations.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SavedSearch"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Save new search criteria",
+                "description": "Allow users to save new search configurations for later use.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SavedSearchInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "New search configuration saved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SavedSearch"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/search-saved/{search_id}": {
+            "delete": {
+                "summary": "Delete a saved search configuration",
+                "description": "Remove a specific saved search configuration by its unique search ID.",
+                "parameters": [
+                    {
+                        "name": "search_id",
+                        "in": "path",
+                        "description": "Unique identifier of the saved search configuration.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Saved search configuration successfully deleted."
+                    }
+                }
+            }
+        },
+        "/properties/featured": {
+            "get": {
+                "summary": "Retrieve featured properties",
+                "description": "Fetch a list of properties that are marked as featured or promoted by the platform.",
+                "responses": {
+                    "200": {
+                        "description": "A list of featured properties.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Property"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/properties/recommended": {
+            "get": {
+                "summary": "Fetch recommended properties",
+                "description": "Retrieve a personalized list of properties recommended for the user based on their saved searches, preferences, or activity on the platform.",
+                "responses": {
+                    "200": {
+                        "description": "A list of recommended properties.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Property"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Property": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the property."
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Title of the property listing."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Detailed description of the property."
+                    },
+                    "price": {
+                        "type": "number",
+                        "description": "Price of the property."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Location details of the property."
+                    },
+                    "images": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "url",
+                            "description": "List of image URLs for the property."
+                        }
+                    },
+                    "amenities": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "List of amenities available in the property."
+                        }
+                    }
+                }
+            },
+            "PropertyInput": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Title of the property listing."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Detailed description of the property."
+                    },
+                    "price": {
+                        "type": "number",
+                        "description": "Price of the property."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Location details of the property."
+                    },
+                    "images": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "url",
+                            "description": "List of image URLs for the property."
+                        }
+                    },
+                    "amenities": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "List of amenities available in the property."
+                        }
+                    }
+                }
+            },
+            "SavedSearch": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the saved search."
+                    },
+                    "filters": {
+                        "type": "object",
+                        "description": "Filter criteria saved by the user, such as location, price range, or property type."
+                    }
+                }
+            },
+            "SavedSearchInput": {
+                "type": "object",
+                "properties": {
+                    "filters": {
+                        "type": "object",
+                        "description": "Filter criteria that the user wants to save for future use."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

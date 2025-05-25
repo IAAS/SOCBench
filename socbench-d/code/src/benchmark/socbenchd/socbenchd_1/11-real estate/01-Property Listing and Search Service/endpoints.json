@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /properties",
+            "description": "Retrieve a list of properties matching the specified filters."
+        },
+        {
+            "endpoint": "POST /properties",
+            "description": "Add a new property listing to the platform."
+        },
+        {
+            "endpoint": "GET /properties/{property_id}",
+            "description": "Fetch detailed information about a specific property."
+        },
+        {
+            "endpoint": "PUT /properties/{property_id}",
+            "description": "Update the information of an existing property listing."
+        },
+        {
+            "endpoint": "DELETE /properties/{property_id}",
+            "description": "Remove a property listing from the platform."
+        },
+        {
+            "endpoint": "GET /search-saved",
+            "description": "Retrieve a list of user-saved search criteria."
+        },
+        {
+            "endpoint": "POST /search-saved",
+            "description": "Save a new search configuration for later use."
+        },
+        {
+            "endpoint": "DELETE /search-saved/{search_id}",
+            "description": "Delete a specific saved search configuration."
+        },
+        {
+            "endpoint": "GET /properties/featured",
+            "description": "Retrieve a list of properties marked as featured or promoted."
+        },
+        {
+            "endpoint": "GET /properties/recommended",
+            "description": "Fetch properties recommended for the user based on their preferences."
+        }
+    ]
+}

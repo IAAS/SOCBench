@@ -1,0 +1,32 @@
+[project]
+name = 'soc-rag'
+description = 'A SOC RAG'
+readme = "README.md"
+version = '1.0.0'
+license = {file = 'LICENSE'}
+authors = [
+    {name = 'Robin D. Pesl', email = 'robin.pesl@iaas.uni-stuttgart.de'},
+]
+dependencies = [
+    'llama-index == 0.12.10',
+    'jsonschema == 4.23.0',
+    'llama-index-embeddings-huggingface == 0.5.1',
+    'llama-index-vector-stores-faiss == 0.3.0',
+    'faiss-cpu == 1.9.0.post1',
+    'tiktoken == 0.8.0',
+    'openai == 1.59.6',
+    'pydantic ~= 2.9',
+    'torch ~= 2.5',
+    'openapi_spec_validator ~= 0.7',
+    'einops ~= 0.8',
+    'datasets ~= 3.2',
+    'progress ~= 1.6',
+    'transformers == 4.47.1',
+]
+[tool.setuptools]
+py-modules = ["socrag", "benchmark"]
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+pythonpath = "src"

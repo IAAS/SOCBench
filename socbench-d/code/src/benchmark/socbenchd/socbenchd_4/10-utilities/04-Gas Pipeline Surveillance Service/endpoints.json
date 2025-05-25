@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /pipelines",
+            "description": "Retrieve a list of all monitored pipelines and their details."
+        },
+        {
+            "endpoint": "POST /pipelines",
+            "description": "Add a new pipeline to be included in the monitoring system."
+        },
+        {
+            "endpoint": "GET /pipelines/{id}/status",
+            "description": "Retrieve the current status and condition details of a specific pipeline."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Report an observed issue or anomaly in the pipeline operations."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Retrieve a list of all triggered alerts for pipeline issues."
+        },
+        {
+            "endpoint": "PATCH /pipelines/{id}/maintenance",
+            "description": "Update the maintenance status or schedule for a specific pipeline."
+        },
+        {
+            "endpoint": "GET /sensors/{id}/readings",
+            "description": "Retrieve the latest readings from a specific IoT sensor."
+        },
+        {
+            "endpoint": "POST /sensors/{id}/calibrate",
+            "description": "Calibrate a specific IoT sensor to ensure accuracy."
+        },
+        {
+            "endpoint": "DELETE /pipelines/{id}",
+            "description": "Remove a pipeline from the monitoring system."
+        },
+        {
+            "endpoint": "GET /statistics/overview",
+            "description": "Retrieve an analytical overview of the monitored systems with aggregated data trends."
+        }
+    ]
+}

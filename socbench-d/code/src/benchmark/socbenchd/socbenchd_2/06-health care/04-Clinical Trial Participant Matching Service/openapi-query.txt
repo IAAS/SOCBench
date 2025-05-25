@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+Service:
+Facilitates matching patients' anonymous profiles with qualification criteria for ongoing clinical trials. Medical staff input patient anonymized data and receive recommendations for suitable trials, expediting the enrollment process and supporting medical research advancement.
+
+Endpoints:
+GET /clinical_trials: Retrieve a list of clinical trials matching specified criteria.
+POST /patient_profiles: Submit an anonymized patient profile for trial matching analysis.
+GET /recommended_trials/{patient_id}: Fetch the recommended trials for a specific anonymized patient.
+PUT /update_trial_status/{trial_id}: Update the enrolled status of a specific clinical trial based on patient participation.
+GET /trial_criteria/{trial_id}: View the qualification criteria for a specific clinical trial.
+POST /feedback: Submit feedback about the service or specific trials to improve operations.
+GET /trial_statistics: Retrieve statistics on clinical trial participation and outcomes.
+GET /search_trials: Search for clinical trials using detailed filtering options.
+DELETE /patient_profiles/{patient_id}: Remove an anonymized patient profile from the system.
+PATCH /update_contact_info: Update contact information for trial coordinators.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

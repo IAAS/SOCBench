@@ -1,0 +1,95 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Energy Insights API",
+        "description": "This API provides utilities and industries with insights regarding energy usage patterns, helping optimize consumption and reduce cost.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.energyinsights.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/energy-patterns": {
+            "get": {
+                "summary": "Retrieve energy consumption patterns",
+                "description": "Fetch detailed energy consumption patterns across various sectors, including breakdowns and trends over time.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved energy consumption patterns.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "sectors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "sectorName": {
+                                                        "type": "string"
+                                                    },
+                                                    "energyUsage": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/optimize-usage": {
+            "post": {
+                "summary": "Submit energy optimization parameters",
+                "description": "Send user-specific energy optimization parameters for analysis to receive recommendations.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "usagePatterns": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "type": "object"
+                                    }
+                                },
+                                "required": [
+                                    "usagePatterns",
+                                    "parameters"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully submitted for optimization."
+                    }
+                }
+            }
+        },
+        "/forecast-usage": {
+            "get": {
+                "summary": "Forecast energy usage",
+                "description": "Provide future energy usage leveraging history effectively.",
+                "responses": {
+                    "schema": {}
+                }
+            }
+        }
+    }
+}

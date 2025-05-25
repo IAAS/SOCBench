@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /maintenance/request",
+            "description": "Submit a new maintenance request for a property."
+        },
+        {
+            "endpoint": "GET /maintenance/history/{propertyId}",
+            "description": "Retrieve the maintenance history of a specified property."
+        },
+        {
+            "endpoint": "PUT /maintenance/update/{requestId}",
+            "description": "Update the details or status of a specific maintenance request."
+        },
+        {
+            "endpoint": "DELETE /maintenance/cancel/{requestId}",
+            "description": "Cancel an existing maintenance request by ID."
+        },
+        {
+            "endpoint": "POST /tenant/register",
+            "description": "Register a new tenant into the system for a specific property."
+        },
+        {
+            "endpoint": "GET /payments/outstanding/{tenantId}",
+            "description": "Check for any outstanding payments for a particular tenant."
+        },
+        {
+            "endpoint": "POST /payments/make",
+            "description": "Submit a payment for an outstanding invoice."
+        },
+        {
+            "endpoint": "GET /vendors/list",
+            "description": "Retrieve a list of approved vendors for maintenance services."
+        },
+        {
+            "endpoint": "GET /scheduling/availability",
+            "description": "Check availability for scheduling a maintenance task."
+        },
+        {
+            "endpoint": "POST /scheduling/confirm",
+            "description": "Confirm a scheduled time slot for maintenance."
+        }
+    ]
+}

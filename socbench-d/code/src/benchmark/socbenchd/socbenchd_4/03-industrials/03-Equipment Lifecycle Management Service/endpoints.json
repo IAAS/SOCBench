@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /machines",
+            "description": "Retrieve a list of all monitored industrial machines and their current status."
+        },
+        {
+            "endpoint": "GET /machines/{id}/details",
+            "description": "Fetch detailed information, including specifications and operational history, of a specific machine identified by 'id'."
+        },
+        {
+            "endpoint": "POST /maintenance/schedule",
+            "description": "Submit a maintenance schedule entry for a specific machine to plan future service activities."
+        },
+        {
+            "endpoint": "GET /maintenance/reminders",
+            "description": "Retrieve a list of upcoming maintenance reminders categorized by urgency and machine."
+        },
+        {
+            "endpoint": "GET /analytics/performance",
+            "description": "Obtain detailed performance analytics for a selected timeframe and set of machines."
+        },
+        {
+            "endpoint": "POST /alerts/configure",
+            "description": "Configure alert parameters for specific conditions such as temperature thresholds or operational hours."
+        },
+        {
+            "endpoint": "GET /alerts/log",
+            "description": "Access logs of all generated alerts including timestamps and significance levels."
+        },
+        {
+            "endpoint": "POST /machines/register",
+            "description": "Register a new industrial machine into the monitoring system."
+        },
+        {
+            "endpoint": "DELETE /machines/{id}",
+            "description": "Remove a specific machine identified by 'id' from the monitoring database."
+        },
+        {
+            "endpoint": "GET /report/summary",
+            "description": "Generate a comprehensive summary report for all managed machines over a chosen period."
+        }
+    ]
+}

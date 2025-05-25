@@ -1,0 +1,354 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Interactive Content Management and Distribution Service",
+    "description": "A service to manage and distribute interactive content such as videos, games, and multimedia across platforms.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/content/upload": {
+      "post": {
+        "summary": "Upload new interactive content",
+        "description": "Upload a new piece of interactive content, such as videos, games, or multimedia, to the platform for distribution and management.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The interactive content file to be uploaded."
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "The title of the content."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "A short description of the content."
+                  }
+                },
+                "required": ["file", "title"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Content successfully uploaded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The unique identifier for the uploaded content."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/content/{id}": {
+      "get": {
+        "summary": "Retrieve content details",
+        "description": "Retrieve detailed information about a specific piece of content by its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the content.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Content details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The unique identifier of the content."
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "The title of the content."
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "A longer description of the content."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete content",
+        "description": "Remove a piece of interactive content identified by its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the content to be deleted.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Content successfully deleted."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update content details",
+        "description": "Update the metadata or details of an existing piece of interactive content using its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the content to be updated.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "The new title of the content."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "The new description of the content."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Content details successfully updated."
+          }
+        }
+      }
+    },
+    "/analytics/content/{id}": {
+      "get": {
+        "summary": "Get engagement analytics for a specific content",
+        "description": "Fetch real-time audience engagement metrics for a specific piece of content.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the content.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Analytics successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "views": {
+                      "type": "integer",
+                      "description": "The number of views for the content."
+                    },
+                    "likes": {
+                      "type": "integer",
+                      "description": "The number of likes for the content."
+                    },
+                    "shares": {
+                      "type": "integer",
+                      "description": "The number of shares for the content."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/global": {
+      "get": {
+        "summary": "Get global engagement analytics",
+        "description": "Access comprehensive real-time analytics across all pieces of content on the platform.",
+        "responses": {
+          "200": {
+            "description": "Global analytics successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalViews": {
+                      "type": "integer",
+                      "description": "The total number of views across all content."
+                    },
+                    "totalLikes": {
+                      "type": "integer",
+                      "description": "The total number of likes across all content."
+                    },
+                    "totalShares": {
+                      "type": "integer",
+                      "description": "The total number of shares across all content."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories": {
+      "get": {
+        "summary": "Retrieve content categories",
+        "description": "Retrieve a list of existing categories for organizing content.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved list of categories.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categorizations": {
+      "post": {
+        "summary": "Categorize content",
+        "description": "Assign a piece of content to specific categories for improved organization.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "contentId": {
+                    "type": "string",
+                    "description": "The unique identifier of the content to be categorized."
+                  },
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "The list of categories the content will belong to."
+                  }
+                },
+                "required": ["contentId", "categories"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Content successfully categorized."
+          }
+        }
+      }
+    },
+    "/popular-content": {
+      "get": {
+        "summary": "Retrieve popular content",
+        "description": "Fetch a list of currently trending or highly popular pieces of content on the platform.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved list of popular content.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the popular content."
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "The title of the popular content."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/system/status": {
+      "get": {
+        "summary": "Platform operational status",
+        "description": "Check the operational status of the content distribution platform.",
+        "responses": {
+          "200": {
+            "description": "Platform status retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "The operational status of the platform (e.g., 'operational', 'down', etc.)."
+                    },
+                    "lastChecked": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "The timestamp of the last status check."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

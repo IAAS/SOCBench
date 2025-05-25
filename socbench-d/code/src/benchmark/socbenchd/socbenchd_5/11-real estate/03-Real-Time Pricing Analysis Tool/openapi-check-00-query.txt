@@ -1,0 +1,401 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Real-Time Property Pricing Insights API",
+        "description": "This API provides real-time property pricing insights based on market trends, comparable sales, and regional statistics to assist buyers and sellers in negotiation and decision-making.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.realestatepricing.com/v1",
+            "description": "Main production server"
+        }
+    ],
+    "paths": {
+        "/properties/price-insights": {
+            "get": {
+                "summary": "Retrieve Real-Time Pricing Insights",
+                "description": "Retrieve real-time pricing insights for a specific property by providing either its unique ID or address.",
+                "parameters": [
+                    {
+                        "name": "property_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the property. Either property_id or address must be provided."
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The address of the property. Either property_id or address must be provided."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pricing insights retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "property_id": "12345",
+                                    "price_insight": {
+                                        "current_value": 500000,
+                                        "price_per_sqft": 250,
+                                        "market_trend": "rising"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters supplied."
+                    },
+                    "404": {
+                        "description": "Property not found."
+                    }
+                }
+            }
+        },
+        "/properties/estimate-value": {
+            "post": {
+                "summary": "Estimate Property Market Value",
+                "description": "Submit property attributes to receive an estimated current market value based on the latest market data and comparable properties.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "address": "123 Elm Street",
+                                "square_footage": 2000,
+                                "bedrooms": 4,
+                                "bathrooms": 3,
+                                "lot_size": 5000
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Estimated market value calculated successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "estimated_value": 450000,
+                                    "confidence_score": 0.87
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid property attributes provided."
+                    }
+                }
+            }
+        },
+        "/market-trends": {
+            "get": {
+                "summary": "Retrieve Market Trends",
+                "description": "Fetch the latest market trends and data filtered by region to help in understanding the movement of the real estate market.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The region for which market trends are to be retrieved."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Market trends retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "region": "California",
+                                    "average_price": 600000,
+                                    "median_days_on_market": 45,
+                                    "trend_direction": "upward"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid region parameter supplied."
+                    }
+                }
+            }
+        },
+        "/properties/comparables": {
+            "get": {
+                "summary": "Fetch Comparable Properties",
+                "description": "Retrieve a list of comparable properties based on the details of a specified property.",
+                "parameters": [
+                    {
+                        "name": "property_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the property for which comparables are to be fetched."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comparable properties retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "comparables": [
+                                        {
+                                            "address": "124 Elm Street",
+                                            "price": 475000,
+                                            "square_footage": 1980
+                                        },
+                                        {
+                                            "address": "126 Elm Street",
+                                            "price": 460000,
+                                            "square_footage": 2050
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No comparable properties found."
+                    }
+                }
+            }
+        },
+        "/regions/statistics": {
+            "get": {
+                "summary": "Retrieve Regional Statistics",
+                "description": "Get detailed statistical data by region that influences property valuations, such as average prices, movement trends, and key market drivers.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The region for which statistics are to be retrieved."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Regional statistics retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "region": "California",
+                                    "avg_market_price": 620000,
+                                    "population_growth_rate": 0.7,
+                                    "building_permits_issued": 5000
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid region parameter supplied."
+                    }
+                }
+            }
+        },
+        "/users/preferences": {
+            "put": {
+                "summary": "Update User Preferences",
+                "description": "Update the user's preferences for receiving notifications and market change updates regarding the real estate sector.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "notify_frequency": "weekly",
+                                "preferred_regions": [
+                                    "California",
+                                    "Nevada"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User preferences updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input data provided."
+                    }
+                }
+            }
+        },
+        "/properties/recommendations": {
+            "get": {
+                "summary": "Get Property Recommendations",
+                "description": "Fetch personalized property recommendations based on user-defined criteria and market insights.",
+                "parameters": [
+                    {
+                        "name": "budget",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        },
+                        "description": "User's budget for property recommendations."
+                    },
+                    {
+                        "name": "preferred_region",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The preferred region for recommendations."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Recommended properties returned successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "recommendations": [
+                                        {
+                                            "address": "123 Pine St",
+                                            "price": 400000
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/properties/search": {
+            "get": {
+                "summary": "Search for Properties",
+                "description": "Search for properties using advanced filters such as price range, area, and type of property.",
+                "parameters": [
+                    {
+                        "name": "min_price",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "description": "Minimum price for property search."
+                    },
+                    {
+                        "name": "max_price",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "description": "Maximum price for property search."
+                    },
+                    {
+                        "name": "area",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "description": "The minimum area of the property in square feet."
+                    },
+                    {
+                        "name": "property_type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The type of property (e.g., residential, commercial)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of properties matching search criteria.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "properties": [
+                                        {
+                                            "address": "123 Pine St",
+                                            "price": 400000,
+                                            "type": "Residential"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "summary": "Submit Feedback or Queries",
+                "description": "Submit feedback or ask questions regarding the service and its reports.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "user_id": "5678",
+                                "feedback": "The pricing insights are very helpful."
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback submitted successfully."
+                    }
+                }
+            }
+        },
+        "/help": {
+            "get": {
+                "summary": "Access Help Center",
+                "description": "Retrieve information and usage guidelines for the API.",
+                "responses": {
+                    "200": {
+                        "description": "Help documentation retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "information": "The help center provides details on using the API."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

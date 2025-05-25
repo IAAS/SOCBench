@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /realtime-demand",
+            "description": "Retrieve real-time electricity demand data from all zones."
+        },
+        {
+            "endpoint": "POST /allocate-resources",
+            "description": "Submit a request for dynamic allocation of power resources based on specified parameters."
+        },
+        {
+            "endpoint": "GET /forecast-patterns",
+            "description": "Access updated electricity usage forecast models for various regions."
+        },
+        {
+            "endpoint": "PUT /adjust-distribution",
+            "description": "Modify current electricity distribution strategies in response to new requirements."
+        },
+        {
+            "endpoint": "GET /zones-status",
+            "description": "Fetch the operational status and power metrics for all distribution zones."
+        },
+        {
+            "endpoint": "DELETE /override-settings",
+            "description": "Remove any manual override settings and restore automated operations."
+        },
+        {
+            "endpoint": "GET /renewables-status",
+            "description": "View the production metrics of electricity generated from renewable sources."
+        },
+        {
+            "endpoint": "PATCH /update-thresholds",
+            "description": "Update thresholds for demand surges and allocate necessary reserves."
+        },
+        {
+            "endpoint": "GET /efficiency-reports",
+            "description": "Retrieve reports on grid efficiency and optimization performances."
+        },
+        {
+            "endpoint": "POST /incident-response",
+            "description": "Report incidents affecting grid stability and request remediation actions."
+        }
+    ]
+}

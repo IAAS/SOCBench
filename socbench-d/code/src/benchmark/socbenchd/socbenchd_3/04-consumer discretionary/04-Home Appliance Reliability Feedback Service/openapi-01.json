@@ -1,0 +1,266 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Consumer Discretionary Feedback Service API",
+        "description": "This API provides a feedback and analysis mechanism for products and services within the Consumer Discretionary sector, covering household durable goods, leisure products, textiles, apparel, restaurants, hotels, and other relevant categories. It also includes features for analyzing trends and insights considering economic cycles.",
+        "version": "1.1.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.consumerdiscretionaryfeedback.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/submit-feedback": {
+            "post": {
+                "summary": "Submit feedback for a product or service",
+                "description": "Allows consumers to submit feedback for a specified product or service under the Consumer Discretionary sector.",
+                "requestBody": {
+                    "description": "Details of the feedback being submitted.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "itemId": {
+                                        "type": "string",
+                                        "description": "The unique ID of the product or service being reviewed."
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "description": "The category of the item (e.g., 'Household Durable', 'Leisure Product', 'Hotel', 'Restaurant')."
+                                    },
+                                    "rating": {
+                                        "type": "integer",
+                                        "description": "Rating between 1 (poor) to 5 (excellent)."
+                                    },
+                                    "comments": {
+                                        "type": "string",
+                                        "description": "Any additional comments or feedback about the product or service."
+                                    },
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Optional. The ID of the user providing feedback."
+                                    }
+                                },
+                                "required": [
+                                    "itemId",
+                                    "category",
+                                    "rating",
+                                    "comments"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback submitted successfully."
+                    },
+                    "400": {
+                        "description": "Validation error or missing required fields."
+                    }
+                }
+            }
+        },
+        "/feedback-summary": {
+            "get": {
+                "summary": "Retrieve summary of feedback by category or service type",
+                "description": "Provides a summary analysis of feedback for different categories and services in the Consumer Discretionary sector, including household goods, leisure products, hotels, and restaurants.",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Filter feedback summary by category (e.g., 'Household Durable', 'Leisure Product', 'Textile', 'Hotel'). Optional.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Feedback summary retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "type": "string",
+                                                "description": "The category or service type."
+                                            },
+                                            "averageRating": {
+                                                "type": "number",
+                                                "description": "Average rating of all feedback in the category."
+                                            },
+                                            "feedbackCount": {
+                                                "type": "integer",
+                                                "description": "The total number of feedback entries for this category."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid category value provided."
+                    }
+                }
+            }
+        },
+        "/products": {
+            "get": {
+                "summary": "Get list of supported items",
+                "description": "Retrieves a list of products or services (e.g., appliances, leisure items, hotels, restaurants) currently supported for feedback collection.",
+                "responses": {
+                    "200": {
+                        "description": "List retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "itemId": {
+                                                "type": "string",
+                                                "description": "The unique ID of the item."
+                                            },
+                                            "itemName": {
+                                                "type": "string",
+                                                "description": "The name of the item."
+                                            },
+                                            "category": {
+                                                "type": "string",
+                                                "description": "The category of the item (e.g., 'Household Durable', 'Leisure Product')."
+                                            },
+                                            "economicTrends": {
+                                                "type": "string",
+                                                "description": "Economic trends linked to this item's performance, if applicable."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/register-item": {
+            "post": {
+                "summary": "Register a new product or service",
+                "description": "Allows manufacturers, service providers, or administrators to register a new product category or service to start collecting feedback.",
+                "requestBody": {
+                    "description": "Details of the product or service to be registered.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "itemName": {
+                                        "type": "string",
+                                        "description": "The name of the product or service."
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "description": "The category of the new item (e.g., 'Restaurant', 'Household Durable')."
+                                    },
+                                    "manufacturerId": {
+                                        "type": "string",
+                                        "description": "Optional. The ID of the manufacturer or provider responsible for the item."
+                                    }
+                                },
+                                "required": [
+                                    "itemName",
+                                    "category"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Item registered successfully."
+                    },
+                    "400": {
+                        "description": "Validation error or missing required fields."
+                    }
+                }
+            }
+        },
+        "/economic-cycle-insights": {
+            "get": {
+                "summary": "Get insights based on economic cycles",
+                "description": "Fetches trends and analyses related to feedback and performance of products or services in relation to economic cycles.",
+                "responses": {
+                    "200": {
+                        "description": "Economic cycle insights retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "category": {
+                                            "type": "string",
+                                            "description": "The category being analyzed."
+                                        },
+                                        "economicTrend": {
+                                            "type": "string",
+                                            "description": "The economic trend affecting feedback or performance (e.g., 'boom', 'recession')."
+                                        },
+                                        "analysis": {
+                                            "type": "string",
+                                            "description": "Detailed analysis for this category relative to the economic cycle."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/regional-insights": {
+            "get": {
+                "summary": "Get regional insights",
+                "description": "Retrieves insights about product and service feedback for a specified geographical area.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "The geographical region to query.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Optional. Filter data by a specific category (e.g., 'Household Durable', 'Leisure Product', 'Restaurant').",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Regional insights retrieved successfully."
+                    },
+                    "400": {
+                        "description": "Invalid region or other query parameters."
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+Serves recreation providers by enabling activity reservations, ticket purchasing, and experience promotions for consumers via an intuitive interface.
+
+Endpoints:
+GET /activities: Retrieve a list of all available recreational activities available for booking.
+GET /activities/{id}: Fetch detailed information about a specific activity, identified by its unique ID.
+POST /activities/{id}/reserve: Reserve a spot for a specific activity, providing necessary user details and preferred time slots.
+DELETE /reservations/{reservation_id}: Cancel an existing reservation, ensuring the spot becomes available for others.
+GET /tickets: Retrieve a list of tickets for activities the user has reserved or purchased.
+GET /tickets/{ticket_id}: Fetch detailed information about a specific purchased ticket.
+POST /tickets/{ticket_id}/validate: Validate a ticket for user check-in and usage for the specified activity.
+GET /promotions: List all active promotions and special offers for activities and reservations.
+POST /promotions/apply: Apply a promotion code to a user account or reservation to gain associated benefits.
+PATCH /user/preferences: Update user preferences for activity recommendations and reminders.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

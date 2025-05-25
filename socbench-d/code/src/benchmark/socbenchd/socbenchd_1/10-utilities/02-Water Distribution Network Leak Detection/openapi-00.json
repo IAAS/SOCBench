@@ -1,0 +1,372 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Water Distribution Leak Detection Service API",
+    "description": "This API provides functionalities to monitor water distribution systems using sensor data and predictive analytics. It helps identify potential leaks, reduce water wastage, and maintain network reliability.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/leak-detections": {
+      "get": {
+        "summary": "Retrieve recent leak detection data",
+        "description": "Fetch recent leak detection information based on sensor analytics. The retrieved data includes the locations, severity, and time of detected leaks.",
+        "responses": {
+          "200": {
+            "description": "Successful response with a list of leak detection events.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the leak detection event."
+                      },
+                      "location": {
+                        "type": "string",
+                        "description": "The location of the detected leak."
+                      },
+                      "severity": {
+                        "type": "string",
+                        "description": "The severity level of the leak (e.g., low, medium, high)."
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The date and time when the leak was detected."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/leak-detections/analyze": {
+      "post": {
+        "summary": "Analyze sensor data for potential leaks",
+        "description": "Trigger the analysis process using collected sensor data to identify potential leaks in the water distribution system.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sensor_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "A list of sensor IDs to be included in the analysis."
+                  },
+                  "start_time": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Start time for the analysis period."
+                  },
+                  "end_time": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "End time for the analysis period."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Analysis successfully triggered.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the analysis trigger."
+                    },
+                    "analysis_id": {
+                      "type": "string",
+                      "description": "The ID of the triggered analysis."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/leak-detections/{id}": {
+      "get": {
+        "summary": "Get specific leak detection details",
+        "description": "Fetch detailed information about a specific leak detection event using its unique identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the leak detection event."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the specified leak detection event.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The unique identifier of the leak detection event."
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "The location of the detected leak."
+                    },
+                    "severity": {
+                      "type": "string",
+                      "description": "The severity level of the leak (e.g., low, medium, high)."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "The date and time when the leak was detected."
+                    },
+                    "analysis_details": {
+                      "type": "object",
+                      "description": "Additional details about the leak detection analysis."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/distribution-points": {
+      "get": {
+        "summary": "List monitored distribution points",
+        "description": "Retrieve a list of all currently monitored water distribution points in the network.",
+        "responses": {
+          "200": {
+            "description": "A list of monitored distribution points.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the distribution point."
+                      },
+                      "location": {
+                        "type": "string",
+                        "description": "The location of the distribution point."
+                      },
+                      "status": {
+                        "type": "string",
+                        "description": "The current monitoring status of the distribution point."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/distribution-points/{id}": {
+      "put": {
+        "summary": "Update monitoring configurations",
+        "description": "Modify the monitoring parameters of a specific water distribution point by specifying its identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the distribution point to update."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "parameters": {
+                    "type": "object",
+                    "description": "The new monitoring configurations for the distribution point."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Monitoring configuration successfully updated."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove distribution point from monitoring",
+        "description": "Delete a specific water distribution point from being actively monitored.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the distribution point to remove."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Distribution point successfully removed from monitoring."
+          }
+        }
+      }
+    },
+    "/sensor-data": {
+      "get": {
+        "summary": "Retrieve raw sensor data",
+        "description": "Obtain the raw data collected by all active sensors in the network for a specified time range.",
+        "parameters": [
+          {
+            "name": "start_time",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "Start time for retrieving raw sensor data."
+          },
+          {
+            "name": "end_time",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "End time for retrieving raw sensor data."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved raw sensor data."
+          }
+        }
+      }
+    },
+    "/analytics/reports": {
+      "get": {
+        "summary": "Retrieve analytical reports",
+        "description": "Fetch analytical summaries regarding water distribution and leak detection efficiency.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved analytical reports."
+          }
+        }
+      }
+    },
+    "/sensors/{id}": {
+      "patch": {
+        "summary": "Update sensor configuration",
+        "description": "Adjust the configuration settings of a specific sensor to optimize data collection.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the sensor to update."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "configuration": {
+                    "type": "object",
+                    "description": "New configuration settings for the sensor."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sensor configuration successfully updated."
+          }
+        }
+      }
+    },
+    "/alerts/notifications": {
+      "post": {
+        "summary": "Send repair crew notifications",
+        "description": "Dispatch notifications to repair crews based on confirmed leak detection events and their severity.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "leak_event_id": {
+                    "type": "string",
+                    "description": "The identifier of the confirmed leak detection event."
+                  },
+                  "severity": {
+                    "type": "string",
+                    "description": "The severity of the leak to determine resource allocation."
+                  },
+                  "crew_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "List of crew IDs to notify."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Notifications successfully sent to the repair crews."
+          }
+        }
+      }
+    }
+  }
+}

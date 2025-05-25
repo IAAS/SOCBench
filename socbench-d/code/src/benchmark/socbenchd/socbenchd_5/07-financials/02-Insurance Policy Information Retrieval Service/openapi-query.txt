@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Service:
+Provides access to details about various insurance policies, their coverage, and premium estimates.
+
+Endpoints:
+GET /insurance-policies: Retrieve a list of all available insurance policies their details and coverage options.
+GET /insurance-policies/{policy_id}/details: Retrieve detailed information about a specific insurance policy using its identifier.
+GET /insurance-policies/categories: Obtain a list of the various insurance policy categories offered by the service.
+POST /insurance-policies/estimate-premium: Submit policy details to receive calculated premium estimates for evaluation.
+GET /insurance-policies/covered-items/{policy_id}: Fetch a list of items or conditions covered under a specific insurance policy.
+POST /insurance-policies/enroll: Submit the required user information to enroll in a selected insurance policy.
+DELETE /insurance-policies/subscriptions/{subscription_id}: Cancel an existing subscription or enrollment in a specific insurance policy using its subscription ID.
+GET /insurance-policies/{policy_id}/providers: Retrieve a list of insurance providers applicable for a specific policy.
+PUT /insurance-policies/{policy_id}/modify: Update or modify details of a specific insurance policy, such as coverage or duration.
+GET /insurance-policies/claims/history: View claim history and status for policies associated with a user account.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+Assists apparel manufacturers in evaluating the environmental impact of their production processes. Analyzes inputs such as water usage and emissions and provides recommendations for sustainable practices, supporting eco-conscious production.
+
+Endpoints:
+GET /materials/environmental-impact: Retrieve environmental impact data for all registered materials.
+POST /materials/assess: Submit production details to assess and receive recommendations for sustainability adjustments.
+GET /recommendations/sustainability: Access standard industry practices for reducing production environmental impact.
+GET /insights/water-usage: Retrieve insights and thresholds regarding water usage in apparel manufacturing.
+POST /manufacturers/register: Register a new apparel manufacturer client to the system.
+GET /analytics/emissions: Retrieve analytics on emissions from submitted manufacturing processes.
+DELETE /materials/{id}: Remove material data by ID for updating purposes.
+PUT /recommendations/customize/{id}: Update the sustainability recommendations to suit specific client needs.
+GET /insights/environmental-compliance: Fetch details on compliance with environmental regulations applicable to the apparel industry.
+POST /report/environmental-impact: Generate a detailed report on the environmental impact of a specified production process.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

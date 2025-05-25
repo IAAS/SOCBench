@@ -1,0 +1,366 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Energy Consumption Monitoring and Efficiency Service",
+        "description": "This service allows consumers and businesses to monitor their energy consumption, identify inefficiencies, and get actionable recommendations for improvement. It also provides tools to manage sensors, thresholds, and reports.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/consumption/daily": {
+            "get": {
+                "summary": "Retrieve daily energy consumption data",
+                "description": "Fetches daily energy consumption data for a specified time period. This helps in analyzing short-term patterns and identifying daily inefficiencies.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "Start date for the time period in YYYY-MM-DD format.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "End date for the time period in YYYY-MM-DD format.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved daily energy consumption data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date"
+                                            },
+                                            "consumption": {
+                                                "type": "number",
+                                                "description": "Daily energy consumption in kWh."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/consumption/monthly": {
+            "get": {
+                "summary": "Retrieve summarized monthly energy consumption",
+                "description": "Access summarized statistics of energy consumption on a monthly basis to analyze long-term trends.",
+                "parameters": [
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "Year for which monthly data is requested (e.g., 2023).",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved monthly energy consumption statistics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "month": {
+                                                "type": "string",
+                                                "description": "Month of the year (e.g., January)."
+                                            },
+                                            "consumption": {
+                                                "type": "number",
+                                                "description": "Monthly energy consumption in kWh."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/recommendations/improvements": {
+            "post": {
+                "summary": "Get energy efficiency recommendations",
+                "description": "Submit energy usage data to receive actionable energy efficiency improvement recommendations.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "consumption_data": {
+                                        "type": "array",
+                                        "description": "Historical consumption data for analysis.",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "date": {
+                                                    "type": "string",
+                                                    "format": "date"
+                                                },
+                                                "usage": {
+                                                    "type": "number"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "consumption_data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Actionable energy efficiency recommendations returned.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "recommendations": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/resources/efficiency-tips": {
+            "get": {
+                "summary": "Get general energy efficiency tips",
+                "description": "Retrieve a list of general tips to improve energy efficiency.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved efficiency tips.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensors/configuration": {
+            "get": {
+                "summary": "Retrieve sensor configurations",
+                "description": "Fetch the configurations and settings of operational sensors used for collecting energy usage data.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved sensor configurations.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "sensor_id": {
+                                                "type": "string"
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "description": "Type of sensor."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Operational status of the sensor."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensors/settings": {
+            "patch": {
+                "summary": "Update sensor settings",
+                "description": "Modify configurations for specific sensors used in energy usage monitoring.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "sensor_id": {
+                                        "type": "string",
+                                        "description": "ID of the sensor to update."
+                                    },
+                                    "settings": {
+                                        "type": "object",
+                                        "description": "Settings to update for the sensor."
+                                    }
+                                },
+                                "required": [
+                                    "sensor_id",
+                                    "settings"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated sensor settings."
+                    }
+                }
+            }
+        },
+        "/alerts/thresholds": {
+            "get": {
+                "summary": "Fetch energy consumption alert thresholds",
+                "description": "Get the current threshold configurations for alerts.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved alert thresholds.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "thresholds": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/notifications": {
+            "post": {
+                "summary": "Set up consumption alert notifications",
+                "description": "Configures notifications to be triggered when energy consumption thresholds are exceeded.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "threshold": {
+                                        "type": "number",
+                                        "description": "Value at which notifications should be triggered."
+                                    },
+                                    "notification_method": {
+                                        "type": "string",
+                                        "description": "How notifications should be sent (e.g., email, SMS)."
+                                    }
+                                },
+                                "required": [
+                                    "threshold",
+                                    "notification_method"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully configured alert notifications."
+                    }
+                }
+            }
+        },
+        "/devices/status": {
+            "get": {
+                "summary": "Get the status of monitoring devices",
+                "description": "Retrieve the operational status of all connected devices monitoring energy consumption.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved device statuses.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "device_id": {
+                                                "type": "string"
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Operational status of the device."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/history": {
+            "delete": {
+                "summary": "Delete historical energy usage reports",
+                "description": "Remove specific historical reports of energy usage from the system.",
+                "parameters": [
+                    {
+                        "name": "report_id",
+                        "in": "query",
+                        "description": "ID of the historical report to be deleted.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted the report."
+                    }
+                }
+            }
+        }
+    }
+}

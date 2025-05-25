@@ -1,0 +1,433 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Forest Product Monitoring and Sustainability Service",
+        "description": "This service supports monitoring the movement and sustainability certification of forest products through the supply chain, enhancing transparency and accountability.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.forestsupplychain.com",
+            "description": "Main production server"
+        }
+    ],
+    "paths": {
+        "/certifications": {
+            "get": {
+                "summary": "Retrieve Sustainability Certifications",
+                "description": "Fetch a list of sustainability certifications associated with forest products, including information on certification type and issuing authority.",
+                "responses": {
+                    "200": {
+                        "description": "A list of sustainability certifications",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the certification"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the certification"
+                                            },
+                                            "authority": {
+                                                "type": "string",
+                                                "description": "Issuing authority of the certification"
+                                            },
+                                            "validity": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Expiration date of the certification"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products": {
+            "post": {
+                "summary": "Add a New Forest Product",
+                "description": "Add a new forest product to the monitoring and certification service.",
+                "requestBody": {
+                    "description": "Details of the new forest product to be added",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the forest product"
+                                    },
+                                    "origin": {
+                                        "type": "string",
+                                        "description": "Geographical origin of the forest product"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "Type or category of the forest product"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "origin",
+                                    "type"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The forest product was successfully added",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the newly created forest product"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "description": "Name of the forest product"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{id}": {
+            "get": {
+                "summary": "Retrieve Details of a Specific Forest Product",
+                "description": "Get detailed information about a specific forest product by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the forest product",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the specified forest product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the forest product"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "description": "Name of the forest product"
+                                        },
+                                        "origin": {
+                                            "type": "string",
+                                            "description": "Geographical origin of the forest product"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "description": "Type of the forest product"
+                                        },
+                                        "certifications": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "description": "ID of the associated certification"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a Specific Forest Product",
+                "description": "Update the information associated with a specific forest product.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the forest product",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated details for the forest product",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Updated name of the forest product"
+                                    },
+                                    "origin": {
+                                        "type": "string",
+                                        "description": "Updated geographical origin of the forest product"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "Updated type or category of the forest product"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The forest product was successfully updated"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove a Forest Product",
+                "description": "Delete a specific forest product from the monitoring service.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the forest product",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The forest product was successfully deleted"
+                    }
+                }
+            }
+        },
+        "/movements": {
+            "get": {
+                "summary": "Retrieve Movement Logs",
+                "description": "Get a log of movements of forest products across the supply chain.",
+                "responses": {
+                    "200": {
+                        "description": "A list of movement logs",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "product_id": {
+                                                "type": "string",
+                                                "description": "Identifier of the forest product"
+                                            },
+                                            "location": {
+                                                "type": "string",
+                                                "description": "Location where the movement occurred"
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Time when the movement occurred"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Record a New Movement",
+                "description": "Record a new movement of a forest product within the supply chain.",
+                "requestBody": {
+                    "description": "Details of the movement to be recorded",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "product_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the forest product"
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "description": "Location involved in the movement"
+                                    },
+                                    "timestamp": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Timestamp of the movement"
+                                    }
+                                },
+                                "required": [
+                                    "product_id",
+                                    "location",
+                                    "timestamp"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Movement was successfully recorded"
+                    }
+                }
+            }
+        },
+        "/reports": {
+            "get": {
+                "summary": "Generate and Retrieve Reports",
+                "description": "Retrieve analytical reports on product movements and certifications.",
+                "responses": {
+                    "200": {
+                        "description": "A list of generated reports",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "report_id": {
+                                                "type": "string",
+                                                "description": "Identifier for the report"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the report"
+                                            },
+                                            "generated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Timestamp when the report was generated"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/locations": {
+            "get": {
+                "summary": "List Supply Chain Locations",
+                "description": "Retrieve a list of all locations involved in the supply chain process.",
+                "responses": {
+                    "200": {
+                        "description": "A list of supply chain locations",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Identifier of the location"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the location"
+                                            },
+                                            "coordinates": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "latitude": {
+                                                        "type": "number",
+                                                        "description": "Latitude of the location"
+                                                    },
+                                                    "longitude": {
+                                                        "type": "number",
+                                                        "description": "Longitude of the location"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "post": {
+                "summary": "Set Up Alerts",
+                "description": "Configure alerts and notifications for specific conditions in the supply chain, such as movement anomalies.",
+                "requestBody": {
+                    "description": "Details of the alert configuration",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "condition": {
+                                        "type": "string",
+                                        "description": "Condition to trigger the alert"
+                                    },
+                                    "notification_method": {
+                                        "type": "string",
+                                        "description": "Method to notify (e.g., email, SMS)"
+                                    },
+                                    "recipients": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "description": "Recipient for the notification"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "condition",
+                                    "notification_method",
+                                    "recipients"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert successfully set up"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /stocks/latest-data",
+            "description": "Retrieve the latest stock price, volume, and trend data for specified securities."
+        },
+        {
+            "endpoint": "GET /sectors/market-insights",
+            "description": "Obtain market summary and insights categorized by sectors or industries."
+        },
+        {
+            "endpoint": "GET /assets/historical",
+            "description": "Access historical data for assets including prices, volumes, and market performance over a defined period."
+        },
+        {
+            "endpoint": "GET /trends/moving-averages",
+            "description": "Calculate and provide moving averages for stocks to assist in trend analysis."
+        },
+        {
+            "endpoint": "POST /watchlist/create",
+            "description": "Create a customized watchlist of securities for ongoing monitoring and alerts."
+        },
+        {
+            "endpoint": "GET /news/recent",
+            "description": "Fetch the latest news related to financial markets and specific assets."
+        },
+        {
+            "endpoint": "GET /currencies/exchange-rates",
+            "description": "Provide live data on currency exchange rates and fluctuations."
+        },
+        {
+            "endpoint": "GET /analytics/volatility-calculator",
+            "description": "Calculate and return volatility metrics for specified assets."
+        },
+        {
+            "endpoint": "POST /portfolio/asses",
+            "description": "Analyze a user's portfolio and provide performance predictions and recommendations."
+        },
+        {
+            "endpoint": "GET /dividends/announcement",
+            "description": "Retrieve information about upcoming dividend announcements for stocks."
+        }
+    ]
+}

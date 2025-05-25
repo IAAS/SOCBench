@@ -1,0 +1,518 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Human Resource Allocation Service API",
+    "version": "1.0.0",
+    "description": "The Human Resource Allocation Service API allows industries to efficiently assign workforce resources to active and upcoming projects. It provides features like employee availability monitoring, skillset matching, shift scheduling, and integration with HRIS platforms."
+  },
+  "servers": [
+    {
+      "url": "https://api.hrallocation.example.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/employees": {
+      "get": {
+        "summary": "Retrieve Employee Details",
+        "description": "Fetch the details of all employees managed within the system, including their skills, current assignments, and availability.",
+        "responses": {
+          "200": {
+            "description": "A list of employees",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the employee."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "The full name of the employee."
+                      },
+                      "skills": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "The skillset of the employee."
+                      },
+                      "availability": {
+                        "type": "string",
+                        "enum": ["Available", "Unavailable"],
+                        "description": "The current availability status of the employee."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects": {
+      "get": {
+        "summary": "Fetch Project List",
+        "description": "Retrieve the list of all active and planned projects along with their workforce and skill requirements.",
+        "responses": {
+          "200": {
+            "description": "A list of projects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the project."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "The name of the project."
+                      },
+                      "requirements": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Skills or workforce requirements for the project."
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": ["Active", "Planned"],
+                        "description": "The current status of the project."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a New Project",
+        "description": "Submit a new project to the system along with its workforce and skill requirements.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the project."
+                  },
+                  "requirements": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Skills or workforce requirements for the project."
+                  }
+                },
+                "required": ["name", "requirements"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Project created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The unique identifier of the newly created project."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "A success message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{id}": {
+      "delete": {
+        "summary": "Delete a Project",
+        "description": "Remove a specific project from the system, releasing its assigned resources for reallocation.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the project to be deleted.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project removed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project not found"
+          }
+        }
+      }
+    },
+    "/employees/{id}": {
+      "put": {
+        "summary": "Update Employee Details",
+        "description": "Update details for a specific employee, including their skills and assigned projects.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the employee.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "skills": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Updated skillset of the employee."
+                  },
+                  "projects": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Updated list of projects assigned to the employee."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Employee details updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shifts": {
+      "get": {
+        "summary": "Retrieve Shift Schedules",
+        "description": "Fetch the current and upcoming shift schedules for all employees.",
+        "responses": {
+          "200": {
+            "description": "A list of shift schedules",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "employeeId": {
+                        "type": "string",
+                        "description": "The unique identifier of the employee."
+                      },
+                      "shiftStart": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The start time of the shift."
+                      },
+                      "shiftEnd": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The end time of the shift."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recommendations": {
+      "post": {
+        "summary": "Get Workforce Allocation Recommendation",
+        "description": "Request a recommendation for workforce allocation based on project inputs and available staff data.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectRequirements": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Skills or workforce requirements for the project."
+                  }
+                },
+                "required": ["projectRequirements"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Recommendation generated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "employeeId": {
+                        "type": "string",
+                        "description": "The unique identifier of the recommended employee."
+                      },
+                      "shiftStart": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Recommended shift start time for the employee."
+                      },
+                      "shiftEnd": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Recommended shift end time for the employee."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/availability": {
+      "get": {
+        "summary": "Fetch Employee Availability",
+        "description": "Retrieve the availability status of employees over a specified timeframe.",
+        "parameters": [
+          {
+            "name": "startTime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "The start time of the timeframe."
+          },
+          {
+            "name": "endTime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "The end time of the timeframe."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Availability information retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "employeeId": {
+                        "type": "string",
+                        "description": "The unique identifier of the employee."
+                      },
+                      "availability": {
+                        "type": "string",
+                        "enum": ["Available", "Unavailable"],
+                        "description": "The availability status of the employee during the specified timeframe."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shifts/{id}": {
+      "put": {
+        "summary": "Modify Shift Schedule",
+        "description": "Update an employee's shift schedule to optimize resource allocation.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the shift to be modified.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "shiftStart": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Updated shift start time."
+                  },
+                  "shiftEnd": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Updated shift end time."
+                  }
+                },
+                "required": ["shiftStart", "shiftEnd"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Shift schedule updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics": {
+      "post": {
+        "summary": "Generate Resource Allocation Analytics",
+        "description": "Create detailed reports on resource allocation efficiency and project workforce adequacy.",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reportType": {
+                    "type": "string",
+                    "enum": ["Efficiency", "Workforce Adequacy"],
+                    "description": "The type of analytics report to generate."
+                  },
+                  "timeframe": {
+                    "type": "object",
+                    "properties": {
+                      "start": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Report start date."
+                      },
+                      "end": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Report end date."
+                      }
+                    },
+                    "description": "The timeframe for the analytics report."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Analytics report generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reportId": {
+                      "type": "string",
+                      "description": "The unique identifier of the generated report."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "A success message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+Service:
+This API enables organizations to monitor system health, receive notifications of emerging issues, and access tools for diagnosing root causes of failures, enhancing overall uptime and reliability.
+
+Endpoints:
+GET /system/health: Retrieve the overall health status of the monitored system.
+POST /notifications/subscription: Create a subscription to receive notifications for emerging issues.
+DELETE /notifications/subscription/{id}: Remove a specific notification subscription by its ID.
+GET /diagnostics/logs: Fetch diagnostic logs to assist with root cause analysis.
+POST /diagnostics/analysis: Initiate a deep analysis process for diagnosing a specific issue.
+GET /reliability/metrics: Access metrics to assess and improve system reliability.
+POST /system/optimization: Request system optimization procedures to enhance uptime.
+GET /alerts: Retrieve a list of active alerts and warnings for the system.
+PUT /alerts/{id}/acknowledge: Acknowledge a specific alert to change its status.
+GET /trends/failure-patterns: Analyze past failures to identify recurring patterns.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

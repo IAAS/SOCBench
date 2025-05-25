@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+This RESTful service provides dealerships and manufacturers with comprehensive data on vehicle sales trends, customer preferences, and market demands. Users can access detailed reports and predictive analytics to make informed decisions and enhance operational strategies.
+
+Endpoints:
+GET /vehicle-data/trends: Retrieve aggregated trends of vehicle sales categorized by region, model, and timeframe.
+POST /vehicle-data/preferences: Submit data to analyze customer preferences based on recent survey inputs.
+GET /market-demand/forecasts: Access predictive analytics reports on market demands for upcoming periods.
+GET /dealerships/sales-report: Obtain a detailed report on sales performance for a specific dealership.
+POST /manufacturer/goals: Set desired sales goals and receive insights to achieve them effectively.
+GET /customer-segments: Retrieve detailed data on customer segmentation for better targeted marketing.
+GET /vehicle-pricing/trends: Analyze historical and current pricing trends for various vehicle categories.
+POST /inventory/optimize: Upload current inventory data to receive optimization recommendations.
+GET /regional/sales-comparisons: Compare vehicle sales performance across different geographical regions.
+POST /marketing/campaign-effectiveness: Submit marketing campaign data to evaluate its effectiveness and ROI.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

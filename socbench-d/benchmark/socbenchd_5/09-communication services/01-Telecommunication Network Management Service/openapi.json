@@ -1,0 +1,328 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Telecommunication Network Management API",
+        "description": "This API provides tools for monitoring, managing, and optimizing telecommunication networks, enabling providers to ensure high-quality connectivity and minimize downtime through real-time analytics, alerts, and predictive maintenance capabilities.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.telecomservice.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/networks/status": {
+            "get": {
+                "summary": "Retrieve the current status of all monitored telecommunication networks",
+                "description": "Fetches the real-time status and operational state of all networks being monitored. Includes metrics such as uptime, latency, bandwidth, and connectivity.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved network status",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "networks": [
+                                        {
+                                            "id": "network1",
+                                            "status": "active",
+                                            "latencyMs": 25,
+                                            "uptimePercentage": 99.95
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/configurations": {
+            "post": {
+                "summary": "Create a new alert configuration for real-time monitoring",
+                "description": "Allows users to configure alerts on certain conditions (e.g., latency thresholds, downtime alerts). These alerts notify users in real-time when conditions are met.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The name of the alert configuration"
+                                    },
+                                    "threshold": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "description": "The threshold value to trigger an alert (e.g., latency in milliseconds)"
+                                    },
+                                    "condition": {
+                                        "type": "string",
+                                        "description": "The condition for the alert, e.g., 'greater than', 'less than'"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "threshold",
+                                    "condition"
+                                ]
+                            },
+                            "example": {
+                                "name": "High Latency Alert",
+                                "threshold": 250,
+                                "condition": "greater than"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert configuration successfully created"
+                    }
+                }
+            }
+        },
+        "/analytics/usage": {
+            "get": {
+                "summary": "Access analytics reporting on network data usage",
+                "description": "Provides detailed analytics on data usage, including duration, bandwidth consumption, and usage trends.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved analytics data",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "usage": {
+                                        "totalDataTransferredGB": 1500,
+                                        "averageBandwidthMbps": 120,
+                                        "peakPeriods": [
+                                            {
+                                                "time": "13:00-15:00",
+                                                "bandwidthUsedMbps": 140
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/faults/reports": {
+            "get": {
+                "summary": "List all recorded network faults and their details",
+                "description": "Retrieve a detailed list of network fault events with timestamps, affected areas, and the resolved state.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully fetched network faults",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "faults": [
+                                        {
+                                            "id": "fault1",
+                                            "description": "Connectivity loss in region 'East'.",
+                                            "timestamp": "2023-10-24T14:05:00Z",
+                                            "resolved": false
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/predictive/models": {
+            "post": {
+                "summary": "Initiate training of predictive maintenance models on network data",
+                "description": "Start the process of training predictive maintenance models using historical network data to identify potential failures before they occur.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "modelType": {
+                                        "type": "string",
+                                        "description": "Type of predictive model to train (e.g., failure prediction, anomaly detection)"
+                                    }
+                                },
+                                "required": [
+                                    "modelType"
+                                ]
+                            },
+                            "example": {
+                                "modelType": "failure prediction"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Model training initiated successfully"
+                    }
+                }
+            }
+        },
+        "/devices/connectivity": {
+            "get": {
+                "summary": "Check the connectivity status for specific devices within the network",
+                "description": "Allows retrieval of device connectivity status including details such as signal strength, latency, and last active time.",
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The unique ID of the device to check connectivity for",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved device connectivity status",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "deviceId": "device001",
+                                    "connectivity": "online",
+                                    "signalStrength": "-50dBm",
+                                    "lastActive": "2023-10-24T14:30:00Z"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/networks/configurations": {
+            "patch": {
+                "summary": "Update network settings to improve service quality",
+                "description": "Modify configuration parameters for networks to enhance connectivity and service quality.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "parameter": {
+                                        "type": "string",
+                                        "description": "The configuration parameter to update (e.g., 'maxBandwidth')"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "description": "The new value for the configuration setting"
+                                    }
+                                },
+                                "required": [
+                                    "parameter",
+                                    "value"
+                                ]
+                            },
+                            "example": {
+                                "parameter": "maxBandwidth",
+                                "value": "1000Mbps"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Configuration updated successfully"
+                    }
+                }
+            }
+        },
+        "/maintenance/schedule": {
+            "get": {
+                "summary": "Retrieve the scheduled maintenance times for networks",
+                "description": "Provides scheduled maintenance times for networks to inform about planned downtime or upgrades.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved maintenance schedule",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "maintenance": [
+                                        {
+                                            "networkId": "network1",
+                                            "startTime": "2023-10-25T02:00:00Z",
+                                            "endTime": "2023-10-25T04:00:00Z"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/feedback": {
+            "post": {
+                "summary": "Submit and record user feedback on network performance",
+                "description": "Allows users to submit feedback or complaints regarding their experience with network services.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "The ID of the user providing feedback"
+                                    },
+                                    "feedback": {
+                                        "type": "string",
+                                        "description": "The feedback or complaint content"
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "feedback"
+                                ]
+                            },
+                            "example": {
+                                "userId": "user123",
+                                "feedback": "The network experienced frequent disconnects last week."
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Feedback recorded successfully"
+                    }
+                }
+            }
+        },
+        "/alerts/{id}": {
+            "delete": {
+                "summary": "Remove a specific alert configuration by ID",
+                "description": "Deletes a real-time alert configuration based on its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the alert configuration to delete",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Alert configuration deleted successfully"
+                    }
+                }
+            }
+        }
+    }
+}

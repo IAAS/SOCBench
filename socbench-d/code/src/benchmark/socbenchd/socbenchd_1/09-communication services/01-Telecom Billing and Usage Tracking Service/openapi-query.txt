@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+This service provides a seamless interface for customers to monitor their billing and service usage, offering capabilities such as detailed billing history access, real-time usage statistics, and payment management through secure transactions.
+
+Endpoints:
+GET /billing/history: Retrieve the complete billing history for the authenticated user.
+GET /usage/statistics: Fetch real-time statistics of the user's service usage.
+POST /payments: Initiate a secure transaction for paying a service billing invoice.
+GET /notifications: List all notifications related to billing and usage alerts.
+POST /communication/queries: Submit a query or issue related to the communication service.
+GET /overview: Provide a summary of the user's account, including billing and usage.
+PUT /alerts/settings: Update the settings for real-time usage and billing alerts.
+GET /support/contacts: Retrieve contact information for customer support related to the service.
+DELETE /account/data: Request deletion of the user's personal data and associated service history.
+POST /feedback: Submit user feedback about the billing and service monitoring interface.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

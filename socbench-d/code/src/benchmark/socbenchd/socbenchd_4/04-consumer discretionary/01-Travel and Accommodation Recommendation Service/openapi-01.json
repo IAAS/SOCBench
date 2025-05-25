@@ -1,0 +1,234 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Travel and Accommodation Recommendation Service",
+        "description": "This API provides customized travel and accommodation suggestions based on user preferences. Utilizing user profiles and machine learning algorithms, it delivers personalized hotel, restaurant, and leisure activity recommendations along with itinerary planning functionality.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.travelrecommendation.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/user/preferences": {
+            "post": {
+                "summary": "Submit and update user travel preferences",
+                "description": "Allows the user to submit or update their travel preferences and profile. This includes budget, preferred destinations, travel dates, and any specific requirements for personalized recommendations.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the user"
+                                    },
+                                    "budget": {
+                                        "type": "number",
+                                        "description": "Maximum budget the user is willing to spend"
+                                    },
+                                    "destinations": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of desired travel destinations"
+                                    },
+                                    "travelDates": {
+                                        "type": "object",
+                                        "properties": {
+                                            "startDate": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Start date of travel"
+                                            },
+                                            "endDate": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "End date of travel"
+                                            }
+                                        },
+                                        "description": "Travel dates for the trip"
+                                    },
+                                    "preferences": {
+                                        "type": "object",
+                                        "properties": {
+                                            "hotelAmenities": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "description": "List of preferred amenities when choosing a hotel"
+                                            },
+                                            "cuisinePreferences": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "description": "Preferred types of cuisine"
+                                            },
+                                            "leisureActivities": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "description": "Types of leisure activities of interest to the user"
+                                            }
+                                        },
+                                        "description": "Additional preferences for personalized recommendations"
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "budget",
+                                    "destinations"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User preferences successfully submitted or updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Preferences updated successfully"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request due to missing or invalid input"
+                    }
+                }
+            }
+        },
+        "/recommendations/hotels": {
+            "get": {
+                "summary": "Retrieve hotel recommendations",
+                "description": "Provides a list of recommended hotels based on the user's preferences and selected destination.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the user"
+                    },
+                    {
+                        "name": "destination",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The user's chosen destination for the trip"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of recommended hotels",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "hotelName": {
+                                                "type": "string",
+                                                "description": "Name of the hotel"
+                                            },
+                                            "location": {
+                                                "type": "string",
+                                                "description": "Address of the hotel"
+                                            },
+                                            "rating": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Rating of the hotel"
+                                            },
+                                            "pricePerNight": {
+                                                "type": "number",
+                                                "description": "Cost per night for the hotel"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request due to missing or invalid input parameters"
+                    }
+                }
+            }
+        },
+        "/user/history": {
+            "get": {
+                "summary": "Access user travel history",
+                "description": "Provides the past travel history and prior recommendations for reference or repeat visits.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "User's unique id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of user's past travel history",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "destination": {
+                                                "type": "string",
+                                                "description": "Destination visited by the user"
+                                            },
+                                            "dateOfVisit": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Date of the visit"
+                                            },
+                                            "activities": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "description": "List of activities conducted during the trip"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request or invalid user ID"
+                    }
+                }
+            }
+        }
+    }
+}

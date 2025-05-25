@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /categories",
+            "description": "Retrieve a list of product categories available in the system to assist in inventory grouping."
+        },
+        {
+            "endpoint": "POST /forecasts",
+            "description": "Create a new demand forecast for a specific product based on historical sales data."
+        },
+        {
+            "endpoint": "GET /forecasts/{product_id}",
+            "description": "Retrieve the forecast data for a specific product using its ID."
+        },
+        {
+            "endpoint": "DELETE /forecasts/{forecast_id}",
+            "description": "Delete an existing demand forecast using its unique forecast ID."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "List all active restocking alerts tailored to the inventory requirements."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Create new restocking alerts for identified product stock levels."
+        },
+        {
+            "endpoint": "PUT /alerts/{alert_id}",
+            "description": "Modify the parameters of an existing restocking alert using the alert's ID."
+        },
+        {
+            "endpoint": "GET /trends",
+            "description": "Retrieve sales trend analysis data for the specified time period."
+        },
+        {
+            "endpoint": "POST /trends/source",
+            "description": "Upload additional sales or inventory data to enhance trend analysis."
+        },
+        {
+            "endpoint": "GET /products/{product_id}/details",
+            "description": "Retrieve detailed information about a specific product, including sales and inventory attributes."
+        }
+    ]
+}

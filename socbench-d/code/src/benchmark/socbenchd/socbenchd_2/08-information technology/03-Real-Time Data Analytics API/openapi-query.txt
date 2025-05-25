@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+Service:
+Organizations can utilize this service to process and analyze large datasets in real-time. The service offers data stream ingestion, transformation, and advanced analytical capabilities, enabling customers to derive actionable insights and drive data-driven decisions effectively.
+
+Endpoints:
+POST /data/ingest: Upload and initiate ingestion of data streams for processing.
+GET /data/validate: Retrieve validation results of the ingested data streams.
+POST /data/transform: Transform uploaded datasets based on predefined configurations.
+GET /analytics/summary: Fetch summarized analytical reports of processed datasets.
+GET /analytics/realtime: Stream real-time analytical updates for active datasets.
+POST /config/rules: Define new transformation and analytical rules.
+GET /config/rules: List all existing transformation and analytical rules.
+PUT /config/rules/{ruleID}: Update specific transformation or analytical rules by ID.
+DELETE /config/rules/{ruleID}: Remove specific transformation or analytical rules by ID.
+GET /logs/activities: Retrieve user activity and operation logs for monitoring.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

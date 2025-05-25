@@ -1,0 +1,275 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Personal Care Product Recommendation Service API",
+        "description": "A RESTful API offering personalized recommendations for consumer businesses specializing in personal care products. It analyzes user data and purchase history to enhance customer experiences and boost sales.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/user/preferences": {
+            "get": {
+                "summary": "Fetch User Preferences and Purchase History",
+                "description": "Retrieve current preferences and purchasing history for a user in order to personalize product suggestions.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "description": "Unique identifier for the user.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved user preferences and history.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "preferences": {
+                                            "type": "object",
+                                            "description": "User preferences data."
+                                        },
+                                        "purchaseHistory": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            },
+                                            "description": "List of previously purchased items."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Update User Preferences",
+                "description": "Update the user's preferences based on recent interactions and feedback to enhance personalization.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "description": "Unique identifier for the user.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "User preference data to be updated.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated user preferences."
+                    }
+                }
+            }
+        },
+        "/product/suggestions": {
+            "get": {
+                "summary": "Get Product Suggestions",
+                "description": "Obtain a list of recommended products for a user, customized based on their purchase history and preferences.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "description": "Unique identifier for the user.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved product suggestions.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products": {
+            "get": {
+                "summary": "Retrieve Available Products",
+                "description": "Retrieve a comprehensive list of available personal care products to include in the recommendation engine.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved list of available products.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/promotion/apply": {
+            "post": {
+                "summary": "Apply Promotional Offers",
+                "description": "Integrate with active marketing campaigns to deliver promotional offers alongside product recommendations.",
+                "requestBody": {
+                    "description": "Promotion application details.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully applied promotional offers."
+                    }
+                }
+            }
+        },
+        "/promotion/details": {
+            "get": {
+                "summary": "Fetch Promotional Details",
+                "description": "Fetch the current promotional offers linked to specific products to be shown alongside recommendations.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved promotional offer details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/user-engagement": {
+            "get": {
+                "summary": "Access User Engagement Analytics",
+                "description": "Access analytics data related to user engagement and behavior to refine personalization strategies.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully accessed user engagement analytics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/feedback": {
+            "patch": {
+                "summary": "Submit User Feedback",
+                "description": "Submit feedback on the accuracy of personalized recommendations to aid in the refinement of the AI model.",
+                "requestBody": {
+                    "description": "Feedback data from the user.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback submitted successfully."
+                    }
+                }
+            }
+        },
+        "/user/recommendation-history": {
+            "get": {
+                "summary": "View Recommendation History",
+                "description": "View the history of recommendations and interactions made to a specific user to evaluate their effectiveness.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "description": "Unique identifier for the user.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved recommendation history.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/system/status": {
+            "get": {
+                "summary": "Check System Status",
+                "description": "Check the health status and availability of the service to ensure seamless integration and minimize downtimes.",
+                "responses": {
+                    "200": {
+                        "description": "System is operational.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the system."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

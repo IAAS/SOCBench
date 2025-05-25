@@ -1,0 +1,496 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Digital Content Licensing and Distribution API",
+        "description": "This API assists media companies in distributing digital content and managing licensing agreements efficiently. It includes capabilities such as automated content allocation, licensing management, usage tracking, and royalty calculations.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.digitalcontent.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/licenses": {
+            "post": {
+                "summary": "Create a new licensing agreement",
+                "description": "This endpoint creates a new licensing agreement for digital content with specified parameters such as content ID, license terms, start and end dates, and royalty details.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "contentId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the digital content."
+                                    },
+                                    "licenseTerms": {
+                                        "type": "string",
+                                        "description": "Details about the licensing terms and conditions."
+                                    },
+                                    "startDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Start date of the licensing agreement in YYYY-MM-DD format."
+                                    },
+                                    "endDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "End date of the licensing agreement in YYYY-MM-DD format."
+                                    },
+                                    "royaltyPercentage": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "description": "Specified royalty percentage for the agreement."
+                                    }
+                                },
+                                "required": [
+                                    "contentId",
+                                    "licenseTerms",
+                                    "startDate",
+                                    "endDate",
+                                    "royaltyPercentage"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Licensing agreement successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "licenseId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the created licensing agreement."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Licensing agreement created successfully."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/licenses/{licenseId}": {
+            "get": {
+                "summary": "Retrieve licensing agreement details",
+                "description": "Fetch detailed information about a specific licensing agreement by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "licenseId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the licensing agreement.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detailed licensing agreement data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "licenseId": {
+                                            "type": "string"
+                                        },
+                                        "contentId": {
+                                            "type": "string"
+                                        },
+                                        "licenseTerms": {
+                                            "type": "string"
+                                        },
+                                        "startDate": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "endDate": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "royaltyPercentage": {
+                                            "type": "number",
+                                            "format": "float"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update an existing licensing agreement",
+                "description": "Modify the details of a specific licensing agreement by providing updated information.",
+                "parameters": [
+                    {
+                        "name": "licenseId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the licensing agreement.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "licenseTerms": {
+                                        "type": "string"
+                                    },
+                                    "startDate": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "endDate": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "royaltyPercentage": {
+                                        "type": "number",
+                                        "format": "float"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Licensing agreement successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Licensing agreement updated successfully."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a licensing agreement",
+                "description": "Remove an expired or invalid licensing agreement using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "licenseId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the licensing agreement.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Licensing agreement deleted successfully."
+                    }
+                }
+            }
+        },
+        "/content": {
+            "get": {
+                "summary": "Retrieve list of managed digital content",
+                "description": "Fetch a list of all digital content currently managed by the service, including their metadata.",
+                "responses": {
+                    "200": {
+                        "description": "List of digital content.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "contentId": {
+                                                "type": "string"
+                                            },
+                                            "title": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            },
+                                            "releaseDate": {
+                                                "type": "string",
+                                                "format": "date"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/content/{contentId}": {
+            "get": {
+                "summary": "Retrieve digital content details",
+                "description": "Get detailed metadata about a specific piece of digital content using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "contentId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the digital content.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about the digital content.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "contentId": {
+                                            "type": "string"
+                                        },
+                                        "title": {
+                                            "type": "string"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "releaseDate": {
+                                            "type": "string",
+                                            "format": "date"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/content/{contentId}/allocate": {
+            "post": {
+                "summary": "Allocate digital content to a distribution channel",
+                "description": "Allocate a piece of digital content to a specific distribution channel for release or usage.",
+                "parameters": [
+                    {
+                        "name": "contentId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the digital content.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "channel": {
+                                        "type": "string",
+                                        "description": "Distribution channel to allocate the content."
+                                    }
+                                },
+                                "required": [
+                                    "channel"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Content successfully allocated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Content allocated to distribution channel."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/usage": {
+            "get": {
+                "summary": "Generate usage report",
+                "description": "Generate a report summarizing the usage statistics of digital content over a specified period.",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "Start date for the report in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "End date for the report in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usage statistics report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "totalUsage": {
+                                            "type": "integer"
+                                        },
+                                        "contentStats": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "contentId": {
+                                                        "type": "string"
+                                                    },
+                                                    "usageCount": {
+                                                        "type": "integer"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/royalties": {
+            "get": {
+                "summary": "Generate royalty distribution report",
+                "description": "Retrieve a detailed royalty distribution report per licensing agreement for a specified period.",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "Start date for the report in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "End date for the report in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Royalty distribution report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "totalRoyalties": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "licenseStats": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "licenseId": {
+                                                        "type": "string"
+                                                    },
+                                                    "royaltyAmount": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/health": {
+            "get": {
+                "summary": "Check service health",
+                "description": "Retrieve the operational status of the API to ensure that it is accessible and functional.",
+                "responses": {
+                    "200": {
+                        "description": "Service is operational.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Healthy"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+This service is designed to assist in efficient energy storage and release management by providing actionable insights derived from energy supply-demand modeling. A renewable energy firm, for instance, can use this API to decide the optimal times to store surplus energy and release it during peak demand periods.
+
+Endpoints:
+POST /energy-model/create: Create a new energy supply-demand model with specific parameters.
+GET /energy-models: Retrieve a list of all energy models available within the system.
+PATCH /energy-model/{modelId}: Update parameters of an existing energy model by supplying its unique identifier.
+DELETE /energy-model/{modelId}: Remove an energy model permanently.
+GET /energy-insights: Retrieve actionable insights based on current energy data and predictions.
+POST /energy-storage/action: Perform specific actions related to energy storage or release within defined parameters.
+GET /energy-usage/analytics: Gather analytical insights on energy usage patterns.
+POST /alert-config/create: Set up an alert mechanism to notify stakeholders about energy events.
+GET /recommendations/strategy: Receive recommended strategies for energy management optimization.
+PUT /user-preferences/storage-strategy: Update user preferences regarding energy storage strategies.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

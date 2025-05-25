@@ -1,0 +1,373 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Mining Operations Monitoring Service API",
+        "description": "This API allows mining companies to monitor their operations in real-time to ensure safety, efficiency, and productivity. The API integrates with equipment sensors and IoT devices to provide actionable insights, automate anomaly responses, and generate reports.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.miningoperations.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/alerts": {
+            "get": {
+                "summary": "Retrieve Active Alerts",
+                "description": "Retrieve a list of currently active alerts related to safety and operational anomalies.",
+                "responses": {
+                    "200": {
+                        "description": "A list of active alerts.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Alert"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard": {
+            "get": {
+                "summary": "Access Dashboard",
+                "description": "Access the intuitive dashboard, which presents aggregated key metrics related to machinery health, operational efficiency, and worker safety.",
+                "responses": {
+                    "200": {
+                        "description": "The dashboard metrics and data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Dashboard"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/settings/thresholds": {
+            "post": {
+                "summary": "Update Monitoring Thresholds",
+                "description": "Update safety and efficiency thresholds used for monitoring key parameters.",
+                "requestBody": {
+                    "description": "Threshold parameters to update.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ThresholdSettings"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Threshold settings updated successfully."
+                    }
+                }
+            }
+        },
+        "/operations/current": {
+            "get": {
+                "summary": "Fetch Current Operations",
+                "description": "Fetch the current state of ongoing mining operations across all accessible locations.",
+                "responses": {
+                    "200": {
+                        "description": "Details of the current operations.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Operations"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/anomalies/{id}": {
+            "delete": {
+                "summary": "Dismiss Reported Anomaly",
+                "description": "Dismiss a previously reported anomaly by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The unique identifier of the anomaly to be dismissed.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Anomaly dismissed successfully."
+                    }
+                }
+            }
+        },
+        "/analytics/performance": {
+            "get": {
+                "summary": "Request Performance Analytics",
+                "description": "Retrieve historical performance analytics for machinery and operations.",
+                "responses": {
+                    "200": {
+                        "description": "Performance analytics data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PerformanceAnalytics"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/responses/automated": {
+            "post": {
+                "summary": "Configure Automated Responses",
+                "description": "Configure automated incident response actions based on detected anomalies.",
+                "requestBody": {
+                    "description": "Automated response actions to configure.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AutomatedResponse"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Automated responses configured successfully."
+                    }
+                }
+            }
+        },
+        "/resources/extraction": {
+            "get": {
+                "summary": "Resource Extraction Rates",
+                "description": "Fetch details about resource extraction rates at specific mines or facilities.",
+                "parameters": [
+                    {
+                        "name": "mineId",
+                        "in": "query",
+                        "description": "The unique identifier of the mine or facility.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resource extraction data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExtractionRates"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/worker/devices/{deviceId}": {
+            "patch": {
+                "summary": "Update Worker Safety Device Configurations",
+                "description": "Update the configuration of a specific worker's safety device.",
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "path",
+                        "description": "The unique identifier of the worker's safety device.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "New device configuration settings.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SafetyDeviceConfig"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Safety device configuration updated successfully."
+                    }
+                }
+            }
+        },
+        "/reports/monthly": {
+            "get": {
+                "summary": "Generate Monthly Reports",
+                "description": "Generate a comprehensive monthly report of mining activities and outcomes.",
+                "responses": {
+                    "200": {
+                        "description": "Monthly report data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MonthlyReport"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Alert": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Type of the alert, such as safety or operational."
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Dashboard": {
+                "type": "object",
+                "properties": {
+                    "metrics": {
+                        "type": "object",
+                        "description": "Key metrics displayed on the dashboard."
+                    },
+                    "alertsCount": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "ThresholdSettings": {
+                "type": "object",
+                "properties": {
+                    "parameter": {
+                        "type": "string",
+                        "description": "Name of the parameter."
+                    },
+                    "threshold": {
+                        "type": "number",
+                        "description": "Threshold value for the parameter."
+                    }
+                }
+            },
+            "Operations": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "type": "string"
+                    }
+                }
+            },
+            "PerformanceAnalytics": {
+                "type": "object",
+                "properties": {
+                    "machinery": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "performance": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "operations": {
+                        "type": "object",
+                        "properties": {
+                            "successRate": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "AutomatedResponse": {
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "string"
+                    },
+                    "trigger": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ExtractionRates": {
+                "type": "object",
+                "properties": {
+                    "mineId": {
+                        "type": "string"
+                    },
+                    "rate": {
+                        "type": "number"
+                    }
+                }
+            },
+            "SafetyDeviceConfig": {
+                "type": "object",
+                "properties": {
+                    "setting": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "string"
+                    }
+                }
+            },
+            "MonthlyReport": {
+                "type": "object",
+                "properties": {
+                    "summary": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

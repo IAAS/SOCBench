@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+This RESTful service facilitates the real-time monitoring of communication network performance metrics, assisting telecom providers in maintaining optimal service standards. Users can access latency, throughput, and error rates data through specific API endpoints and receive alerts for potential service disruptions. Secure authentication protocols ensure data integrity, making it a reliable tool for proactive network management.
+
+Endpoints:
+GET /metrics/latency: Retrieve the real-time latency data for the monitored network.
+GET /metrics/throughput: Fetch the current throughput values across the network.
+GET /metrics/errorrate: Obtain the ongoing error rate statistics of network operations.
+POST /alerts/subscribe: Register for receiving alerts regarding network anomalies or potential disruptions.
+DELETE /alerts/unsubscribe: Unsubscribe from the alert notifications for network updates.
+GET /regions/{regionID}/metrics: Access performance metrics for a specific operational region by its region ID.
+GET /alerts: Retrieve a list of triggered alerts and their details.
+PUT /settings/monitoring: Update and configure the monitoring preferences and settings.
+GET /services/status: Check the overall operational status and health of the service endpoints.
+POST /feedback: Submit user feedback regarding the service and its functionality.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

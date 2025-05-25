@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /api/borrower-evaluation",
+            "description": "Submit detailed borrower information for creditworthiness analysis."
+        },
+        {
+            "endpoint": "GET /api/model-status",
+            "description": "Retrieve the current operational status of predictive models."
+        },
+        {
+            "endpoint": "GET /api/loan-recommendations",
+            "description": "Obtain model-generated loan product recommendations based on borrower profiles."
+        },
+        {
+            "endpoint": "POST /api/data-qualification",
+            "description": "Submit potential borrowers' financial datasets for model compatibility review."
+        },
+        {
+            "endpoint": "GET /api/credit-score-prediction",
+            "description": "Request calculated credit scores from predictive models."
+        },
+        {
+            "endpoint": "PUT /api/model-calibration",
+            "description": "Update model parameters with newly derived statistics or policies."
+        },
+        {
+            "endpoint": "POST /api/multi-borrower-analysis",
+            "description": "Submit a batch of borrower profiles for group creditworthiness evaluations."
+        },
+        {
+            "endpoint": "DELETE /api/old-entries",
+            "description": "Remove outdated or irrelevant borrower data from the analysis database."
+        },
+        {
+            "endpoint": "GET /api/market-data-integration",
+            "description": "Access external financial markets data leveraged in predictive models."
+        },
+        {
+            "endpoint": "GET /api/service-compliance",
+            "description": "Retrieve details ensuring compliance with financial regulations and standards."
+        }
+    ]
+}

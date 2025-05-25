@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+Designed for gaming platforms, this API provides insights into user behavior, engagement metrics, and monetization strategies. It supports data-driven enhancements to game design and marketing approaches.
+
+Endpoints:
+GET /users/engagement: Retrieve engagement metrics for individual users over a specific time period.
+POST /games/session/start: Initiate a new game session for a given user and record the event.
+GET /games/{game_id}/monetization: Fetch monetization strategy statistics and related data for the specified game.
+PUT /users/{user_id}/preferences: Update the specified user's gaming and engagement settings.
+DELETE /games/session/{session_id}: Terminate and remove the specified game session as requested.
+GET /analytics/overview: Access a summary of overall platform usage and engagement measurements.
+POST /advertisements/click: Record a campaign-ad engagement event for analysis.
+GET /games/{game_id}/feedback: Retrieve user feedback and reviews specifically for this game.
+POST /users/activity: Log a defined user activity, complementing behavioral studies.
+GET /trends/popularity: Identify trending topics and games based on real-time analytics.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

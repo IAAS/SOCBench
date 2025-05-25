@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /users/register",
+            "description": "Create a new user account with specified credentials and profile information."
+        },
+        {
+            "endpoint": "POST /users/authenticate",
+            "description": "Authenticate a user, returning a session token upon success."
+        },
+        {
+            "endpoint": "GET /users/{userId}/roles",
+            "description": "Retrieve a list of roles assigned to a specific user."
+        },
+        {
+            "endpoint": "POST /roles",
+            "description": "Create a new role with specific permissions to be assigned to users."
+        },
+        {
+            "endpoint": "DELETE /roles/{roleId}",
+            "description": "Remove a specified role from the system."
+        },
+        {
+            "endpoint": "POST /users/{userId}/roles",
+            "description": "Assign a specific role to a user."
+        },
+        {
+            "endpoint": "GET /resources/{resourceId}/permissions",
+            "description": "Obtain a list of permissions associated with a particular resource."
+        },
+        {
+            "endpoint": "POST /permissions",
+            "description": "Define a new permission that can be assigned to roles."
+        },
+        {
+            "endpoint": "PUT /roles/{roleId}/permissions",
+            "description": "Update the list of permissions associated with a specific role."
+        },
+        {
+            "endpoint": "POST /tokens/verify",
+            "description": "Verify the validity and permissions of a provided session token."
+        }
+    ]
+}

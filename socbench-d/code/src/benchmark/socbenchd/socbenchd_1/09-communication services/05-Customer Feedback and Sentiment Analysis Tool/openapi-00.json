@@ -1,0 +1,461 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Customer Feedback Analysis Service API",
+    "description": "This API allows companies in the Communication Services Sector to collect customer feedback, analyze it for sentiment and key concerns, and extract actionable insights to improve their services. The API supports submitting customer feedback, retrieving analysis summaries, identifying trends and concerns, and exporting comprehensive reports.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/feedbacks": {
+      "post": {
+        "summary": "Submit customer feedback",
+        "description": "Submit a new piece of customer feedback for analysis. Feedback should typically include a message, associated metadata, and customer information.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "description": "The content of the customer feedback."
+                  },
+                  "customerId": {
+                    "type": "string",
+                    "description": "Unique identifier for the customer providing the feedback."
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "description": "Additional details about the feedback, such as feedback date and source.",
+                    "properties": {
+                      "date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Date and time the feedback was collected."
+                      },
+                      "source": {
+                        "type": "string",
+                        "description": "Source or channel through which the feedback was collected."
+                      }
+                    }
+                  }
+                },
+                "required": ["message", "customerId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Feedback successfully submitted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "feedbackId": {
+                      "type": "string",
+                      "description": "Unique identifier for the newly submitted feedback."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Confirmation message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedbacks/{feedbackId}": {
+      "get": {
+        "summary": "Retrieve specific feedback details",
+        "description": "Retrieve the details of a specific customer feedback entry using its unique identifier.",
+        "parameters": [
+          {
+            "name": "feedbackId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier for the feedback entry."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the feedback entry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "feedbackId": {
+                      "type": "string",
+                      "description": "Unique identifier for the feedback."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "The feedback message provided by the customer."
+                    },
+                    "customerId": {
+                      "type": "string",
+                      "description": "Unique identifier for the customer who submitted the feedback."
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "description": "Details about the feedback, including date and source.",
+                      "properties": {
+                        "date": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Date and time the feedback was collected."
+                        },
+                        "source": {
+                          "type": "string",
+                          "description": "Source of the feedback."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update feedback entry",
+        "description": "Update an existing feedback entry identified by its unique identifier.",
+        "parameters": [
+          {
+            "name": "feedbackId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the feedback to update."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "description": "Updated content of the customer feedback."
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "description": "Updated metadata about the feedback.",
+                    "properties": {
+                      "date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Updated date and time of the feedback."
+                      },
+                      "source": {
+                        "type": "string",
+                        "description": "Updated source or channel of feedback."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Feedback successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "feedbackId": {
+                      "type": "string",
+                      "description": "Unique identifier for the updated feedback."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Confirmation message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete feedback",
+        "description": "Remove an existing feedback entry using its unique identifier.",
+        "parameters": [
+          {
+            "name": "feedbackId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the feedback to delete."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Feedback successfully deleted."
+          }
+        }
+      }
+    },
+    "/analysis/summary": {
+      "get": {
+        "summary": "Fetch customer sentiment summary",
+        "description": "Retrieve an aggregated report summarizing customer sentiments across analyzed feedback data.",
+        "responses": {
+          "200": {
+            "description": "Summary of analyzed sentiment data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "positive": {
+                      "type": "integer",
+                      "description": "Number of positive feedback entries."
+                    },
+                    "negative": {
+                      "type": "integer",
+                      "description": "Number of negative feedback entries."
+                    },
+                    "neutral": {
+                      "type": "integer",
+                      "description": "Number of neutral feedback entries."
+                    },
+                    "total": {
+                      "type": "integer",
+                      "description": "Total number of analyzed feedback entries."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analysis/customize": {
+      "post": {
+        "summary": "Customize analysis process",
+        "description": "Submit parameters to modify how analysis is conducted on feedback data.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "criteria": {
+                    "type": "string",
+                    "description": "Criteria or parameters to adjust the feedback analysis process."
+                  }
+                },
+                "required": ["criteria"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Analysis parameters successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Resulting status of the customization request."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/insights/concerns": {
+      "get": {
+        "summary": "Retrieve key customer concerns",
+        "description": "Fetch a list of common customer concerns derived from aggregated feedback data.",
+        "responses": {
+          "200": {
+            "description": "Key concerns based on customer feedback.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "A specific customer concern."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/insights/trends": {
+      "get": {
+        "summary": "Access feedback trends",
+        "description": "Retrieve insights into trends and patterns that emerge from customer feedback data over time.",
+        "responses": {
+          "200": {
+            "description": "Trends and patterns detected.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "trend": {
+                        "type": "string",
+                        "description": "A specific trend identified from feedback."
+                      },
+                      "frequency": {
+                        "type": "integer",
+                        "description": "The occurrence frequency of this trend."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/export/reports": {
+      "get": {
+        "summary": "Download analysis report",
+        "description": "Generate and download a comprehensive report of all analysis and insights from the feedback data.",
+        "responses": {
+          "200": {
+            "description": "Downloadable report generated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reportUrl": {
+                      "type": "string",
+                      "description": "URL to download the report."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedbacks/search": {
+      "get": {
+        "summary": "Search feedback entries",
+        "description": "Search through customer feedback based on query parameters such as date range, sentiment, or specific keywords.",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "Start date for feedback search range."
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "End date for feedback search range."
+          },
+          {
+            "name": "sentiment",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["positive", "negative", "neutral"]
+            },
+            "description": "Filter feedback by sentiment type."
+          },
+          {
+            "name": "keywords",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Keywords to search for in feedback messages."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results for matching feedback entries.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "feedbackId": {
+                        "type": "string",
+                        "description": "Unique identifier for the feedback entry."
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Feedback message content."
+                      },
+                      "sentiment": {
+                        "type": "string",
+                        "description": "Sentiment analysis result for the feedback.",
+                        "enum": ["positive", "negative", "neutral"]
+                      },
+                      "metadata": {
+                        "type": "object",
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Date and time of submission."
+                          },
+                          "source": {
+                            "type": "string",
+                            "description": "Source of the feedback."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

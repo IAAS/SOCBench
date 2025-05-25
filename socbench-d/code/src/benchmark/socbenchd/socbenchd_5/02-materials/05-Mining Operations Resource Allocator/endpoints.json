@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /machinery/allocate",
+            "description": "Retrieve current allocation details for mining machinery to various sites."
+        },
+        {
+            "endpoint": "POST /machinery/allocate",
+            "description": "Submit or update allocation plans for mining machinery across sites."
+        },
+        {
+            "endpoint": "GET /personnel/allocate",
+            "description": "Retrieve current personnel allocation details for mining sites."
+        },
+        {
+            "endpoint": "POST /personnel/allocate",
+            "description": "Submit or update personnel allocation plans for mining operations."
+        },
+        {
+            "endpoint": "GET /operations/status",
+            "description": "Retrieve status and productivity metrics for ongoing mining operations."
+        },
+        {
+            "endpoint": "POST /operations/optimize",
+            "description": "Request optimization for resource allocation based on current operation data."
+        },
+        {
+            "endpoint": "GET /inventory/materials",
+            "description": "Retrieve available inventory data for materials and resources at each site."
+        },
+        {
+            "endpoint": "POST /inventory/materials/update",
+            "description": "Update material stock levels to reflect changes in inventory."
+        },
+        {
+            "endpoint": "GET /sites/details",
+            "description": "Retrieve geographic and operational details for all active mining sites."
+        },
+        {
+            "endpoint": "POST /reports/efficiency",
+            "description": "Submit and generate efficiency and performance reports based on the latest operation metrics."
+        }
+    ]
+}

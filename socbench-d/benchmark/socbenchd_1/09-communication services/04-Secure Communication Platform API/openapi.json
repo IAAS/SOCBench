@@ -1,0 +1,529 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Secure Communication Service",
+        "description": "This service allows developers to create encrypted messaging and calling applications, ensuring privacy and compliance with data protection regulations using advanced cryptographic protocols.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.secure-comm-service.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/messages/send": {
+            "post": {
+                "summary": "Send an encrypted message",
+                "description": "Send an encrypted message to a specified recipient using advanced encryption protocols to ensure security and privacy.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "recipientId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the recipient."
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "description": "The message content to be sent."
+                                    }
+                                },
+                                "required": [
+                                    "recipientId",
+                                    "message"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Message successfully sent.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "messageId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the sent message."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input provided."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/messages/received": {
+            "get": {
+                "summary": "Retrieve received messages",
+                "description": "Retrieve all encrypted messages received by the authenticated user.",
+                "responses": {
+                    "200": {
+                        "description": "A list of received messages.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "messageId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the message."
+                                            },
+                                            "senderId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the sender."
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "description": "Encrypted message content."
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Timestamp when the message was received."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/messages/reply": {
+            "post": {
+                "summary": "Reply to a received message",
+                "description": "Send a reply to a specific received encrypted message.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "messageId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the message to reply to."
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "description": "Message content for the reply."
+                                    }
+                                },
+                                "required": [
+                                    "messageId",
+                                    "message"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Reply successfully sent.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "replyId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the reply."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input provided."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/messages/status": {
+            "get": {
+                "summary": "Fetch message status",
+                "description": "Fetch the delivery and read status of a specific sent message.",
+                "parameters": [
+                    {
+                        "name": "messageId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the sent message."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Status of the message.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "sent",
+                                                "delivered",
+                                                "read"
+                                            ],
+                                            "description": "Current status of the message."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Message not found."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/calls/start": {
+            "post": {
+                "summary": "Initiate an encrypted call",
+                "description": "Initiate a secure encrypted voice or video call with another user.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "recipientId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the recipient."
+                                    },
+                                    "callType": {
+                                        "type": "string",
+                                        "enum": [
+                                            "voice",
+                                            "video"
+                                        ],
+                                        "description": "Type of call to be initiated."
+                                    }
+                                },
+                                "required": [
+                                    "recipientId",
+                                    "callType"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Call successfully initiated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "callId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the initiated call."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input provided."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/calls/history": {
+            "get": {
+                "summary": "View call history",
+                "description": "Retrieve the call history of the authenticated user.",
+                "responses": {
+                    "200": {
+                        "description": "List of past calls.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "callId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the call."
+                                            },
+                                            "recipientId": {
+                                                "type": "string",
+                                                "description": "Recipient of the call."
+                                            },
+                                            "callType": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "voice",
+                                                    "video"
+                                                ],
+                                                "description": "Type of call."
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Date and time when the call occurred."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/user/encrypt-keys": {
+            "post": {
+                "summary": "Generate encryption keys",
+                "description": "Generate and securely store encryption keys for the authenticated user to enable secure communication.",
+                "responses": {
+                    "200": {
+                        "description": "Encryption keys successfully generated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/user/settings": {
+            "get": {
+                "summary": "Retrieve user settings",
+                "description": "Retrieve the current privacy and app settings of the authenticated user.",
+                "responses": {
+                    "200": {
+                        "description": "Settings successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "privacySettings": {
+                                            "type": "object",
+                                            "description": "Details about user's privacy settings."
+                                        },
+                                        "appSettings": {
+                                            "type": "object",
+                                            "description": "Details about app-specific settings."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/group/create": {
+            "post": {
+                "summary": "Create a new group",
+                "description": "Create a new group for secure messaging and calling.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "groupName": {
+                                        "type": "string",
+                                        "description": "Name of the group to be created."
+                                    },
+                                    "members": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of unique identifiers of initial members."
+                                    }
+                                },
+                                "required": [
+                                    "groupName",
+                                    "members"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Group successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "groupId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the newly created group."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input provided."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/group/add-user": {
+            "post": {
+                "summary": "Add user to group",
+                "description": "Add new members to an existing secure communication group.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "groupId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the group."
+                                    },
+                                    "newMembers": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of unique identifiers of new members to be added."
+                                    }
+                                },
+                                "required": [
+                                    "groupId",
+                                    "newMembers"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Users successfully added to the group.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input provided."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ]
+}

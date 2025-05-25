@@ -1,0 +1,452 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Credit Scoring API",
+    "description": "An API service to calculate and evaluate credit scores for individuals or businesses based on input data. Financial institutions can utilize this API for risk assessment, loan approvals, and financial planning.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.creditscoring.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/creditScore": {
+      "post": {
+        "summary": "Calculate credit score",
+        "description": "Calculates the credit score of an individual or business based on provided financial data.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "description": "Unique identifier of the individual or business."
+                  },
+                  "financialData": {
+                    "type": "object",
+                    "description": "Financial data required for calculating the credit score.",
+                    "properties": {
+                      "income": {
+                        "type": "number",
+                        "description": "Annual income of the user."
+                      },
+                      "debts": {
+                        "type": "number",
+                        "description": "Total debts owed by the user."
+                      },
+                      "paymentHistory": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "date": {
+                              "type": "string",
+                              "format": "date",
+                              "description": "Payment transaction date."
+                            },
+                            "amount": {
+                              "type": "number",
+                              "description": "Payment transaction amount."
+                            },
+                            "status": {
+                              "type": "string",
+                              "description": "Status of the payment (e.g., 'on-time', 'late')."
+                            }
+                          }
+                        },
+                        "description": "History of payments relevant to credit score calculation."
+                      }
+                    },
+                    "required": ["income", "debts", "paymentHistory"]
+                  }
+                },
+                "required": ["userId", "financialData"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Credit score successfully calculated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "creditScore": {
+                      "type": "number",
+                      "description": "Calculated credit score for the user."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data provided."
+          }
+        }
+      }
+    },
+    "/userScore/{userId}": {
+      "get": {
+        "summary": "Retrieve a user's credit score",
+        "description": "Returns the calculated credit score for a specific user by their unique identifier.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the user whose credit score is to be retrieved.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the credit score.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userId": {
+                      "type": "string",
+                      "description": "Unique identifier of the user."
+                    },
+                    "creditScore": {
+                      "type": "number",
+                      "description": "The user's credit score."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found."
+          }
+        }
+      }
+    },
+    "/criteria": {
+      "get": {
+        "summary": "List credit score criteria",
+        "description": "Lists all the criteria used in calculating credit scores.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the list of criteria.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "criteriaId": {
+                        "type": "string",
+                        "description": "Unique identifier for the scoring criterion."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the criterion."
+                      },
+                      "weight": {
+                        "type": "number",
+                        "description": "Weight assigned to the criterion in the scoring process."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add or update criteria",
+        "description": "Adds a new criterion or updates an existing one for credit score calculation.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "criteriaId": {
+                    "type": "string",
+                    "description": "Unique identifier for the criterion (optional for new criteria)."
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the criterion."
+                  },
+                  "weight": {
+                    "type": "number",
+                    "description": "Weight assigned to the criterion."
+                  }
+                },
+                "required": ["name", "weight"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Criterion successfully added or updated."
+          },
+          "400": {
+            "description": "Invalid input data provided."
+          }
+        }
+      }
+    },
+    "/scoreHistory/{userId}": {
+      "get": {
+        "summary": "Retrieve credit score history",
+        "description": "Returns the historical credit score data for a specified user.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the user.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved credit score history.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Date of the credit score calculation."
+                      },
+                      "creditScore": {
+                        "type": "number",
+                        "description": "The credit score at that date."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found."
+          }
+        }
+      }
+    },
+    "/bulkScore": {
+      "post": {
+        "summary": "Calculate bulk credit scores",
+        "description": "Calculates credit scores for multiple users or businesses through batch processing.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "userId": {
+                      "type": "string",
+                      "description": "Unique identifier of the individual or business."
+                    },
+                    "financialData": {
+                      "type": "object",
+                      "description": "Financial data for the credit score calculation. See `/creditScore` for details."
+                    }
+                  },
+                  "required": ["userId", "financialData"]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Bulk credit scores successfully calculated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "userId": {
+                            "type": "string",
+                            "description": "Unique identifier of the user."
+                          },
+                          "creditScore": {
+                            "type": "number",
+                            "description": "Calculated credit score."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data provided."
+          }
+        }
+      }
+    },
+    "/businessTypes": {
+      "get": {
+        "summary": "List supported business types",
+        "description": "Retrieves a list of the business types supported for credit score evaluation.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved list of business types.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "Supported business type."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/riskEvaluation": {
+      "post": {
+        "summary": "Perform risk evaluation",
+        "description": "Performs a comprehensive risk assessment based on credit score and additional contextual data provided.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "description": "Unique identifier of the individual or business."
+                  },
+                  "contextualData": {
+                    "type": "object",
+                    "description": "Additional data to supplement credit score evaluation."
+                  }
+                },
+                "required": ["userId", "contextualData"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Risk evaluation successfully performed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "riskProfile": {
+                      "type": "string",
+                      "description": "Overall risk profile based on the analysis."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data."
+          }
+        }
+      }
+    },
+    "/criteria/{criteriaId}": {
+      "delete": {
+        "summary": "Remove scoring criterion",
+        "description": "Removes a scoring criterion by its unique identifier.",
+        "parameters": [
+          {
+            "name": "criteriaId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the scoring criterion to be deleted.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Scoring criterion successfully deleted."
+          },
+          "404": {
+            "description": "Criterion not found."
+          }
+        }
+      }
+    },
+    "/scoringMetrics": {
+      "get": {
+        "summary": "Get scoring metrics",
+        "description": "Retrieves detailed data used for extrapolating credit risk metrics.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved scoring metrics.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "metrics": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "metric": {
+                            "type": "string",
+                            "description": "Name of the metric."
+                          },
+                          "value": {
+                            "type": "string",
+                            "description": "Value or description of the metric."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {}
+}

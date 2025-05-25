@@ -1,0 +1,319 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Environmental Emissions and Compliance Tracking API",
+    "description": "This API assists industries in tracking and reporting environmental emissions and compliance metrics to ensure adherence to regulatory requirements. It provides tools for monitoring and managing emissions data, submitting violations, updating operational thresholds, and more.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/reports/environmental-insights": {
+      "get": {
+        "summary": "Retrieve Environmental Metrics and Trends",
+        "description": "Fetch a summary overview of environmental metrics and trends across all monitored facilities. This data helps industries get insights into their overall environmental performance.",
+        "responses": {
+          "200": {
+            "description": "A summary of environmental metrics and trends retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "metrics": [
+                    {"metric": "CO2 Emissions", "trend": "Decreasing"},
+                    {"metric": "Waste Generation", "trend": "Stable"}
+                  ],
+                  "summary": "Environmental performance has improved compared to last quarter."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/compliance/report-violation": {
+      "post": {
+        "summary": "Report Environmental Regulation Violation",
+        "description": "Submit data for a detected environmental regulation violation. Use this endpoint to report incidents to ensure the violations are logged and tracked.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "facility_id": {
+                    "type": "string",
+                    "description": "Identifier of the facility where the violation occurred."
+                  },
+                  "violation_details": {
+                    "type": "string",
+                    "description": "Details of the environmental regulation violation."
+                  },
+                  "reported_by": {
+                    "type": "string",
+                    "description": "Name or identifier of the individual reporting the violation."
+                  },
+                  "reported_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date and time when the violation was reported."
+                  }
+                },
+                "required": ["facility_id", "violation_details", "reported_by"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Violation reported successfully."
+          }
+        }
+      }
+    },
+    "/facilities/{facility_id}/emissions": {
+      "get": {
+        "summary": "Get Facility Emissions Data",
+        "description": "Retrieve emissions data specific to a particular facility using its unique identifier. This includes data on pollutants, volumes, and timestamps.",
+        "parameters": [
+          {
+            "name": "facility_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the facility.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Emissions data for the specified facility retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "facility_id": "12345ABC",
+                  "emissions": [
+                    {"pollutant": "CO2", "volume": "1000 tons", "timestamp": "2023-10-10T10:00:00Z"},
+                    {"pollutant": "SO2", "volume": "500 tons", "timestamp": "2023-10-10T10:00:00Z"}
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/facilities/{facility_id}/thresholds": {
+      "put": {
+        "summary": "Update Emission Thresholds",
+        "description": "Update the operational thresholds for emission limits at a specified facility. Helps in setting limits to ensure compliance with regulations.",
+        "parameters": [
+          {
+            "name": "facility_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the facility.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "thresholds": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "number"
+                    },
+                    "description": "Emission thresholds for specific pollutants (e.g., CO2, SO2). Format: { 'pollutant': threshold_limit }"
+                  }
+                },
+                "required": ["thresholds"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Emission thresholds updated successfully."
+          }
+        }
+      }
+    },
+    "/alerts/{alert_id}": {
+      "delete": {
+        "summary": "Delete Alert Notification",
+        "description": "Remove a specific alert notification that was generated for compliance monitoring.",
+        "parameters": [
+          {
+            "name": "alert_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the alert to be deleted.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Alert notification deleted successfully."
+          }
+        }
+      }
+    },
+    "/inventory/resources": {
+      "get": {
+        "summary": "List Resources and Materials",
+        "description": "Retrieve a list of resources and materials used by the company that might influence or impact environmental metrics.",
+        "responses": {
+          "200": {
+            "description": "List of resources retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "resources": [
+                    {"name": "Steel", "impact": "High"},
+                    {"name": "Plastic", "impact": "Moderate"}
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback/suggestions": {
+      "post": {
+        "summary": "Submit Feedback or Suggestions",
+        "description": "Submit suggestions or feedback regarding environmental practices or the usage of this service.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "description": "The detailed feedback or suggestion message."
+                  },
+                  "user_id": {
+                    "type": "string",
+                    "description": "Identifier for the user submitting the feedback."
+                  }
+                },
+                "required": ["message"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Feedback submitted successfully."
+          }
+        }
+      }
+    },
+    "/analytics/forecast-emissions": {
+      "get": {
+        "summary": "Get Emissions Forecast Data",
+        "description": "Access predicted emissions data based on current and historical data trends, helping in future planning and compliance adherence.",
+        "responses": {
+          "200": {
+            "description": "Predicted emissions data retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "forecast": [
+                    {"pollutant": "CO2", "predicted_volume": "990 tons", "date": "2023-11-10"},
+                    {"pollutant": "SO2", "predicted_volume": "480 tons", "date": "2023-11-10"}
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/preferences": {
+      "patch": {
+        "summary": "Update User Preferences",
+        "description": "Update user-defined preferences for notifications and report types, ensuring a tailored experience.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "notifications": {
+                    "type": "boolean",
+                    "description": "Enable or disable notifications."
+                  },
+                  "report_types": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "List of preferred report types (e.g., 'compliance', 'emissions')."
+                  }
+                },
+                "required": ["notifications"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User preferences updated successfully."
+          }
+        }
+      }
+    },
+    "/data/manual-entry": {
+      "post": {
+        "summary": "Submit Manual Data Entry",
+        "description": "Manually enter environmental data readings to supplement automated sensor data. Useful during sensor malfunctions or calibration issues.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "facility_id": {
+                    "type": "string",
+                    "description": "Identifier for the facility associated with the manual entry."
+                  },
+                  "data": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "number"
+                    },
+                    "description": "Manual data readings for various parameters (e.g., CO2 levels)."
+                  },
+                  "entry_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Timestamp for when the data was recorded."
+                  }
+                },
+                "required": ["facility_id", "data"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Manual entry submitted successfully."
+          }
+        }
+      }
+    }
+  }
+}

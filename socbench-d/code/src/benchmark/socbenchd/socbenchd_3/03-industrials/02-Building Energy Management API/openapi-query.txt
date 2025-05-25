@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+A service enabling construction companies to monitor and manage energy consumption within facilities to achieve optimal efficiency and sustainability goals.
+
+Endpoints:
+POST /facilities: Add information about a new construction facility to be monitored.
+GET /facilities: Retrieve a list of all monitored construction facilities.
+GET /facilities/energy-consumption: Retrieve energy consumption statistics for a specific facility.
+PUT /facilities/{facility_id}/settings: Update energy monitoring settings for a specific facility.
+GET /regions/reports: Retrieve energy efficiency reports sorted by regions.
+POST /alerts: Create a custom alert criteria for energy thresholds.
+GET /alerts: List all active energy consumption alerts.
+DELETE /alerts/{alert_id}: Remove a specific energy consumption alert.
+GET /sensors/data: Fetch sensor readings for detailed energy analysis.
+POST /analysis/retrend: Initiate retrended analysis for assessing historical energy consumption patterns.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

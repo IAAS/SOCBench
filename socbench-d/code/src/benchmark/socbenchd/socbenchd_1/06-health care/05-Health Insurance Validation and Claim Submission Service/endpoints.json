@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /policies",
+            "description": "Retrieve a list of available health insurance policies."
+        },
+        {
+            "endpoint": "POST /policies/validate",
+            "description": "Submit policy details to validate coverage status in real time."
+        },
+        {
+            "endpoint": "GET /claims",
+            "description": "Retrieve the status of submitted insurance claims."
+        },
+        {
+            "endpoint": "POST /claims/submit",
+            "description": "Submit a new insurance claim for a patient's medical services."
+        },
+        {
+            "endpoint": "PUT /claims/{claim_id}",
+            "description": "Update the details of an existing insurance claim."
+        },
+        {
+            "endpoint": "DELETE /claims/{claim_id}",
+            "description": "Delete an existing insurance claim from the system."
+        },
+        {
+            "endpoint": "GET /policies/{policy_id}/coverage",
+            "description": "Retrieve coverage details for a specific health insurance policy."
+        },
+        {
+            "endpoint": "POST /providers/register",
+            "description": "Register a new healthcare provider in the system."
+        },
+        {
+            "endpoint": "GET /patients/{patient_id}/history",
+            "description": "Fetch claim and coverage history for a specific patient."
+        },
+        {
+            "endpoint": "GET /analytics/claim-statistics",
+            "description": "Retrieve aggregated statistics regarding claim submissions and their outcomes."
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /appointments",
+            "description": "Retrieve a list of all scheduled appointments."
+        },
+        {
+            "endpoint": "POST /appointments",
+            "description": "Book a new appointment with a healthcare professional."
+        },
+        {
+            "endpoint": "PUT /appointments/{id}",
+            "description": "Update the details of an existing appointment using its ID."
+        },
+        {
+            "endpoint": "DELETE /appointments/{id}",
+            "description": "Cancel an existing appointment using its ID."
+        },
+        {
+            "endpoint": "GET /availability/{professionalId}",
+            "description": "Check the available time slots of a specific healthcare professional."
+        },
+        {
+            "endpoint": "GET /professionals",
+            "description": "Retrieve a list of all registered healthcare professionals."
+        },
+        {
+            "endpoint": "GET /patients/{id}",
+            "description": "Retrieve the details of a specific patient using their ID."
+        },
+        {
+            "endpoint": "PUT /patients/{id}",
+            "description": "Update the details of an existing patient record."
+        },
+        {
+            "endpoint": "POST /notifications",
+            "description": "Send a notification to a patient regarding their appointment."
+        },
+        {
+            "endpoint": "GET /facilities",
+            "description": "Retrieve a list of all healthcare facilities."
+        }
+    ]
+}

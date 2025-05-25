@@ -1,0 +1,271 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Energy Optimization API",
+        "description": "API for helping end-users understand and optimize their energy consumption patterns by integrating with smart home devices and utility platforms. This API provides insights, recommendations, and the ability to manage connected smart devices.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.energyoptimizationservice.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/energy-data": {
+            "get": {
+                "summary": "Retrieve energy consumption data",
+                "description": "This endpoint retrieves energy consumption data from all integrated smart devices.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of energy consumption data.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "devices": [
+                                        {
+                                            "deviceId": "device123",
+                                            "energyConsumption": "15.2 kWh",
+                                            "timestamp": "2023-10-22T10:00:00Z"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/insights": {
+            "get": {
+                "summary": "Get analytical insights",
+                "description": "Acquire analytical insights based on collected energy consumption data. This includes identifying usage trends and areas where energy savings can be achieved.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of energy insights.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "insights": {
+                                        "peakUsageHours": "18:00-21:00",
+                                        "totalConsumption": "1500 kWh",
+                                        "suggestions": [
+                                            "Shift energy-intensive activities to non-peak hours."
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/device-profile": {
+            "post": {
+                "summary": "Add new smart device profile",
+                "description": "Submit a new smart device's energy usage profile for analysis and recommendations.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "deviceId": "device456",
+                                "deviceName": "Smart Thermostat",
+                                "energyUsage": "2 kWh",
+                                "attributes": {
+                                    "brand": "BrandName",
+                                    "model": "ModelX"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Smart device profile successfully added."
+                    }
+                }
+            }
+        },
+        "/recommendations": {
+            "get": {
+                "summary": "Get customized recommendations",
+                "description": "Retrieve personalized recommendations for optimizing energy consumption based on collected data and energy usage patterns.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of recommendations.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "recommendations": [
+                                        "Use energy-saving bulbs.",
+                                        "Schedule washing machine usage during off-peak hours."
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/update-device-profile/{deviceId}": {
+            "put": {
+                "summary": "Update a smart device profile",
+                "description": "Update the energy usage profile for a specific smart device.",
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the device to be updated.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "energyUsage": "2.5 kWh",
+                                "attributes": {
+                                    "brand": "BrandName",
+                                    "model": "ModelY"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Smart device profile successfully updated."
+                    }
+                }
+            }
+        },
+        "/remove-device/{deviceId}": {
+            "delete": {
+                "summary": "Remove a smart device",
+                "description": "Remove a specific smart device from the energy tracking service.",
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the device to be removed.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Smart device successfully removed."
+                    }
+                }
+            }
+        },
+        "/utility-integration": {
+            "post": {
+                "summary": "Integrate with utility platform",
+                "description": "Submit utility platform details for generating richer energy consumption insights.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "utilityProvider": "UtilityCompany",
+                                "accountNumber": "123456789",
+                                "integrationDetails": {
+                                    "accessToken": "abc-token-123"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Utility platform successfully integrated."
+                    }
+                }
+            }
+        },
+        "/dashboard-overview": {
+            "get": {
+                "summary": "Retrieve energy usage dashboard",
+                "description": "Get a summary dashboard with an overview of energy usage and potential savings.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of dashboard overview.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "dashboard": {
+                                        "totalEnergyUsage": "120 kWh",
+                                        "potentialSavings": "20 kWh",
+                                        "recommendations": [
+                                            "Reduce heating during the night."
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/report/{reportId}": {
+            "get": {
+                "summary": "Download detailed energy consumption report",
+                "description": "Download a detailed report on energy consumption and optimization recommendations.",
+                "parameters": [
+                    {
+                        "name": "reportId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the report to be downloaded.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Report successfully downloaded.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "reportId": "report123",
+                                    "url": "https://reports.energyoptimizationservice.com/report123"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "summary": "Submit user feedback",
+                "description": "Send user feedback regarding the provided energy insights and recommendations.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "userId": "user123",
+                                "feedback": "The recommendations were very helpful in reducing my monthly bill."
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Feedback successfully submitted."
+                    }
+                }
+            }
+        }
+    }
+}

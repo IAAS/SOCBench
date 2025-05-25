@@ -1,0 +1,346 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Customer Feedback Service for Consumer Staples Products",
+    "description": "A service designed to collect, store, and analyze customer feedback on household and personal products within the Consumer Staples sector, supporting product improvement initiatives.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.consumerstaplesfeedback.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/feedback": {
+      "post": {
+        "summary": "Submit customer feedback",
+        "description": "Submit new feedback from customers related to a specific product.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "product_id": {
+                    "type": "string",
+                    "description": "The unique identifier of the product being reviewed."
+                  },
+                  "customer_id": {
+                    "type": "string",
+                    "description": "The unique identifier of the customer providing the feedback."
+                  },
+                  "rating": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The customer's rating for the product, typically on a scale from 1 to 5."
+                  },
+                  "comments": {
+                    "type": "string",
+                    "description": "Additional comments provided by the customer about the product."
+                  }
+                },
+                "required": ["product_id", "customer_id", "rating"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Feedback successfully submitted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "feedback_id": {
+                      "type": "string",
+                      "description": "The unique identifier for the submitted feedback."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback/{feedback_id}": {
+      "get": {
+        "summary": "Retrieve specific feedback",
+        "description": "Get details of a specific feedback entry by its unique identifier.",
+        "parameters": [
+          {
+            "name": "feedback_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the feedback to retrieve.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Feedback details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "feedback_id": { "type": "string" },
+                    "product_id": { "type": "string" },
+                    "customer_id": { "type": "string" },
+                    "rating": { "type": "integer", "format": "int32" },
+                    "comments": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Feedback not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update feedback",
+        "description": "Modify an existing feedback entry.",
+        "parameters": [
+          {
+            "name": "feedback_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the feedback to update.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "rating": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Updated rating for the product."
+                  },
+                  "comments": {
+                    "type": "string",
+                    "description": "Updated comments about the product."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Feedback successfully updated."
+          },
+          "404": {
+            "description": "Feedback not found."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete feedback",
+        "description": "Remove a specific feedback entry from the database.",
+        "parameters": [
+          {
+            "name": "feedback_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the feedback to delete.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Feedback successfully deleted."
+          },
+          "404": {
+            "description": "Feedback not found."
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "summary": "List all products",
+        "description": "Fetch a list of all products within the Consumer Staples sector.",
+        "responses": {
+          "200": {
+            "description": "List of products retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "product_id": { "type": "string" },
+                      "name": { "type": "string" },
+                      "category": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{product_id}": {
+      "get": {
+        "summary": "Retrieve specific product details",
+        "description": "Get information about a specific product in detail.",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the product to retrieve.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "product_id": { "type": "string" },
+                    "name": { "type": "string" },
+                    "category": { "type": "string" },
+                    "description": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found."
+          }
+        }
+      }
+    },
+    "/analysis": {
+      "get": {
+        "summary": "Retrieve aggregated analysis",
+        "description": "Fetch aggregated analysis results based on collected customer feedback.",
+        "responses": {
+          "200": {
+            "description": "Aggregated analysis retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total_feedback": { "type": "integer" },
+                    "average_rating": { "type": "number" },
+                    "feedback_summary": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analysis/sentiment": {
+      "get": {
+        "summary": "Retrieve sentiment analysis results",
+        "description": "Fetch sentiment analysis of customer feedback for products.",
+        "responses": {
+          "200": {
+            "description": "Sentiment analysis results retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "positive_feedback_percentage": { "type": "number" },
+                    "neutral_feedback_percentage": { "type": "number" },
+                    "negative_feedback_percentage": { "type": "number" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analysis/trends": {
+      "get": {
+        "summary": "Retrieve feedback trends",
+        "description": "View trends in customer feedback over time.",
+        "responses": {
+          "200": {
+            "description": "Feedback trends retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "date": { "type": "string", "format": "date" },
+                      "total_feedback": { "type": "integer" },
+                      "average_rating": { "type": "number" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{product_id}/evaluate": {
+      "post": {
+        "summary": "Request product evaluation",
+        "description": "Request an evaluation report for a specific product based on accumulated feedback and analysis results.",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the product to evaluate.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Evaluation report successfully generated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "evaluation_id": { "type": "string" },
+                    "summary": { "type": "string" },
+                    "recommendations": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

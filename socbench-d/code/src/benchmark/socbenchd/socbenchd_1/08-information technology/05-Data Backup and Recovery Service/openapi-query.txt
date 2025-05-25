@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+Service:
+Ensures the secure storage and reliable restoration of organizational data for business continuity and disaster recovery planning.
+
+Endpoints:
+GET /data/backups: Retrieve a list of all backups stored within the system.
+POST /data/backup: Initiate and create a new data backup for the organization.
+DELETE /data/backup/{backupId}: Remove a specific backup identified by its ID from the storage.
+POST /data/restore: Request the restoration process for a specific backup.
+GET /data/status: Get the current health and operational status of the storage system.
+PATCH /data/backup/{backupId}: Update metadata or settings associated with a specific backup.
+GET /data/auditlogs: Retrieve a list of audit logs to track actions performed on the backups.
+POST /data/configure: Update the configuration settings for backup operations.
+GET /data/analytics: Obtain summarized analytics regarding storage usage and trends.
+POST /data/validate: Perform validation checks on a specific backup to ensure data integrity.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

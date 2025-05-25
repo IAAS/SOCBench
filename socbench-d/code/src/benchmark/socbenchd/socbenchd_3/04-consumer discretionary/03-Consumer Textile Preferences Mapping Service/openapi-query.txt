@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+The Consumer Textile Preferences Mapping Service enables apparel producers and retailers to analyze evolving fashion trends. By collecting data from online platforms and surveys, the service provides insights into popular styles, fabrics, and colors across demographics.
+
+Endpoints:
+GET /trends: Retrieve the list of current fashion trends by demographic or region.
+GET /styles: Get detailed information about specific apparel styles, including popularity metrics.
+GET /fabrics: Access insights into fabric preferences for different consumer groups.
+GET /colors: Fetch data on trending color choices across various demographics.
+POST /feedback: Submit consumer feedback concerning apparel preferences for analysis.
+GET /demographics: Retrieve categorized insights tied to specific demographic groups.
+GET /preferences: Obtain aggregated consumer apparel preferences by region or season.
+GET /patterns: Explore trends in textile patterns and designs.
+POST /customreports: Request detailed and customized reports enriched with consumer apparel insights.
+GET /historicaltrends: Analyze past trends for predicting future fashion tendencies.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

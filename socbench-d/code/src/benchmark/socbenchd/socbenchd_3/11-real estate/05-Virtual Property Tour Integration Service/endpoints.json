@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /properties",
+            "description": "Retrieve a list of all available properties."
+        },
+        {
+            "endpoint": "POST /properties/new",
+            "description": "Add a new property to the listings, including necessary details and media."
+        },
+        {
+            "endpoint": "GET /properties/{id}",
+            "description": "Retrieve details and media for a specific property by its ID."
+        },
+        {
+            "endpoint": "PUT /properties/{id}",
+            "description": "Update details or add media for an existing property."
+        },
+        {
+            "endpoint": "DELETE /properties/{id}",
+            "description": "Remove a specific property from the listings."
+        },
+        {
+            "endpoint": "GET /properties/search",
+            "description": "Search properties using specific filters, such as price range, location, and size."
+        },
+        {
+            "endpoint": "GET /tours/{id}",
+            "description": "Retrieve the virtual tour data for a specific property."
+        },
+        {
+            "endpoint": "POST /tours/{id}/feedback",
+            "description": "Submit user feedback about the virtual tour of a specific property."
+        },
+        {
+            "endpoint": "POST /augmentExperience",
+            "description": "Initiate augmented reality visualizations for specified properties."
+        },
+        {
+            "endpoint": "GET /realtors",
+            "description": "Retrieve a list of realtors associated with the properties."
+        }
+    ]
+}

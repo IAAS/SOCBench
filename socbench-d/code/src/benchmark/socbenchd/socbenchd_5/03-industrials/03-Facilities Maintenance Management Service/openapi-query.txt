@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+The Facilities Maintenance Management Service API assists companies in managing maintenance schedules, work orders, and asset management in industrial facilities. Key functionalities include automated maintenance reminders, breakdown reporting, and inventory tracking for spare parts. For instance, a facilities manager can retrieve a list of upcoming maintenance tasks by making a GET request along with their facility ID, aiding in timely task execution and resource allocation.
+
+Endpoints:
+GET /maintenance/tasks: Retrieve the list of upcoming maintenance tasks based on facility ID.
+POST /maintenance/tasks: Create a new maintenance task entry for a specific facility.
+PUT /maintenance/task/{task_id}: Modify details of an existing maintenance task by task ID.
+DELETE /maintenance/task/{task_id}: Remove a maintenance task from the schedule using its task ID.
+GET /assets: List all assets associated with a facility for tracking purposes.
+POST /assets: Add a new asset for a facility to facilitate maintenance and inventory tracking.
+GET /inventory/spare-parts: Retrieve the inventory records for spare parts in a facility.
+POST /breakdown/report: Report a breakdown issue for immediate logging and prioritization.
+GET /alerts/maintenance-reminders: Retrieve active automated reminders for upcoming maintenance tasks.
+GET /facilities/{facility_id}/details: Provide detailed information about a specific facility for reference.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

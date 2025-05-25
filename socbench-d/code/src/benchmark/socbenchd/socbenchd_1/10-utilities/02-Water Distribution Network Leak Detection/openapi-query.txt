@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+This service employs sensor data and predictive analytics to identify potential leaks within water distribution systems. By pinpointing areas of concern promptly, it aids in reducing water wastage and maintaining network reliability.
+
+Endpoints:
+GET /leak-detections: Retrieve recent leak detection data based on sensor analytics.
+POST /leak-detections/analyze: Trigger analysis of collected sensor data to detect potential leaks.
+GET /leak-detections/{id}: Fetch detailed information about a specific leak detection event based on its identifier.
+GET /distribution-points: Obtain a list of monitored water distribution points in the network.
+PUT /distribution-points/{id}: Update or modify monitoring parameters for a specific water distribution point.
+GET /sensor-data: Access raw data collected by all active sensors in the network within a defined period.
+DELETE /distribution-points/{id}: Remove monitoring for a specific water distribution point from the network.
+GET /analytics/reports: Retrieve analytical reports summarizing water distribution and leak detection efficiency.
+PATCH /sensors/{id}: Adjust the configuration settings of a particular sensor to optimize data collection.
+POST /alerts/notifications: Send out repair crew notifications based on confirmed leak detections and severity assessments.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

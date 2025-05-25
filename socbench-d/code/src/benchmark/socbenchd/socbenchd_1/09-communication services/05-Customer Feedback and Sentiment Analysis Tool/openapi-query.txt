@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+This service collects and analyzes customer feedback from various channels, providing insights through reports categorized by sentiment levels and key concerns, helping companies improve their services.
+
+Endpoints:
+POST /feedbacks: Submit customer feedback to the service for analysis.
+GET /feedbacks/{feedbackId}: Retrieve details for a specific feedback submission using its unique identifier.
+GET /analysis/summary: Fetch a summary of customer sentiment analysis reports.
+POST /analysis/customize: Submit specific parameters to customize the analysis process.
+GET /insights/concerns: Retrieve key concerns identified from the aggregated feedback data.
+GET /insights/trends: Access trends and patterns evident from the customer feedback analysis.
+PUT /feedbacks/{feedbackId}: Update an existing feedback entry identified by its unique identifier.
+DELETE /feedbacks/{feedbackId}: Remove a feedback entry from the service utilizing its unique identifier.
+GET /export/reports: Obtain a generated report of all analysis and insights in downloadable formats.
+GET /feedbacks/search: Search through feedback using query parameters such as date range, sentiment, or keywords.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

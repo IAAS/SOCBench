@@ -1,0 +1,21 @@
+SUMMARY:
+Create query for the expected endpoints.
+
+DOCUMENT:
+Services:
+{services}
+
+Previous queries:
+{previous_queries}
+
+Expected endpoints:
+{expected_endpoints}
+
+TASK:
+Create a distinct and meaningful query using the expected_endpoints.
+
+EXAMPLE:
+Retrieve the current weather data of sensor with the ID 5.
+
+INSTRUCTIONS:
+You are given a set of RESTful services and a list of expected endpoints. Create a query that can be solved using these expected endpoints. The query should be elaborative like from a real user requesting the system to create a code recommendation for their service usage. The query should be different from the already previous ones. An endpoint is the combination of verb and path, e.g., GET /sensors. Ensure that each of the expected endpoints is needed to fulfill the query and no further endpoint needs to be called. The query must not contain the list of expected endpoints or something similar! Only return the query. Nothing else. You are in an automated setting. Do not format the response.

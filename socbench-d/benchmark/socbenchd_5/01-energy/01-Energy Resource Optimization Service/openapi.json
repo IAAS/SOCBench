@@ -1,0 +1,437 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Energy Production and Distribution Optimization Service",
+        "description": "This API provides tools for optimizing energy production and distribution strategies by analyzing resource availability, operational efficiency, and market demand.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/production/sources": {
+            "get": {
+                "summary": "Retrieve current energy production sources statuses and availabilities",
+                "description": "Fetches information about all active energy production sources, including their current operational statuses and availabilities.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of production sources data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "sourceId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the energy source."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Operational status of the energy source (e.g., active, inactive, maintenance)."
+                                            },
+                                            "availability": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Percentage availability of the energy source."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analysis/market-demand": {
+            "post": {
+                "summary": "Analyze and forecast future market demand",
+                "description": "Submit market parameters to perform an analysis and forecast trends in energy demand.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "region": {
+                                        "type": "string",
+                                        "description": "Geographical region for market demand analysis."
+                                    },
+                                    "timeFrame": {
+                                        "type": "string",
+                                        "description": "Time-frame for the forecast (e.g., short-term, long-term)."
+                                    },
+                                    "economicIndicators": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "Key economic indicators to consider."
+                                    }
+                                },
+                                "required": [
+                                    "region",
+                                    "timeFrame"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Market demand analysis and forecasting results",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "forecast": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "timePeriod": {
+                                                        "type": "string",
+                                                        "description": "Time period covered by the forecast."
+                                                    },
+                                                    "energyDemand": {
+                                                        "type": "number",
+                                                        "description": "Predicted energy demand in that time period."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/distribution/status": {
+            "get": {
+                "summary": "Check real-time distribution grid statuses",
+                "description": "Provides real-time statuses of the energy distribution grid and detects potential inefficiencies.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved current distribution grid statuses",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "gridStatus": {
+                                            "type": "string",
+                                            "description": "Overall status of the distribution grid (e.g., stable, congested, outage)."
+                                        },
+                                        "details": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "region": {
+                                                        "type": "string",
+                                                        "description": "Region of the grid."
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "description": "Specific status of the grid in the region."
+                                                    },
+                                                    "issues": {
+                                                        "type": "string",
+                                                        "description": "Description of any detected inefficiencies or issues."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/optimization/run": {
+            "post": {
+                "summary": "Initiate energy optimization process",
+                "description": "Starts the optimization process to improve energy production and distribution strategies based on multiple factors.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "optimizationGoals": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "Goals for optimization (e.g., minimize costs, maximize distribution efficiency)."
+                                    },
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Key parameters required for optimization."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Optimization process initiated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "processId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the optimization process."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the optimization process."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/energy-usage": {
+            "get": {
+                "summary": "Retrieve energy usage reports",
+                "description": "Fetches detailed reports on energy consumption and usage patterns for analysis purposes.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved energy usage reports",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "timePeriod": {
+                                                "type": "string",
+                                                "description": "Time period covered by the report."
+                                            },
+                                            "consumptionData": {
+                                                "type": "object",
+                                                "description": "Quantitative data about energy usage during that period."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/production/parameters": {
+            "put": {
+                "summary": "Modify operational production parameters",
+                "description": "Updates key operational parameters of energy production facilities to enhance performance and efficiency.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "New parameters configuration for energy production systems."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Production parameters successfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the update operation."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/system": {
+            "get": {
+                "summary": "Retrieve active alerts",
+                "description": "Provides a list of currently active alerts related to the energy system and production units.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved active system alerts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "alertId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the alert."
+                                            },
+                                            "severity": {
+                                                "type": "string",
+                                                "description": "Severity level of the alert."
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "description": "Detail message about the alert."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/evaluations/resource-availability": {
+            "post": {
+                "summary": "Evaluate resource availability",
+                "description": "Submits data to assess the availability of energy production resources.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "resources": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "resourceType": {
+                                                    "type": "string",
+                                                    "description": "Type of resource (e.g., coal, gas)."
+                                                },
+                                                "quantity": {
+                                                    "type": "number",
+                                                    "description": "Available quantity of the resource."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Resources availability assessment completed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "assessmentResult": {
+                                            "type": "string",
+                                            "description": "Result of the resource availability assessment."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/insights/environmental-impact": {
+            "get": {
+                "summary": "Access environmental impact reports",
+                "description": "Provides detailed insights into the environmental impact of current energy operations.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved environmental impact reports",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "impactType": {
+                                                "type": "string",
+                                                "description": "Type of environmental impact reported (e.g., emissions, waste)."
+                                            },
+                                            "data": {
+                                                "type": "object",
+                                                "description": "Data regarding the specific environmental impact."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/logs/operational-data": {
+            "delete": {
+                "summary": "Purge archived logs",
+                "description": "Deletes archived system logs based on specified retention policies.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "retentionPolicy": {
+                                        "type": "object",
+                                        "description": "Retention policy settings for data purge."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully purged archived logs",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the purge operation."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

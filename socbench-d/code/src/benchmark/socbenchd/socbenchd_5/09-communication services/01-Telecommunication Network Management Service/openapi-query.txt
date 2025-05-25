@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+This service provides tools for monitoring, managing, and optimizing telecommunication networks, enabling providers to ensure high-quality connectivity and minimize downtime through real-time analytics, alerts, and predictive maintenance capabilities.
+
+Endpoints:
+GET /networks/status: Retrieve the current status of all monitored telecommunication networks.
+POST /alerts/configurations: Create a new alert configuration for real-time monitoring.
+GET /analytics/usage: Access analytics reporting on network data usage.
+GET /faults/reports: List all recorded network faults and their details.
+POST /predictive/models: Initiate training of predictive maintenance models on network data.
+GET /devices/connectivity: Check the connectivity status for specific devices within the network.
+PATCH /networks/configurations: Update network settings to improve service quality.
+GET /maintenance/schedule: Retrieve the scheduled maintenance times for networks.
+POST /users/feedback: Submit and record user feedback on network performance.
+DELETE /alerts/{id}: Remove a specific alert configuration by ID.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

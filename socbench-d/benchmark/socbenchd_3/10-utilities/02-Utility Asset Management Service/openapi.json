@@ -1,0 +1,418 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Utility Asset Management API",
+        "description": "This API is designed to organize and manage utility company assets such as substations and transmission lines. It allows clients to map infrastructure, schedule maintenance, track historical performance data, and visualize assets with GIS-based tools.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/assets": {
+            "get": {
+                "summary": "Retrieve all utility assets",
+                "description": "Returns a list of all assets, such as substations and transmission lines, including their type, location, and specifications.",
+                "responses": {
+                    "200": {
+                        "description": "A list of utility assets",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "assetId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the asset."
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "description": "Type of the asset (e.g., substation, transmission line)."
+                                            },
+                                            "location": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "latitude": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "description": "Geographical latitude"
+                                                    },
+                                                    "longitude": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "description": "Geographical longitude"
+                                                    }
+                                                },
+                                                "description": "Geographical location of the asset."
+                                            },
+                                            "specifications": {
+                                                "type": "object",
+                                                "additionalProperties": true,
+                                                "description": "Specifications and details of the asset."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new utility asset",
+                "description": "Adds a new infrastructure asset (e.g., substation, transmission line) to the system, requiring details such as type, location, and specifications.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "description": "Type of the asset (e.g., substation, transmission line)."
+                                    },
+                                    "location": {
+                                        "type": "object",
+                                        "properties": {
+                                            "latitude": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Geographical latitude"
+                                            },
+                                            "longitude": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Geographical longitude"
+                                            }
+                                        },
+                                        "description": "Location of the asset."
+                                    },
+                                    "specifications": {
+                                        "type": "object",
+                                        "description": "Specifications and details of the new asset."
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "location",
+                                    "specifications"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Asset successfully created."
+                    }
+                }
+            }
+        },
+        "/assets/{assetId}/status": {
+            "get": {
+                "summary": "Fetch asset status and details",
+                "description": "Retrieves the current status and detailed information of a specific asset, identified by its ID.",
+                "parameters": [
+                    {
+                        "name": "assetId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the asset.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detailed status of the asset",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current operational status of the asset."
+                                        },
+                                        "details": {
+                                            "type": "object",
+                                            "description": "Additional details about the asset."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update asset status or parameters",
+                "description": "Updates the operational status or modifies the parameters of the specified asset.",
+                "parameters": [
+                    {
+                        "name": "assetId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the asset.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "description": "New status of the asset."
+                                    },
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Updated operational parameters for the asset."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Asset status updated."
+                    }
+                }
+            }
+        },
+        "/maintenance/schedules": {
+            "get": {
+                "summary": "Retrieve maintenance schedules",
+                "description": "Fetches a list of scheduled maintenance activities for all utility assets.",
+                "responses": {
+                    "200": {
+                        "description": "List of maintenance schedules",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "scheduleId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the maintenance schedule."
+                                            },
+                                            "assetId": {
+                                                "type": "string",
+                                                "description": "Identifier of the asset associated with the maintenance activity."
+                                            },
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Date of the maintenance activity."
+                                            },
+                                            "time": {
+                                                "type": "string",
+                                                "format": "time",
+                                                "description": "Scheduled time for the maintenance activity."
+                                            },
+                                            "objectives": {
+                                                "type": "string",
+                                                "description": "Goals or objectives of the maintenance activity."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Schedule a maintenance activity",
+                "description": "Schedules a maintenance activity for a specified asset by providing the date, time, and objectives.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "assetId": {
+                                        "type": "string",
+                                        "description": "Identifier of the asset for maintenance."
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Date of the maintenance activity."
+                                    },
+                                    "time": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "description": "Scheduled time for the maintenance."
+                                    },
+                                    "objectives": {
+                                        "type": "string",
+                                        "description": "Goals or objectives of the maintenance activity."
+                                    }
+                                },
+                                "required": [
+                                    "assetId",
+                                    "date",
+                                    "time",
+                                    "objectives"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Maintenance activity successfully scheduled."
+                    }
+                }
+            }
+        },
+        "/visualizations": {
+            "get": {
+                "summary": "Access GIS visualizations",
+                "description": "Provides GIS-based visual representations of utility assets, including their current status and distribution.",
+                "responses": {
+                    "200": {
+                        "description": "GIS visualizations returned successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "visualizationData": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "description": "Visualization data for individual assets."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "post": {
+                "summary": "Create condition-based alerts",
+                "description": "Defines new condition-based alerts for a specific asset by providing trigger parameters.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "assetId": {
+                                        "type": "string",
+                                        "description": "Identifier of the asset to monitor."
+                                    },
+                                    "triggerParameters": {
+                                        "type": "object",
+                                        "description": "The conditions or parameters that trigger the alert."
+                                    }
+                                },
+                                "required": [
+                                    "assetId",
+                                    "triggerParameters"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert created."
+                    }
+                }
+            }
+        },
+        "/performance/history": {
+            "get": {
+                "summary": "Retrieve historical performance data",
+                "description": "Fetches historical performance data for assets within a specific date range.",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start date for the performance data (YYYY-MM-DD format).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": true,
+                        "description": "End date for the performance data (YYYY-MM-DD format).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Performance data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "assetId": {
+                                                "type": "string",
+                                                "description": "Identifier of the asset."
+                                            },
+                                            "metrics": {
+                                                "type": "object",
+                                                "description": "Performance metrics for the asset."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/{alertId}": {
+            "delete": {
+                "summary": "Remove an existing alert",
+                "description": "Deletes a condition-based alert associated with a specific alert ID.",
+                "parameters": [
+                    {
+                        "name": "alertId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Identifier of the alert to be deleted.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Alert successfully deleted."
+                    }
+                }
+            }
+        }
+    }
+}

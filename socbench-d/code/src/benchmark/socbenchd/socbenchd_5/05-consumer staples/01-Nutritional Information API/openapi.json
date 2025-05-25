@@ -1,0 +1,397 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Consumer Staples Nutritional Information API",
+        "description": "An API that provides detailed nutritional information for consumer staple products including food, beverages, and non-durable household items. This API helps retailers and developers access accurate nutritional data, ingredient lists, allergen information, and compliance labels to assist consumers in making informed decisions.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.consumerstaples.com/v1",
+            "description": "Primary API server"
+        }
+    ],
+    "paths": {
+        "/products": {
+            "get": {
+                "summary": "Retrieve all supported products",
+                "description": "Get a list of all supported consumer staple products with their detailed nutritional information.",
+                "responses": {
+                    "200": {
+                        "description": "List of products retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Product"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{upc}": {
+            "get": {
+                "summary": "Fetch product nutritional details",
+                "description": "Retrieve detailed nutritional information for a specific product identified by its UPC code.",
+                "parameters": [
+                    {
+                        "name": "upc",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique UPC code of the product.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Nutritional information retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NutritionalInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/categories": {
+            "get": {
+                "summary": "Get product categories",
+                "description": "List all available product categories along with their descriptions.",
+                "responses": {
+                    "200": {
+                        "description": "List of product categories retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Category"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/categories/{categoryId}/products": {
+            "get": {
+                "summary": "Retrieve products by category",
+                "description": "Fetch all products belonging to a specific category identified by categoryId.",
+                "parameters": [
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the product category.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Products retrieved successfully for the category.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Product"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{upc}/ingredients": {
+            "get": {
+                "summary": "Get product ingredients",
+                "description": "Retrieve a list of ingredients for a given product identified by its UPC code.",
+                "parameters": [
+                    {
+                        "name": "upc",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique UPC code of the product.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product ingredient list retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{upc}/allergens": {
+            "get": {
+                "summary": "Get allergen information",
+                "description": "Retrieve allergen information for a specific product identified by its UPC code.",
+                "parameters": [
+                    {
+                        "name": "upc",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique UPC code of the product.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Allergen information retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{upc}/labels": {
+            "get": {
+                "summary": "Fetch product regulatory labels",
+                "description": "Retrieve regulation labels, such as 'Gluten-Free' or 'Organic', for the given product identified by its UPC code.",
+                "parameters": [
+                    {
+                        "name": "upc",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique UPC code of the product.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Regulatory labels retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{upc}/compare/{otherUpc}": {
+            "get": {
+                "summary": "Compare two products",
+                "description": "Compare the nutritional values and ingredients of two products identified by their UPC codes.",
+                "parameters": [
+                    {
+                        "name": "upc",
+                        "in": "path",
+                        "required": true,
+                        "description": "The UPC code of the first product.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "otherUpc",
+                        "in": "path",
+                        "required": true,
+                        "description": "The UPC code of the other product for comparison.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comparison data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductComparison"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "summary": "Submit feedback",
+                "description": "Submit feedback or corrections regarding a specific product.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "productId": {
+                                        "type": "string",
+                                        "description": "The ID or UPC of the product being referenced."
+                                    },
+                                    "feedback": {
+                                        "type": "string",
+                                        "description": "The feedback or correction details."
+                                    }
+                                },
+                                "required": [
+                                    "productId",
+                                    "feedback"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback submitted successfully."
+                    }
+                }
+            }
+        },
+        "/version": {
+            "get": {
+                "summary": "Retrieve API version",
+                "description": "Fetch the current version of the API for compatibility checks.",
+                "responses": {
+                    "200": {
+                        "description": "API version retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "version": {
+                                            "type": "string",
+                                            "description": "The current version of the API."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Product": {
+                "type": "object",
+                "properties": {
+                    "upc": {
+                        "type": "string",
+                        "description": "The unique UPC code for the product."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the product."
+                    },
+                    "category": {
+                        "type": "string",
+                        "description": "The category of the product."
+                    },
+                    "nutritionalInfo": {
+                        "$ref": "#/components/schemas/NutritionalInfo"
+                    }
+                }
+            },
+            "NutritionalInfo": {
+                "type": "object",
+                "properties": {
+                    "calories": {
+                        "type": "number",
+                        "description": "Amount of calories per serving."
+                    },
+                    "protein": {
+                        "type": "number",
+                        "description": "Amount of protein in grams per serving."
+                    },
+                    "fat": {
+                        "type": "number",
+                        "description": "Amount of fat in grams per serving."
+                    },
+                    "carbohydrates": {
+                        "type": "number",
+                        "description": "Amount of carbohydrates in grams per serving."
+                    },
+                    "sugar": {
+                        "type": "number",
+                        "description": "Amount of sugar in grams per serving."
+                    },
+                    "fiber": {
+                        "type": "number",
+                        "description": "Amount of fiber in grams per serving."
+                    }
+                }
+            },
+            "Category": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier for the category."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the category."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "A description of the category."
+                    }
+                }
+            },
+            "ProductComparison": {
+                "type": "object",
+                "properties": {
+                    "product1": {
+                        "$ref": "#/components/schemas/Product"
+                    },
+                    "product2": {
+                        "$ref": "#/components/schemas/Product"
+                    },
+                    "comparisonResult": {
+                        "type": "string",
+                        "description": "Summary of the comparison between the two products."
+                    }
+                }
+            }
+        }
+    }
+}

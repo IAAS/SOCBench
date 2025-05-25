@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+This service offers clientele access to dynamic menu configurations tailored to customers' preferences and dietary restrictions. Restaurants can integrate this API into their ordering systems to allow users to personalize dishes and view allergen information in real-time.
+
+Endpoints:
+POST /menu/template: Create a new menu template based on the restaurant's offerings.
+GET /menu/template/{id}: Retrieve a detailed view of a specific menu template by its identifier.
+PUT /menu/template/{id}: Update an existing menu template with the provided changes.
+DELETE /menu/template/{id}: Remove a specific menu template by its identifier.
+POST /dishes/customize: Create a custom configuration for a dish accounting for user's selected preferences.
+GET /dishes/preferences: Retrieve a list of predefined dietary preferences for user customization.
+POST /allergens/check: Analyze a dish's ingredients to identify potential allergens based on user input.
+GET /restaurants/{id}/menu: Retrieve the entire menu for a specific restaurant including categorized dishes.
+PUT /dishes/{id}/popularity: Update the popularity metric of a dish for analytics purposes.
+POST /feedback/menu: Submit user feedbacks related to the menu browsing and selection experience.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

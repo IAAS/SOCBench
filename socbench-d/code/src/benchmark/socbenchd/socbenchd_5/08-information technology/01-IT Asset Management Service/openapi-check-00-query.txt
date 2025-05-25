@@ -1,0 +1,406 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "IT Asset Management Service API",
+        "description": "This API provides tools for tracking, managing, and optimizing IT assets within an organization. It aims to ensure cost-effectiveness and operational efficiency by allowing users to register devices, perform inventory checks, and predict lifecycle stages for IT assets.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/devices": {
+            "get": {
+                "summary": "Retrieve all registered devices",
+                "description": "Fetch a list of all devices currently registered in the organization's IT asset database.",
+                "responses": {
+                    "200": {
+                        "description": "A list of all registered devices.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Device"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Register a new device",
+                "description": "Add a new device to the organization's IT asset database.",
+                "requestBody": {
+                    "description": "Details of the device to be registered.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewDevice"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The device was successfully registered."
+                    }
+                }
+            }
+        },
+        "/devices/{deviceId}": {
+            "get": {
+                "summary": "Retrieve details of a specific device",
+                "description": "Fetch detailed information about a specific device registered in the organization's IT asset database, using the unique identifier of the device.",
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the device.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detailed information of the requested device.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Device"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Device not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a specific device",
+                "description": "Modify the information associated with a specific device in the organization's IT asset database.",
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the device to be updated.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "The new details to update for the device.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateDevice"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The device was successfully updated."
+                    },
+                    "404": {
+                        "description": "Device not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a specific device",
+                "description": "Remove a device from the organization's IT asset database.",
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the device to be deleted.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The device was successfully deleted."
+                    },
+                    "404": {
+                        "description": "Device not found."
+                    }
+                }
+            }
+        },
+        "/inventory": {
+            "get": {
+                "summary": "Retrieve the IT inventory report",
+                "description": "Obtain a comprehensive report of all IT assets tracked by the organization.",
+                "responses": {
+                    "200": {
+                        "description": "The inventory report was successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InventoryReport"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/audit": {
+            "post": {
+                "summary": "Initiate an inventory audit",
+                "description": "Start an inventory audit and identify any discrepancies with the organization's current asset records.",
+                "responses": {
+                    "200": {
+                        "description": "The audit was successfully initiated and discrepancies, if any, were identified.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuditResults"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/lifecycles": {
+            "get": {
+                "summary": "Retrieve lifecycle statuses for all assets",
+                "description": "Obtain predictive lifecycle statuses for all IT assets based on their current usage patterns.",
+                "responses": {
+                    "200": {
+                        "description": "The lifecycle statuses for all assets were successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/LifecycleStatus"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/lifecycles/{deviceId}": {
+            "get": {
+                "summary": "Retrieve the lifecycle of a specific device",
+                "description": "Fetch the predictive lifecycle status for a specific device based on its current usage patterns.",
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the device.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The lifecycle status of the device was successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LifecycleStatus"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Device not found."
+                    }
+                }
+            }
+        },
+        "/optimization/report": {
+            "post": {
+                "summary": "Generate optimization recommendations",
+                "description": "Create a report suggesting optimization strategies based on the current usage and distribution of IT assets within the organization.",
+                "responses": {
+                    "200": {
+                        "description": "The optimization report was successfully generated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OptimizationReport"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Device": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the device."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the device."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Type or category of the device (e.g., laptop, phone, etc.)."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Current operational status of the device."
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "type",
+                    "status"
+                ]
+            },
+            "NewDevice": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the device to register."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Category or type of the device."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Initial status of the device."
+                    }
+                },
+                "required": [
+                    "name",
+                    "type",
+                    "status"
+                ]
+            },
+            "UpdateDevice": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Updated name of the device."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Updated category or type of the device."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Updated status of the device."
+                    }
+                }
+            },
+            "InventoryReport": {
+                "type": "object",
+                "properties": {
+                    "totalDevices": {
+                        "type": "integer",
+                        "description": "Total number of devices in the inventory."
+                    },
+                    "categories": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "integer"
+                        },
+                        "description": "Count of devices by category."
+                    }
+                }
+            },
+            "AuditResults": {
+                "type": "object",
+                "properties": {
+                    "discrepancies": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Discrepancy"
+                        },
+                        "description": "List of discrepancies found during the audit."
+                    }
+                }
+            },
+            "Discrepancy": {
+                "type": "object",
+                "properties": {
+                    "deviceId": {
+                        "type": "string",
+                        "description": "ID of the device with a discrepancy."
+                    },
+                    "issue": {
+                        "type": "string",
+                        "description": "Description of the discrepancy."
+                    }
+                }
+            },
+            "LifecycleStatus": {
+                "type": "object",
+                "properties": {
+                    "deviceId": {
+                        "type": "string",
+                        "description": "ID of the device."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Predicted lifecycle status of the device."
+                    },
+                    "estimatedEndOfLife": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Estimated date when the device will reach the end of its useful life."
+                    }
+                }
+            },
+            "OptimizationReport": {
+                "type": "object",
+                "properties": {
+                    "recommendations": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of optimization recommendations."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

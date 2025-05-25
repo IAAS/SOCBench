@@ -1,0 +1,407 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Authentication and Role-Based Access Control Service",
+        "description": "This service handles user authentication and role-based access control seamlessly for web and mobile applications, offering integration support and ensuring secure and efficient management.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.example.com",
+            "description": "Production server"
+        },
+        {
+            "url": "https://staging.api.example.com",
+            "description": "Staging server"
+        }
+    ],
+    "paths": {
+        "/users/register": {
+            "post": {
+                "summary": "Register a new user",
+                "description": "Create a new user account with specified credentials and profile information.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "description": "Unique username for the new user."
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "description": "Secure password for the user."
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "description": "Email address of the user."
+                                    },
+                                    "profile": {
+                                        "type": "object",
+                                        "description": "Optional profile information for the user.",
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "password",
+                                    "email"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User successfully registered."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/users/authenticate": {
+            "post": {
+                "summary": "Authenticate a user",
+                "description": "Authenticate a user, returning a session token upon success.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "description": "Username of the user."
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "description": "Password of the user."
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Authentication successful. Returns a session token.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "description": "Session token."
+                                        },
+                                        "expiresIn": {
+                                            "type": "integer",
+                                            "description": "Expiration time of the token in seconds."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials."
+                    }
+                }
+            }
+        },
+        "/users/{userId}/roles": {
+            "post": {
+                "summary": "Assign a role to a user",
+                "description": "Assign a specific role to a user.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the user.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "roleId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the role to assign."
+                                    }
+                                },
+                                "required": [
+                                    "roleId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Role successfully assigned to user."
+                    },
+                    "404": {
+                        "description": "User or role not found."
+                    }
+                }
+            }
+        },
+        "/roles": {
+            "post": {
+                "summary": "Create a new role",
+                "description": "Create a new role with specific permissions to be assigned to users.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "roleName": {
+                                        "type": "string",
+                                        "description": "Name of the role."
+                                    },
+                                    "permissions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "description": "Permission IDs to be associated with the role."
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "roleName"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Role successfully created."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/roles/{roleId}": {
+            "delete": {
+                "summary": "Delete a role",
+                "description": "Remove a specified role from the system.",
+                "parameters": [
+                    {
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the role.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Role successfully deleted."
+                    },
+                    "404": {
+                        "description": "Role not found."
+                    }
+                }
+            }
+        },
+        "/resources/{resourceId}/permissions": {
+            "get": {
+                "summary": "Get permissions for a resource",
+                "description": "Obtain a list of permissions associated with a particular resource.",
+                "parameters": [
+                    {
+                        "name": "resourceId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the resource.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of permissions successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "description": "Permission ID."
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found."
+                    }
+                }
+            }
+        },
+        "/permissions": {
+            "post": {
+                "summary": "Create a new permission",
+                "description": "Define a new permission that can be assigned to roles.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "permissionName": {
+                                        "type": "string",
+                                        "description": "Name of the permission."
+                                    }
+                                },
+                                "required": [
+                                    "permissionName"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Permission successfully created."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/roles/{roleId}/permissions": {
+            "put": {
+                "summary": "Update role permissions",
+                "description": "Update the list of permissions associated with a specific role.",
+                "parameters": [
+                    {
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the role.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "permissions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "description": "Permission IDs to associate with the role."
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "permissions"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Role permissions successfully updated."
+                    },
+                    "404": {
+                        "description": "Role not found."
+                    }
+                }
+            }
+        },
+        "/tokens/verify": {
+            "post": {
+                "summary": "Verify a session token",
+                "description": "Verify the validity and permissions of a provided session token.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "description": "Session token to verify."
+                                    }
+                                },
+                                "required": [
+                                    "token"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Token verification successful. Returns token validity and permissions.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "isValid": {
+                                            "type": "boolean",
+                                            "description": "Indicates if the token is valid."
+                                        },
+                                        "permissions": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "description": "Permissions associated with the token."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired token."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    }
+}

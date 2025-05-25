@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /consultations",
+            "description": "Initiate a new telemedicine consultation session with a healthcare provider."
+        },
+        {
+            "endpoint": "GET /consultations/{id}",
+            "description": "Retrieve details of a specific consultation session using its unique identifier."
+        },
+        {
+            "endpoint": "PUT /consultations/{id}",
+            "description": "Update the information or status of an existing consultation session."
+        },
+        {
+            "endpoint": "DELETE /consultations/{id}",
+            "description": "Remove a specific consultation session."
+        },
+        {
+            "endpoint": "GET /providers",
+            "description": "Retrieve a list of available healthcare providers for consultations."
+        },
+        {
+            "endpoint": "POST /documents",
+            "description": "Upload a medical document to associate it with a consultation session."
+        },
+        {
+            "endpoint": "GET /documents/{id}",
+            "description": "Access the content and details of a specific medical document."
+        },
+        {
+            "endpoint": "GET /records",
+            "description": "Retrieve stored records of past consultations for a given patient."
+        },
+        {
+            "endpoint": "POST /notifications",
+            "description": "Send a notification to remind patients about upcoming consultation sessions."
+        },
+        {
+            "endpoint": "GET /analytics",
+            "description": "Generate aggregated analytics on consultations for performance reviews."
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /reports/environmental-insights",
+            "description": "Retrieve a summary of environmental metrics and trends across monitored facilities."
+        },
+        {
+            "endpoint": "POST /compliance/report-violation",
+            "description": "Submit data regarding a detected environmental regulation violation incident."
+        },
+        {
+            "endpoint": "GET /facilities/{facility_id}/emissions",
+            "description": "Access emissions data specific to a particular facility by its identifier."
+        },
+        {
+            "endpoint": "PUT /facilities/{facility_id}/thresholds",
+            "description": "Update the operational thresholds for emission limits at the specified facility."
+        },
+        {
+            "endpoint": "DELETE /alerts/{alert_id}",
+            "description": "Remove a specific alert notification generated for compliance monitoring."
+        },
+        {
+            "endpoint": "GET /inventory/resources",
+            "description": "List resources and materials used that might impact environmental metrics."
+        },
+        {
+            "endpoint": "POST /feedback/suggestions",
+            "description": "Submit suggestions or feedback regarding environmental practices and system usage."
+        },
+        {
+            "endpoint": "GET /analytics/forecast-emissions",
+            "description": "Access predicted emissions data based on current and historical trends."
+        },
+        {
+            "endpoint": "PATCH /users/preferences",
+            "description": "Update user-defined preferences for notification and report types."
+        },
+        {
+            "endpoint": "POST /data/manual-entry",
+            "description": "Manually enter environmental data readings to supplement automated sensor data."
+        }
+    ]
+}

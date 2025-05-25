@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /products",
+            "description": "Add a new personal care product along with initial ingredient list metadata."
+        },
+        {
+            "endpoint": "GET /products/{id}",
+            "description": "Retrieve detailed information and compliance status for a specific product by ID."
+        },
+        {
+            "endpoint": "PUT /products/{id}",
+            "description": "Update product details including ingredient composition for an existing product."
+        },
+        {
+            "endpoint": "DELETE /products/{id}",
+            "description": "Remove a product and its associated compliance records from the system."
+        },
+        {
+            "endpoint": "POST /regulations/validate",
+            "description": "Verify and confirm compliance of an ingredient list against the specified international standards."
+        },
+        {
+            "endpoint": "GET /ingredients",
+            "description": "Fetch a database of standard ingredients along with their regulatory information."
+        },
+        {
+            "endpoint": "POST /alerts/subscribe",
+            "description": "Register for notifications regarding changes in regulations related to specified ingredients."
+        },
+        {
+            "endpoint": "GET /reports/compliance",
+            "description": "Generate a structured report indicating the compliance status of all managed products."
+        },
+        {
+            "endpoint": "PATCH /settings/preferences",
+            "description": "Modify user-specific application preferences including default regulatory standards."
+        },
+        {
+            "endpoint": "GET /audit/logs",
+            "description": "Access a record of all past operations performed in the service platform for monitoring and auditing."
+        }
+    ]
+}

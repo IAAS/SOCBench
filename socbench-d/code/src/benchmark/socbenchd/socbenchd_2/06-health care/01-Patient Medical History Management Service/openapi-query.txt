@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+Service:
+This service enables secure storage, accessibility, and management of individual patient medical records. Healthcare providers can retrieve, update, and share comprehensive patient history, supporting continuous and informed care. Features include API-based access to retrieve patient data, updating functionalities, and compliance with HIPAA regulations for data protection.
+
+Endpoints:
+GET /patients: Retrieve a list of all patients stored in the system.
+GET /patients/{patient_id}: Retrieve comprehensive medical records for a specific patient using their unique identifier.
+POST /patients: Create a new patient record with relevant details and initial medical data.
+PUT /patients/{patient_id}: Update the complete details and medical records of an existing patient.
+PATCH /patients/{patient_id}: Modify specific details or add additional medical data to an existing patient record.
+DELETE /patients/{patient_id}: Remove the records of an existing patient from the system securely.
+GET /providers: Retrieve the list of healthcare providers utilizing the system's services.
+GET /audit: Fetch the audit trail for all activities performed within the system for compliance purposes.
+POST /sharing/{patient_id}: Initiate the secure sharing of a patient’s medical record with authorized entities.
+GET /compliance: Verify the service's compliance status with healthcare regulations such as HIPAA.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

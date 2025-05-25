@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /markets/live-updates",
+            "description": "Fetches real-time market data and updates for specified financial instruments."
+        },
+        {
+            "endpoint": "GET /trends/analytics",
+            "description": "Retrieves analytical insights based on recent market trends."
+        },
+        {
+            "endpoint": "POST /alerts/set",
+            "description": "Sets up custom alerts for specific market conditions."
+        },
+        {
+            "endpoint": "GET /exchanges/list",
+            "description": "Lists all financial exchanges covered by the service."
+        },
+        {
+            "endpoint": "GET /indices/performance",
+            "description": "Provides performance metrics for major financial indices."
+        },
+        {
+            "endpoint": "GET /sectors/overview",
+            "description": "Gives an overview of market performance segmented by sectors."
+        },
+        {
+            "endpoint": "POST /recommendations/request",
+            "description": "Submits a request for tailored financial recommendations."
+        },
+        {
+            "endpoint": "GET /news/latest",
+            "description": "Delivers the latest financial news and updates."
+        },
+        {
+            "endpoint": "GET /historical-data",
+            "description": "Accesses historical market data for analysis."
+        },
+        {
+            "endpoint": "GET /currencies/rates",
+            "description": "Shows current foreign exchange rates for selected currencies."
+        }
+    ]
+}

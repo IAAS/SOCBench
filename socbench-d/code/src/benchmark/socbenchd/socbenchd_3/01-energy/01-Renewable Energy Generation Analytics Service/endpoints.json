@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /renewables/overview",
+            "description": "Retrieve aggregated statistical data of all monitored renewable energy systems."
+        },
+        {
+            "endpoint": "GET /renewables/{id}/performance",
+            "description": "Fetch real-time performance data for a specific renewable energy system identified by ID."
+        },
+        {
+            "endpoint": "POST /alerts/predictive-maintenance",
+            "description": "Create a new predictive maintenance alert for a specific energy system."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "List all active alerts related to monitored energy sources, categorized by type."
+        },
+        {
+            "endpoint": "PUT /renewables/{id}/settings",
+            "description": "Update configuration settings for a specific energy system."
+        },
+        {
+            "endpoint": "GET /grids/integration-status",
+            "description": "Obtain the integration status of all energy systems with power grids."
+        },
+        {
+            "endpoint": "POST /grids/dispatch",
+            "description": "Send a dispatch command to integrate renewable energy into the grid."
+        },
+        {
+            "endpoint": "GET /simulation",
+            "description": "Run a simulation of potential energy production under specified conditions."
+        },
+        {
+            "endpoint": "DELETE /renewables/{id}",
+            "description": "Remove a specific renewable energy system from monitoring."
+        },
+        {
+            "endpoint": "GET /renewables/{id}/maintenance-history",
+            "description": "Query the maintenance history for a specific renewable energy system."
+        }
+    ]
+}

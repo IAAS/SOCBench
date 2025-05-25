@@ -1,0 +1,413 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Environmental Compliance Monitoring Service API",
+    "description": "The Environmental Compliance Monitoring Service API is designed to help manufacturing and industrial companies monitor and report compliance with environmental regulations. This platform enables pollutant level tracking, calibration reminders, and actionable analytics to ensure adherence to regulations.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.environmentalcompliance.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/factories": {
+      "get": {
+        "summary": "Retrieve a list of factories",
+        "description": "Returns a list of all registered factories with compliance monitoring enabled in the system.",
+        "responses": {
+          "200": {
+            "description": "A list of all registered factories.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "factory_id": {
+                        "type": "string",
+                        "description": "Unique identifier of the factory."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the factory."
+                      },
+                      "location": {
+                        "type": "string",
+                        "description": "Location of the factory."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new factory",
+        "description": "Registers a new factory into the compliance monitoring system.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the factory."
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "Geographical location of the factory."
+                  }
+                },
+                "required": ["name", "location"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Factory added successfully."
+          }
+        }
+      }
+    },
+    "/factories/{factory_id}/pollutants": {
+      "get": {
+        "summary": "Retrieve pollutant data for a factory",
+        "description": "Fetches the current pollutant data for a specific factory to monitor environmental compliance.",
+        "parameters": [
+          {
+            "name": "factory_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the factory.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current pollutant data for the specified factory.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "pollutants": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "description": "Name of the pollutant."
+                          },
+                          "level": {
+                            "type": "number",
+                            "description": "Current level of the pollutant."
+                          },
+                          "threshold": {
+                            "type": "number",
+                            "description": "Regulatory threshold for the pollutant."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Submit new pollutant data",
+        "description": "Submits new pollutant data for a specific factory.",
+        "parameters": [
+          {
+            "name": "factory_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the factory.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pollutants": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "Name of the pollutant."
+                        },
+                        "level": {
+                          "type": "number",
+                          "description": "Reported level of the pollutant."
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": ["pollutants"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Pollutant data submitted successfully."
+          }
+        }
+      }
+    },
+    "/factories/{factory_id}/analytics": {
+      "get": {
+        "summary": "Generate compliance analytics",
+        "description": "Provides actionable analytics to ensure environmental regulation compliance for the specified factory.",
+        "parameters": [
+          {
+            "name": "factory_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the factory.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Analytics data for environmental compliance.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "compliance_summary": {
+                      "type": "string",
+                      "description": "Compliance status summary."
+                    },
+                    "actionable_recommendations": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "description": "List of recommended actions."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sensors/{sensor_id}/calibration": {
+      "get": {
+        "summary": "Check sensor calibration status",
+        "description": "Fetches the calibration status and upcoming due dates for a specific sensor.",
+        "parameters": [
+          {
+            "name": "sensor_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the sensor.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sensor calibration status and due date.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Calibration status of the sensor."
+                    },
+                    "due_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "Next calibration due date for the sensor."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Submit sensor calibration record",
+        "description": "Records a completed calibration for a specific sensor.",
+        "parameters": [
+          {
+            "name": "sensor_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the sensor.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "calibration_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Date when the calibration was performed."
+                  },
+                  "notes": {
+                    "type": "string",
+                    "description": "Additional notes about the calibration."
+                  }
+                },
+                "required": ["calibration_date"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sensor calibration record submitted successfully."
+          }
+        }
+      }
+    },
+    "/reports": {
+      "get": {
+        "summary": "Retrieve historical compliance reports",
+        "description": "Fetches a list of all historical compliance reports for monitored factories.",
+        "responses": {
+          "200": {
+            "description": "A list of historical compliance reports.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "report_id": {
+                        "type": "string",
+                        "description": "Unique identifier of the report."
+                      },
+                      "date_generated": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Date the report was generated."
+                      },
+                      "factory_id": {
+                        "type": "string",
+                        "description": "ID of the factory associated with the report."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/{report_id}": {
+      "get": {
+        "summary": "Retrieve specific compliance report",
+        "description": "Fetches details of a specific historical compliance report identified by report_id.",
+        "parameters": [
+          {
+            "name": "report_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the report.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the specified compliance report.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "report_id": {
+                      "type": "string",
+                      "description": "Unique report identifier."
+                    },
+                    "factory_id": {
+                      "type": "string",
+                      "description": "Associated factory unique identifier."
+                    },
+                    "summary": {
+                      "type": "string",
+                      "description": "Brief summary of the compliance report."
+                    },
+                    "detailed_findings": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "description": "Detailed findings in the report."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/factories/{factory_id}": {
+      "delete": {
+        "summary": "Remove a factory",
+        "description": "Deletes a factory and all its associated monitoring data from the system.",
+        "parameters": [
+          {
+            "name": "factory_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the factory.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Factory deleted successfully."
+          }
+        }
+      }
+    }
+  }
+}

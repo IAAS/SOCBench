@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /menus",
+            "description": "Retrieve the list of menus available for display to customers."
+        },
+        {
+            "endpoint": "POST /orders",
+            "description": "Submit a new customer order for processing in the kitchen."
+        },
+        {
+            "endpoint": "PUT /orders/{orderId}",
+            "description": "Update the details or status of an existing order."
+        },
+        {
+            "endpoint": "DELETE /orders/{orderId}",
+            "description": "Cancel an order and remove it from the queue."
+        },
+        {
+            "endpoint": "GET /kitchen/status",
+            "description": "Check the current operational status and workload of the kitchen."
+        },
+        {
+            "endpoint": "POST /payments",
+            "description": "Process a payment for an order securely and in real-time."
+        },
+        {
+            "endpoint": "GET /reservations",
+            "description": "Fetch the list of current reservations for seating customers."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit customer feedback for review and analysis."
+        },
+        {
+            "endpoint": "GET /inventory",
+            "description": "Access the current inventory levels for ingredient and supply management."
+        },
+        {
+            "endpoint": "PATCH /settings",
+            "description": "Update configuration settings for restaurant service operations."
+        }
+    ]
+}

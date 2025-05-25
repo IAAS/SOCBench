@@ -1,0 +1,254 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Pharmacy Inventory Management API",
+        "description": "A platform for pharmacy management to monitor and optimize inventory levels based on prescription demands and expiration dates, ensuring stock optimization and waste reduction.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.pharmacyinventory.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/inventory": {
+            "get": {
+                "summary": "Retrieve current pharmacy inventory",
+                "description": "Retrieve the current state of inventory, including stock levels and expiration dates for all items.",
+                "responses": {
+                    "200": {
+                        "description": "Inventory data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "items": [
+                                        {
+                                            "item_id": "12345",
+                                            "name": "Paracetamol",
+                                            "quantity": 30,
+                                            "expiration_date": "2024-12-31"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add new inventory item",
+                "description": "Add new pharmaceutical items to the inventory database, including details such as name, quantity, and expiration date.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "name": "Ibuprofen",
+                                "quantity": 50,
+                                "expiration_date": "2025-05-31"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Inventory item added successfully."
+                    }
+                }
+            }
+        },
+        "/inventory/{item_id}": {
+            "put": {
+                "summary": "Update inventory item details",
+                "description": "Update the details of a specific inventory item, such as its quantity or expiration date.",
+                "parameters": [
+                    {
+                        "name": "item_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the inventory item.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "quantity": 25,
+                                "expiration_date": "2024-06-30"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inventory item updated successfully."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete inventory item",
+                "description": "Remove a specific inventory item record from the database.",
+                "parameters": [
+                    {
+                        "name": "item_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the inventory item.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Inventory item deleted successfully."
+                    }
+                }
+            }
+        },
+        "/inventory/insights": {
+            "get": {
+                "summary": "Retrieve inventory insights",
+                "description": "Generate and retrieve insights including inventory turnover rates and waste trends.",
+                "responses": {
+                    "200": {
+                        "description": "Insights retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "insights": {
+                                        "turnover_rate": "2.5 months",
+                                        "waste_rate": "5%"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/thresholds": {
+            "get": {
+                "summary": "Retrieve current inventory thresholds",
+                "description": "Retrieve the currently configured thresholds for inventory levels, which can be used for monitoring and alerts.",
+                "responses": {
+                    "200": {
+                        "description": "Thresholds retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "thresholds": {
+                                        "low_stock": 10,
+                                        "high_stock": 100
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Set or update inventory thresholds",
+                "description": "Set or update dynamic thresholds for monitoring inventory levels based on anticipated or predicted demand.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "low_stock": 15,
+                                "high_stock": 120
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Thresholds updated successfully."
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "get": {
+                "summary": "Get active inventory alerts",
+                "description": "Retrieve a list of active alerts related to low stock levels, expiration warnings, or other inventory issues.",
+                "responses": {
+                    "200": {
+                        "description": "Alerts retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "alerts": [
+                                        {
+                                            "alert_id": "1",
+                                            "type": "low_stock",
+                                            "message": "Paracetamol stock is low.",
+                                            "status": "active"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a manual alert",
+                "description": "Manually create or trigger an alert for specific inventory-related issues.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "type": "expiration_warning",
+                                "message": "Ibuprofen is nearing expiration."
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert created successfully."
+                    }
+                }
+            }
+        },
+        "/alerts/{alert_id}": {
+            "put": {
+                "summary": "Resolve or update alert status",
+                "description": "Resolve or update the status of a specific alert.",
+                "parameters": [
+                    {
+                        "name": "alert_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the alert to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "status": "resolved"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Alert status updated successfully."
+                    }
+                }
+            }
+        }
+    }
+}

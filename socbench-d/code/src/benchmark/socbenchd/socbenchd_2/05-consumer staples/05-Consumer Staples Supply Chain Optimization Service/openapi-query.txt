@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+Service:
+Optimizes order fulfillment, inventory tracking, and distribution routes for companies in the sector, enhancing operational efficiency and customer satisfaction.
+
+Endpoints:
+GET /inventory: Retrieve the current state of inventory including stock levels and product details.
+POST /order: Create a new order request specifying product quantities, customer details, and delivery preferences.
+GET /orders/{orderId}: Retrieve details of the specified order including its status, items, and expected delivery date.
+PUT /orders/{orderId}: Update details of an existing order, including modifying quantities or updating shipping details.
+POST /products: Add a new product to the inventory specifying attributes such as name, category, price, and stock quantity.
+GET /suppliers: Fetch a list of available suppliers including their contact details and provided products.
+POST /distribution-routes: Define a new distribution route including its stops, transit times, and associated regions.
+GET /analytics/inventory: Retrieve analytical insights and trends on inventory levels and turnover rates.
+PATCH /warehouse/settings: Modify operation settings of a specific warehouse, such as hours of operation or storage capacities.
+DELETE /orders/{orderId}: Cancel the specified order and update the inventory accordingly.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

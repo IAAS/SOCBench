@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /network/status",
+            "description": "Retrieve the current status of the entire network in real time."
+        },
+        {
+            "endpoint": "POST /outage/report",
+            "description": "Report a new network outage incident for immediate attention."
+        },
+        {
+            "endpoint": "GET /performance/metrics",
+            "description": "Fetch detailed performance metrics for the specified time period."
+        },
+        {
+            "endpoint": "POST /maintenance/schedule",
+            "description": "Schedule predictive maintenance tasks to prevent potential failures."
+        },
+        {
+            "endpoint": "GET /infrastructure/devices",
+            "description": "Retrieve a list of all network devices with their associated details."
+        },
+        {
+            "endpoint": "PUT /infrastructure/device/{id}",
+            "description": "Update the configurations or properties of a specified network device."
+        },
+        {
+            "endpoint": "GET /alerts/active",
+            "description": "Retrieve active alerts and notifications related to the network."
+        },
+        {
+            "endpoint": "DELETE /alerts/{alert_id}",
+            "description": "Resolve a specific alert by its unique identifier."
+        },
+        {
+            "endpoint": "GET /analytics/summary",
+            "description": "Generate a summarized report of network performance and usage trends."
+        },
+        {
+            "endpoint": "POST /workflow/run",
+            "description": "Execute a specific operational workflow for real-time network analysis."
+        }
+    ]
+}

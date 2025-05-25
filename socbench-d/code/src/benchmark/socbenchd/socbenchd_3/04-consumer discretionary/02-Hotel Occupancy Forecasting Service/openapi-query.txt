@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+The Hotel Occupancy Forecasting Service offers reliable predictions of hotel room occupancy rates based on historical data, seasonal trends, and regional events. This aids hotel managers in resource planning, pricing strategy, and marketing efforts.
+
+Endpoints:
+GET /occupancy/forecast: Retrieve the forecasted occupancy rates for specified regions and dates based on historical data.
+POST /historical/upload: Upload historical occupancy data to enhance forecast predictions.
+GET /seasonal/templates: Fetch predefined templates for seasonal trends applied in forecasting.
+POST /regional/events: Submit regional event information to consider in trend predictions.
+GET /resource/plan: Obtain resource planning recommendations based on forecasted occupancy.
+GET /pricing/strategy: Retrieve optimal pricing strategies determined by predicted demand trends.
+POST /feedback/correction: Submit feedback to adjust and fine-tune prediction algorithms.
+GET /marketing/campaign: Access suggested marketing campaigns targeting forecasted peak periods.
+DELETE /historical/data: Remove outdated or incorrect historical data to maintain dataset accuracy.
+PATCH /forecast/config: Update configuration settings for forecasting parameters and models.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

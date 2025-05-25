@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+Service:
+Facilitates real-time inventory tracking for retail companies dealing with consumer staples. Features include stock level alerts, demand forecasting, and integration with ERP systems to streamline supply chain management.
+
+Endpoints:
+GET /inventory: Retrieve the current inventory levels of all listed consumer staples products.
+POST /inventory/update: Update the inventory levels with new data provided by the retailer.
+GET /alerts: Retrieve a list of stock level alerts based on predefined thresholds.
+POST /alerts/configure: Set up or modify stock level alert parameters for specific products.
+GET /forecast/demand: Access demand forecasting data for future sales of consumer staples.
+GET /erp/integrations: List active integrations with ERP systems.
+POST /erp/integrations/add: Add a new integration setup with an ERP system.
+GET /orders: Retrieve recent and pending orders related to consumer staples inventory.
+POST /orders/new: Place a new restock order for specified items.
+DELETE /inventory/remove: Remove a product from the inventory tracking system.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

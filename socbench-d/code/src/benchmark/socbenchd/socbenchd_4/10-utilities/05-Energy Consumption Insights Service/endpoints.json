@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /user/energy-report",
+            "description": "Retrieve a personalized energy usage report for the user, detailing current trends and areas for improvement."
+        },
+        {
+            "endpoint": "POST /user/recommendations",
+            "description": "Submit data to generate tailored recommendations for reducing energy consumption and increasing efficiency."
+        },
+        {
+            "endpoint": "GET /billing/predictions",
+            "description": "Obtain predictions of future energy bills based on past and current usage patterns."
+        },
+        {
+            "endpoint": "GET /energy-sources/distribution",
+            "description": "Access the distribution details of energy sources utilized, highlighting renewable versus non-renewable contributions."
+        },
+        {
+            "endpoint": "POST /feedback/insights",
+            "description": "Provide feedback on received insights, enabling refinement and customization of reported data."
+        },
+        {
+            "endpoint": "GET /user/goal-progress",
+            "description": "Track the progress towards achieving user-defined energy-saving goals."
+        },
+        {
+            "endpoint": "POST /alerts/preferences",
+            "description": "Set preferences for customizable alerts related to high usage or anomaly detections."
+        },
+        {
+            "endpoint": "GET /community/averages",
+            "description": "Retrieve average energy consumption data from similar users within the community for comparison."
+        },
+        {
+            "endpoint": "POST /actions/validate",
+            "description": "Submit user-initiated actions for validation concerning energy-saving effectiveness."
+        },
+        {
+            "endpoint": "GET /dashboard/summary",
+            "description": "Access a consolidated summary of relevant energy usage information for quick user reference."
+        }
+    ]
+}

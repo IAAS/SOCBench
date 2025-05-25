@@ -1,0 +1,427 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Pharmacy Inventory and Order Management API",
+        "description": "This API assists pharmacies in monitoring medication stock levels, expiration dates, and order management. It ensures seamless inventory control by integrating with existing pharmacy systems, providing real-time stock updates, alerts for low inventory levels, and detailed analytical reports.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.pharmacy-inventory.com/v1",
+            "description": "Production server for the Pharmacy Inventory Management System"
+        }
+    ],
+    "paths": {
+        "/inventory/stock": {
+            "get": {
+                "summary": "Retrieve Current Stock Levels",
+                "description": "Retrieves the current stock levels of all medications managed by the pharmacy inventory system.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved stock levels.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "medicationId": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the medication."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Medication name."
+                                            },
+                                            "stockLevel": {
+                                                "type": "integer",
+                                                "description": "Current stock level of the medication."
+                                            },
+                                            "expirationDate": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "The expiration date of the medication."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/add": {
+            "post": {
+                "summary": "Add New Medication",
+                "description": "Adds a new medication to the inventory with the specified initial stock level and details.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The name of the medication."
+                                    },
+                                    "stockLevel": {
+                                        "type": "integer",
+                                        "description": "The initial stock level for the medication."
+                                    },
+                                    "expirationDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Expiration date of the medication."
+                                    },
+                                    "details": {
+                                        "type": "string",
+                                        "description": "Optional details about the medication."
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "stockLevel",
+                                    "expirationDate"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Medication successfully added."
+                    }
+                }
+            }
+        },
+        "/inventory/update/{medicationId}": {
+            "put": {
+                "summary": "Update Medication Details",
+                "description": "Updates the details of an existing medication, including its name, stock level, and expiration date.",
+                "parameters": [
+                    {
+                        "name": "medicationId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the medication to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Updated name of the medication."
+                                    },
+                                    "stockLevel": {
+                                        "type": "integer",
+                                        "description": "Updated stock level."
+                                    },
+                                    "expirationDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Updated expiration date."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Medication details successfully updated."
+                    }
+                }
+            }
+        },
+        "/inventory/remove/{medicationId}": {
+            "delete": {
+                "summary": "Remove Medication",
+                "description": "Removes a medication from the inventory based on its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "medicationId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the medication to remove.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Medication successfully removed."
+                    }
+                }
+            }
+        },
+        "/inventory/low-stock": {
+            "get": {
+                "summary": "Retrieve Medications Below Low Stock Threshold",
+                "description": "Retrieves a list of medications that are currently below the predefined low-stock threshold.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved low-stock medications.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "medicationId": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the medication."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Medication name."
+                                            },
+                                            "stockLevel": {
+                                                "type": "integer",
+                                                "description": "Current stock level."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/expiration-soon": {
+            "get": {
+                "summary": "Retrieve Medications Nearing Expiration",
+                "description": "Retrieves a list of medications that are nearing their expiration date within a specified timeframe.",
+                "parameters": [
+                    {
+                        "name": "days",
+                        "in": "query",
+                        "description": "Number of days to check for upcoming expirations (default is 30).",
+                        "schema": {
+                            "type": "integer",
+                            "default": 30
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved medications nearing expiration.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "medicationId": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the medication."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Medication name."
+                                            },
+                                            "expirationDate": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "The expiration date of the medication."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/reports": {
+            "get": {
+                "summary": "Generate Inventory Management Reports",
+                "description": "Generates and retrieves detailed inventory management reports for analysis.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully generated inventory reports.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reportId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the report."
+                                        },
+                                        "reportDate": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "Timestamp of when the report was generated."
+                                        },
+                                        "reportDetails": {
+                                            "type": "string",
+                                            "description": "Details or link to the full report."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/new": {
+            "post": {
+                "summary": "Create New Order",
+                "description": "Creates a new order to replenish stock levels for specified medications.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "medications": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "medicationId": {
+                                                    "type": "string",
+                                                    "description": "The unique identifier of the medication."
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "description": "Quantity to order."
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "medications"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "orderId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the order."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the order."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/status/{orderId}": {
+            "get": {
+                "summary": "Retrieve Order Status",
+                "description": "Retrieves the current status and details of a specific order based on its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the order.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved order status.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "orderId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the order."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the order."
+                                        },
+                                        "details": {
+                                            "type": "string",
+                                            "description": "Additional details about the order status."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/cancel/{orderId}": {
+            "put": {
+                "summary": "Cancel Order",
+                "description": "Cancels a pending order based on its unique order identifier.",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the order to cancel.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order successfully canceled."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

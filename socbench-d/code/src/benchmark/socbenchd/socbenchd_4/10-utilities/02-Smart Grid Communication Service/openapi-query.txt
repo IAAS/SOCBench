@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+Designed to enable seamless integration between smart grid devices, this service provides secure, real-time exchange of information about power quality, load balancing, and fault detection to enhance operational responses within the utilities network.
+
+Endpoints:
+GET /devices: Retrieve a list of all connected smart grid devices.
+POST /alerts: Send customized notifications to specific smart grid devices.
+GET /power-quality: Access real-time data on power quality parameters for the network.
+POST /control/commands: Send operational commands to manage smart grid devices remotely.
+GET /faults: Retrieve current and historical fault data within the grid network.
+PUT /load-balancing/settings: Update the configured load balancing settings to optimize power distribution.
+GET /usage-statistics: Access historical and real-time usage statistics for analysis.
+DELETE /devices/{device_id}: Remove a specific smart grid device from the network.
+GET /grid-performance: Access overall performance metrics of the utilities grid.
+PATCH /maintenance/schedule: Update the maintenance schedule for specific devices or grid areas.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

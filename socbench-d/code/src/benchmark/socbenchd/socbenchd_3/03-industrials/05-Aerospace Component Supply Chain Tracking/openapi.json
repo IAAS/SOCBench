@@ -1,0 +1,355 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Aerospace Component Supply Chain Tracking Service",
+        "description": "A service that enables comprehensive tracking and status updates of aerospace components within the supply chain, ensuring traceability and minimizing delays.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/components": {
+            "get": {
+                "summary": "Retrieve all tracked aerospace components",
+                "description": "Retrieve a complete list of all aerospace components currently being tracked within the supply chain system.",
+                "responses": {
+                    "200": {
+                        "description": "A list of tracked aerospace components.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the aerospace component."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name or description of the aerospace component."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new aerospace component",
+                "description": "Add a new aerospace component to the tracking database for traceability within the supply chain.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name or description of the aerospace component."
+                                    },
+                                    "details": {
+                                        "type": "string",
+                                        "description": "Additional details about the aerospace component."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully added a new aerospace component to the system."
+                    }
+                }
+            }
+        },
+        "/components/{id}": {
+            "get": {
+                "summary": "Retrieve aerospace component details",
+                "description": "Retrieve detailed information for a specific aerospace component by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the aerospace component.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details for the specified aerospace component.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the component."
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "description": "Name of the component."
+                                        },
+                                        "details": {
+                                            "type": "string",
+                                            "description": "Detailed information about the component."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update aerospace component details",
+                "description": "Update the details of a specific aerospace component by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the aerospace component.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Updated name of the component."
+                                    },
+                                    "details": {
+                                        "type": "string",
+                                        "description": "Updated details of the component."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated the aerospace component."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete an aerospace component",
+                "description": "Remove an aerospace component from the tracking system using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the aerospace component.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successfully deleted the aerospace component."
+                    }
+                }
+            }
+        },
+        "/tracking/{id}/status": {
+            "get": {
+                "summary": "Retrieve current status of a tracked aerospace component",
+                "description": "Get the current status and location of a specific tracked aerospace component.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the aerospace component.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Current status and location of the aerospace component.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the component."
+                                        },
+                                        "location": {
+                                            "type": "string",
+                                            "description": "Current location of the component."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tracking/{id}/update": {
+            "post": {
+                "summary": "Update the status or location of a tracked aerospace component",
+                "description": "Report a status or location update for a specific tracked aerospace component.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the aerospace component.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "description": "Updated status of the component."
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "description": "Updated location of the component."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated the component's status or location."
+                    }
+                }
+            }
+        },
+        "/reports/delay": {
+            "get": {
+                "summary": "Retrieve delay reports",
+                "description": "Retrieve reports of aerospace components facing potential or actual delays within the supply chain.",
+                "responses": {
+                    "200": {
+                        "description": "A list of delay reports.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "componentId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the component."
+                                            },
+                                            "delayReason": {
+                                                "type": "string",
+                                                "description": "Reason for the delay."
+                                            },
+                                            "expectedResolutionDate": {
+                                                "type": "string",
+                                                "description": "Expected resolution date of the delay."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications": {
+            "post": {
+                "summary": "Set up tracking event notifications",
+                "description": "Set up alert notifications for specific aerospace component tracking events, such as status changes or delays.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "componentId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the component to monitor."
+                                    },
+                                    "eventType": {
+                                        "type": "string",
+                                        "description": "The type of event to set up a notification for (e.g., 'statusChange', 'delay')."
+                                    },
+                                    "recipient": {
+                                        "type": "string",
+                                        "description": "Recipient details for the notification (e.g., email or webhook URL)."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully set up the notification."
+                    }
+                }
+            }
+        },
+        "/supplychain/stages": {
+            "get": {
+                "summary": "Retrieve supply chain stages",
+                "description": "Retrieve a list of all supply chain stages relevant to aerospace component tracking.",
+                "responses": {
+                    "200": {
+                        "description": "A list of all supply chain stages.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "stageName": {
+                                                "type": "string",
+                                                "description": "Name of the supply chain stage."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Details about this supply chain stage."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

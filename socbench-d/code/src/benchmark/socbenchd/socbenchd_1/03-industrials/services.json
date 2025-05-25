@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Machine Condition Monitoring Service",
+            "description": "This service monitors the operational health of industrial machinery in real-time using IoT sensors and predictive analytics, reducing downtime."
+        },
+        {
+            "name": "Supply Chain Management Service",
+            "description": "Designed for the coordination and optimization of industrial goods flow, this service provides tools for inventory tracking and order processing."
+        },
+        {
+            "name": "Construction Project Management Service",
+            "description": "Aimed at the construction sector, this service supports scheduling, resource allocation, and cost management, ensuring project efficiency."
+        },
+        {
+            "name": "Environmental Compliance Reporting Service",
+            "description": "This service assists in tracking and reporting environmental emissions and compliance metrics, helping industries meet regulatory requirements."
+        },
+        {
+            "name": "Employee Training and Certification Service",
+            "description": "This service offers a platform for workforce skill assessments, training module delivery, and certification management for industrial organizations."
+        }
+    ]
+}

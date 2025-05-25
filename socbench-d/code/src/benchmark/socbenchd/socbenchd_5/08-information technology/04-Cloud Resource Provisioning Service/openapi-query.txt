@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+Service:
+Users can deploy, scale, and manage cloud resources seamlessly through this API, optimizing application hosting and data storage operations in real time.
+
+Endpoints:
+POST /resources: Create a new cloud resource for the user.
+GET /resources: Retrieve a list of all cloud resources managed by the service.
+GET /resources/{id}: Retrieve detailed information about a specific resource identified by {id}.
+PUT /resources/{id}: Update configuration or attributes of a specific resource identified by {id}.
+DELETE /resources/{id}: Delete a specific cloud resource identified by {id}.
+POST /resources/{id}/scale: Scale the specific resource up or down based on user requirements.
+GET /metrics: Retrieve usage and performance metrics for all cloud resources.
+GET /metrics/{id}: Retrieve detailed metrics for a specific resource identified by {id}.
+GET /regions: List all available regions where resources can be deployed.
+POST /tags: Assign tags to cloud resources for better categorization and organization.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

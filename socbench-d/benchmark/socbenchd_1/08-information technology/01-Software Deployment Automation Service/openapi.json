@@ -1,0 +1,446 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Deployment and Integration Service API",
+        "description": "This API facilitates seamless deployment and integration processes for various software products, ensuring reduced downtime and enhanced operational efficiency.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.example.com",
+            "description": "Production server"
+        },
+        {
+            "url": "https://staging-api.example.com",
+            "description": "Staging server"
+        }
+    ],
+    "paths": {
+        "/deploy": {
+            "post": {
+                "summary": "Initiate deployment process",
+                "description": "Start the deployment of a software application by providing the necessary information about the application and target environment.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "applicationId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the software application to be deployed."
+                                    },
+                                    "version": {
+                                        "type": "string",
+                                        "description": "Version of the application to be deployed."
+                                    },
+                                    "environment": {
+                                        "type": "string",
+                                        "description": "Target environment for deployment (e.g., testing, staging, production)."
+                                    }
+                                },
+                                "required": [
+                                    "applicationId",
+                                    "version",
+                                    "environment"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Deployment process initiated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "deploymentId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the deployment process."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the deployment process."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data provided."
+                    },
+                    "500": {
+                        "description": "Server error occurred during deployment."
+                    }
+                }
+            }
+        },
+        "/status": {
+            "get": {
+                "summary": "Retrieve operational status",
+                "description": "Fetch the operational status and details of currently deployed configurations.",
+                "parameters": [
+                    {
+                        "name": "deploymentId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the deployment process."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operational status retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current operational status."
+                                        },
+                                        "configuration": {
+                                            "type": "object",
+                                            "description": "Details of the deployed configurations."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Deployment not found."
+                    },
+                    "500": {
+                        "description": "Server error occurred while retrieving status."
+                    }
+                }
+            }
+        },
+        "/integration": {
+            "put": {
+                "summary": "Update integration settings",
+                "description": "Modify integration settings for external systems to enable streamlined communication and functionality.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "integrationId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the integration setting to update."
+                                    },
+                                    "settings": {
+                                        "type": "object",
+                                        "description": "Key-value pairs of the new integration settings."
+                                    }
+                                },
+                                "required": [
+                                    "integrationId",
+                                    "settings"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Integration settings updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input data provided."
+                    },
+                    "500": {
+                        "description": "Server error occurred while updating settings."
+                    }
+                }
+            }
+        },
+        "/logs": {
+            "get": {
+                "summary": "Fetch deployment logs",
+                "description": "Retrieve detailed logs related to a specific deployment process.",
+                "parameters": [
+                    {
+                        "name": "deploymentId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the deployment process."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logs retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Log entry timestamp."
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "description": "Log message."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Logs not found for the specified deployment."
+                    },
+                    "500": {
+                        "description": "Server error occurred while fetching logs."
+                    }
+                }
+            }
+        },
+        "/rollback": {
+            "delete": {
+                "summary": "Rollback deployment",
+                "description": "Revert a deployment back to its previous version.",
+                "parameters": [
+                    {
+                        "name": "deploymentId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the deployment to rollback."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deployment rolled back successfully."
+                    },
+                    "400": {
+                        "description": "Invalid deployment ID provided."
+                    },
+                    "500": {
+                        "description": "Server error occurred during rollback."
+                    }
+                }
+            }
+        },
+        "/validate": {
+            "post": {
+                "summary": "Validate deployment configuration",
+                "description": "Validate the given configuration details before initiating deployment to avoid errors.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "configuration": {
+                                        "type": "object",
+                                        "description": "Key-value pairs of configuration details to validate."
+                                    }
+                                },
+                                "required": [
+                                    "configuration"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Configuration validated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid configuration details provided."
+                    }
+                }
+            }
+        },
+        "/update-config": {
+            "patch": {
+                "summary": "Apply partial updates to configuration",
+                "description": "Modify specific settings in an existing configuration.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "configId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the configuration to update."
+                                    },
+                                    "updates": {
+                                        "type": "object",
+                                        "description": "Key-value pairs of the updates to apply."
+                                    }
+                                },
+                                "required": [
+                                    "configId",
+                                    "updates"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Configuration updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input data provided."
+                    }
+                }
+            }
+        },
+        "/settings": {
+            "get": {
+                "summary": "List current settings",
+                "description": "Retrieve a list of the current settings related to deployment services.",
+                "responses": {
+                    "200": {
+                        "description": "Settings retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "settings": {
+                                            "type": "object",
+                                            "description": "Key-value pairs of the current settings."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error occurred while fetching settings."
+                    }
+                }
+            }
+        },
+        "/trigger-hook": {
+            "post": {
+                "summary": "Trigger a hook action",
+                "description": "Trigger a specific hook during the deployment process.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "hookId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the hook to trigger."
+                                    },
+                                    "payload": {
+                                        "type": "object",
+                                        "description": "Optional payload to pass to the hook."
+                                    }
+                                },
+                                "required": [
+                                    "hookId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Hook triggered successfully."
+                    },
+                    "400": {
+                        "description": "Invalid hook ID provided."
+                    },
+                    "500": {
+                        "description": "Server error occurred while triggering the hook."
+                    }
+                }
+            }
+        },
+        "/reports": {
+            "get": {
+                "summary": "Retrieve activity reports",
+                "description": "Obtain a report of deployment and integration activities over a specified period.",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "The start date for the report (inclusive)."
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "The end date for the report (inclusive)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Report retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Timestamp of the activity."
+                                            },
+                                            "activity": {
+                                                "type": "string",
+                                                "description": "Description of the activity."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Status of the activity."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid date range provided."
+                    },
+                    "500": {
+                        "description": "Server error occurred while retrieving the report."
+                    }
+                }
+            }
+        }
+    }
+}

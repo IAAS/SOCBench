@@ -1,0 +1,534 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Dynamic Menu Configuration API",
+        "description": "This API allows restaurants to provide customized menu configurations tailored to customer preferences, dietary restrictions, and real-time allergen information.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/menu/template": {
+            "post": {
+                "summary": "Create a new menu template",
+                "description": "This endpoint allows restaurants to create a new menu template based on their offerings. A menu template defines the structure of items categorized for display on the restaurant's menu.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The name of the menu template."
+                                    },
+                                    "sections": {
+                                        "type": "array",
+                                        "description": "Array of sections in the template, such as appetizers, main courses, desserts.",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "description": "Name of the section."
+                                                },
+                                                "dishes": {
+                                                    "type": "array",
+                                                    "description": "List of dish IDs included in this section.",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "name"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Menu template successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the created menu template."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request data."
+                    }
+                }
+            }
+        },
+        "/menu/template/{id}": {
+            "get": {
+                "summary": "Retrieve menu template",
+                "description": "Fetch a detailed view of a specific menu template by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the menu template to retrieve.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Menu template details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the menu template."
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "description": "The name of the menu template."
+                                        },
+                                        "sections": {
+                                            "type": "array",
+                                            "description": "Array of sections in the template.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string",
+                                                        "description": "Name of the section."
+                                                    },
+                                                    "dishes": {
+                                                        "type": "array",
+                                                        "description": "List of dish IDs included in this section.",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Menu template not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update menu template",
+                "description": "Update an existing menu template with new information.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the menu template to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The updated name of the menu template."
+                                    },
+                                    "sections": {
+                                        "type": "array",
+                                        "description": "Array of updated sections in the template.",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "description": "Updated name of the section."
+                                                },
+                                                "dishes": {
+                                                    "type": "array",
+                                                    "description": "Updated list of dish IDs included in this section.",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Menu template successfully updated."
+                    },
+                    "400": {
+                        "description": "Invalid data for update."
+                    },
+                    "404": {
+                        "description": "Menu template not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete menu template",
+                "description": "Remove a specific menu template using its identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the menu template to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Menu template successfully deleted."
+                    },
+                    "404": {
+                        "description": "Menu template not found."
+                    }
+                }
+            }
+        },
+        "/dishes/customize": {
+            "post": {
+                "summary": "Create custom dish configuration",
+                "description": "Enable users to create a custom configuration for a dish based on their selected preferences.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "dishId": {
+                                        "type": "string",
+                                        "description": "The identifier of the dish to customize."
+                                    },
+                                    "preferences": {
+                                        "type": "array",
+                                        "description": "List of user-selected preferences.",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Custom dish configuration created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "configurationId": {
+                                            "type": "string",
+                                            "description": "Unique ID for the created configuration."
+                                        },
+                                        "customDishPreview": {
+                                            "type": "object",
+                                            "description": "Preview of the customized dish."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request data."
+                    }
+                }
+            }
+        },
+        "/dishes/preferences": {
+            "get": {
+                "summary": "Retrieve dietary preferences",
+                "description": "Fetch a list of predefined dietary preferences available for customization.",
+                "responses": {
+                    "200": {
+                        "description": "List of dietary preferences retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "preferences": {
+                                            "type": "array",
+                                            "description": "List of dietary preferences.",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/allergens/check": {
+            "post": {
+                "summary": "Analyze allergens",
+                "description": "Analyze a dish's ingredients to identify any potential allergens based on user input.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "ingredients": {
+                                        "type": "array",
+                                        "description": "List of ingredients in the dish.",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "userAllergens": {
+                                        "type": "array",
+                                        "description": "List of allergens the user wishes to check against.",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Allergen analysis completed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "potentialAllergens": {
+                                            "type": "array",
+                                            "description": "List of potential allergens detected.",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid allergen check request."
+                    }
+                }
+            }
+        },
+        "/restaurants/{id}/menu": {
+            "get": {
+                "summary": "Retrieve restaurant menu",
+                "description": "Fetch the entire menu details with categorized dishes for a specific restaurant.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the restaurant.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Restaurant menu retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "restaurantId": {
+                                            "type": "string",
+                                            "description": "The identifier of the restaurant."
+                                        },
+                                        "menu": {
+                                            "type": "array",
+                                            "description": "List of categorized dishes in the menu.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "category": {
+                                                        "type": "string",
+                                                        "description": "The category of the dishes (e.g., appetizers, main course)."
+                                                    },
+                                                    "dishes": {
+                                                        "type": "array",
+                                                        "description": "List of dishes in this category.",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "dishId": {
+                                                                    "type": "string",
+                                                                    "description": "Unique identifier for the dish."
+                                                                },
+                                                                "name": {
+                                                                    "type": "string",
+                                                                    "description": "Name of the dish."
+                                                                },
+                                                                "price": {
+                                                                    "type": "number",
+                                                                    "format": "float",
+                                                                    "description": "Price of the dish."
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Restaurant menu not found."
+                    }
+                }
+            }
+        },
+        "/dishes/{id}/popularity": {
+            "put": {
+                "summary": "Update dish popularity",
+                "description": "Update the popularity metric of a specific dish for analytics tracking purposes.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the dish.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "popularity": {
+                                        "type": "integer",
+                                        "description": "Updated popularity score for the dish."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Dish popularity successfully updated."
+                    },
+                    "400": {
+                        "description": "Invalid data for popularity update."
+                    }
+                }
+            }
+        },
+        "/feedback/menu": {
+            "post": {
+                "summary": "Submit menu feedback",
+                "description": "Allow users to submit feedback related to their experience browsing and selecting items from the menu.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "restaurantId": {
+                                        "type": "string",
+                                        "description": "The identifier of the restaurant for which feedback is being submitted."
+                                    },
+                                    "feedback": {
+                                        "type": "string",
+                                        "description": "The feedback content submitted by the user."
+                                    },
+                                    "rating": {
+                                        "type": "integer",
+                                        "description": "User rating for the menu browsing experience (1-5 scale)."
+                                    }
+                                },
+                                "required": [
+                                    "restaurantId",
+                                    "feedback"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Feedback successfully submitted."
+                    },
+                    "400": {
+                        "description": "Invalid feedback submission data."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

@@ -1,0 +1,395 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Emergency Communication API",
+    "description": "This API provides real-time communication tools to disseminate information during emergency events. It helps integrate with public communication infrastructure, enabling authorities to broadcast alerts, manage regions, allocate emergency resources, and review logs or feedback.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Support Team",
+      "email": "support@example.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.emergency-communication.example.com",
+      "description": "Production Server"
+    },
+    {
+      "url": "https://sandbox.emergency-communication.example.com",
+      "description": "Sandbox Server"
+    }
+  ],
+  "paths": {
+    "/alerts": {
+      "post": {
+        "summary": "Submit a new alert",
+        "description": "This endpoint is used to create a new alert to be communicated to residents in a specific region.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "regionId": {
+                    "type": "string",
+                    "description": "The ID of the region where the alert will be broadcasted."
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "The alert message to be communicated."
+                  },
+                  "alertType": {
+                    "type": "string",
+                    "enum": ["Weather", "Security", "Health", "Other"],
+                    "description": "The type of alert being issued."
+                  }
+                },
+                "required": ["regionId", "message", "alertType"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Alert created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "alertId": {
+                      "type": "string",
+                      "description": "The unique identifier for the created alert."
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "The current status of the alert."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or missing required fields."
+          }
+        }
+      }
+    },
+    "/alerts/{alert_id}": {
+      "get": {
+        "summary": "Retrieve a specific alert",
+        "description": "Retrieve detailed information about a specific alert by its unique ID.",
+        "parameters": [
+          {
+            "name": "alert_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the alert.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alert details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "alertId": { "type": "string" },
+                    "regionId": { "type": "string" },
+                    "message": { "type": "string" },
+                    "alertType": { "type": "string" },
+                    "status": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Alert not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an alert",
+        "description": "Modify the content or scope of a specific alert.",
+        "parameters": [
+          {
+            "name": "alert_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the alert to update.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "regionId": {
+                    "type": "string",
+                    "description": "The new ID of the region for the alert."
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "The updated alert message."
+                  },
+                  "alertType": {
+                    "type": "string",
+                    "enum": ["Weather", "Security", "Health", "Other"],
+                    "description": "The updated type of alert."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Alert updated successfully."
+          },
+          "400": {
+            "description": "Invalid input."
+          },
+          "404": {
+            "description": "Alert not found."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an alert",
+        "description": "Remove an alert entirely, halting any further dissemination.",
+        "parameters": [
+          {
+            "name": "alert_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the alert to delete.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Alert deleted successfully."
+          },
+          "404": {
+            "description": "Alert not found."
+          }
+        }
+      }
+    },
+    "/regions": {
+      "get": {
+        "summary": "List all regions",
+        "description": "Retrieve a list of all defined regions available for targeted alerts.",
+        "responses": {
+          "200": {
+            "description": "List of regions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "regionId": { "type": "string" },
+                      "name": { "type": "string" },
+                      "description": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Define a new region",
+        "description": "Create a new region for alert dissemination.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the new region."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "A description of the region."
+                  }
+                },
+                "required": ["name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Region created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "regionId": {
+                      "type": "string",
+                      "description": "The unique identifier for the newly created region."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input."
+          }
+        }
+      }
+    },
+    "/resources": {
+      "get": {
+        "summary": "List emergency resources",
+        "description": "Retrieve a list of all emergency resources available for allocation.",
+        "responses": {
+          "200": {
+            "description": "List of resources.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "resourceId": { "type": "string" },
+                      "name": { "type": "string" },
+                      "status": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resources/allocation": {
+      "post": {
+        "summary": "Allocate resources",
+        "description": "Allocate specific resources to a region during an emergency.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "resourceId": {
+                    "type": "string",
+                    "description": "The ID of the resource to allocate."
+                  },
+                  "regionId": {
+                    "type": "string",
+                    "description": "The ID of the region to allocate the resource to."
+                  }
+                },
+                "required": ["resourceId", "regionId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Resource allocated successfully."
+          },
+          "400": {
+            "description": "Invalid input."
+          }
+        }
+      }
+    },
+    "/communications/logs": {
+      "get": {
+        "summary": "View communication logs",
+        "description": "Retrieve logs of all communication attempts made through the service.",
+        "responses": {
+          "200": {
+            "description": "Communication logs retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "logId": { "type": "string" },
+                      "timestamp": { "type": "string", "format": "date-time" },
+                      "message": { "type": "string" },
+                      "status": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback": {
+      "post": {
+        "summary": "Submit feedback",
+        "description": "Send feedback regarding a communicated alert to improve the service.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "alertId": {
+                    "type": "string",
+                    "description": "The ID of the alert the feedback is about."
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "The feedback message or comments."
+                  },
+                  "rating": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5,
+                    "description": "Rating for the alert's effectiveness."
+                  }
+                },
+                "required": ["alertId", "message"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Feedback submitted successfully."
+          },
+          "400": {
+            "description": "Invalid input."
+          }
+        }
+      }
+    }
+  }
+}

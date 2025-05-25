@@ -1,0 +1,440 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Transportation Service API",
+        "description": "This service is designed for transportation industries and provides functionalities for routing optimization, vehicle tracking, and delivery scheduling to enhance logistics efficiency and reduce operational costs.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.transportation.service",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/route/optimize": {
+            "post": {
+                "summary": "Optimize vehicle routes",
+                "description": "Submit data to obtain optimized routes for a fleet of vehicles. This can help minimize travel time and fuel consumption.",
+                "requestBody": {
+                    "description": "Routing information to be optimized.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "fleetData": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "vehicleId": {
+                                                    "type": "string",
+                                                    "description": "Unique identifier for the vehicle."
+                                                },
+                                                "currentLocation": {
+                                                    "type": "string",
+                                                    "description": "Current location of the vehicle in latitude,longitude format."
+                                                },
+                                                "destination": {
+                                                    "type": "string",
+                                                    "description": "Destination location in latitude,longitude format."
+                                                }
+                                            },
+                                            "required": [
+                                                "vehicleId",
+                                                "currentLocation",
+                                                "destination"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "fleetData"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Optimized routes for the fleet.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "vehicleId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the vehicle."
+                                            },
+                                            "optimizedRoute": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string",
+                                                    "description": "Sequence of latitude,longitude waypoints for the optimized route."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicle/{id}/location": {
+            "get": {
+                "summary": "Retrieve vehicle location",
+                "description": "Get the current real-time location of a specified vehicle.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the vehicle.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Vehicle's current location.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "vehicleId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the vehicle."
+                                        },
+                                        "currentLocation": {
+                                            "type": "string",
+                                            "description": "Current location in latitude,longitude format."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/delivery/schedule": {
+            "put": {
+                "summary": "Update delivery schedule",
+                "description": "Update and schedule deliveries for specific vehicles in the fleet.",
+                "requestBody": {
+                    "description": "Details of the delivery schedule to update.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "vehicleId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the vehicle."
+                                    },
+                                    "schedule": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "destination": {
+                                                    "type": "string",
+                                                    "description": "Destination location in latitude,longitude format."
+                                                },
+                                                "deliveryWindow": {
+                                                    "type": "string",
+                                                    "description": "Time window for the delivery (e.g., 2023-10-01T14:00:00-05:00)."
+                                                }
+                                            },
+                                            "required": [
+                                                "destination",
+                                                "deliveryWindow"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "vehicleId",
+                                    "schedule"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Delivery schedule updated successfully."
+                    }
+                }
+            }
+        },
+        "/vehicles": {
+            "get": {
+                "summary": "Retrieve list of vehicles",
+                "description": "Get a list of all vehicles managed in the service.",
+                "responses": {
+                    "200": {
+                        "description": "List of all vehicles.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "vehicleId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the vehicle."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current status of the vehicle (e.g., active, maintenance)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicle/{id}": {
+            "delete": {
+                "summary": "Delete a vehicle",
+                "description": "Remove a specified vehicle from the managed fleet.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the vehicle to be removed.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Vehicle removed successfully."
+                    }
+                }
+            }
+        },
+        "/incident/report": {
+            "post": {
+                "summary": "Report an incident",
+                "description": "Report an incident or delay along a route for operational attention.",
+                "requestBody": {
+                    "description": "Details of the incident being reported.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "routeId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the route where the incident occurred."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Detailed description of the incident."
+                                    },
+                                    "timestamp": {
+                                        "type": "string",
+                                        "description": "Timestamp of when the incident occurred (e.g., 2023-10-01T14:00:00-05:00)."
+                                    }
+                                },
+                                "required": [
+                                    "routeId",
+                                    "description",
+                                    "timestamp"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Incident reported successfully."
+                    }
+                }
+            }
+        },
+        "/delivery/history": {
+            "get": {
+                "summary": "Retrieve delivery history",
+                "description": "Access the historical delivery data of fleet vehicles.",
+                "responses": {
+                    "200": {
+                        "description": "Historical delivery data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "vehicleId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the vehicle."
+                                            },
+                                            "deliveries": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "destination": {
+                                                            "type": "string",
+                                                            "description": "Delivery destination in latitude,longitude format."
+                                                        },
+                                                        "deliveredAt": {
+                                                            "type": "string",
+                                                            "description": "Timestamp of when delivery was completed."
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicle/{id}/config": {
+            "patch": {
+                "summary": "Modify vehicle configuration",
+                "description": "Modify configuration settings for a specified vehicle in the fleet.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the vehicle.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Configuration details to be updated.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "settings": {
+                                        "type": "object",
+                                        "description": "Configuration settings to update.",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "settings"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Configuration updated successfully."
+                    }
+                }
+            }
+        },
+        "/analytics/performance": {
+            "get": {
+                "summary": "Retrieve fleet performance analytics",
+                "description": "Get analytics data about the performance of the fleet's delivery operations.",
+                "responses": {
+                    "200": {
+                        "description": "Performance analytics data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "totalDeliveries": {
+                                            "type": "integer",
+                                            "description": "Total number of deliveries completed."
+                                        },
+                                        "averageDeliveryTime": {
+                                            "type": "string",
+                                            "description": "Average delivery time."
+                                        },
+                                        "fuelConsumption": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "description": "Average fuel consumption across the fleet."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "summary": "Submit feedback",
+                "description": "Submit user or customer feedback regarding the service or individual deliveries.",
+                "requestBody": {
+                    "description": "Details of the feedback.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the user providing feedback."
+                                    },
+                                    "comments": {
+                                        "type": "string",
+                                        "description": "Feedback details or comments."
+                                    },
+                                    "rating": {
+                                        "type": "integer",
+                                        "description": "Rating for the service (e.g., 1-5).",
+                                        "minimum": 1,
+                                        "maximum": 5
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "comments",
+                                    "rating"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback submitted successfully."
+                    }
+                }
+            }
+        }
+    }
+}

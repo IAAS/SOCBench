@@ -1,0 +1,321 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Grid Infrastructure Monitoring Service API",
+    "description": "The Grid Infrastructure Monitoring Service assists energy providers in maintaining their transmission and distribution networks. This API allows energy providers to monitor real-time health data, manage configurations, detect and report anomalies, and receive notifications for efficient proactive maintenance.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.gridmonitoring.example.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/grid-status": {
+      "get": {
+        "summary": "Retrieve Grid Status",
+        "description": "Fetch the overall health and operational status of the grid infrastructure, including information about substations, transformers, and transmission lines.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the grid status.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Overall status of the grid ('Healthy', 'Warning', 'Critical')."
+                    },
+                    "report": {
+                      "type": "object",
+                      "description": "Detailed report of grid health.",
+                      "additionalProperties": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/anomalies/report": {
+      "post": {
+        "summary": "Submit Anomaly Report",
+        "description": "Submit a detailed report of an identified anomaly within the grid, including its location and possible impact.",
+        "requestBody": {
+          "description": "Details of the anomaly to be reported.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "location": {
+                    "type": "string",
+                    "description": "Location identifier where the anomaly was detected."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Detailed description of the anomaly."
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": ["low", "medium", "high", "critical"],
+                    "description": "Severity level of the anomaly."
+                  },
+                  "timestamp": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Time when the anomaly was detected."
+                  }
+                },
+                "required": ["location", "description", "severity", "timestamp"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Anomaly report successfully submitted."
+          },
+          "400": {
+            "description": "Invalid request data."
+          }
+        }
+      }
+    },
+    "/substations/{id}": {
+      "get": {
+        "summary": "Get Substation Details",
+        "description": "Fetch detailed health and operational data of a specific substation.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the substation.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the substation details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string", "description": "Substation ID." },
+                    "status": { "type": "string", "description": "Operational status of the substation." },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": true,
+                      "description": "Additional details about the substation."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Substation not found."
+          }
+        }
+      }
+    },
+    "/transformers/{id}/configure": {
+      "patch": {
+        "summary": "Update Transformer Configuration",
+        "description": "Update configuration settings for a specific transformer.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the transformer.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Configuration settings for the transformer.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Configuration updated successfully."
+          },
+          "400": {
+            "description": "Invalid configuration data."
+          }
+        }
+      }
+    },
+    "/transmission-lines": {
+      "get": {
+        "summary": "List Transmission Lines",
+        "description": "Retrieve a list of monitored transmission lines and their current status.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the list of transmission lines.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "line_id": { "type": "string", "description": "Transmission line ID." },
+                      "status": { "type": "string", "description": "Current status of the transmission line." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sensors/{id}/maintenance": {
+      "put": {
+        "summary": "Mark Sensor under Maintenance",
+        "description": "Flag a sensor as being under maintenance.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the sensor.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sensor successfully marked under maintenance."
+          },
+          "404": {
+            "description": "Sensor not found."
+          }
+        }
+      }
+    },
+    "/anomaly-history": {
+      "get": {
+        "summary": "Get Anomaly History",
+        "description": "Access historical data of detected anomalies for trend analysis.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved anomaly history.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "anomaly_id": { "type": "string", "description": "Anomaly ID." },
+                      "timestamp": { "type": "string", "format": "date-time", "description": "Time of the anomaly." },
+                      "description": { "type": "string", "description": "Brief description of the anomaly." },
+                      "severity": { "type": "string", "description": "Severity level of the anomaly." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts/{alert_id}": {
+      "delete": {
+        "summary": "Delete an Alert",
+        "description": "Remove a specific alert from the system by its identifier.",
+        "parameters": [
+          {
+            "name": "alert_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the alert.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alert successfully deleted."
+          },
+          "404": {
+            "description": "Alert not found."
+          }
+        }
+      }
+    },
+    "/notifications/subscribe": {
+      "post": {
+        "summary": "Subscribe to Notifications",
+        "description": "Subscribe to receive real-time notifications based on specific criteria.",
+        "requestBody": {
+          "description": "Notification subscription details.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "criteria": {
+                    "type": "string",
+                    "description": "Condition under which notifications will be sent."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Subscription created successfully."
+          },
+          "400": {
+            "description": "Invalid subscription data."
+          }
+        }
+      }
+    },
+    "/network/topology": {
+      "get": {
+        "summary": "Visualize Grid Network Topology",
+        "description": "Retrieve a representation of the current topology of the grid network.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved network topology.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

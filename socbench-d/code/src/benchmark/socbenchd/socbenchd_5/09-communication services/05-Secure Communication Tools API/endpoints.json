@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /messages/send",
+            "description": "Send a new message to a specific user or group."
+        },
+        {
+            "endpoint": "GET /messages/{message_id}",
+            "description": "Retrieve detailed information about a specific message using its unique ID."
+        },
+        {
+            "endpoint": "GET /conversations",
+            "description": "List all conversations for the logged-in user."
+        },
+        {
+            "endpoint": "PUT /conversations/{conversation_id}/read",
+            "description": "Mark all messages in a specific conversation as read."
+        },
+        {
+            "endpoint": "POST /files/share",
+            "description": "Upload and share a file securely with end-to-end encryption."
+        },
+        {
+            "endpoint": "GET /files/{file_id}/download",
+            "description": "Download an encrypted file using its unique ID."
+        },
+        {
+            "endpoint": "GET /contacts",
+            "description": "Retrieve the contact list of the logged-in user."
+        },
+        {
+            "endpoint": "POST /calls/start",
+            "description": "Initiate a secure voice or video call with a specific user or group."
+        },
+        {
+            "endpoint": "PUT /settings/privacy",
+            "description": "Update the privacy settings for the user's account."
+        },
+        {
+            "endpoint": "DELETE /messages/{message_id}",
+            "description": "Permanently delete a specific message from the server."
+        }
+    ]
+}

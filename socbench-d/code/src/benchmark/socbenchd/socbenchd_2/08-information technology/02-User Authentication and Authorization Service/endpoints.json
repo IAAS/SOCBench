@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /users",
+            "description": "Retrieve a list of all users within the system, including their associated roles and permissions."
+        },
+        {
+            "endpoint": "POST /users",
+            "description": "Create a new user account, including username, email, and initial role assignment."
+        },
+        {
+            "endpoint": "GET /users/{userId}",
+            "description": "Retrieve detailed information about a specific user by their unique identifier."
+        },
+        {
+            "endpoint": "PUT /users/{userId}",
+            "description": "Update account details for the specified user, such as changing their associated roles or permissions."
+        },
+        {
+            "endpoint": "DELETE /users/{userId}",
+            "description": "Delete the specified user account from the system."
+        },
+        {
+            "endpoint": "POST /auth/mfa",
+            "description": "Initiate multifactor authentication setup for a user, providing additional security measures."
+        },
+        {
+            "endpoint": "GET /roles",
+            "description": "Retrieve a list of all defined roles and their associated permissions."
+        },
+        {
+            "endpoint": "POST /roles",
+            "description": "Create a new role with specified permissions for assignment to users."
+        },
+        {
+            "endpoint": "PUT /roles/{roleId}",
+            "description": "Update details of an existing role, such as modifying its permissions."
+        },
+        {
+            "endpoint": "DELETE /roles/{roleId}",
+            "description": "Remove a specific role from the system, ensuring no dependencies exist."
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+This API enables organizations to monitor and ensure compliance with environmental regulations, providing features like emissions tracking, waste management, and regulatory reporting tools.
+
+Endpoints:
+POST /emissions: Submit new emission data for a specific source.
+GET /emissions/{id}: Retrieve detailed information about a specific emission record by ID.
+PUT /emissions/{id}: Update emission data for a specific record by ID.
+DELETE /emissions/{id}: Remove a specific emission record by ID.
+GET /waste-management: Retrieve a comprehensive summary of all waste management activities.
+POST /waste-management: Submit new waste management activity data.
+GET /regulations: Retrieve a list of relevant environmental regulations applicable to the user.
+GET /reports/compliance: Generate and retrieve a compliance report based on the submitted data.
+POST /alerts: Create a new alert for specific regulatory threshold violations.
+GET /alerts/{id}: Retrieve detailed information about a specific alert by ID.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+Facilitates the incorporation of renewable energy sources, such as solar and wind, into existing energy grids through comprehensive data analytics and system simulations.
+
+Endpoints:
+POST /data/upload: Upload data related to renewable energy sources, such as solar and wind, for analytics.
+GET /simulation/results: Retrieve results of the system simulation performed on the uploaded data.
+GET /grid/status: Fetch the current integration status of renewable energy sources into the grid.
+PUT /settings/simulation: Update the parameters for simulations to better align results with specific scenarios.
+GET /reports/generation: Access detailed reports on energy generation statistics by renewable sources.
+POST /alerts/configure: Set up custom alerts for unusual grid status or systemic failures.
+GET /recommendations/optimization: Obtain optimization suggestions for integrating renewable energy efficiently.
+DELETE /data/history: Remove outdated system data to maintain storage efficiency.
+GET /forecasts/energy-output: View the predicted energy output for upcoming periods based on current data.
+POST /feedback/analysis: Submit user feedback for the analysis functionality for further improvements.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

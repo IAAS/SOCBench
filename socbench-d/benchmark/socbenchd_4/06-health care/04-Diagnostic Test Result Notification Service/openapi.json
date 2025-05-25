@@ -1,0 +1,385 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Diagnostic Test Results Notification Service API",
+        "description": "This API enables timely communication between patients and healthcare professionals by providing notifications for diagnostic test results. It facilitates fast communication for prompt responses to medical conditions.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.healthcare.example.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/test-results/available": {
+            "get": {
+                "summary": "Retrieve Available Test Results",
+                "description": "Fetch a list of diagnostic test results that are currently available, including their corresponding statuses.",
+                "responses": {
+                    "200": {
+                        "description": "A list of available test results",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the test result"
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Status of the test result (e.g., 'pending', 'available')"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/test-results/notify": {
+            "post": {
+                "summary": "Send Test Result Notification",
+                "description": "Send a notification to either a healthcare professional or a patient to indicate the availability of a new diagnostic test result.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "recipientId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the notification recipient"
+                                    },
+                                    "testResultId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the test result being notified about"
+                                    }
+                                },
+                                "required": [
+                                    "recipientId",
+                                    "testResultId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Notification sent successfully"
+                    }
+                }
+            }
+        },
+        "/test-results/{id}": {
+            "get": {
+                "summary": "Fetch Test Result Details",
+                "description": "Retrieve detailed information for a specific diagnostic test result",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The unique identifier of the test result",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Test result details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the test result"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the test result"
+                                        },
+                                        "details": {
+                                            "type": "object",
+                                            "description": "Nested object containing detailed test result information"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/test-results/{id}/status": {
+            "patch": {
+                "summary": "Update Test Result Status",
+                "description": "Update the status of a specific diagnostic test result to mark it as acknowledged.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The unique identifier of the test result",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "description": "The new status of the test result (e.g., 'acknowledged')"
+                                    }
+                                },
+                                "required": [
+                                    "status"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Status updated successfully"
+                    }
+                }
+            }
+        },
+        "/healthcare-providers": {
+            "get": {
+                "summary": "Retrieve Healthcare Providers",
+                "description": "Fetch a list of healthcare providers registered in the system.",
+                "responses": {
+                    "200": {
+                        "description": "List of healthcare providers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the provider"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the healthcare provider"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications/history": {
+            "get": {
+                "summary": "Retrieve Notification History",
+                "description": "Access the history of notifications sent over a specified timeframe.",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "description": "Start date for filtering notifications history (YYYY-MM-DD)",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "description": "End date for filtering notifications history (YYYY-MM-DD)",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Notification history",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "notificationId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the notification"
+                                            },
+                                            "recipientId": {
+                                                "type": "string",
+                                                "description": "Recipient's identifier"
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Time the notification was sent"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications/resend": {
+            "post": {
+                "summary": "Resend Notification",
+                "description": "Resend a previously issued notification to its intended recipient.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "notificationId": {
+                                        "type": "string",
+                                        "description": "Identifier of the notification to be resent"
+                                    }
+                                },
+                                "required": [
+                                    "notificationId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Notification resent successfully"
+                    }
+                }
+            }
+        },
+        "/patients/{id}/test-results": {
+            "get": {
+                "summary": "List Patient's Test Results",
+                "description": "Retrieve all test results associated with a specific patient.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The unique identifier of the patient",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of patient's test results",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the test result"
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current status of the test result"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/test-results": {
+            "post": {
+                "summary": "Submit New Test Result",
+                "description": "Submit new diagnostic test results into the system for processing and notification.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "patientId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the patient for whom the test results are being submitted"
+                                    },
+                                    "resultDetails": {
+                                        "type": "string",
+                                        "description": "Detailed information about the test results"
+                                    }
+                                },
+                                "required": [
+                                    "patientId",
+                                    "resultDetails"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Test result submitted successfully"
+                    }
+                }
+            }
+        },
+        "/notifications/{id}": {
+            "delete": {
+                "summary": "Delete Notification",
+                "description": "Remove a notification from the notification history by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The unique identifier of the notification to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Notification deleted successfully"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    }
+}

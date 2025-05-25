@@ -1,0 +1,534 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Incident Response and Escalation Service for IT Infrastructure Teams",
+        "description": "This API streamlines the incident response and escalation process for IT infrastructure teams by integrating with monitoring tools, alert management systems, and automated remediation workflows to improve efficiency and minimize system downtime.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/alert": {
+            "post": {
+                "summary": "Create a new alert",
+                "description": "Trigger a notification to the teams about a detected issue. Used for raising alerts integrated with monitoring systems.",
+                "operationId": "createAlert",
+                "requestBody": {
+                    "description": "Details of the alert to be created",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "description": "The title or name of the alert."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Detailed description of the issue detected."
+                                    },
+                                    "severity": {
+                                        "type": "string",
+                                        "enum": [
+                                            "low",
+                                            "medium",
+                                            "high",
+                                            "critical"
+                                        ],
+                                        "description": "The severity level of the alert."
+                                    },
+                                    "source": {
+                                        "type": "string",
+                                        "description": "The system or tool that detected the issue."
+                                    },
+                                    "timestamp": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "The date and time when the alert was detected."
+                                    }
+                                },
+                                "required": [
+                                    "title",
+                                    "severity",
+                                    "source"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "alertId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the created alert."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data provided."
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "get": {
+                "summary": "Retrieve all active alerts",
+                "description": "Fetch a list of all active alerts currently present in the system.",
+                "operationId": "getAllAlerts",
+                "responses": {
+                    "200": {
+                        "description": "A list of active alerts.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "alertId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the alert."
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "description": "Title or name of the alert."
+                                            },
+                                            "severity": {
+                                                "type": "string",
+                                                "description": "Severity level of the alert."
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "The date and time when the alert was detected."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alert/{alertId}": {
+            "get": {
+                "summary": "Get detailed information about an alert",
+                "description": "Fetch details of a specific alert using its unique identifier.",
+                "operationId": "getAlert",
+                "parameters": [
+                    {
+                        "name": "alertId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique ID of the alert to retrieve.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the alert.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "alertId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the alert."
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "description": "Title or name of the alert."
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "description": "Detailed description of the issue."
+                                        },
+                                        "severity": {
+                                            "type": "string",
+                                            "description": "Severity level of the alert."
+                                        },
+                                        "source": {
+                                            "type": "string",
+                                            "description": "The system or tool that generated the alert."
+                                        },
+                                        "timestamp": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "The date and time when the alert was detected."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Alert not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update an alert",
+                "description": "Modify the properties of an existing alert by providing its unique ID.",
+                "operationId": "updateAlert",
+                "parameters": [
+                    {
+                        "name": "alertId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the alert to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Alert data to update.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "description": "Updated title or name of the alert."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Updated detailed description of the issue detected."
+                                    },
+                                    "severity": {
+                                        "type": "string",
+                                        "enum": [
+                                            "low",
+                                            "medium",
+                                            "high",
+                                            "critical"
+                                        ],
+                                        "description": "Updated severity level of the alert."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Alert updated successfully."
+                    },
+                    "404": {
+                        "description": "Alert not found."
+                    },
+                    "400": {
+                        "description": "Invalid input data provided."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete an alert",
+                "description": "Remove a specific alert by its unique identifier.",
+                "operationId": "deleteAlert",
+                "parameters": [
+                    {
+                        "name": "alertId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the alert to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Alert deleted successfully."
+                    },
+                    "404": {
+                        "description": "Alert not found."
+                    }
+                }
+            }
+        },
+        "/incident": {
+            "post": {
+                "summary": "Create a new incident",
+                "description": "Start managing a new incident workflow to handle system downtime effectively.",
+                "operationId": "createIncident",
+                "requestBody": {
+                    "description": "Details of the incident to initiate",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "description": "Title of the incident."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Detailed information about the incident."
+                                    },
+                                    "priority": {
+                                        "type": "string",
+                                        "enum": [
+                                            "low",
+                                            "medium",
+                                            "high",
+                                            "critical"
+                                        ],
+                                        "description": "Priority level of the incident."
+                                    }
+                                },
+                                "required": [
+                                    "title",
+                                    "priority"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Incident created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "incidentId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the created incident."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data provided."
+                    }
+                }
+            }
+        },
+        "/incidents": {
+            "get": {
+                "summary": "Retrieve all tracked incidents",
+                "description": "Fetch a list of all actively tracked incidents in the system.",
+                "operationId": "getIncidents",
+                "responses": {
+                    "200": {
+                        "description": "A list of incidents currently tracked.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "incidentId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the incident."
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "description": "Title of the incident."
+                                            },
+                                            "priority": {
+                                                "type": "string",
+                                                "description": "Priority level of the incident."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current status of the incident."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/incident/{incidentId}": {
+            "patch": {
+                "summary": "Update an incident",
+                "description": "Modify the status or details of a specific incident using its unique ID.",
+                "operationId": "updateIncident",
+                "parameters": [
+                    {
+                        "name": "incidentId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the incident to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Incident data to update.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "description": "Updated title of the incident."
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "description": "New status of the incident."
+                                    },
+                                    "priority": {
+                                        "type": "string",
+                                        "enum": [
+                                            "low",
+                                            "medium",
+                                            "high",
+                                            "critical"
+                                        ],
+                                        "description": "Updated priority level of the incident."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Incident updated successfully."
+                    },
+                    "404": {
+                        "description": "Incident not found."
+                    },
+                    "400": {
+                        "description": "Invalid input data provided."
+                    }
+                }
+            }
+        },
+        "/integration/test": {
+            "post": {
+                "summary": "Test integration with monitoring or alerting system",
+                "description": "Check the connectivity and functionality of a configured integration with external monitoring or alerting tools.",
+                "operationId": "testIntegration",
+                "requestBody": {
+                    "description": "Details required to test the integration.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "integrationName": {
+                                        "type": "string",
+                                        "description": "Name of the integration to test."
+                                    },
+                                    "config": {
+                                        "type": "object",
+                                        "description": "Configuration details of the integration to be tested."
+                                    }
+                                },
+                                "required": [
+                                    "integrationName"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Integration test successful.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the integration test."
+                                        },
+                                        "details": {
+                                            "type": "string",
+                                            "description": "Additional information about the test result."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data provided."
+                    },
+                    "500": {
+                        "description": "Integration test failed due to server error."
+                    }
+                }
+            }
+        },
+        "/settings/workflows": {
+            "get": {
+                "summary": "Retrieve automated remediation workflows",
+                "description": "Fetch the current configurations for automated workflows used for remediating incidents.",
+                "operationId": "getWorkflows",
+                "responses": {
+                    "200": {
+                        "description": "Workflow configurations retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "workflowId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the workflow."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the workflow."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Details about the workflow."
+                                            },
+                                            "steps": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string",
+                                                    "description": "List of steps in the workflow."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    }
+}

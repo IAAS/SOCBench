@@ -1,0 +1,436 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Property Valuation and Real Estate Insights API",
+    "description": "This API offers detailed insights into property valuations, market trends, property comparisons, and other real estate services. It supports users in making informed investment decisions through accurate property assessments based on multiple factors.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/properties/valuation": {
+      "get": {
+        "summary": "Retrieve the estimated value of a property",
+        "description": "This endpoint allows users to obtain an estimated market value for a property by providing its location and key features (e.g., size, number of bedrooms, etc.). The estimation leverages historical data, market trends, and comparable properties.",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "query",
+            "required": true,
+            "description": "The location of the property (e.g., city, state, or specific address).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bedrooms",
+            "in": "query",
+            "required": false,
+            "description": "The number of bedrooms in the property.",
+            "schema": {
+              "type": "integer",
+              "example": 3
+            }
+          },
+          {
+            "name": "bathrooms",
+            "in": "query",
+            "required": false,
+            "description": "The number of bathrooms in the property.",
+            "schema": {
+              "type": "integer",
+              "example": 2
+            }
+          },
+          {
+            "name": "square_feet",
+            "in": "query",
+            "required": false,
+            "description": "The total area of the property in square feet.",
+            "schema": {
+              "type": "integer",
+              "example": 1500
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with the estimated value of the property.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "estimated_value": {
+                      "type": "number",
+                      "description": "The estimated market value of the property in USD."
+                    },
+                    "confidence_score": {
+                      "type": "number",
+                      "format": "float",
+                      "description": "A confidence score (0-100) indicating the reliability of the valuation."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/add": {
+      "post": {
+        "summary": "Submit property details for storage and analysis",
+        "description": "This endpoint allows users to add detailed information about a property to the service's database for future analysis and retrieval.",
+        "requestBody": {
+          "description": "The property information to be submitted.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["location", "features"],
+                "properties": {
+                  "location": {
+                    "type": "string",
+                    "description": "The property's location (e.g., city, state, or address)."
+                  },
+                  "features": {
+                    "type": "object",
+                    "description": "Details about the features of the property (e.g., number of bedrooms, area, etc.).",
+                    "properties": {
+                      "bedrooms": { "type": "integer" },
+                      "bathrooms": { "type": "integer" },
+                      "square_feet": { "type": "integer" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The property was successfully added.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/location/trends": {
+      "get": {
+        "summary": "Retrieve market trends for a specific location",
+        "description": "This endpoint provides users with real estate market data for a given location, such as price trends, demand, and supply information.",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "query",
+            "required": true,
+            "description": "The location for which real estate trends are requested.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with market trends for the provided location.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "trends": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "time_period": { "type": "string" },
+                          "price_change": { "type": "number" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/features": {
+      "get": {
+        "summary": "Retrieve a list of common property features",
+        "description": "Fetch a list of features typically associated with properties in the specified area.",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "query",
+            "required": true,
+            "description": "The area for which features are queried.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of features commonly seen in properties.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "features": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/history": {
+      "get": {
+        "summary": "Access historical valuation data of a property",
+        "description": "Retrieve the valuation history of a property over a period.",
+        "parameters": [
+          {
+            "name": "property_id",
+            "in": "query",
+            "required": true,
+            "description": "The unique ID of the property to retrieve historical data for.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historical valuation data retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "date": { "type": "string", "format": "date" },
+                      "valuation": { "type": "number" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/update": {
+      "put": {
+        "summary": "Update an existing property record",
+        "description": "Update the details of an existing property in the database by providing an ID and updated features.",
+        "requestBody": {
+          "description": "The data to update the property record with.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["property_id", "updated_features"],
+                "properties": {
+                  "property_id": {
+                    "type": "string",
+                    "description": "The unique ID of the property to be updated."
+                  },
+                  "updated_features": {
+                    "type": "object",
+                    "description": "The new details of the property, such as updated bedrooms, bathrooms, or square footage.",
+                    "properties": {
+                      "bedrooms": { "type": "integer" },
+                      "bathrooms": { "type": "integer" },
+                      "square_feet": { "type": "integer" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Property record successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Property details successfully updated."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reits/list": {
+      "get": {
+        "summary": "Retrieve a list of noteworthy REITs",
+        "description": "Retrieve a list of prominent real estate investment trusts along with their performance data.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the REIT list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": { "type": "string", "description": "The name of the REIT." },
+                      "industry": { "type": "string", "description": "The industry or sector of the REIT." },
+                      "performance": { "type": "number", "description": "Performance metric of the REIT." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/similar": {
+      "get": {
+        "summary": "Retrieve similar properties",
+        "description": "Fetch a list of properties similar to a given property based on its features and location.",
+        "parameters": [
+          {
+            "name": "property_id",
+            "in": "query",
+            "required": true,
+            "description": "The unique identifier of the property to find similar properties for.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved similar properties.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "property_id": { "type": "string" },
+                      "location": { "type": "string" },
+                      "features": {
+                        "type": "object",
+                        "properties": {
+                          "bedrooms": { "type": "integer" },
+                          "bathrooms": { "type": "integer" },
+                          "square_feet": { "type": "integer" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/remove": {
+      "delete": {
+        "summary": "Delete a property",
+        "description": "Remove a property from the database using the unique property ID.",
+        "parameters": [
+          {
+            "name": "property_id",
+            "in": "query",
+            "required": true,
+            "description": "The unique identifier of the property to delete.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted the property.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/comparison": {
+      "get": {
+        "summary": "Compare properties",
+        "description": "Provide a detailed comparison of two or more properties based on their attributes.",
+        "parameters": [
+          {
+            "name": "property_ids",
+            "in": "query",
+            "required": true,
+            "description": "A comma-separated list of property IDs to compare.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved property comparison results.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "property_id": { "type": "string" },
+                      "details": {
+                        "type": "object",
+                        "properties": {
+                          "bedrooms": { "type": "integer" },
+                          "bathrooms": { "type": "integer" },
+                          "square_feet": { "type": "integer" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

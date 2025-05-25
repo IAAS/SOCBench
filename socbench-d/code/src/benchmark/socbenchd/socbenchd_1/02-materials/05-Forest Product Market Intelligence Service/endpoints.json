@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /market-trends",
+            "description": "Retrieve the latest market trends analysis for forest-derived products."
+        },
+        {
+            "endpoint": "GET /price-analysis",
+            "description": "Access detailed price fluctuation data for various forest-derived products."
+        },
+        {
+            "endpoint": "POST /strategy-recommendations",
+            "description": "Submit strategic criteria to receive tailored recommendations for business planning."
+        },
+        {
+            "endpoint": "GET /historical-data",
+            "description": "Retrieve historical data for trends in forest product markets."
+        },
+        {
+            "endpoint": "GET /competitive-insights",
+            "description": "Acquire insights into competitive positioning strategies within the forest-derived product sector."
+        },
+        {
+            "endpoint": "POST /custom-report",
+            "description": "Request a custom report based on specified market parameters."
+        },
+        {
+            "endpoint": "GET /resource-usage-statistics",
+            "description": "Obtain data on the usage and consumption trends for forest-derived resources."
+        },
+        {
+            "endpoint": "GET /geographical-analysis",
+            "description": "Access market data segmented by geographical regions for specified products."
+        },
+        {
+            "endpoint": "GET /regulatory-updates",
+            "description": "Stay informed about regulations impacting the forest-derived products industry."
+        },
+        {
+            "endpoint": "POST /subscribe-updates",
+            "description": "Subscribe to automatic updates and alerts for specific market changes."
+        }
+    ]
+}

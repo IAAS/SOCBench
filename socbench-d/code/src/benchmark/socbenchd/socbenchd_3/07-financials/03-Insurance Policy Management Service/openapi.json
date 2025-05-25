@@ -1,0 +1,469 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Insurance Policy Administration API",
+        "description": "This API is designed for insurance providers to facilitate the administration of insurance policies. It supports operations such as policy creation, renewal, claim submission, and retrieval of customer-related records. All communications require encrypted connections for enhanced security.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.insuranceprovider.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/policies": {
+            "post": {
+                "summary": "Create a new insurance policy",
+                "description": "Create a new insurance policy by providing details such as customer information, coverage options, and premium details.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "customerId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the customer requesting the policy."
+                                    },
+                                    "coverage": {
+                                        "type": "object",
+                                        "description": "Details about the coverage options for the policy.",
+                                        "properties": {
+                                            "type": {
+                                                "type": "string",
+                                                "description": "Type of coverage (e.g., auto, home, health)."
+                                            },
+                                            "limit": {
+                                                "type": "number",
+                                                "description": "Coverage limit for the policy."
+                                            }
+                                        },
+                                        "required": [
+                                            "type"
+                                        ]
+                                    },
+                                    "premium": {
+                                        "type": "number",
+                                        "description": "The premium amount for the policy."
+                                    }
+                                },
+                                "required": [
+                                    "customerId",
+                                    "coverage",
+                                    "premium"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Policy created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "policyId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the newly created policy."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Policy successfully created."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/policies/{policyId}": {
+            "get": {
+                "summary": "Retrieve insurance policy details",
+                "description": "Fetch the details of a specific insurance policy using the policy's unique identifier.",
+                "parameters": [
+                    {
+                        "name": "policyId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the insurance policy."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Policy retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "policyId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the policy."
+                                        },
+                                        "customerId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the customer associated with the policy."
+                                        },
+                                        "coverage": {
+                                            "type": "object",
+                                            "description": "Details of the policy coverage."
+                                        },
+                                        "premium": {
+                                            "type": "number",
+                                            "description": "Premium amount for the policy."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the policy (e.g., active, expired, cancelled)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Policy not found"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update an insurance policy",
+                "description": "Update the details of an existing insurance policy using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "policyId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the insurance policy."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "coverage": {
+                                        "type": "object",
+                                        "description": "Updated details about the coverage options for the policy."
+                                    },
+                                    "premium": {
+                                        "type": "number",
+                                        "description": "Updated premium amount for the policy."
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "description": "Updated status of the policy."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Policy updated successfully"
+                    },
+                    "404": {
+                        "description": "Policy not found"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete an insurance policy",
+                "description": "Remove a specific insurance policy from the system using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "policyId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the insurance policy to be deleted."
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Policy deleted successfully"
+                    },
+                    "404": {
+                        "description": "Policy not found"
+                    }
+                }
+            }
+        },
+        "/claims": {
+            "post": {
+                "summary": "Submit a new claim",
+                "description": "Submit a claim for processing based on an existing insurance policy.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "policyId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the related policy."
+                                    },
+                                    "claimDetails": {
+                                        "type": "string",
+                                        "description": "Details about the claim being submitted."
+                                    }
+                                },
+                                "required": [
+                                    "policyId",
+                                    "claimDetails"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Claim submitted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "claimId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the submitted claim."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/claims/{claimId}": {
+            "get": {
+                "summary": "Retrieve claim details",
+                "description": "Fetch details of a specific claim using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "claimId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the claim."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Claim retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Claim not found"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update a claim",
+                "description": "Update the status or details of an existing claim using its identifier.",
+                "parameters": [
+                    {
+                        "name": "claimId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the claim to be updated."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "description": "Updated status of the claim."
+                                    },
+                                    "additionalInfo": {
+                                        "type": "string",
+                                        "description": "Additional information to include in the claim update."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Claim updated successfully"
+                    },
+                    "404": {
+                        "description": "Claim not found"
+                    }
+                }
+            }
+        },
+        "/customers/{customerId}/policies": {
+            "get": {
+                "summary": "Retrieve policies for a customer",
+                "description": "Fetch all policies associated with a specific customer using their unique identifier.",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the customer."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Policies retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "policyId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the policy."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Status of the policy (e.g., active, cancelled)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Customer not found"
+                    }
+                }
+            }
+        },
+        "/customers/{customerId}/claims": {
+            "get": {
+                "summary": "Retrieve claims for a customer",
+                "description": "Fetch all claims associated with a specific customer using their unique identifier.",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the customer."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Claims retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "claimId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the claim."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Status of the claim."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Customer not found"
+                    }
+                }
+            }
+        },
+        "/policies/{policyId}/renew": {
+            "post": {
+                "summary": "Renew an insurance policy",
+                "description": "Renew an existing policy for another coverage period using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "policyId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the insurance policy to renew."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Policy renewed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "policyId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the renewed policy."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Policy successfully renewed."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Policy not found"
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        {
+            "BearerAuth": []
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /license/track",
+            "description": "Submit software license information to the system for tracking compliance."
+        },
+        {
+            "endpoint": "GET /license/compliance",
+            "description": "Retrieve compliance status reports for tracked software licenses."
+        },
+        {
+            "endpoint": "PUT /license/update/{licenseId}",
+            "description": "Update details of a specific tracked software license."
+        },
+        {
+            "endpoint": "DELETE /license/remove/{licenseId}",
+            "description": "Remove a tracked software license from the database."
+        },
+        {
+            "endpoint": "GET /usage/data",
+            "description": "Fetch detailed usage data for all monitored software."
+        },
+        {
+            "endpoint": "POST /alerts/set",
+            "description": "Configure alerts for license usage thresholds and compliance violations."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "List all active alerts and their configurations."
+        },
+        {
+            "endpoint": "POST /compliance/report",
+            "description": "Generate a comprehensive compliance report for oversight purposes."
+        },
+        {
+            "endpoint": "GET /license/{licenseId}",
+            "description": "Retrieve details and historical usage of a specific software license."
+        },
+        {
+            "endpoint": "POST /user/license/assign",
+            "description": "Assign a specific software license to a user within the organization."
+        }
+    ]
+}

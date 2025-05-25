@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /energy-patterns",
+            "description": "Retrieve detailed energy consumption patterns across various sectors."
+        },
+        {
+            "endpoint": "POST /optimize-usage",
+            "description": "Submit user-specific energy consumption optimization parameters for analysis."
+        },
+        {
+            "endpoint": "GET /forecast-usage",
+            "description": "Provide future energy usage forecasts leveraging historical data."
+        },
+        {
+            "endpoint": "GET /cost-analysis",
+            "description": "Retrieve cost evaluations based on current energy consumption trends."
+        },
+        {
+            "endpoint": "GET /equipment-monitoring",
+            "description": "Access status and performance data of energy-related equipment."
+        },
+        {
+            "endpoint": "POST /alert-settings",
+            "description": "Create customized alerts for unusual energy consumption patterns."
+        },
+        {
+            "endpoint": "GET /sector-trends",
+            "description": "Compare energy usage trends across different industry sectors."
+        },
+        {
+            "endpoint": "PUT /update-data",
+            "description": "Update energy usage database with the latest readings."
+        },
+        {
+            "endpoint": "DELETE /alert-settings/{id}",
+            "description": "Remove specific energy alert settings using its identifier."
+        },
+        {
+            "endpoint": "POST /recommendation-report",
+            "description": "Request a comprehensive energy efficiency recommendation report."
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+Designed specifically for operators of renewable energy facilities, this service monitors the performance of solar panels or wind turbines, providing insights into real-time and historical energy output, environmental conditions, and maintenance scheduling.
+
+Endpoints:
+GET /performance/solar-panels: Fetch performance metrics of all solar panels within the system.
+GET /performance/wind-turbines: Retrieve performance data for all wind turbines managed by the service.
+GET /environment: Get current and historical environmental conditions data.
+POST /maintenance/schedule: Schedule a maintenance activity for a specific renewable energy device.
+GET /energy-output/history: Access historical energy output records segregated by device.
+POST /alerts/subscribe: Enable alert notifications for specific performance metrics or conditions.
+PATCH /device/configuration/{device_id}: Update configurations or thresholds for a specified device.
+GET /energy-output/forecast: Retrieve forecasted energy output based on current and historical data.
+DELETE /alerts/{alert_id}: Remove an alert notification subscription for the specified alert ID.
+GET /reports/summary: Generate and obtain summary reports for defined time periods and device groups.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

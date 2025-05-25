@@ -1,0 +1,309 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Renewable Energy Management API",
+    "description": "This API facilitates utility companies in managing and monitoring renewable energy production such as solar, wind, and hydroelectric power sources. Users can analyze real-time generation data, adjust deployment of energy storage systems, and ensure resource efficiency.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.utilitiessector.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/generation/real-time-data": {
+      "get": {
+        "summary": "Retrieve real-time energy generation data",
+        "description": "Retrieves the current real-time energy generation statistics from renewable resources such as solar, wind, and hydroelectric power sites.",
+        "responses": {
+          "200": {
+            "description": "Real-time energy generation data retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timestamp": { "type": "string", "format": "date-time" },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "resourceType": { "type": "string", "enum": ["solar", "wind", "hydro"] },
+                          "generation": { "type": "number", "format": "float" },
+                          "unit": { "type": "string", "example": "kWh" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/storage/deployment": {
+      "post": {
+        "summary": "Schedule and configure energy storage deployment",
+        "description": "Schedules and configures the deployment of energy storage systems based on real-time or predictive data.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "storageUnitId": { "type": "string", "description": "Unique identifier of the storage unit" },
+                  "deploymentTime": { "type": "string", "format": "date-time", "description": "Scheduled time for deployment" },
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "capacity": { "type": "number", "description": "Capacity to deploy in kWh" },
+                      "priority": { "type": "string", "enum": ["low", "normal", "high"], "description": "Priority of the deployment" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Deployment scheduled successfully" },
+          "400": { "description": "Invalid input data" }
+        }
+      }
+    },
+    "/efficiency/report": {
+      "get": {
+        "summary": "Get resource efficiency report",
+        "description": "Provides a detailed report of resource efficiency over a specified time period.",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "description": "Start date for the report (format: YYYY-MM-DD)",
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "description": "End date for the report (format: YYYY-MM-DD)",
+            "schema": { "type": "string", "format": "date" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Efficiency report generated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "report": { "type": "string", "description": "Detailed efficiency report" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid parameters" }
+        }
+      }
+    },
+    "/generation/thresholds": {
+      "put": {
+        "summary": "Update operational thresholds",
+        "description": "Updates the operational thresholds for renewable energy generation systems to optimize production.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "resourceType": { "type": "string", "enum": ["solar", "wind", "hydro"], "description": "Type of resource for the threshold update" },
+                  "minThreshold": { "type": "number", "description": "Minimum operational threshold" },
+                  "maxThreshold": { "type": "number", "description": "Maximum operational threshold" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Thresholds successfully updated" },
+          "400": { "description": "Invalid input data" }
+        }
+      }
+    },
+    "/alert/settings": {
+      "get": {
+        "summary": "Fetch system alert settings",
+        "description": "Fetches the current settings for system alerts and notifications.",
+        "responses": {
+          "200": {
+            "description": "Alert settings fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "settings": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "alertType": { "type": "string" },
+                          "threshold": { "type": "number" },
+                          "enabled": { "type": "boolean" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Configure alert settings",
+        "description": "Configures new or modifies existing alert settings for monitoring systems.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "alertType": { "type": "string", "description": "Type of alert" },
+                  "threshold": { "type": "number", "description": "Threshold value for the alert" },
+                  "enabled": { "type": "boolean", "description": "Whether the alert is enabled" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Alert settings configured successfully" },
+          "400": { "description": "Invalid input data" }
+        }
+      }
+    },
+    "/analytics/projections": {
+      "get": {
+        "summary": "Get energy generation projections",
+        "description": "Returns projections of energy generation based on historical and current data.",
+        "responses": {
+          "200": {
+            "description": "Projections retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "projections": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "resourceType": { "type": "string" },
+                          "projection": { "type": "number" },
+                          "unit": { "type": "string", "example": "kWh" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/scheduling": {
+      "post": {
+        "summary": "Schedule maintenance operations",
+        "description": "Schedules maintenance operations for renewable energy generation facilities.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "facilityId": { "type": "string", "description": "ID of the facility" },
+                  "maintenanceDate": { "type": "string", "format": "date-time", "description": "Scheduled date and time for maintenance" },
+                  "details": { "type": "string", "description": "Additional maintenance details" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Maintenance scheduled successfully" },
+          "400": { "description": "Invalid input data" }
+        }
+      }
+    },
+    "/system/status": {
+      "get": {
+        "summary": "Get system operational status",
+        "description": "Returns the operational status of all monitored utility systems.",
+        "responses": {
+          "200": {
+            "description": "System status retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "systemId": { "type": "string" },
+                          "status": { "type": "string" },
+                          "lastUpdated": { "type": "string", "format": "date-time" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/archive/data": {
+      "delete": {
+        "summary": "Delete archived historical data",
+        "description": "Deletes stored historical generation data that meets specific criteria for archival or compliance management.",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "description": "Start date of data to delete (format: YYYY-MM-DD)",
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "description": "End date of data to delete (format: YYYY-MM-DD)",
+            "schema": { "type": "string", "format": "date" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Data deleted successfully" },
+          "400": { "description": "Invalid parameters" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,290 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Energy Grid Optimization Service",
+        "description": "Service to optimize energy distribution across the grid by analyzing demand patterns and adjusting energy inputs in real-time, ensuring stability and efficiency.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/energy-demand": {
+            "get": {
+                "summary": "Retrieve Energy Demand Data",
+                "description": "Fetch both historical and real-time energy demand data across the grid for monitoring and analysis.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "The start date for the historical data range in 'YYYY-MM-DD' format.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "The end date for the historical data range in 'YYYY-MM-DD' format.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Energy demand data retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/energy-input-adjustment": {
+            "post": {
+                "summary": "Submit Energy Input Adjustment",
+                "description": "Submit parameters to adjust energy inputs and optimize the grid's efficiency.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "input_source_id": {
+                                        "type": "integer",
+                                        "description": "The ID of the energy input source."
+                                    },
+                                    "adjustment_percentage": {
+                                        "type": "number",
+                                        "description": "The percentage increase or decrease in energy input.",
+                                        "format": "float"
+                                    }
+                                },
+                                "required": [
+                                    "input_source_id",
+                                    "adjustment_percentage"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Energy input adjustment submitted successfully."
+                    }
+                }
+            }
+        },
+        "/grid-stability": {
+            "get": {
+                "summary": "Retrieve Grid Stability Metrics",
+                "description": "View the current metrics that describe the stability of the energy grid system.",
+                "responses": {
+                    "200": {
+                        "description": "Grid stability metrics retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/real-time-demand": {
+            "get": {
+                "summary": "Fetch Real-Time Demand Data",
+                "description": "Retrieve dynamically updating demand patterns for real-time analysis.",
+                "responses": {
+                    "200": {
+                        "description": "Real-time energy demand patterns retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/threshold-settings": {
+            "post": {
+                "summary": "Set Demand Prediction Thresholds",
+                "description": "Define thresholds to fine-tune demand prediction adjustments for grid optimization.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "threshold_id": {
+                                        "type": "integer",
+                                        "description": "The ID of the threshold being set."
+                                    },
+                                    "value": {
+                                        "type": "number",
+                                        "description": "The threshold value to be implemented."
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "The type of threshold being adjusted (e.g., 'upper', 'lower')."
+                                    }
+                                },
+                                "required": [
+                                    "threshold_id",
+                                    "value",
+                                    "type"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Threshold settings updated successfully."
+                    }
+                }
+            }
+        },
+        "/efficiency-metrics": {
+            "get": {
+                "summary": "Retrieve Efficiency Metrics",
+                "description": "Fetch metrics that highlight the efficiency of energy distribution across the grid.",
+                "responses": {
+                    "200": {
+                        "description": "Efficiency metrics retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/sensor-calibration": {
+            "post": {
+                "summary": "Calibrate Monitoring Sensors",
+                "description": "Send calibration commands to grid monitoring sensors to ensure accurate readings.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "sensor_id": {
+                                        "type": "integer",
+                                        "description": "The ID of the sensor to be calibrated."
+                                    },
+                                    "calibration_parameters": {
+                                        "type": "object",
+                                        "description": "Parameters required for calibration.",
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "sensor_id",
+                                    "calibration_parameters"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sensor calibrated successfully."
+                    }
+                }
+            }
+        },
+        "/adjustment-history": {
+            "get": {
+                "summary": "View Adjustment History",
+                "description": "Retrieve a log of historical actions taken to optimize grid performance.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "The start date for the adjustment history in 'YYYY-MM-DD' format.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "The end date for the adjustment history in 'YYYY-MM-DD' format.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Adjustment history retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/input-sources": {
+            "get": {
+                "summary": "List Energy Input Sources",
+                "description": "List all available energy input sources and their current statuses for management and monitoring.",
+                "responses": {
+                    "200": {
+                        "description": "Energy input sources listed successfully."
+                    }
+                }
+            }
+        },
+        "/alert-notifications": {
+            "post": {
+                "summary": "Create Alert Notifications",
+                "description": "Set up custom notifications to be triggered for specific energy demand conditions.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "condition": {
+                                        "type": "string",
+                                        "description": "The specific condition for triggering the alert (e.g., demand exceeds a particular threshold)."
+                                    },
+                                    "notification_message": {
+                                        "type": "string",
+                                        "description": "The message to be sent when the alert is triggered."
+                                    },
+                                    "recipient": {
+                                        "type": "string",
+                                        "description": "The recipient of the notification (e.g., email or other contact info)."
+                                    }
+                                },
+                                "required": [
+                                    "condition",
+                                    "notification_message",
+                                    "recipient"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Alert notification created successfully."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

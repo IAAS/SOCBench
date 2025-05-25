@@ -1,0 +1,382 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Energy Efficiency Service API",
+        "description": "This API focuses on end-user engagement, providing tools to enhance energy efficiency, reduce costs, and predict future bills. It allows users to retrieve insights, set goals, and compare their usage with similar users in the community.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/user/energy-report": {
+            "get": {
+                "summary": "Retrieve personalized energy usage report",
+                "description": "Fetch a detailed report on current energy usage trends, providing areas where improvements can be made to enhance efficiency.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of energy report",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "userId": "12345",
+                                    "period": "October 2023",
+                                    "totalUsage": "350 kWh",
+                                    "areasForImprovement": [
+                                        "Lighting",
+                                        "Appliances",
+                                        "Insulation"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/recommendations": {
+            "post": {
+                "summary": "Generate tailored energy-saving recommendations",
+                "description": "Submit energy-related data to receive customized suggestions for reducing energy consumption and improving efficiency.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "The ID of the user."
+                                    },
+                                    "currentSettings": {
+                                        "type": "object",
+                                        "description": "Current energy-related settings like thermostat temperature, usage patterns, etc."
+                                    },
+                                    "preferences": {
+                                        "type": "object",
+                                        "description": "User preferences, such as energy savings goals or eco-friendly preferences."
+                                    }
+                                },
+                                "required": [
+                                    "userId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful generation of recommendations",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "userId": "12345",
+                                    "recommendations": [
+                                        "Use LED lighting.",
+                                        "Reduce thermostat temperature during winter nights.",
+                                        "Install a solar panel system."
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/billing/predictions": {
+            "get": {
+                "summary": "Fetch predicted future energy bills",
+                "description": "Retrieve forecast data of future energy bills using historical and current usage patterns.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The ID of the user.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of bill predictions",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "userId": "12345",
+                                    "predictedBills": [
+                                        {
+                                            "month": "November 2023",
+                                            "amount": "$75.50"
+                                        },
+                                        {
+                                            "month": "December 2023",
+                                            "amount": "$82.30"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/energy-sources/distribution": {
+            "get": {
+                "summary": "Access energy source distribution details",
+                "description": "Retrieve breakdown of energy sources being utilized, highlighting contributions of renewable and non-renewable sources.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of energy source distribution",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "renewable": 65,
+                                    "nonRenewable": 35,
+                                    "renewableDetails": {
+                                        "solar": 40,
+                                        "wind": 25
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback/insights": {
+            "post": {
+                "summary": "Submit feedback on received insights",
+                "description": "Provide feedback on personalized reports and predictions to enable improvements and refinements in future insights.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "The ID of the user."
+                                    },
+                                    "feedback": {
+                                        "type": "string",
+                                        "description": "Feedback content provided by the user."
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "feedback"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback submission successful",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Thank you for your feedback."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/goal-progress": {
+            "get": {
+                "summary": "Track energy-saving goal progress",
+                "description": "Monitor the user's performance in achieving their specific energy-saving objectives.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The ID of the user.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of goal progress",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "userId": "12345",
+                                    "goal": "Reduce energy usage by 15% this quarter.",
+                                    "progress": 47
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/preferences": {
+            "post": {
+                "summary": "Set preferences for energy alerts",
+                "description": "Configure user preferences for alerts related to energy usage anomalies or high consumption events.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "The ID of the user."
+                                    },
+                                    "alertPreferences": {
+                                        "type": "object",
+                                        "description": "Details of the alert preferences, including thresholds and notification methods."
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "alertPreferences"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Preferences updated successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Alert preferences set successfully."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/community/averages": {
+            "get": {
+                "summary": "Retrieve community average energy usage",
+                "description": "Fetch average energy consumption data from peers in the community to enable usage comparisons.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of community averages",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "averageUsage": "320 kWh",
+                                    "userCount": 150
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/actions/validate": {
+            "post": {
+                "summary": "Validate user-initiated actions",
+                "description": "Submit user-initiated energy-conserving actions for verification and effectiveness analysis.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "The ID of the user."
+                                    },
+                                    "actions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of actions taken by the user for validation."
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "actions"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Actions validated successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "userId": "12345",
+                                    "validatedActions": [
+                                        "Switch to LED lighting",
+                                        "Install smart thermostat"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard/summary": {
+            "get": {
+                "summary": "Retrieve dashboard summary",
+                "description": "Access a consolidated summary of key energy data for quick user reference, including usage, savings, and alerts.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The ID of the user.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of dashboard summary",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "userId": "12345",
+                                    "totalUsage": "1200 kWh",
+                                    "alerts": [
+                                        "High energy usage detected on October 15th"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {}
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

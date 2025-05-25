@@ -1,0 +1,353 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Consumer Staples E-Commerce Integration API",
+    "description": "Supports distributors and retailers by offering seamless integration of consumer staple products into e-commerce platforms, enhancing digital presence.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.consumerstaples.example.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/products": {
+      "get": {
+        "summary": "Retrieve all products",
+        "description": "Retrieve a list of all available consumer staple products for integration.",
+        "responses": {
+          "200": {
+            "description": "A list of products was successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new product",
+        "description": "Add a new consumer staple product to the system for integration.",
+        "requestBody": {
+          "description": "The details of the product to add.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The product was successfully added."
+          }
+        }
+      }
+    },
+    "/products/{productId}": {
+      "put": {
+        "summary": "Update product information",
+        "description": "Update details of a specific consumer staple product using its ID.",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "The ID of the product to be updated.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated product details.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The product was successfully updated."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a product",
+        "description": "Remove a specific consumer staple product from the system using its ID.",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "The ID of the product to be deleted.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The product was successfully deleted."
+          }
+        }
+      }
+    },
+    "/categories": {
+      "get": {
+        "summary": "Get product categories",
+        "description": "Retrieve a list of product categories for organizational purposes.",
+        "responses": {
+          "200": {
+            "description": "A list of categories was successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders": {
+      "post": {
+        "summary": "Place a new order",
+        "description": "Place a new order to restock specific consumer staple products.",
+        "requestBody": {
+          "description": "Details of the order to be placed.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The order was successfully created."
+          }
+        }
+      }
+    },
+    "/orders/{orderId}": {
+      "get": {
+        "summary": "Get order details",
+        "description": "Retrieve details and status of a specific order using its ID.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "The ID of the order to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order details were successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics": {
+      "post": {
+        "summary": "Request analytics",
+        "description": "Request analytics and sales trends for consumer staple products.",
+        "requestBody": {
+          "description": "Details and filters for analytics request.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyticsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Analytics data was successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyticsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recommendations": {
+      "get": {
+        "summary": "Get recommendations",
+        "description": "Obtain product recommendations based on sales data and trends.",
+        "responses": {
+          "200": {
+            "description": "Recommendations were successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recommendations"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/promotions": {
+      "get": {
+        "summary": "Get promotions",
+        "description": "View active promotions and discounts for consumer staple products.",
+        "responses": {
+          "200": {
+            "description": "Promotions were successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Promotions"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the product."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the product."
+          },
+          "category": {
+            "type": "string",
+            "description": "Category to which the product belongs."
+          },
+          "price": {
+            "type": "number",
+            "description": "Price of the product."
+          },
+          "availableStock": {
+            "type": "integer",
+            "description": "Number of units available in stock."
+          }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the order."
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "description": "List of products included in the order."
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the order."
+          },
+          "totalPrice": {
+            "type": "number",
+            "description": "Total price of the order."
+          }
+        }
+      },
+      "AnalyticsRequest": {
+        "type": "object",
+        "properties": {
+          "timeRange": {
+            "type": "string",
+            "description": "Time range for the requested analytics (e.g., daily, weekly, monthly)."
+          },
+          "filters": {
+            "type": "object",
+            "description": "Optional filters for narrowing down the analytics."
+          }
+        }
+      },
+      "AnalyticsResponse": {
+        "type": "object",
+        "properties": {
+          "salesTrends": {
+            "type": "object",
+            "description": "Sales trends data."
+          },
+          "topSellingProducts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "description": "List of top-selling products."
+          }
+        }
+      },
+      "Recommendations": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Product"
+        },
+        "description": "List of recommended products."
+      },
+      "Promotions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "productId": {
+              "type": "string",
+              "description": "ID of the product the promotion applies to."
+            },
+            "promotionDetails": {
+              "type": "string",
+              "description": "Details of the promotion or discount."
+            }
+          }
+        },
+        "description": "List of active promotions."
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /consumers/habits",
+            "description": "Retrieve aggregated data on consumer habits related to non-durable household items."
+        },
+        {
+            "endpoint": "POST /products/feedback",
+            "description": "Submit consumer feedback on specific non-durable household products."
+        },
+        {
+            "endpoint": "GET /retailers/inventory/overview",
+            "description": "Get inventory usage patterns and projections for better stock management."
+        },
+        {
+            "endpoint": "GET /manufacturers/sales/data",
+            "description": "Analyze sales data trends for household goods."
+        },
+        {
+            "endpoint": "POST /consumer/trends/insights",
+            "description": "Request detailed insights into emerging consumer trends."
+        },
+        {
+            "endpoint": "GET /items/popularity/metrics",
+            "description": "Obtain metrics showcasing the popularity scores of various items."
+        },
+        {
+            "endpoint": "POST /recommendations/inventory",
+            "description": "Receive recommendations for inventory adjustments based on data analysis."
+        },
+        {
+            "endpoint": "GET /product/usage/comparison",
+            "description": "Compare usage statistics of specific household items."
+        },
+        {
+            "endpoint": "POST /data/custom/reports",
+            "description": "Generate custom reports tailored to specific criteria and datasets."
+        },
+        {
+            "endpoint": "GET /retailer/satisfaction/rate",
+            "description": "View satisfaction rates from retailers regarding product availability."
+        }
+    ]
+}

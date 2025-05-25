@@ -1,0 +1,407 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "IT Inventory Management Service API",
+        "description": "This API allows users to manage an inventory of IT equipment and software. It ensures regulatory compliance, streamlines asset tracking, and provides analytics and reports.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.itinventory.example.com",
+            "description": "Production server"
+        },
+        {
+            "url": "https://sandbox.api.itinventory.example.com",
+            "description": "Sandbox server"
+        }
+    ],
+    "paths": {
+        "/equipment": {
+            "get": {
+                "summary": "Retrieve IT equipment list",
+                "description": "Returns a list of all registered IT equipment in the inventory.",
+                "responses": {
+                    "200": {
+                        "description": "List of IT equipment retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Equipment"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new piece of IT equipment",
+                "description": "Creates a new IT equipment record in the inventory.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Equipment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "IT equipment successfully added.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Equipment"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/equipment/{id}": {
+            "get": {
+                "summary": "Retrieve specific IT equipment details",
+                "description": "Fetch details of a specific IT equipment by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the IT equipment.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Equipment details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Equipment"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Equipment not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update specific IT equipment",
+                "description": "Updates the details of an existing IT equipment record.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the IT equipment to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Equipment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "IT equipment updated successfully."
+                    },
+                    "404": {
+                        "description": "Equipment not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete specific IT equipment",
+                "description": "Removes a specific piece of IT equipment from the inventory.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the IT equipment to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "IT equipment deleted successfully."
+                    },
+                    "404": {
+                        "description": "Equipment not found."
+                    }
+                }
+            }
+        },
+        "/software": {
+            "get": {
+                "summary": "Retrieve the list of software",
+                "description": "Returns a list of all registered software in the inventory.",
+                "responses": {
+                    "200": {
+                        "description": "List of software retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Software"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add new software",
+                "description": "Creates a new software record in the inventory.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Software"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Software successfully added.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Software"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/compliance/reports": {
+            "get": {
+                "summary": "Generate compliance reports",
+                "description": "Generates regulatory compliance reports based on current inventory data.",
+                "responses": {
+                    "200": {
+                        "description": "Compliance reports retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reports": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ComplianceReport"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/stats": {
+            "get": {
+                "summary": "Retrieve analytics statistics",
+                "description": "Provides analytical statistics about IT inventory usage.",
+                "responses": {
+                    "200": {
+                        "description": "Analytics statistics retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "analytics": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string",
+                                                        "description": "Name of the analytical measure."
+                                                    },
+                                                    "value": {
+                                                        "type": "number",
+                                                        "description": "Value of the analytical measure."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tracking/assets": {
+            "get": {
+                "summary": "Retrieve real-time asset tracking",
+                "description": "Provides real-time tracking data for assets in the inventory.",
+                "responses": {
+                    "200": {
+                        "description": "Real-time asset tracking data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AssetTrackingData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Equipment": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique ID of the equipment."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the equipment."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Type or category of the equipment."
+                    },
+                    "manufacturer": {
+                        "type": "string",
+                        "description": "The manufacturer of the equipment."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Operational status of the equipment."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Physical or virtual location of the equipment."
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "type",
+                    "manufacturer",
+                    "status"
+                ]
+            },
+            "Software": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique ID of the software."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the software."
+                    },
+                    "version": {
+                        "type": "string",
+                        "description": "Version of the software."
+                    },
+                    "licenseKey": {
+                        "type": "string",
+                        "description": "License key of the software."
+                    },
+                    "expirationDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Expiration date of the software license."
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "version",
+                    "licenseKey"
+                ]
+            },
+            "ComplianceReport": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique ID of the compliance report."
+                    },
+                    "generatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Date and time when the report was generated."
+                    },
+                    "details": {
+                        "type": "object",
+                        "description": "Details of the compliance report."
+                    }
+                }
+            },
+            "AssetTrackingData": {
+                "type": "object",
+                "properties": {
+                    "assetId": {
+                        "type": "string",
+                        "description": "Unique ID of the tracked asset."
+                    },
+                    "lastSeenLocation": {
+                        "type": "string",
+                        "description": "Last recorded location of the asset."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Current status of the asset (e.g., active, in maintenance)."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

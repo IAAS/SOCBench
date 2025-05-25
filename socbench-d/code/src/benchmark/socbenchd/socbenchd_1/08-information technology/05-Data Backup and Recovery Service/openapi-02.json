@@ -1,0 +1,395 @@
+
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Data Backup and Restoration Service",
+    "description": "This service provides secure storage and reliable restoration of organizational data for business continuity and disaster recovery planning.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.example.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/data/backups": {
+      "get": {
+        "summary": "Retrieve all backups",
+        "description": "Fetches a list of all backups currently stored in the secure storage system.",
+        "responses": {
+          "200": {
+            "description": "A list of all backups.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Backup"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data/backup": {
+      "post": {
+        "summary": "Create a new backup",
+        "description": "Initiates the process to create a secure backup of the organization's data.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewBackupRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Backup created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Backup"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data/backup/{backupId}": {
+      "delete": {
+        "summary": "Delete a backup",
+        "description": "Deletes a specific backup identified by its unique ID.",
+        "parameters": [
+          {
+            "name": "backupId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the backup to delete.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Backup deleted successfully."
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update backup metadata",
+        "description": "Allows updating the metadata or settings for a specific backup.",
+        "parameters": [
+          {
+            "name": "backupId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the backup to update.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBackupRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Backup updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Backup"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data/restore": {
+      "post": {
+        "summary": "Restore a backup",
+        "description": "Initiates the restoration process for a specific backup.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestoreRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Restore process initiated successfully."
+          }
+        }
+      }
+    },
+    "/data/status": {
+      "get": {
+        "summary": "Get system status",
+        "description": "Fetches the current health and operational status of the storage system.",
+        "responses": {
+          "200": {
+            "description": "The current status of the system.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data/auditlogs": {
+      "get": {
+        "summary": "Retrieve audit logs",
+        "description": "Fetches a list of audit logs that track all actions performed on the backups.",
+        "responses": {
+          "200": {
+            "description": "A list of audit logs.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuditLog"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data/configure": {
+      "post": {
+        "summary": "Update backup configuration",
+        "description": "Updates the configuration settings for backup operations as per the given request.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigurationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Backup configuration updated successfully."
+          }
+        }
+      }
+    },
+    "/data/analytics": {
+      "get": {
+        "summary": "Get storage analytics",
+        "description": "Provides summarized analytics regarding storage usage and trends.",
+        "responses": {
+          "200": {
+            "description": "Analytics data fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Analytics"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data/validate": {
+      "post": {
+        "summary": "Validate a backup",
+        "description": "Performs validation checks on a specific backup to ensure its data integrity.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Validation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Backup": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for the backup."
+          },
+          "name": {
+            "type": "string",
+            "description": "The nickname or identifier for the backup."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the backup was created."
+          },
+          "size": {
+            "type": "integer",
+            "description": "The total size of the backup in megabytes."
+          },
+          "status": {
+            "type": "string",
+            "description": "The current status of the backup (e.g., 'completed', 'in-progress')."
+          }
+        }
+      },
+      "NewBackupRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The nickname or label for the new backup."
+          }
+        }
+      },
+      "UpdateBackupRequest": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "type": "object",
+            "description": "The metadata or settings to update for the backup."
+          }
+        }
+      },
+      "RestoreRequest": {
+        "type": "object",
+        "properties": {
+          "backupId": {
+            "type": "string",
+            "description": "The unique identifier of the backup to restore."
+          },
+          "targetLocation": {
+            "type": "string",
+            "description": "The location to restore the backup to."
+          }
+        }
+      },
+      "SystemStatus": {
+        "type": "object",
+        "properties": {
+          "healthy": {
+            "type": "boolean",
+            "description": "Indicates if the system is operating normally."
+          },
+          "uptime": {
+            "type": "string",
+            "description": "The total uptime of the system."
+          }
+        }
+      },
+      "AuditLog": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "The type of action performed (e.g., 'create', 'delete')."
+          },
+          "performedBy": {
+            "type": "string",
+            "description": "The user or entity that performed the action."
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the action occurred."
+          }
+        }
+      },
+      "ConfigurationRequest": {
+        "type": "object",
+        "properties": {
+          "settings": {
+            "type": "object",
+            "description": "Map of configuration settings for the backup system."
+          }
+        }
+      },
+      "Analytics": {
+        "type": "object",
+        "properties": {
+          "totalBackups": {
+            "type": "integer",
+            "description": "The total number of backups."
+          },
+          "totalStorageUsed": {
+            "type": "integer",
+            "description": "The total amount of storage used in megabytes."
+          },
+          "averageBackupSize": {
+            "type": "integer",
+            "description": "The average size of backups in megabytes."
+          }
+        }
+      },
+      "ValidationRequest": {
+        "type": "object",
+        "properties": {
+          "backupId": {
+            "type": "string",
+            "description": "The ID of the backup to validate."
+          }
+        }
+      },
+      "ValidationResult": {
+        "type": "object",
+        "properties": {
+          "isValid": {
+            "type": "boolean",
+            "description": "Indicates if the backup passed validation."
+          },
+          "issuesFound": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of issues found during validation, if any."
+          }
+        }
+      }
+    }
+  }
+}

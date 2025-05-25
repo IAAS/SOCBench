@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /resources",
+            "description": "Create a new cloud resource for the user."
+        },
+        {
+            "endpoint": "GET /resources",
+            "description": "Retrieve a list of all cloud resources managed by the service."
+        },
+        {
+            "endpoint": "GET /resources/{id}",
+            "description": "Retrieve detailed information about a specific resource identified by {id}."
+        },
+        {
+            "endpoint": "PUT /resources/{id}",
+            "description": "Update configuration or attributes of a specific resource identified by {id}."
+        },
+        {
+            "endpoint": "DELETE /resources/{id}",
+            "description": "Delete a specific cloud resource identified by {id}."
+        },
+        {
+            "endpoint": "POST /resources/{id}/scale",
+            "description": "Scale the specific resource up or down based on user requirements."
+        },
+        {
+            "endpoint": "GET /metrics",
+            "description": "Retrieve usage and performance metrics for all cloud resources."
+        },
+        {
+            "endpoint": "GET /metrics/{id}",
+            "description": "Retrieve detailed metrics for a specific resource identified by {id}."
+        },
+        {
+            "endpoint": "GET /regions",
+            "description": "List all available regions where resources can be deployed."
+        },
+        {
+            "endpoint": "POST /tags",
+            "description": "Assign tags to cloud resources for better categorization and organization."
+        }
+    ]
+}

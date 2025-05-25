@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+This service supports property owners and tenants by managing scheduling, requests, payments, and history for maintenance tasks. The service APIs allow seamless integration with third-party applications for task tracking, vendor management, and maintenance status updates to ensure satisfaction.
+
+Endpoints:
+POST /maintenance/request: Submit a new maintenance request for a property.
+GET /maintenance/history/{propertyId}: Retrieve the maintenance history of a specified property.
+PUT /maintenance/update/{requestId}: Update the details or status of a specific maintenance request.
+DELETE /maintenance/cancel/{requestId}: Cancel an existing maintenance request by ID.
+POST /tenant/register: Register a new tenant into the system for a specific property.
+GET /payments/outstanding/{tenantId}: Check for any outstanding payments for a particular tenant.
+POST /payments/make: Submit a payment for an outstanding invoice.
+GET /vendors/list: Retrieve a list of approved vendors for maintenance services.
+GET /scheduling/availability: Check availability for scheduling a maintenance task.
+POST /scheduling/confirm: Confirm a scheduled time slot for maintenance.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

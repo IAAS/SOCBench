@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+Service:
+Maintains a comprehensive inventory of IT equipment and software to ensure regulatory compliance and streamline asset tracking.
+
+Endpoints:
+GET /equipment: Retrieve the list of all registered IT equipment.
+POST /equipment: Add a new IT equipment record to the inventory.
+GET /equipment/{id}: Retrieve details of specified IT equipment by ID.
+PUT /equipment/{id}: Update the details of a specific IT equipment record.
+DELETE /equipment/{id}: Remove a specific IT equipment record from the inventory.
+GET /software: Retrieve the list of all registered software information.
+POST /software: Add a new software record to the inventory.
+GET /compliance/reports: Generate compliance reports based on current inventory data.
+GET /analytics/stats: Provide analytical statistics regarding IT inventory usage.
+GET /tracking/assets: Access the real-time asset tracking data integrated with the system.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

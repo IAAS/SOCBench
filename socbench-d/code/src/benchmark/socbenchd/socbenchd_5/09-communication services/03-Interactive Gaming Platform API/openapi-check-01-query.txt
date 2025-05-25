@@ -1,0 +1,544 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Interactive Gaming Platform API",
+        "description": "This API enables developers to access interactive gaming features such as multiplayer matchmaking, leaderboards, transaction systems, and more, fostering an engaging gaming experience for end-users.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.gamingplatform.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/multiplayer/matchmaking": {
+            "post": {
+                "summary": "Initiate Matchmaking",
+                "description": "Pairs users for multiplayer gaming sessions by analyzing player criteria such as skill level, region, and preferences.",
+                "requestBody": {
+                    "description": "Details of the player and matchmaking preferences.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "playerId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the player."
+                                    },
+                                    "preferences": {
+                                        "type": "object",
+                                        "description": "Matchmaking preferences such as skill level or latency requirements.",
+                                        "properties": {
+                                            "skillLevel": {
+                                                "type": "integer",
+                                                "description": "The skill level of the player."
+                                            },
+                                            "region": {
+                                                "type": "string",
+                                                "description": "Preferred match region."
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "playerId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Matchmaking initiated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "matchId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the created match."
+                                        },
+                                        "players": {
+                                            "type": "array",
+                                            "description": "List of players included in the match.",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input parameters."
+                    }
+                }
+            }
+        },
+        "/leaderboards/{gameId}": {
+            "get": {
+                "summary": "Get Leaderboards",
+                "description": "Retrieve the leaderboard for a specified game, including player scores and rankings.",
+                "parameters": [
+                    {
+                        "name": "gameId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the game.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Leaderboard data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "gameId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the game."
+                                        },
+                                        "leaderboard": {
+                                            "type": "array",
+                                            "description": "Array of players and their scores.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "playerId": {
+                                                        "type": "string",
+                                                        "description": "Unique identifier for the player."
+                                                    },
+                                                    "score": {
+                                                        "type": "integer",
+                                                        "description": "The player's score in the game."
+                                                    },
+                                                    "rank": {
+                                                        "type": "integer",
+                                                        "description": "The rank of the player on the leaderboard."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Game not found."
+                    }
+                }
+            }
+        },
+        "/transactions/process": {
+            "post": {
+                "summary": "Process Transactions",
+                "description": "Process in-game purchases and currency exchanges.",
+                "requestBody": {
+                    "description": "Details about the transaction to be processed.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "playerId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the player making the transaction."
+                                    },
+                                    "transactionDetails": {
+                                        "type": "object",
+                                        "description": "Details of the transaction.",
+                                        "properties": {
+                                            "itemId": {
+                                                "type": "string",
+                                                "description": "Identifier of the item being purchased."
+                                            },
+                                            "amount": {
+                                                "type": "number",
+                                                "description": "Transaction amount."
+                                            },
+                                            "currency": {
+                                                "type": "string",
+                                                "description": "Currency for the transaction."
+                                            }
+                                        },
+                                        "required": [
+                                            "itemId",
+                                            "amount",
+                                            "currency"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "playerId",
+                                    "transactionDetails"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Transaction processed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "transactionId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the processed transaction."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the transaction (e.g., 'completed', 'pending')."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid transaction details provided."
+                    }
+                }
+            }
+        },
+        "/player/stats": {
+            "get": {
+                "summary": "Get Player Stats",
+                "description": "Retrieve statistical information about a player's performance across games.",
+                "parameters": [
+                    {
+                        "name": "playerId",
+                        "in": "query",
+                        "required": true,
+                        "description": "Unique identifier for the player.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Player statistics retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "playerId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the player."
+                                        },
+                                        "statistics": {
+                                            "type": "object",
+                                            "description": "Player performance statistics.",
+                                            "properties": {
+                                                "totalGamesPlayed": {
+                                                    "type": "integer",
+                                                    "description": "Total number of games the player has played."
+                                                },
+                                                "winRate": {
+                                                    "type": "number",
+                                                    "description": "Player's win rate."
+                                                },
+                                                "averageScore": {
+                                                    "type": "number",
+                                                    "description": "Player's average score across all games."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Player not found."
+                    }
+                }
+            }
+        },
+        "/game-session/create": {
+            "post": {
+                "summary": "Create Game Session",
+                "description": "Create a new game session accessible by multiple participants.",
+                "requestBody": {
+                    "description": "Details of the game session to be created.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "gameId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the game."
+                                    },
+                                    "hostPlayerId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the host player."
+                                    }
+                                },
+                                "required": [
+                                    "gameId",
+                                    "hostPlayerId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Game session created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "sessionId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the created game session."
+                                        },
+                                        "participants": {
+                                            "type": "array",
+                                            "description": "List of participants in the game session.",
+                                            "items": {
+                                                "type": "string",
+                                                "description": "Player identifiers."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid session details provided."
+                    }
+                }
+            }
+        },
+        "/game-details/{gameId}": {
+            "get": {
+                "summary": "Get Game Details",
+                "description": "Fetch the detailed information and configuration of a specified game.",
+                "parameters": [
+                    {
+                        "name": "gameId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the game.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Game details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "gameId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the game."
+                                        },
+                                        "configuration": {
+                                            "type": "object",
+                                            "description": "Game-specific configurations."
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "description": "Detailed description of the game."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Game not found."
+                    }
+                }
+            }
+        },
+        "/player/data/{playerId}": {
+            "delete": {
+                "summary": "Delete Player Data",
+                "description": "Remove a player's data from the system upon request.",
+                "parameters": [
+                    {
+                        "name": "playerId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the player.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Player data removed successfully."
+                    },
+                    "404": {
+                        "description": "Player not found."
+                    }
+                }
+            }
+        },
+        "/achievements/record": {
+            "post": {
+                "summary": "Record Player Achievements",
+                "description": "Record a player's achievements during gameplay into the system.",
+                "requestBody": {
+                    "description": "Details of the achievements to be recorded.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "playerId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the player."
+                                    },
+                                    "achievements": {
+                                        "type": "array",
+                                        "description": "List of achievements with details.",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "achievementId": {
+                                                    "type": "string",
+                                                    "description": "Identifier of the achievement."
+                                                },
+                                                "timestamp": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "description": "Time when the achievement was accomplished."
+                                                }
+                                            },
+                                            "required": [
+                                                "achievementId",
+                                                "timestamp"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "playerId",
+                                    "achievements"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Achievements recorded successfully."
+                    },
+                    "400": {
+                        "description": "Invalid achievement data provided."
+                    }
+                }
+            }
+        },
+        "/settings/customization": {
+            "put": {
+                "summary": "Update User Customizations",
+                "description": "Update user-specific settings and customization preferences.",
+                "requestBody": {
+                    "description": "Details of the customization settings.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "playerId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the player."
+                                    },
+                                    "customSettings": {
+                                        "type": "object",
+                                        "description": "User-specific settings to be updated.",
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "playerId",
+                                    "customSettings"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Customization settings updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid settings data provided."
+                    }
+                }
+            }
+        },
+        "/help/documentation": {
+            "get": {
+                "summary": "Get API Documentation",
+                "description": "Access detailed API documentation and usage instructions.",
+                "responses": {
+                    "200": {
+                        "description": "API documentation retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "documentationUrl": {
+                                            "type": "string",
+                                            "description": "URL to access the API documentation."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

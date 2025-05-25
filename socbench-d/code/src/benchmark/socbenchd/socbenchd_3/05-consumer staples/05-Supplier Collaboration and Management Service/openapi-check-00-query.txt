@@ -1,0 +1,327 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Supply Chain Communication API",
+        "description": "API to facilitate seamless communication and efficient data exchange between suppliers and distributors in the Consumer Staples Sector, ensuring optimized supply chain management.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.supplychainservice.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/suppliers": {
+            "get": {
+                "summary": "Retrieve Supplier List",
+                "description": "Fetch a list of all registered suppliers in the system.",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "supplier_id": "123",
+                                        "name": "Supplier A",
+                                        "contact_email": "contact@supplierA.com",
+                                        "location": "City A"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/distributors": {
+            "get": {
+                "summary": "Retrieve Distributor List",
+                "description": "Fetch a list of all distributors currently associated with the supply chain.",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "distributor_id": "456",
+                                        "name": "Distributor X",
+                                        "contact_email": "contact@distributorX.com",
+                                        "location": "City B"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/orders": {
+            "post": {
+                "summary": "Create Order",
+                "description": "Submit a request to create a new order between a supplier and a distributor.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "supplier_id": "123",
+                                "distributor_id": "456",
+                                "order_details": [
+                                    {
+                                        "product_id": "789",
+                                        "quantity": 50
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order successfully created",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "order_id": "567",
+                                    "status": "Created"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve All Orders",
+                "description": "Fetch a list of all orders that have been placed within the system.",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "order_id": "567",
+                                        "supplier_id": "123",
+                                        "distributor_id": "456",
+                                        "order_status": "Shipped",
+                                        "order_date": "2023-10-10"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/{order_id}": {
+            "put": {
+                "summary": "Update Order",
+                "description": "Update the details or status of a specific order using its unique ID.",
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the order",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "order_status": "Delivered"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order successfully updated",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "order_id": "567",
+                                    "status": "Delivered"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/supplier/{supplier_id}": {
+            "get": {
+                "summary": "View Supplier's Inventory",
+                "description": "Retrieve the inventory information for a specific supplier using their ID.",
+                "parameters": [
+                    {
+                        "name": "supplier_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the supplier",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "supplier_id": "123",
+                                    "inventory": [
+                                        {
+                                            "product_id": "001",
+                                            "name": "Product A",
+                                            "quantity": 100
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/update": {
+            "post": {
+                "summary": "Update Inventory",
+                "description": "Modify the inventory details of a supplier or distributor.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "entity_type": "supplier",
+                                "entity_id": "123",
+                                "product_updates": [
+                                    {
+                                        "product_id": "001",
+                                        "quantity": 150
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inventory successfully updated",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "status": "Updated"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/shipping-status/{order_id}": {
+            "get": {
+                "summary": "Fetch Shipping Status",
+                "description": "Retrieve the current shipping status for a specific order using its ID.",
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the order",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "order_id": "567",
+                                    "shipping_status": "In Transit"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/supply-chain": {
+            "get": {
+                "summary": "View Supply Chain Analytics",
+                "description": "Access analytics and performance metrics for the supply chain.",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "top_suppliers": [
+                                        "Supplier A",
+                                        "Supplier B"
+                                    ],
+                                    "top_distributors": [
+                                        "Distributor X",
+                                        "Distributor Y"
+                                    ],
+                                    "average_shipping_time": "3 days"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "get": {
+                "summary": "Retrieve System Alerts",
+                "description": "Fetch a list of system alerts or notifications for supply chain issues.",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "alert_id": "101",
+                                        "type": "Low Inventory",
+                                        "message": "Supplier A has low stock for Product 001."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

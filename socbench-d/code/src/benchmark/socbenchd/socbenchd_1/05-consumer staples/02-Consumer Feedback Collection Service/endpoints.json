@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit new customer feedback for a product."
+        },
+        {
+            "endpoint": "GET /feedback/{feedback_id}",
+            "description": "Retrieve details of a specific feedback submission."
+        },
+        {
+            "endpoint": "GET /products",
+            "description": "Fetch a list of products within the consumer staples sector."
+        },
+        {
+            "endpoint": "GET /products/{product_id}",
+            "description": "Retrieve detailed information about a specific product."
+        },
+        {
+            "endpoint": "GET /analysis",
+            "description": "Retrieve aggregated analysis of collected customer feedback."
+        },
+        {
+            "endpoint": "GET /analysis/sentiment",
+            "description": "Obtain sentiment analysis results for feedback on products."
+        },
+        {
+            "endpoint": "GET /analysis/trends",
+            "description": "View trends over time in feedback data."
+        },
+        {
+            "endpoint": "POST /products/{product_id}/evaluate",
+            "description": "Request an evaluation report for a specific product based on feedback insights."
+        },
+        {
+            "endpoint": "PUT /feedback/{feedback_id}",
+            "description": "Update or correct details of a previously submitted feedback."
+        },
+        {
+            "endpoint": "DELETE /feedback/{feedback_id}",
+            "description": "Remove a specific feedback submission from the database."
+        }
+    ]
+}

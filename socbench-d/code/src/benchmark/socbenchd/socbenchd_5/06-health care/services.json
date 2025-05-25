@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Patient Medical History Retrieval Service",
+            "description": "This API enables healthcare providers secure access to a patient's historical medical records, facilitating diagnosis and treatment planning. By integrating with hospital EMR systems, authenticated users can search for records by patient ID."
+        },
+        {
+            "name": "Appointment Scheduling API",
+            "description": "A RESTful service to assist patients in scheduling, rescheduling, or canceling appointments with healthcare professionals, ensuring optimal time management through real-time availability checking."
+        },
+        {
+            "name": "Medication Interaction Checker",
+            "description": "This service analyzes prescribed medications for potential interactions, improving patient safety by providing healthcare professionals with actionable alerts when prescribing new treatments."
+        },
+        {
+            "name": "Pharmacy Inventory Management System",
+            "description": "A platform for pharmacy management to monitor and adjust inventory levels based on prescription demands and expiration dates, ensuring stock optimization and reducing waste."
+        },
+        {
+            "name": "Health Risk Assessment Tool",
+            "description": "This API evaluates a patient's health risk based on input data like lifestyle, family history, or existing conditions, offering tailored health advice and preventive measures based on advanced analytics algorithms."
+        }
+    ]
+}

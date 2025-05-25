@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /energy-patterns",
+            "description": "Submit the energy consumption data of a new client for analysis."
+        },
+        {
+            "endpoint": "GET /clients/{client_id}/usage",
+            "description": "Retrieve the historical energy usage data for a specific client."
+        },
+        {
+            "endpoint": "GET /analysis/overview",
+            "description": "Obtain a summary snapshot of energy usage patterns across all clients."
+        },
+        {
+            "endpoint": "POST /recommendations/generate",
+            "description": "Generate energy-saving recommendations based on consumption analysis."
+        },
+        {
+            "endpoint": "GET /clients/{client_id}/recommendations",
+            "description": "Fetch tailored energy-saving suggestions for a specific client."
+        },
+        {
+            "endpoint": "POST /billing/templates",
+            "description": "Create a customizable billing template for personalized invoicing."
+        },
+        {
+            "endpoint": "GET /billing/{template_id}",
+            "description": "Retrieve details of a specific billing template."
+        },
+        {
+            "endpoint": "PUT /billing/{template_id}",
+            "description": "Update an existing billing template with new parameters."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Set up an alert system for unusual consumption patterns detection."
+        },
+        {
+            "endpoint": "GET /alerts/{alert_id}",
+            "description": "Retrieve the configuration of a specific alert setting."
+        }
+    ]
+}

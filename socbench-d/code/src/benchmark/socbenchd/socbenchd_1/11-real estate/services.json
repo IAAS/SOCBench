@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Property Listing and Search Service",
+            "description": "This service allows users to list or search for properties available for sale or rent. Users can access detailed property information, photos, and customizable search filters such as location, price range, and amenities. APIs include endpoints for property registration, listing browsing, and saved searches management."
+        },
+        {
+            "name": "Real Estate Valuation and Assessment Service",
+            "description": "Through this service, users can obtain estimates for a property's value based on market trends, location, property features, and historical data. It integrates data from multiple sources to provide accurate assessments and supports users in making informed investment decisions."
+        },
+        {
+            "name": "Mortgage Loan and Affordability Calculation Service",
+            "description": "This calculated-based service enables potential buyers to assess affordability by providing RESTful endpoints to calculate mortgage payments, interest rates, and custom loan plans. Advanced options include analysis of down payments, tenure periods, and interest fluctuations."
+        },
+        {
+            "name": "Agent and Broker Matching Service",
+            "description": "By connecting property seekers or sellers with suitable real estate professionals, this service enables efficient interactions. Key features include profile creation, reviews, ratings, and a recommendation algorithm linking users with agents based on location, specialization, and performance metrics."
+        },
+        {
+            "name": "Property Management and Maintenance Service",
+            "description": "This service supports property owners and tenants by managing scheduling, requests, payments, and history for maintenance tasks. The service APIs allow seamless integration with third-party applications for task tracking, vendor management, and maintenance status updates to ensure satisfaction."
+        }
+    ]
+}

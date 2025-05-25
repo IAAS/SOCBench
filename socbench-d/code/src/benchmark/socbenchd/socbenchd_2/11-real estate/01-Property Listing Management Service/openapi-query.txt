@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+Enables real estate agencies to list, update, and delete property advertisements dynamically with support for high-resolution photo and document storage.
+
+Endpoints:
+GET /properties: Retrieve the list of all real estate advertisements available in the system.
+GET /properties/{property_id}: Fetch detailed information about a specific real estate advertisement using its unique identifier.
+POST /properties: Create and post a new advertisement for a property.
+PUT /properties/{property_id}: Update details of an existing property advertisement.
+DELETE /properties/{property_id}: Remove a property advertisement from the system.
+GET /properties/search: Search properties based on specific criteria such as location and price range.
+POST /properties/{property_id}/photos: Upload high-resolution photos to a specific property advertisement.
+DELETE /properties/{property_id}/photos/{photo_id}: Remove a specific photo from a property advertisement.
+POST /properties/{property_id}/documents: Attach legal or promotional documents to a property advertisement.
+DELETE /properties/{property_id}/documents/{document_id}: Remove a specific document from a property advertisement.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

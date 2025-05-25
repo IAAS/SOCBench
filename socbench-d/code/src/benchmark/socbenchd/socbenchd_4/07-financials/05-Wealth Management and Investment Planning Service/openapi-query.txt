@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Service:
+Assists users in personal investment management by providing portfolio optimization tools, asset allocation advice, and financial goal tracking through an accessible REST interface.
+
+Endpoints:
+GET /portfolio/optimization: Retrieve the optimized portfolio allocation based on user preferences and current market conditions.
+POST /portfolio/customize: Allow users to customize portfolio parameters and simulate potential outcomes.
+GET /assets/overview: Provide an overview of all available asset classes for investment.
+GET /financial-goals/status: Retrieve the progress status towards predefined financial goals.
+POST /assets/evaluation: Evaluate specific asset performance scenarios as per user selection.
+PATCH /goals/update: Modify the details of existing financial goals set by the user.
+GET /market/trends: Access insights into current market trends influencing investment choices.
+POST /advice/consultation: Obtain tailored investment advice based on existing portfolios and market strategies.
+DELETE /portfolio/remove: Allow users to remove or reset their current portfolio settings.
+GET /investment/simulation: Simulate potential returns on selected investment strategies over a designated time frame.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /rooms",
+            "description": "Retrieve a list of available rooms with their current status and attributes."
+        },
+        {
+            "endpoint": "POST /bookings",
+            "description": "Create a new booking for a specific room by providing customer information and desired dates."
+        },
+        {
+            "endpoint": "GET /bookings/{id}",
+            "description": "Fetch booking details using the unique booking identifier."
+        },
+        {
+            "endpoint": "PUT /bookings/{id}",
+            "description": "Update the booking information such as dates or accommodations."
+        },
+        {
+            "endpoint": "DELETE /bookings/{id}",
+            "description": "Cancel an existing booking with the specified booking identifier."
+        },
+        {
+            "endpoint": "GET /promotions",
+            "description": "Obtain a list of current promotions and offers for room bookings."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit feedback or reviews for a past stay or the booking process."
+        },
+        {
+            "endpoint": "GET /prices",
+            "description": "Query the prices based on room type, location, and date range."
+        },
+        {
+            "endpoint": "GET /availability/{date}",
+            "description": "Check the availability of rooms for a specific date."
+        },
+        {
+            "endpoint": "POST /integration",
+            "description": "Set up third-party integrations by providing required credentials and preferences."
+        }
+    ]
+}

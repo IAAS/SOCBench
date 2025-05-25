@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /foods",
+            "description": "Retrieve a comprehensive list of all available food items with detailed nutritional information."
+        },
+        {
+            "endpoint": "GET /categories",
+            "description": "Fetch all food categories to assist in narrowing down item selections."
+        },
+        {
+            "endpoint": "GET /brands",
+            "description": "Access a directory of food brands available within the service."
+        },
+        {
+            "endpoint": "POST /search",
+            "description": "Find food items based on keywords, ingredients, or other search parameters."
+        },
+        {
+            "endpoint": "GET /food/{id}",
+            "description": "Retrieve detailed information including nutrition for the specified food item by ID."
+        },
+        {
+            "endpoint": "GET /allergens",
+            "description": "Display a list of common allergens to assist in filtering food choices."
+        },
+        {
+            "endpoint": "POST /caloriestracker",
+            "description": "Submit and track daily calorie consumption based on selected food items."
+        },
+        {
+            "endpoint": "PUT /portion/{id}",
+            "description": "Customize portion size and update nutritional values for the specified food item."
+        },
+        {
+            "endpoint": "DELETE /caloriestracker/{entryId}",
+            "description": "Remove a previously logged entry from the calories tracker."
+        },
+        {
+            "endpoint": "GET /recommendations",
+            "description": "Get personalized food or meal suggestions based on user dietary preferences."
+        }
+    ]
+}

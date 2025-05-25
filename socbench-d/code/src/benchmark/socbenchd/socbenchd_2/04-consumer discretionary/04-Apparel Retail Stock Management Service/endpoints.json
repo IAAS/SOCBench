@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /inventory",
+            "description": "Retrieve the current inventory levels for all products."
+        },
+        {
+            "endpoint": "POST /inventory",
+            "description": "Update inventory details for a specific product."
+        },
+        {
+            "endpoint": "GET /stock/alerts",
+            "description": "Retrieve notifications for low-stock or out-of-stock products."
+        },
+        {
+            "endpoint": "POST /orders",
+            "description": "Record new supply orders to restock inventory."
+        },
+        {
+            "endpoint": "GET /sales/trends",
+            "description": "Retrieve sales data highlighting trends and demands."
+        },
+        {
+            "endpoint": "PUT /products/{productId}",
+            "description": "Modify information related to a specific product."
+        },
+        {
+            "endpoint": "DELETE /products/{productId}",
+            "description": "Remove a product from the inventory database."
+        },
+        {
+            "endpoint": "GET /supply-chain/status",
+            "description": "Retrieve the operational status of the supply chain."
+        },
+        {
+            "endpoint": "GET /suppliers",
+            "description": "Retrieve details of all associated suppliers."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit feedback on inventory management operations."
+        }
+    ]
+}

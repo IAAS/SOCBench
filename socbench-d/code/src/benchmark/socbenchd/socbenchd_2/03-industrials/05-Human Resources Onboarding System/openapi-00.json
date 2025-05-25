@@ -1,0 +1,400 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Employee Onboarding Service API",
+        "description": "API for facilitating seamless employee onboarding, including document submission, training assignment, task tracking, and status reporting for enhancing the HR onboarding process.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/employees": {
+            "post": {
+                "summary": "Register a new employee and initiate onboarding",
+                "description": "Create a new employee record and initiate the onboarding process with predefined tasks and trainings.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "firstName": {
+                                        "type": "string",
+                                        "description": "First name of the employee."
+                                    },
+                                    "lastName": {
+                                        "type": "string",
+                                        "description": "Last name of the employee."
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "Email address of the employee."
+                                    },
+                                    "department": {
+                                        "type": "string",
+                                        "description": "Department to which the employee belongs."
+                                    },
+                                    "position": {
+                                        "type": "string",
+                                        "description": "Job position of the employee."
+                                    }
+                                },
+                                "required": [
+                                    "firstName",
+                                    "lastName",
+                                    "email",
+                                    "department",
+                                    "position"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Employee created successfully and onboarding initiated."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/employees/{id}": {
+            "get": {
+                "summary": "Retrieve details of a specific employee",
+                "description": "Fetch detailed information for a specific employee using their unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the employee.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Employee details retrieved successfully."
+                    },
+                    "404": {
+                        "description": "Employee not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove an existing employee profile",
+                "description": "Delete an employee record and remove all associated onboarding data.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the employee.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Employee deleted successfully."
+                    },
+                    "404": {
+                        "description": "Employee not found."
+                    }
+                }
+            }
+        },
+        "/employees/{id}/documents": {
+            "put": {
+                "summary": "Update submitted documents for an employee",
+                "description": "Update the documents submitted by a specific employee during the onboarding process.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the employee.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "documents": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of document URLs or identifiers."
+                                    }
+                                },
+                                "required": [
+                                    "documents"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Documents updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    },
+                    "404": {
+                        "description": "Employee not found."
+                    }
+                }
+            }
+        },
+        "/onboarding/trainings": {
+            "post": {
+                "summary": "Assign trainings for onboarding",
+                "description": "Assign predefined training modules to an employee during the onboarding process.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "employeeId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the employee."
+                                    },
+                                    "trainingModules": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of training module IDs to be assigned."
+                                    }
+                                },
+                                "required": [
+                                    "employeeId",
+                                    "trainingModules"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Trainings assigned successfully."
+                    },
+                    "404": {
+                        "description": "Employee not found."
+                    }
+                }
+            }
+        },
+        "/onboarding/tasks": {
+            "get": {
+                "summary": "List all pending tasks",
+                "description": "Retrieve a list of all pending tasks in the onboarding workflow.",
+                "responses": {
+                    "200": {
+                        "description": "List of pending tasks retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "taskId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the task."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Description of the task."
+                                            },
+                                            "dueDate": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Due date of the task."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tasks/completion": {
+            "post": {
+                "summary": "Mark task as completed",
+                "description": "Mark a specified task as completed for a particular employee.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "employeeId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the employee."
+                                    },
+                                    "taskId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the task to be marked completed."
+                                    }
+                                },
+                                "required": [
+                                    "employeeId",
+                                    "taskId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Task marked as completed successfully."
+                    },
+                    "404": {
+                        "description": "Employee or task not found."
+                    }
+                }
+            }
+        },
+        "/reports/onboarding-status": {
+            "get": {
+                "summary": "Generate onboarding status report",
+                "description": "Compile a report of onboarding statuses segmented by departments.",
+                "responses": {
+                    "200": {
+                        "description": "Onboarding status report generated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "department": {
+                                                "type": "string",
+                                                "description": "Name of the department."
+                                            },
+                                            "completed": {
+                                                "type": "integer",
+                                                "description": "Number of employees who have completed onboarding."
+                                            },
+                                            "inProgress": {
+                                                "type": "integer",
+                                                "description": "Number of employees whose onboarding is still in progress."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainings/modules": {
+            "get": {
+                "summary": "Retrieve all training modules",
+                "description": "Fetch a list of all available training modules for employees.",
+                "responses": {
+                    "200": {
+                        "description": "Training modules retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "moduleId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the training module."
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "description": "Title of the training module."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Description of the training module."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainings/modules/{id}/status": {
+            "put": {
+                "summary": "Update training module status",
+                "description": "Update the completion status of a training module for a specific employee.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the training module.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "employeeId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the employee."
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "completed",
+                                            "inProgress",
+                                            "notStarted"
+                                        ],
+                                        "description": "Completion status of the training module."
+                                    }
+                                },
+                                "required": [
+                                    "employeeId",
+                                    "status"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Training module status updated successfully."
+                    },
+                    "404": {
+                        "description": "Training module or employee not found."
+                    }
+                }
+            }
+        }
+    }
+}

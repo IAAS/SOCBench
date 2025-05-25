@@ -1,0 +1,223 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Real-Time Renewable Energy Monitoring Service",
+    "description": "This API provides real-time monitoring and management of solar and wind energy generation, along with forecasting capabilities, alerts configuration, maintenance scheduling, and comparative analysis between solar and wind energy resources.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/generation/solar": {
+      "get": {
+        "summary": "Fetch Real-Time Solar Energy Generation Data",
+        "description": "Retrieve real-time data on the current solar energy generation for efficient resource monitoring.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved solar energy generation data.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "timestamp": "2023-10-10T12:45:00Z",
+                  "solar_generation_mw": 1500.25
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/generation/wind": {
+      "get": {
+        "summary": "Fetch Real-Time Wind Energy Generation Data",
+        "description": "Retrieve real-time data on the current wind energy generation for efficient resource monitoring.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved wind energy generation data.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "timestamp": "2023-10-10T12:45:00Z",
+                  "wind_generation_mw": 1200.75
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/generation/forecast": {
+      "get": {
+        "summary": "Retrieve Energy Generation Forecast",
+        "description": "Fetch energy generation forecast data based on current solar and wind data trends.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved energy generation forecast data.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "forecast_start": "2023-10-10T13:00:00Z",
+                  "forecast_end": "2023-10-10T18:00:00Z",
+                  "solar_forecast_mw": 1600.0,
+                  "wind_forecast_mw": 1250.0
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resources/status": {
+      "get": {
+        "summary": "Extract Operational Status of Energy Generation Resources",
+        "description": "Retrieve the current operational status, including availability, faults, or performance indicators of monitored resources.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved operational status of energy resources.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "resource_id": "solar-array-1",
+                  "status": "operational",
+                  "details": "No detected issues."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts/configuration": {
+      "post": {
+        "summary": "Configure Real-Time Alerts for Threshold Breaches",
+        "description": "Set up real-time alerts for specified energy generation or performance thresholds to streamline resource management.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "alert_type": "solar_generation",
+                "threshold": 1000,
+                "comparison_operator": "less_than",
+                "email": "alert@example.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully configured the alert."
+          }
+        }
+      }
+    },
+    "/reports/daily": {
+      "get": {
+        "summary": "Download Daily Aggregate Reports for Resource Generation",
+        "description": "Retrieve a daily aggregate report of solar and wind energy generation for operational insights.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the daily report.",
+            "content": {
+              "application/pdf": {
+                "example": "(Binary file representing a PDF report)"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resources/maintenance": {
+      "put": {
+        "summary": "Schedule Maintenance for a Specific Energy Resource",
+        "description": "Plan and schedule maintenance tasks for energy generation resources to ensure operational efficiency.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "resource_id": "wind-turbine-5",
+                "maintenance_date": "2023-10-15T09:00:00Z",
+                "notes": "Routine blade inspection"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully scheduled maintenance for the resource."
+          }
+        }
+      }
+    },
+    "/alerts": {
+      "delete": {
+        "summary": "Remove Specific Alert Configurations by ID",
+        "description": "Delete specific alert configurations using their unique identifier.",
+        "parameters": [
+          {
+            "name": "alert_id",
+            "in": "query",
+            "required": true,
+            "description": "The unique identifier of the alert configuration to be removed.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully removed the alert configuration."
+          }
+        }
+      }
+    },
+    "/statistics/comparative": {
+      "get": {
+        "summary": "Retrieve Comparative Statistics of Solar vs. Wind Energy Generation",
+        "description": "Fetch comparative statistics between solar and wind energy generation to analyze trends.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved comparative statistics.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "time_period_start": "2023-10-01T00:00:00Z",
+                  "time_period_end": "2023-10-10T23:59:59Z",
+                  "solar_generation_mw": 15000,
+                  "wind_generation_mw": 14000,
+                  "comparison_percentage": 7.14
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resources/list": {
+      "get": {
+        "summary": "Fetch Details of All Monitored Energy Resources",
+        "description": "Retrieve a list of all energy resources currently being monitored, including their types and current statuses.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the resource list.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "resource_id": "solar-array-1",
+                    "type": "solar",
+                    "status": "operational"
+                  },
+                  {
+                    "resource_id": "wind-turbine-5",
+                    "type": "wind",
+                    "status": "under_maintenance"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

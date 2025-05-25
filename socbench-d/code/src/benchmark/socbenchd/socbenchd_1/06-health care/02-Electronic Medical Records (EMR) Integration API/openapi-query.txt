@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+Service:
+A service designed to consolidate and standardize electronic health records from various providers, ensuring seamless data sharing and retrieval while maintaining compliance with data protection regulations. Healthcare providers can access complete patient histories quickly for informed decisions.
+
+Endpoints:
+GET /patients: Retrieve a list of registered patients with summary details.
+GET /patients/{id}/records: Fetch consolidated health records for a specific patient by their ID.
+POST /patients: Add a new patient's information to the system database.
+PUT /patients/{id}: Update patient details for a specific patient.
+DELETE /patients/{id}: Remove a patient's information from the system.
+GET /providers: Retrieve a list of associated healthcare providers and their details.
+GET /providers/{id}: Fetch details including available services for a specific health care provider.
+POST /records/{patient_id}: Add new health records for a designated patient.
+GET /reports/overview: Generate a summary report of system activity and health statistics.
+GET /compliance/status: Review the service's compliance status with data protection regulations.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

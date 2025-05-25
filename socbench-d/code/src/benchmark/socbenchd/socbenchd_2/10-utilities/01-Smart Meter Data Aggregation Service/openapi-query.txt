@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+This service is designed to facilitate the aggregation and visualization of data collected from smart meters across residential and commercial locations. By providing real-time integration with utility meters, it supports analysis of consumption patterns, leak detection, and demand forecasting.
+
+Endpoints:
+GET /meters: Retrieve the list of all meter devices associated with the service.
+GET /meters/{meter_id}/data: Fetch historical data for a specific meter by its ID.
+POST /meters/add: Add a new meter to be monitored within the service.
+PUT /meters/{meter_id}: Update details such as metadata for a specific meter.
+DELETE /meters/{meter_id}: Remove a specific meter and its associated records from the service.
+GET /analytics/consumption-pattern: Access aggregated insights and patterns derived from consumption data.
+GET /analytics/leak-detection: Identify potential anomalies or leaks in the system based on real-time data.
+GET /analytics/demand-forecast: Retrieve predictions for future utility demand based on historical trends.
+POST /alerts/setup: Configure custom alerts such as usage thresholds and performance monitoring.
+GET /alerts: Retrieve the list of all configured alerts and their current statuses.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

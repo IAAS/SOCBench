@@ -1,0 +1,436 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Industrial Workplace Safety Compliance API",
+    "description": "This API enables tracking of workplace safety compliance, sending alerts for non-compliance, generating safety improvement certificates, and providing detailed reports. It facilitates integration into enterprise tools for HR and safety officers to manage and monitor workplace safety effectively.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.industrialsafety.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/compliance-incidents": {
+      "get": {
+        "summary": "Retrieve compliance incidents",
+        "description": "Fetch a list of recorded safety compliance incidents along with related on-site device data. Includes details such as timestamp, location, and incident severity.",
+        "responses": {
+          "200": {
+            "description": "List of safety compliance incidents",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ComplianceIncident"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new compliance incident",
+        "description": "Record a new safety compliance incident based on data from on-site devices.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewComplianceIncident"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Compliance incident created successfully"
+          }
+        }
+      }
+    },
+    "/alerts": {
+      "get": {
+        "summary": "Fetch safety alerts",
+        "description": "Retrieve a list of generated safety alerts related to non-compliance events. Includes relevant details such as the issue, timestamp, and affected location.",
+        "responses": {
+          "200": {
+            "description": "List of safety alerts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SafetyAlert"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new safety alert",
+        "description": "Send a new safety alert for a specific safety issue or area.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewSafetyAlert"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Safety alert created successfully"
+          }
+        }
+      }
+    },
+    "/safety-certificates": {
+      "get": {
+        "summary": "List all safety certificates",
+        "description": "Fetch all safety improvement certificates generated with relevant details like issuance date, target location, and certification category.",
+        "responses": {
+          "200": {
+            "description": "List of safety improvement certificates",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SafetyCertificate"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new safety certificate",
+        "description": "Generate and assign a new safety improvement certificate based on the latest compliance data.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewSafetyCertificate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Safety certificate created successfully"
+          }
+        }
+      }
+    },
+    "/reports": {
+      "get": {
+        "summary": "Fetch compliance reports",
+        "description": "Retrieve detailed safety compliance and monitoring reports for analysis. Reports include data like incident trends, alert history, and compliance ratings.",
+        "responses": {
+          "200": {
+            "description": "List of compliance monitoring reports",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SafetyReport"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Generate a custom safety report",
+        "description": "Create a new safety compliance report by specifying parameters such as time frame, site, or specific safety metrics.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewSafetyReport"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Safety report generated successfully"
+          }
+        }
+      }
+    },
+    "/sites/{site_id}/statistics": {
+      "get": {
+        "summary": "Retrieve site-specific compliance statistics",
+        "description": "Access overall safety compliance statistics for a specific site, including compliance rate, incident counts, and most common types of issues.",
+        "parameters": [
+          {
+            "name": "site_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the site",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Site-specific compliance statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteStatistics"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sites/{site_id}": {
+      "patch": {
+        "summary": "Update site configurations",
+        "description": "Modify site-specific configurations such as compliance thresholds or monitoring intervals.",
+        "parameters": [
+          {
+            "name": "site_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the site",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SiteConfigurationUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Site configuration updated successfully"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ComplianceIncident": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the compliance incident"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when the incident was recorded"
+          },
+          "location": {
+            "type": "string",
+            "description": "Specific location where the incident occurred"
+          },
+          "severity": {
+            "type": "string",
+            "description": "Severity level of the compliance issue"
+          },
+          "deviceData": {
+            "type": "object",
+            "description": "Data recorded by the on-site device during the incident"
+          }
+        }
+      },
+      "NewComplianceIncident": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when the incident was recorded"
+          },
+          "location": {
+            "type": "string",
+            "description": "Specific location where the incident occurred"
+          },
+          "severity": {
+            "type": "string",
+            "description": "Severity level of the compliance issue"
+          },
+          "deviceData": {
+            "type": "object",
+            "description": "Data recorded by the on-site device during the incident"
+          }
+        }
+      },
+      "SafetyAlert": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the alert"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when the alert was generated"
+          },
+          "issue": {
+            "type": "string",
+            "description": "Description of the safety issue"
+          },
+          "location": {
+            "type": "string",
+            "description": "Location associated with the alert"
+          }
+        }
+      },
+      "NewSafetyAlert": {
+        "type": "object",
+        "properties": {
+          "issue": {
+            "type": "string",
+            "description": "Description of the safety issue"
+          },
+          "location": {
+            "type": "string",
+            "description": "Location associated with the alert"
+          }
+        }
+      },
+      "SafetyCertificate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the certificate"
+          },
+          "issuedDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Date when the certificate was issued"
+          },
+          "location": {
+            "type": "string",
+            "description": "Location for which the certificate is issued"
+          },
+          "category": {
+            "type": "string",
+            "description": "Category of the safety improvement certificate"
+          }
+        }
+      },
+      "NewSafetyCertificate": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string",
+            "description": "Location for which the certificate is issued"
+          },
+          "category": {
+            "type": "string",
+            "description": "Category of the safety improvement certificate"
+          }
+        }
+      },
+      "SafetyReport": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the report"
+          },
+          "generatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date when the report was generated"
+          },
+          "site": {
+            "type": "string",
+            "description": "Site location for which the report pertains"
+          },
+          "details": {
+            "type": "object",
+            "description": "Detailed data and analysis in the report"
+          }
+        }
+      },
+      "NewSafetyReport": {
+        "type": "object",
+        "properties": {
+          "site": {
+            "type": "string",
+            "description": "Site location for which the report is generated"
+          },
+          "timeFrame": {
+            "type": "string",
+            "description": "Time frame for the data to include in the report"
+          },
+          "parameters": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Metrics or parameters to include in the report"
+          }
+        }
+      },
+      "SiteStatistics": {
+        "type": "object",
+        "properties": {
+          "complianceRate": {
+            "type": "number",
+            "format": "float",
+            "description": "Percentage compliance rate for the site"
+          },
+          "incidentCount": {
+            "type": "integer",
+            "description": "Number of recorded safety incidents at the site"
+          },
+          "commonIssues": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of most frequent compliance issues"
+          }
+        }
+      },
+      "SiteConfigurationUpdate": {
+        "type": "object",
+        "properties": {
+          "complianceThreshold": {
+            "type": "number",
+            "format": "float",
+            "description": "Updated compliance threshold for the site"
+          },
+          "monitoringInterval": {
+            "type": "string",
+            "description": "Updated time interval for safety monitoring"
+          }
+        }
+      }
+    }
+  }
+}

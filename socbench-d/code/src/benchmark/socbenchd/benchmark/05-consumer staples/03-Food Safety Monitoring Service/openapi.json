@@ -1,0 +1,527 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Food Safety Monitoring Service API",
+        "description": "The Food Safety Monitoring Service is a RESTful API for food producers and retailers to ensure compliance with health regulations through detailed monitoring and reporting of food safety data.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.foodsafety-monitor.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/compliance-checks": {
+            "get": {
+                "summary": "Retrieve Compliance Checks",
+                "description": "Retrieve a list of safety and regulatory compliance checks performed on specific products or product categories.",
+                "responses": {
+                    "200": {
+                        "description": "A list of compliance checks.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ComplianceCheck"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/contamination-alerts": {
+            "get": {
+                "summary": "Retrieve Contamination Alerts",
+                "description": "Retrieve current alerts and historical data related to detected contaminants or potential hazards in food supplies.",
+                "responses": {
+                    "200": {
+                        "description": "A list of contamination alerts.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ContaminationAlert"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/product-data": {
+            "post": {
+                "summary": "Submit Product Data",
+                "description": "Submit product data for analysis, allowing the service to evaluate ingredient safety and compliance status.",
+                "requestBody": {
+                    "description": "The product data to analyze.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product data submitted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AnalysisResult"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/product-status/{productId}": {
+            "get": {
+                "summary": "Check Product Status",
+                "description": "Check the compliance status and any active alerts related to a specific product by its ID.",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the product to check.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The compliance status and alerts of the product.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductStatus"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/recalls": {
+            "get": {
+                "summary": "Access Recall Lists",
+                "description": "Access and manage recall lists, view status, and obtain detailed recall information.",
+                "responses": {
+                    "200": {
+                        "description": "A list of product recalls.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Recall"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/initiate-recall": {
+            "post": {
+                "summary": "Initiate Product Recall",
+                "description": "Submit a request to initiate a product recall process after detecting a significant hazard.",
+                "requestBody": {
+                    "description": "Details of the product recall to initiate.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RecallRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Recall process initiated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecallStatus"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/update-recall-info/{recallId}": {
+            "put": {
+                "summary": "Update Recall Information",
+                "description": "Update information and status of an ongoing product recall effort, ensuring consistent communication with affected parties.",
+                "parameters": [
+                    {
+                        "name": "recallId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the recall to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "The updated recall information.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RecallUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Recall information updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecallStatus"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ingredient-standards": {
+            "get": {
+                "summary": "Fetch Ingredient Standards",
+                "description": "Fetch detailed standards and guidelines for ensuring ingredient safety and compliance with regulations across different regions.",
+                "responses": {
+                    "200": {
+                        "description": "A list of ingredient standards and guidelines.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/IngredientStandard"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/risk-evaluation": {
+            "post": {
+                "summary": "Submit Risk Evaluation",
+                "description": "Submit new or modified product information for a comprehensive risk evaluation, producing alerts for potential contamination risks.",
+                "requestBody": {
+                    "description": "The product information for risk evaluation.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RiskEvaluationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Risk evaluation completed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RiskEvaluationResult"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user-notifications": {
+            "get": {
+                "summary": "Retrieve User Notifications",
+                "description": "Retrieve past notifications and current alerts sent to the user concerning product safety and regulatory issues.",
+                "responses": {
+                    "200": {
+                        "description": "A list of user notifications.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserNotification"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ComplianceCheck": {
+                "type": "object",
+                "properties": {
+                    "checkId": {
+                        "type": "string",
+                        "description": "The unique identifier for the compliance check."
+                    },
+                    "productId": {
+                        "type": "string",
+                        "description": "The ID of the product being checked."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The current status of the compliance check (passed, failed, pending)."
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The date and time when the check was performed."
+                    }
+                }
+            },
+            "ContaminationAlert": {
+                "type": "object",
+                "properties": {
+                    "alertId": {
+                        "type": "string",
+                        "description": "The unique identifier for the contamination alert."
+                    },
+                    "productId": {
+                        "type": "string",
+                        "description": "The ID of the product associated with the alert."
+                    },
+                    "contaminant": {
+                        "type": "string",
+                        "description": "The contaminant detected in the product."
+                    },
+                    "riskLevel": {
+                        "type": "string",
+                        "description": "The assessed risk level of the contaminant (low, medium, high)."
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The date and time when the alert was generated."
+                    }
+                }
+            },
+            "ProductData": {
+                "type": "object",
+                "properties": {
+                    "productId": {
+                        "type": "string",
+                        "description": "The unique identifier for the product."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the product."
+                    },
+                    "ingredients": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "A list of ingredients in the product."
+                    },
+                    "productionDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The date and time when the product was manufactured."
+                    }
+                }
+            },
+            "AnalysisResult": {
+                "type": "object",
+                "properties": {
+                    "productId": {
+                        "type": "string",
+                        "description": "The ID of the product analyzed."
+                    },
+                    "alerts": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ContaminationAlert"
+                        },
+                        "description": "A list of contamination alerts or warnings for the submitted product."
+                    }
+                }
+            },
+            "ProductStatus": {
+                "type": "object",
+                "properties": {
+                    "productId": {
+                        "type": "string",
+                        "description": "The unique identifier for the product."
+                    },
+                    "complianceStatus": {
+                        "type": "string",
+                        "description": "The current compliance status of the product."
+                    },
+                    "alerts": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ContaminationAlert"
+                        },
+                        "description": "A list of active alerts associated with the product."
+                    }
+                }
+            },
+            "Recall": {
+                "type": "object",
+                "properties": {
+                    "recallId": {
+                        "type": "string",
+                        "description": "The unique identifier for the recall."
+                    },
+                    "productId": {
+                        "type": "string",
+                        "description": "The ID of the product being recalled."
+                    },
+                    "reason": {
+                        "type": "string",
+                        "description": "The reason for the product recall."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The current status of the recall (initiated, in process, completed)."
+                    },
+                    "initiatedDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The date and time when the recall was initiated."
+                    }
+                }
+            },
+            "RecallRequest": {
+                "type": "object",
+                "properties": {
+                    "productId": {
+                        "type": "string",
+                        "description": "The unique identifier for the product to recall."
+                    },
+                    "reason": {
+                        "type": "string",
+                        "description": "The reason for initiating the recall."
+                    }
+                }
+            },
+            "RecallStatus": {
+                "type": "object",
+                "properties": {
+                    "recallId": {
+                        "type": "string",
+                        "description": "The unique identifier for the recall."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The updated status of the recall."
+                    }
+                }
+            },
+            "RecallUpdate": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "The new status of the recall."
+                    },
+                    "additionalInfo": {
+                        "type": "string",
+                        "description": "Any additional information related to the recall update."
+                    }
+                }
+            },
+            "IngredientStandard": {
+                "type": "object",
+                "properties": {
+                    "standardId": {
+                        "type": "string",
+                        "description": "The unique identifier for the ingredient standard."
+                    },
+                    "region": {
+                        "type": "string",
+                        "description": "The region for which the standard applies."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of the standard or guideline."
+                    }
+                }
+            },
+            "RiskEvaluationRequest": {
+                "type": "object",
+                "properties": {
+                    "productId": {
+                        "type": "string",
+                        "description": "The unique identifier for the product."
+                    },
+                    "modifiedData": {
+                        "type": "object",
+                        "description": "The modified product data for evaluation."
+                    }
+                }
+            },
+            "RiskEvaluationResult": {
+                "type": "object",
+                "properties": {
+                    "productId": {
+                        "type": "string",
+                        "description": "The unique identifier for the product evaluated."
+                    },
+                    "riskAssessment": {
+                        "type": "string",
+                        "description": "The result of the risk assessment."
+                    },
+                    "alerts": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ContaminationAlert"
+                        },
+                        "description": "Alerts generated from the risk evaluation."
+                    }
+                }
+            },
+            "UserNotification": {
+                "type": "object",
+                "properties": {
+                    "notificationId": {
+                        "type": "string",
+                        "description": "The unique identifier for the notification."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of notification (alert, information, warning)."
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "The content of the notification."
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The date and time when the notification was sent."
+                    }
+                }
+            }
+        }
+    }
+}

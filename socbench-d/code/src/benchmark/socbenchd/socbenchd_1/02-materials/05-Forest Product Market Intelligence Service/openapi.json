@@ -1,0 +1,398 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Forest-Derived Products Market Insights API",
+        "description": "This API equips businesses with market trends and price analysis for forest-derived products, supporting strategic planning and competitive positioning efforts.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.forestdproductsmarket.com",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/market-trends": {
+            "get": {
+                "summary": "Retrieve Market Trends Analysis",
+                "description": "Retrieve the latest market trends analysis for the forest-derived product industry. Provides insights into current developments and emerging trends.",
+                "parameters": [
+                    {
+                        "name": "productCategory",
+                        "in": "query",
+                        "description": "Filter market trends by product category (e.g., paper, timber, packaging).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "Specify a geographical region to retrieve localized trends.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Market trends data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/price-analysis": {
+            "get": {
+                "summary": "Access Price Fluctuation Data",
+                "description": "Access detailed price fluctuation data for various forest-derived products. This endpoint supports businesses in monitoring pricing trends over time.",
+                "parameters": [
+                    {
+                        "name": "productType",
+                        "in": "query",
+                        "description": "Specify the type of forest-derived product (e.g., lumber, cellulose).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "description": "Start date for the price analysis (format: YYYY-MM-DD).",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "description": "End date for the price analysis (format: YYYY-MM-DD).",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Price fluctuation data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/strategy-recommendations": {
+            "post": {
+                "summary": "Submit Strategic Criteria for Recommendations",
+                "description": "Submit specific strategic criteria to receive tailored recommendations for forest-derived products business planning.",
+                "requestBody": {
+                    "description": "Details of the strategic criteria.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "goal": {
+                                        "type": "string",
+                                        "description": "The business goal (e.g., market expansion, cost optimization)."
+                                    },
+                                    "timeframe": {
+                                        "type": "string",
+                                        "description": "The time period for the strategic initiative (e.g., short-term, long-term)."
+                                    },
+                                    "constraints": {
+                                        "type": "array",
+                                        "description": "Business constraints such as budget or capacity.",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "goal"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Strategy recommendations generated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/historical-data": {
+            "get": {
+                "summary": "Retrieve Historical Trends Data",
+                "description": "Access historical data on trends in forest product markets to support long-term market analysis and forecasting.",
+                "parameters": [
+                    {
+                        "name": "productType",
+                        "in": "query",
+                        "description": "Specify the type of forest-derived product (e.g., logs, packaging, paper).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "description": "Start date for the historical trend data (format: YYYY-MM-DD).",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "description": "End date for the historical trend data (format: YYYY-MM-DD).",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historical data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/competitive-insights": {
+            "get": {
+                "summary": "Acquire Competitive Positioning Insights",
+                "description": "Retrieve tailored insights into competitive positioning strategies in the forest-derived products sector. Helpful for understanding market dynamics.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "Specify a region for localized competitive insights.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Competitive insights retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/custom-report": {
+            "post": {
+                "summary": "Request a Custom Report",
+                "description": "Request a custom report based on specified market parameters and business needs.",
+                "requestBody": {
+                    "description": "Input required for the custom report.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Report parameters (e.g., product types, regions).",
+                                        "additionalProperties": true
+                                    },
+                                    "deliveryFormat": {
+                                        "type": "string",
+                                        "description": "Preferred delivery format for the custom report (e.g., PDF, Excel).",
+                                        "enum": [
+                                            "PDF",
+                                            "Excel",
+                                            "CSV"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "parameters"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Custom report requested successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/resource-usage-statistics": {
+            "get": {
+                "summary": "Retrieve Resource Usage Statistics",
+                "description": "Obtain data on usage and consumption trends for forest-derived resources to evaluate demand and resource efficiency.",
+                "responses": {
+                    "200": {
+                        "description": "Resource usage statistics retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/geographical-analysis": {
+            "get": {
+                "summary": "Access Market Data by Region",
+                "description": "Access market data for forest-derived products segmented by geographical regions.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "Specify the region to analyze (e.g., North America, EU).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "productType",
+                        "in": "query",
+                        "description": "Specify the type of forest-derived product (e.g., pulp, timber).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Geographical analysis data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/regulatory-updates": {
+            "get": {
+                "summary": "Get Regulatory Updates",
+                "description": "Stay informed about regulations and policies impacting the forest-derived products industry.",
+                "responses": {
+                    "200": {
+                        "description": "Regulatory updates retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/subscribe-updates": {
+            "post": {
+                "summary": "Subscribe to Automatic Updates and Alerts",
+                "description": "Subscribe to alerts for specific market changes or updates in the forest-derived products space.",
+                "requestBody": {
+                    "description": "Input for subscription preferences.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "description": "Email address to receive alerts."
+                                    },
+                                    "preferences": {
+                                        "type": "array",
+                                        "description": "List of preferences for updates.",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "preferences"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Subscription successful.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

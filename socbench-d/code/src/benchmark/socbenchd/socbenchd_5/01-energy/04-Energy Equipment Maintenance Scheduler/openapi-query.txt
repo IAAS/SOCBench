@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+Supports enterprises in scheduling and managing maintenance activities for energy sector equipment to ensure operational reliability and reduce downtime.
+
+Endpoints:
+GET /maintenance/schedule: Retrieve the scheduled maintenance activities for various energy equipment.
+POST /maintenance/create: Create a new maintenance activity schedule.
+PUT /maintenance/update/{id}: Update an existing maintenance schedule identified by its ID.
+DELETE /maintenance/delete/{id}: Remove a specific maintenance activity from the schedule using its unique ID.
+GET /equipment/status: Fetch the current operational status of the energy sector equipment.
+POST /alerts/create: Generate a new alert for specified equipment based on predefined conditions.
+GET /alerts: List all current alerts associated with energy sector equipment.
+PUT /equipment/{id}/maintenance-status: Mark the maintenance status of specific equipment identified by its ID.
+GET /reports/maintenance: Retrieve detailed reports on past maintenance activities.
+GET /metrics/performance: Access performance metrics for equipment to ensure operational reliability.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

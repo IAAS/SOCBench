@@ -1,0 +1,493 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+OpenAPI:
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Energy Insights API",
+        "description": "This API provides utilities and industries with insights regarding energy usage patterns, helping optimize consumption and reduce costs.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.energyinsights.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/energy-patterns": {
+            "get": {
+                "summary": "Retrieve energy consumption patterns",
+                "description": "Fetch detailed energy consumption patterns across various sectors, including breakdowns and trends over time.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved energy consumption patterns.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "sectors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "sectorName": {
+                                                        "type": "string",
+                                                        "description": "Name of the sector."
+                                                    },
+                                                    "energyUsage": {
+                                                        "type": "number",
+                                                        "description": "Energy usage in the sector."
+                                                    }
+                                                }
+                                            },
+                                            "description": "Array of sectors with their respective energy usage."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/optimize-usage": {
+            "post": {
+                "summary": "Submit energy optimization parameters",
+                "description": "Send user-specific energy optimization parameters for analysis to receive recommendations.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "usagePatterns": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "number"
+                                        },
+                                        "description": "Historical energy usage patterns for optimization analysis."
+                                    },
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Additional parameters for the optimization process."
+                                    }
+                                },
+                                "required": [
+                                    "usagePatterns",
+                                    "parameters"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully submitted parameters for optimization.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "description": "Acknowledgment of optimization submission.",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Optimization parameters successfully submitted."
+                                        },
+                                        "optimizationId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the optimization request."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/forecast-usage": {
+            "get": {
+                "summary": "Forecast energy usage",
+                "description": "Provide future energy usage forecasts leveraging historical data.",
+                "parameters": [
+                    {
+                        "name": "sector",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Optional parameter to specify a particular sector for the forecast."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved energy usage forecast.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "forecastPeriod": {
+                                            "type": "string",
+                                            "description": "Time period covered by the forecast. Example: '2025 Q2'."
+                                        },
+                                        "forecastData": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "timestamp": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "description": "Timestamp of the forecasted data."
+                                                    },
+                                                    "predictedUsage": {
+                                                        "type": "number",
+                                                        "description": "Predicted energy usage at this time."
+                                                    }
+                                                }
+                                            },
+                                            "description": "Array of forecasted usage data."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cost-analysis": {
+            "get": {
+                "summary": "Retrieve cost analysis",
+                "description": "Retrieve cost evaluations based on current energy consumption trends.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved cost analysis.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "currentCosts": {
+                                            "type": "number",
+                                            "description": "Current energy costs based on consumption trends."
+                                        },
+                                        "breakdown": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "category": {
+                                                        "type": "string",
+                                                        "description": "Category of energy usage (e.g., sector, time period)."
+                                                    },
+                                                    "cost": {
+                                                        "type": "number",
+                                                        "description": "Cost associated with this category."
+                                                    }
+                                                }
+                                            },
+                                            "description": "Cost breakdown by category."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/equipment-monitoring": {
+            "get": {
+                "summary": "Access equipment status and performance",
+                "description": "Retrieve status and performance data for energy-related equipment.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved equipment monitoring data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "equipment": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "equipmentId": {
+                                                        "type": "string",
+                                                        "description": "Unique identifier for the equipment."
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "description": "Current status of the equipment (e.g., 'active', 'maintenance')."
+                                                    },
+                                                    "performanceMetrics": {
+                                                        "type": "object",
+                                                        "description": "Performance metrics of the equipment."
+                                                    }
+                                                }
+                                            },
+                                            "description": "Array of energy equipment details and statuses."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alert-settings": {
+            "post": {
+                "summary": "Create custom energy alerts",
+                "description": "Create customized alerts for unusual energy consumption patterns.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "threshold": {
+                                        "type": "number",
+                                        "description": "Threshold of unusual energy consumption that triggers the alert."
+                                    },
+                                    "sector": {
+                                        "type": "string",
+                                        "description": "Sector for which the alert is created."
+                                    },
+                                    "notificationType": {
+                                        "type": "string",
+                                        "description": "Type of notification (e.g., email, SMS)."
+                                    }
+                                },
+                                "required": [
+                                    "threshold",
+                                    "notificationType"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully created an alert.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "alertId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the created alert."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Confirmation message for the created alert."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sector-trends": {
+            "get": {
+                "summary": "Compare energy usage trends across sectors",
+                "description": "Retrieve insights on energy usage trends, comparing different industry sectors.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved sector trends.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "sectors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "sectorName": {
+                                                        "type": "string",
+                                                        "description": "Name of the sector."
+                                                    },
+                                                    "usageTrend": {
+                                                        "type": "string",
+                                                        "description": "Description of the energy usage trend."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/update-data": {
+            "put": {
+                "summary": "Update energy usage database",
+                "description": "Upload and update the energy usage database with the latest readings for accurate analysis.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "timestamp": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "description": "Time of the data reading."
+                                                },
+                                                "usage": {
+                                                    "type": "number",
+                                                    "description": "Energy usage reading."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated energy usage database.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Confirmation message for database update."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alert-settings/{id}": {
+            "delete": {
+                "summary": "Remove specific energy alert",
+                "description": "Remove a specific energy alert setting using its identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the alert to remove."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Alert successfully deleted.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Confirmation message indicating alert deletion."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/recommendation-report": {
+            "post": {
+                "summary": "Request energy efficiency recommendation report",
+                "description": "Submit a request for a comprehensive report that provides recommendations to improve energy efficiency.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "sector": {
+                                        "type": "string",
+                                        "description": "Sector for which the recommendation report is requested."
+                                    },
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Additional parameters to tailor the report."
+                                    }
+                                },
+                                "required": [
+                                    "sector"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully processed recommendation report request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reportId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the requested recommendation report."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the report request (e.g., 'processing', 'completed')."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

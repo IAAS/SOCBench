@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+Service:
+Provides comprehensive insights into consumer habits on non-durable household items, enabling manufacturers and retailers to make data-driven decisions for product development and inventory strategies.
+
+Endpoints:
+GET /consumers/habits: Retrieve aggregated data on consumer habits related to non-durable household items.
+POST /products/feedback: Submit consumer feedback on specific non-durable household products.
+GET /retailers/inventory/overview: Get inventory usage patterns and projections for better stock management.
+GET /manufacturers/sales/data: Analyze sales data trends for household goods.
+POST /consumer/trends/insights: Request detailed insights into emerging consumer trends.
+GET /items/popularity/metrics: Obtain metrics showcasing the popularity scores of various items.
+POST /recommendations/inventory: Receive recommendations for inventory adjustments based on data analysis.
+GET /product/usage/comparison: Compare usage statistics of specific household items.
+POST /data/custom/reports: Generate custom reports tailored to specific criteria and datasets.
+GET /retailer/satisfaction/rate: View satisfaction rates from retailers regarding product availability.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

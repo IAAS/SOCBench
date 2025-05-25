@@ -1,0 +1,306 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Health Data Insights API",
+    "description": "This API aggregates and analyzes patient health data to generate visual reports and insights. Healthcare providers can use these insights for efficient monitoring, predictive care, and improving treatment outcomes.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/patients": {
+      "post": {
+        "summary": "Add a new patient",
+        "description": "Add a new patient to the system database, including basic information such as name, age, and medical history.",
+        "requestBody": {
+          "description": "Details of the patient to be added",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "description": "Full name of the patient" },
+                  "age": { "type": "integer", "description": "Age of the patient" },
+                  "gender": { "type": "string", "enum": ["male", "female", "other"], "description": "Gender of the patient" },
+                  "medicalHistory": { "type": "array", "items": { "type": "string" }, "description": "List of past medical conditions or treatments" }
+                },
+                "required": ["name", "age", "gender"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Patient successfully added",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Patient" } }
+            }
+          },
+          "400": {
+            "description": "Invalid input data"
+          }
+        }
+      }
+    },
+    "/patients/{patientId}/reports": {
+      "get": {
+        "summary": "Retrieve patient health report",
+        "description": "Retrieve the health report generated for the specified patient, including visual insights and analytics.",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the patient",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Patient health report retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HealthReport" }
+              }
+            }
+          },
+          "404": {
+            "description": "Patient not found"
+          }
+        }
+      }
+    },
+    "/patients/{patientId}": {
+      "put": {
+        "summary": "Update patient medical information",
+        "description": "Update the medical information of an existing patient. This can include edits to their medical history or personal details.",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the patient",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated information of the patient",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "age": { "type": "integer", "description": "Updated age of the patient" },
+                  "gender": { "type": "string", "enum": ["male", "female", "other"], "description": "Updated gender of the patient" },
+                  "medicalHistory": { "type": "array", "items": { "type": "string" }, "description": "Updated list of past medical conditions" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Patient information updated successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Patient" }
+              }
+            }
+          },
+          "404": {
+            "description": "Patient not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete patient record",
+        "description": "Remove a patient's information completely from the system.",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the patient",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Patient information deleted successfully"
+          },
+          "404": {
+            "description": "Patient not found"
+          }
+        }
+      }
+    },
+    "/patients/{patientId}/data": {
+      "post": {
+        "summary": "Submit new health data",
+        "description": "Submit new health data, such as vital signs or diagnostic results, for the specified patient.",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the patient",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "description": "New health data to be submitted",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "vitalSigns": { "type": "object", "description": "Patient's vital signs like heart rate, blood pressure etc." },
+                  "diagnostics": { "type": "array", "items": { "type": "string" }, "description": "Lab results or imaging reports" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Health data submitted successfully"
+          },
+          "404": {
+            "description": "Patient not found"
+          }
+        }
+      }
+    },
+    "/analytics/predictions": {
+      "get": {
+        "summary": "Get predictive analytics",
+        "description": "Access predictive analytics based on aggregated patient data, useful for forecasting trends and outcomes.",
+        "responses": {
+          "200": {
+            "description": "Predictive analytics retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "predictions": { "type": "array", "items": { "type": "string" }, "description": "List of predictive insights and trends" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data/summary": {
+      "get": {
+        "summary": "Get summarized health data insights",
+        "description": "Retrieve summarized insights derived from aggregated health data.",
+        "responses": {
+          "200": {
+            "description": "Health data summary retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "summary": { "type": "string", "description": "Summary of insights based on health data" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/devices": {
+      "get": {
+        "summary": "Get supported health devices",
+        "description": "Fetch a list of health monitoring devices currently supported by the system.",
+        "responses": {
+          "200": {
+            "description": "Supported devices retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts": {
+      "post": {
+        "summary": "Create a new alert",
+        "description": "Create a new alert based on specific health data triggers, allowing healthcare providers to monitor critical conditions.",
+        "requestBody": {
+          "description": "Details of the alert to be created",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "trigger": { "type": "string", "description": "Condition or metric that triggers the alert" },
+                  "severity": { "type": "string", "enum": ["low", "medium", "high"], "description": "Severity of the alert" }
+                },
+                "required": ["trigger", "severity"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Alert created successfully"
+          }
+        }
+      }
+    },
+    "/reports/history": {
+      "get": {
+        "summary": "Get historical reports",
+        "description": "Fetch historical health reports for analysis and review.",
+        "responses": {
+          "200": {
+            "description": "Historical reports retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/HealthReport" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Patient": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "Unique identifier for the patient" },
+          "name": { "type": "string", "description": "Full name of the patient" },
+          "age": { "type": "integer", "description": "Age of the patient" },
+          "gender": { "type": "string", "enum": ["male", "female", "other"], "description": "Gender of the patient" },
+          "medicalHistory": { "type": "array", "items": { "type": "string" }, "description": "Past medical conditions or treatments" }
+        }
+      },
+      "HealthReport": {
+        "type": "object",
+        "properties": {
+          "reportId": { "type": "string", "description": "Unique identifier for the report" },
+          "dateGenerated": { "type": "string", "format": "date-time", "description": "Date and time the report was generated" },
+          "insights": { "type": "string", "description": "Summary of health insights in the report" },
+          "visuals": { "type": "array", "items": { "type": "string" }, "description": "List of visualizations in the report" }
+        }
+      }
+    }
+  }
+}

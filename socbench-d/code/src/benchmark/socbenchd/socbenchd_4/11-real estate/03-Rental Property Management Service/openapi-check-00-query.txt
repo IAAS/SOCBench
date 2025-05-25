@@ -1,0 +1,484 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Rental Property Management API",
+        "description": "API that assists landlords and property managers in organizing rental properties, tenant details, and rental income tracking. Features include maintenance request handling, payment reminders, and agreement management.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.rental-property-manager.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/properties": {
+            "get": {
+                "summary": "Retrieve all rental properties",
+                "description": "Fetch a list of all rental properties currently managed in the system.",
+                "responses": {
+                    "200": {
+                        "description": "List of rental properties fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Property"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new rental property",
+                "description": "Create a new rental property entry in the system.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PropertyInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Rental property created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Property"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/properties/{id}": {
+            "get": {
+                "summary": "Retrieve property by ID",
+                "description": "Fetch detailed information about a specific property by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique identifier of the property",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Property details retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Property"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update property information",
+                "description": "Modify details of a specific property identified by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique identifier of the property",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PropertyInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Property information updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Property"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tenants": {
+            "get": {
+                "summary": "Retrieve all tenants",
+                "description": "Fetch a list of all tenants associated with the managed properties.",
+                "responses": {
+                    "200": {
+                        "description": "List of tenants fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Tenant"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new tenant",
+                "description": "Create a new tenant entry in the system and associate them with a property.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TenantInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tenant created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Tenant"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tenants/{id}": {
+            "get": {
+                "summary": "Retrieve tenant by ID",
+                "description": "Fetch details of a specific tenant using their unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique identifier of the tenant",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tenant details retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Tenant"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/maintenance-requests": {
+            "post": {
+                "summary": "Submit maintenance request",
+                "description": "Create a new maintenance request for a specific property.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MaintenanceRequestInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Maintenance request submitted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MaintenanceRequest"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rental-payments": {
+            "get": {
+                "summary": "Retrieve rental payment history",
+                "description": "Fetch the history of rental payments for all properties managed in the system.",
+                "responses": {
+                    "200": {
+                        "description": "Rental payment history retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RentalPayment"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rental-agreements": {
+            "post": {
+                "summary": "Create new rental agreement",
+                "description": "Generate a new rental agreement between a landlord and a tenant.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RentalAgreementInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Rental agreement created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RentalAgreement"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Property": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the property"
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "Address of the property"
+                    },
+                    "landlordId": {
+                        "type": "string",
+                        "description": "ID of the landlord managing the property"
+                    }
+                }
+            },
+            "PropertyInput": {
+                "type": "object",
+                "properties": {
+                    "address": {
+                        "type": "string",
+                        "description": "Address of the property"
+                    },
+                    "landlordId": {
+                        "type": "string",
+                        "description": "ID of the landlord managing the property"
+                    }
+                },
+                "required": [
+                    "address",
+                    "landlordId"
+                ]
+            },
+            "Tenant": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the tenant"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the tenant"
+                    },
+                    "propertyId": {
+                        "type": "string",
+                        "description": "ID of the property the tenant is associated with"
+                    }
+                }
+            },
+            "TenantInput": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the tenant"
+                    },
+                    "propertyId": {
+                        "type": "string",
+                        "description": "ID of the property the tenant will be associated with"
+                    }
+                },
+                "required": [
+                    "name",
+                    "propertyId"
+                ]
+            },
+            "MaintenanceRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the maintenance request"
+                    },
+                    "propertyId": {
+                        "type": "string",
+                        "description": "ID of the property associated with the maintenance request"
+                    },
+                    "issue": {
+                        "type": "string",
+                        "description": "Description of the maintenance issue"
+                    }
+                }
+            },
+            "MaintenanceRequestInput": {
+                "type": "object",
+                "properties": {
+                    "propertyId": {
+                        "type": "string",
+                        "description": "ID of the property associated with the maintenance request"
+                    },
+                    "issue": {
+                        "type": "string",
+                        "description": "Description of the maintenance issue"
+                    }
+                },
+                "required": [
+                    "propertyId",
+                    "issue"
+                ]
+            },
+            "RentalPayment": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the rental payment"
+                    },
+                    "propertyId": {
+                        "type": "string",
+                        "description": "ID of the property associated with the rental payment"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "description": "Amount of the rental payment"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Date of the rental payment"
+                    }
+                }
+            },
+            "RentalAgreement": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the rental agreement"
+                    },
+                    "propertyId": {
+                        "type": "string",
+                        "description": "ID of the property associated with the rental agreement"
+                    },
+                    "tenantId": {
+                        "type": "string",
+                        "description": "ID of the tenant associated with the rental agreement"
+                    },
+                    "startDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Start date of the rental agreement"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "End date of the rental agreement"
+                    }
+                }
+            },
+            "RentalAgreementInput": {
+                "type": "object",
+                "properties": {
+                    "propertyId": {
+                        "type": "string",
+                        "description": "ID of the property associated with the rental agreement"
+                    },
+                    "tenantId": {
+                        "type": "string",
+                        "description": "ID of the tenant associated with the rental agreement"
+                    },
+                    "startDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Start date of the rental agreement"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "End date of the rental agreement"
+                    }
+                },
+                "required": [
+                    "propertyId",
+                    "tenantId",
+                    "startDate",
+                    "endDate"
+                ]
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

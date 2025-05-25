@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /products",
+            "description": "Retrieve a list of all available consumer staple products for integration."
+        },
+        {
+            "endpoint": "POST /products",
+            "description": "Add a new consumer staple product to the system for integration."
+        },
+        {
+            "endpoint": "PUT /products/{productId}",
+            "description": "Update details of a specific consumer staple product using its ID."
+        },
+        {
+            "endpoint": "DELETE /products/{productId}",
+            "description": "Remove a specific consumer staple product from the system using its ID."
+        },
+        {
+            "endpoint": "GET /categories",
+            "description": "Retrieve a list of product categories for organizational purposes."
+        },
+        {
+            "endpoint": "POST /orders",
+            "description": "Place a new order to restock specific consumer staple products."
+        },
+        {
+            "endpoint": "GET /orders/{orderId}",
+            "description": "Retrieve details and status of a specific order using its ID."
+        },
+        {
+            "endpoint": "POST /analytics",
+            "description": "Request analytics and sales trends for consumer staple products."
+        },
+        {
+            "endpoint": "GET /recommendations",
+            "description": "Obtain product recommendations based on sales data and trends."
+        },
+        {
+            "endpoint": "GET /promotions",
+            "description": "View active promotions and discounts for consumer staple products."
+        }
+    ]
+}

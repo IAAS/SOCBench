@@ -1,0 +1,523 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Mortgage Loan Eligibility API",
+        "version": "1.0.0",
+        "description": "This API helps users determine their eligibility for mortgage loans, simulate loans, fetch financial and credit data, and manage mortgage applications. It also provides tools for property valuation and accessing current loan rates."
+    },
+    "servers": [
+        {
+            "url": "https://api.mortgage-loan.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/loan/eligibility": {
+            "post": {
+                "summary": "Calculate mortgage loan eligibility",
+                "description": "Analyze a user's financial data and credit score to determine their eligibility for a mortgage loan.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "income": {
+                                        "type": "number",
+                                        "description": "User's annual income."
+                                    },
+                                    "debt": {
+                                        "type": "number",
+                                        "description": "Total existing debt of the user."
+                                    },
+                                    "creditScore": {
+                                        "type": "integer",
+                                        "description": "User's current credit score."
+                                    },
+                                    "loanAmount": {
+                                        "type": "number",
+                                        "description": "Requested loan amount."
+                                    },
+                                    "loanTerm": {
+                                        "type": "integer",
+                                        "description": "Requested loan term in years."
+                                    }
+                                },
+                                "required": [
+                                    "income",
+                                    "debt",
+                                    "creditScore",
+                                    "loanAmount",
+                                    "loanTerm"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Eligibility result returned successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "eligible": {
+                                            "type": "boolean",
+                                            "description": "Whether the user is eligible."
+                                        },
+                                        "maxLoanAmount": {
+                                            "type": "number",
+                                            "description": "Maximum loan amount the user is eligible for."
+                                        },
+                                        "messages": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "description": "Additional messages or recommendations."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input provided."
+                    }
+                }
+            }
+        },
+        "/rates/current": {
+            "get": {
+                "summary": "Retrieve current mortgage interest rates",
+                "description": "Get the latest interest rates for different mortgage loan categories.",
+                "responses": {
+                    "200": {
+                        "description": "Rates fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "rates": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "category": {
+                                                        "type": "string",
+                                                        "description": "Mortgage loan category (e.g., fixed, adjustable)."
+                                                    },
+                                                    "rate": {
+                                                        "type": "number",
+                                                        "description": "The current interest rate for the category."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/loan/simulate": {
+            "post": {
+                "summary": "Simulate loan repayment terms",
+                "description": "Simulate repayment amounts and terms for a potential loan scenario based on input financial data.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "loanAmount": {
+                                        "type": "number",
+                                        "description": "Loan amount to simulate."
+                                    },
+                                    "loanTerm": {
+                                        "type": "integer",
+                                        "description": "Loan repayment period in years."
+                                    },
+                                    "interestRate": {
+                                        "type": "number",
+                                        "description": "Applicable interest rate for simulation."
+                                    }
+                                },
+                                "required": [
+                                    "loanAmount",
+                                    "loanTerm",
+                                    "interestRate"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Simulation results returned successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "monthlyPayment": {
+                                            "type": "number",
+                                            "description": "Estimated monthly repayment."
+                                        },
+                                        "totalPayment": {
+                                            "type": "number",
+                                            "description": "Total repayment amount over the loan term."
+                                        },
+                                        "interestPaid": {
+                                            "type": "number",
+                                            "description": "Total interest paid during the loan term."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/credit-score": {
+            "get": {
+                "summary": "Fetch user's credit score",
+                "description": "Retrieve the user's most recent credit score if authorized.",
+                "responses": {
+                    "200": {
+                        "description": "Credit score fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "creditScore": {
+                                            "type": "integer",
+                                            "description": "User's credit score."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access unauthorized."
+                    }
+                }
+            }
+        },
+        "/loan/application": {
+            "post": {
+                "summary": "Submit a new mortgage loan application",
+                "description": "Submit a detailed application for a mortgage loan.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the applicant."
+                                    },
+                                    "loanDetails": {
+                                        "type": "object",
+                                        "properties": {
+                                            "loanAmount": {
+                                                "type": "number",
+                                                "description": "Requested loan amount."
+                                            },
+                                            "loanTerm": {
+                                                "type": "integer",
+                                                "description": "Requested loan term in years."
+                                            },
+                                            "propertyDetails": {
+                                                "type": "string",
+                                                "description": "Description of the property for which the loan is intended."
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "loanDetails"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Application submitted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "applicationId": {
+                                            "type": "string",
+                                            "description": "Unique ID of the loan application."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the application (e.g., pending, approved)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/loan/application/{id}": {
+            "get": {
+                "summary": "Retrieve mortgage application status",
+                "description": "Get the current status of a specified mortgage loan application.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the loan application."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Application status fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "applicationId": {
+                                            "type": "string",
+                                            "description": "Loan's application ID."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the loan application."
+                                        },
+                                        "lastUpdated": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "Last update timestamp for the application."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/property/valuation": {
+            "post": {
+                "summary": "Request property valuation report",
+                "description": "Submit a request to evaluate the market value of a property intended for a mortgage.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "propertyAddress": {
+                                        "type": "string",
+                                        "description": "Physical address of the property."
+                                    },
+                                    "propertyType": {
+                                        "type": "string",
+                                        "description": "Type of the property (e.g., residential, commercial)."
+                                    },
+                                    "estimatedValue": {
+                                        "type": "number",
+                                        "description": "Estimated value of the property."
+                                    }
+                                },
+                                "required": [
+                                    "propertyAddress",
+                                    "propertyType"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Valuation report request submitted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "valuationId": {
+                                            "type": "string",
+                                            "description": "Unique ID of the valuation report request."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Request status (e.g., pending, completed)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/financial-summary": {
+            "get": {
+                "summary": "Fetch user's financial summary",
+                "description": "Retrieve a summarized report of the user's financial history for loan consideration.",
+                "responses": {
+                    "200": {
+                        "description": "Summary fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "incomeHistory": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "year": {
+                                                        "type": "integer",
+                                                        "description": "Year of the record."
+                                                    },
+                                                    "income": {
+                                                        "type": "number",
+                                                        "description": "Reported income for the year."
+                                                    }
+                                                }
+                                            },
+                                            "description": "Yearly income history."
+                                        },
+                                        "debtHistory": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "year": {
+                                                        "type": "integer",
+                                                        "description": "Year of the record."
+                                                    },
+                                                    "debt": {
+                                                        "type": "number",
+                                                        "description": "Reported debt for the year."
+                                                    }
+                                                }
+                                            },
+                                            "description": "Yearly debt history."
+                                        },
+                                        "creditScoreHistory": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "year": {
+                                                        "type": "integer",
+                                                        "description": "Year of the record."
+                                                    },
+                                                    "creditScore": {
+                                                        "type": "integer",
+                                                        "description": "Credit score for the year."
+                                                    }
+                                                }
+                                            },
+                                            "description": "Credit score history."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/loan/history": {
+            "get": {
+                "summary": "Retrieve user's loan history",
+                "description": "Get a historical summary of all loans taken by the user.",
+                "responses": {
+                    "200": {
+                        "description": "Loan history fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "loanId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the loan."
+                                            },
+                                            "loanAmount": {
+                                                "type": "number",
+                                                "description": "Amount for the loan."
+                                            },
+                                            "loanTerm": {
+                                                "type": "integer",
+                                                "description": "Repayment period of the loan."
+                                            },
+                                            "startDate": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Loan start date."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current status of the loan (e.g., active, repaid)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/documentation/api": {
+            "get": {
+                "summary": "Access API documentation",
+                "description": "Retrieve detailed documentation for the mortgage service API features, endpoints, and usage guidelines.",
+                "responses": {
+                    "200": {
+                        "description": "Documentation fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "documentationUrl": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "URL to access the full API documentation."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {}
+}

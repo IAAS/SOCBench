@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+This RESTful service provides industrial companies the ability to track, manage, and schedule maintenance operations for aerospace machinery and vehicles. Features include equipment status monitoring, maintenance history retrieval, and predictive analysis for future needs.
+
+Endpoints:
+GET /equipment-status: Retrieve the current operational status and diagnostics of all registered equipment.
+POST /maintenance-schedule: Create and schedule a new maintenance operation for a specified piece of equipment.
+GET /maintenance-history/{equipmentId}: Fetch the maintenance logs and actions performed on a specific piece of equipment.
+DELETE /maintenance-schedule/{scheduleId}: Cancel a previously scheduled maintenance operation by its unique identifier.
+PUT /equipment/{equipmentId}: Update the information or operational parameters of a specific equipment.
+GET /predictive-analysis: Run predictive maintenance analysis and receive insights for future operations.
+POST /equipment: Register a new piece of equipment within the maintenance tracking system.
+DELETE /equipment/{equipmentId}: Remove an equipment entry from the tracking system by its unique identifier.
+GET /alerts: Retrieve the list of all active maintenance and status alerts.
+POST /feedback: Submit feedback or report issues concerning equipment management or maintenance processes.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

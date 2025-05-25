@@ -1,0 +1,420 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Entertainment Venue Booking API",
+        "description": "API for facilitating bookings for entertainment venues such as theaters, sports arenas, and amusement parks. Allows users to reserve tickets, receive notifications, compare prices, and manage preferences.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/venues": {
+            "get": {
+                "summary": "Get all venues",
+                "description": "Retrieve a list of available entertainment venues with essential details such as name, location, and type.",
+                "responses": {
+                    "200": {
+                        "description": "List of venues successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the venue."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the entertainment venue."
+                                            },
+                                            "location": {
+                                                "type": "string",
+                                                "description": "Location of the venue."
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "description": "Type of venue (e.g., theater, sports arena, amusement park)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/venues/{id}": {
+            "get": {
+                "summary": "Get venue details",
+                "description": "Retrieve detailed information about a specific venue using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the venue.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Venue details successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the venue."
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "description": "Name of the entertainment venue."
+                                        },
+                                        "location": {
+                                            "type": "string",
+                                            "description": "Location of the venue."
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "description": "Type of venue (e.g., theater, sports arena, amusement park)."
+                                        },
+                                        "details": {
+                                            "type": "string",
+                                            "description": "Additional details about the venue."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bookings": {
+            "get": {
+                "summary": "Get all bookings",
+                "description": "List all bookings associated with the requesting user.",
+                "responses": {
+                    "200": {
+                        "description": "Bookings retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "bookingId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the booking."
+                                            },
+                                            "venueId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the booked venue."
+                                            },
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Date of the booking."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Status of the booking (e.g., confirmed, cancelled)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a booking",
+                "description": "Create a new booking for a selected venue and date.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "venueId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the venue."
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Preferred booking date."
+                                    }
+                                },
+                                "required": [
+                                    "venueId",
+                                    "date"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Booking created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "bookingId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the booking."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the booking."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bookings/{id}": {
+            "delete": {
+                "summary": "Cancel a booking",
+                "description": "Cancel an existing booking using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the booking.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Booking cancelled successfully."
+                    }
+                }
+            }
+        },
+        "/availability": {
+            "get": {
+                "summary": "Check ticket availability",
+                "description": "Check ticket availability for a specific venue and date.",
+                "parameters": [
+                    {
+                        "name": "venueId",
+                        "in": "query",
+                        "required": true,
+                        "description": "Unique identifier of the venue.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "required": true,
+                        "description": "Date for which availability is being checked.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ticket availability information retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "available": {
+                                            "type": "boolean",
+                                            "description": "Indicates whether tickets are available."
+                                        },
+                                        "remainingTickets": {
+                                            "type": "integer",
+                                            "description": "Number of tickets remaining."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications": {
+            "get": {
+                "summary": "Retrieve notifications",
+                "description": "Get all user-subscribed notifications regarding ticket availability.",
+                "responses": {
+                    "200": {
+                        "description": "Notifications retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "notificationId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the notification."
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "description": "Content of the notification."
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Timestamp of the notification."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/compare-prices": {
+            "post": {
+                "summary": "Compare ticket prices",
+                "description": "Submit a request to compare ticket prices among multiple venues.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "venues": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of venue IDs for price comparison."
+                                    }
+                                },
+                                "required": [
+                                    "venues"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Price comparison data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "venueId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the venue."
+                                            },
+                                            "ticketPrice": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Price of a ticket for the venue."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/preferences": {
+            "put": {
+                "summary": "Update user preferences",
+                "description": "Update user preferences related to venue features and notifications.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "notificationPreferences": {
+                                        "type": "object",
+                                        "description": "User preferences regarding notifications.",
+                                        "properties": {
+                                            "emailNotifications": {
+                                                "type": "boolean",
+                                                "description": "Enable/disable email notifications."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Preferences updated successfully."
+                    }
+                }
+            }
+        },
+        "/recommendations": {
+            "get": {
+                "summary": "Get venue recommendations",
+                "description": "Receive recommendations for venues based on user preferences and booking history.",
+                "responses": {
+                    "200": {
+                        "description": "Recommendations retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "venueId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the recommended venue."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the recommended venue."
+                                            },
+                                            "reason": {
+                                                "type": "string",
+                                                "description": "Reason for the recommendation."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

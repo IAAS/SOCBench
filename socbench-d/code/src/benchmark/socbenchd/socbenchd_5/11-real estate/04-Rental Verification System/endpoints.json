@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /applicants/{applicant_id}",
+            "description": "Retrieve detailed information about a specific rental applicant."
+        },
+        {
+            "endpoint": "POST /applicants",
+            "description": "Submit a new rental applicant's data for review and validation."
+        },
+        {
+            "endpoint": "GET /verifications",
+            "description": "List all completed verifications performed for rental applicants."
+        },
+        {
+            "endpoint": "POST /verifications",
+            "description": "Initiate a background and credential check for a rental applicant."
+        },
+        {
+            "endpoint": "GET /history/{applicant_id}",
+            "description": "Retrieve the rental and payment history of a specific applicant."
+        },
+        {
+            "endpoint": "GET /properties",
+            "description": "Browse the list of registered rental properties to match with verified applicants."
+        },
+        {
+            "endpoint": "POST /reports",
+            "description": "Generate and download a compliance and eligibility report for a rental applicant."
+        },
+        {
+            "endpoint": "GET /status/{verification_id}",
+            "description": "Check the current status of a verification process by its unique identifier."
+        },
+        {
+            "endpoint": "PUT /applicants/{applicant_id}",
+            "description": "Update existing information of a rental applicant."
+        },
+        {
+            "endpoint": "DELETE /verifications/{verification_id}",
+            "description": "Cancel an ongoing or completed rental verification process by its identifier."
+        }
+    ]
+}

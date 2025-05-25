@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /properties/price-insights",
+            "description": "Retrieve real-time pricing insights for a specific property based on its ID or address."
+        },
+        {
+            "endpoint": "POST /properties/estimate-value",
+            "description": "Submit property attributes and receive an estimated current market value."
+        },
+        {
+            "endpoint": "GET /market-trends",
+            "description": "Retrieve the latest market trends and data by region."
+        },
+        {
+            "endpoint": "GET /properties/comparables",
+            "description": "Fetch a list of comparable properties for a specified property."
+        },
+        {
+            "endpoint": "GET /regions/statistics",
+            "description": "Get detailed regional statistics influencing property valuations."
+        },
+        {
+            "endpoint": "PUT /users/preferences",
+            "description": "Update user preferences for notifications and updates on property market changes."
+        },
+        {
+            "endpoint": "GET /properties/recommendations",
+            "description": "Obtain recommendations for properties based on market insights and user-defined criteria."
+        },
+        {
+            "endpoint": "GET /properties/search",
+            "description": "Search for properties using advanced filters like price range, area, and type."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit feedback or queries regarding the service and its reports."
+        },
+        {
+            "endpoint": "GET /help",
+            "description": "Access a help center detailing usage guidelines and available features of the service."
+        }
+    ]
+}

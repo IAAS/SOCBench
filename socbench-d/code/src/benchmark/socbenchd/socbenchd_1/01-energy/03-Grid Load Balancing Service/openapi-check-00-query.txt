@@ -1,0 +1,581 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Electricity Demand Monitoring and Prediction Service API",
+        "description": "An API for monitoring and predicting electricity demand using historical and real-time data to ensure a balanced and stable energy grid.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.energysector.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/electricity-demand": {
+            "get": {
+                "summary": "Fetch Historical Electricity Demand",
+                "description": "Retrieve historical electricity demand data for further analysis. The data can be used to identify trends and improve future demand predictions.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "The start date for fetching historical demand data in YYYY-MM-DD format.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "The end date for fetching historical demand data in YYYY-MM-DD format.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of historical demand data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "timestamp": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "demand": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/electricity-demand/prediction": {
+            "post": {
+                "summary": "Submit Parameters for Electricity Demand Prediction",
+                "description": "Submit necessary parameters for predicting future electricity demand using historical and real-time data.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "historical_data": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "timestamp": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "demand": {
+                                                    "type": "number"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "real_time_data": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "timestamp": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "demand": {
+                                                    "type": "number"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "additional_parameters": {
+                                        "type": "object",
+                                        "properties": {
+                                            "weather_conditions": {
+                                                "type": "string",
+                                                "description": "Current weather conditions affecting demand prediction."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Demand prediction processed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "prediction": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "timestamp": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "predicted_demand": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/real-time-data": {
+            "get": {
+                "summary": "Retrieve Real-Time Energy Data",
+                "description": "Fetch currently available energy consumption and demand data in real-time for up-to-date grid analysis.",
+                "responses": {
+                    "200": {
+                        "description": "Real-time data successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "timestamp": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "demand": {
+                                                    "type": "number"
+                                                },
+                                                "supply": {
+                                                    "type": "number"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/smart-meters/data": {
+            "post": {
+                "summary": "Upload Smart Meter Data",
+                "description": "Submit data collected from smart meters for processing and integration into the system.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "smart_meter_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the smart meter."
+                                    },
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "timestamp": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "usage": {
+                                                    "type": "number",
+                                                    "description": "Energy usage in kWh."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Smart meter data uploaded successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/grid/balance/status": {
+            "get": {
+                "summary": "Retrieve Grid Balance Status",
+                "description": "Fetch the current status of the grid's balance and stability.",
+                "responses": {
+                    "200": {
+                        "description": "Grid balance status retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "grid_status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "stable",
+                                                "unstable"
+                                            ]
+                                        },
+                                        "details": {
+                                            "type": "object",
+                                            "properties": {
+                                                "overload": {
+                                                    "type": "boolean"
+                                                },
+                                                "frequency": {
+                                                    "type": "number",
+                                                    "description": "Grid frequency in Hz."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/configure": {
+            "post": {
+                "summary": "Set Up Alerts for Energy Grid Issues",
+                "description": "Configure settings to receive alerts when issues related to energy demand and supply occur.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "alert_types": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "enum": [
+                                                "overload",
+                                                "low_supply",
+                                                "demand_spike"
+                                            ]
+                                        }
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "description": "Email address to send alerts."
+                                    },
+                                    "thresholds": {
+                                        "type": "object",
+                                        "properties": {
+                                            "demand": {
+                                                "type": "number",
+                                                "description": "Threshold for demand spikes."
+                                            },
+                                            "supply": {
+                                                "type": "number",
+                                                "description": "Threshold for low supply."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert configuration set successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/monthly": {
+            "get": {
+                "summary": "Download Monthly Energy Reports",
+                "description": "Fetch downloadable reports on electricity consumption and grid performance for the past month.",
+                "parameters": [
+                    {
+                        "name": "month",
+                        "in": "query",
+                        "description": "Specify the month for the report in YYYY-MM format.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(\\d{4})-(0[1-9]|1[0-2])$"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Monthly report retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "report_url": {
+                                            "type": "string",
+                                            "description": "URL to download the monthly report."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensors/calibration": {
+            "put": {
+                "summary": "Adjust Sensor Calibration",
+                "description": "Update calibration settings for sensors to ensure accurate measurements.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "sensor_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the sensor to be calibrated."
+                                    },
+                                    "calibration_settings": {
+                                        "type": "object",
+                                        "properties": {
+                                            "factor": {
+                                                "type": "number",
+                                                "description": "Calibration factor for adjustment."
+                                            },
+                                            "offset": {
+                                                "type": "number",
+                                                "description": "Offset value to apply to sensor measurements."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sensor calibration updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/weather-impact-analysis": {
+            "get": {
+                "summary": "Analyze Weather's Impact on Electricity Demand",
+                "description": "Evaluate the effect of weather conditions on electricity demand trends.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "The start date for analysis in YYYY-MM-DD format.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "The end date for analysis in YYYY-MM-DD format.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Weather impact analysis data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "impact": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "temperature": {
+                                                        "type": "number",
+                                                        "description": "Temperature recorded on the date."
+                                                    },
+                                                    "impact_on_demand": {
+                                                        "type": "number",
+                                                        "description": "Calculated impact of weather on demand."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/renewable/integration/status": {
+            "post": {
+                "summary": "Submit Renewable Energy Integration Data",
+                "description": "Send data about the integration status of renewable energy sources into the energy grid.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "source": {
+                                        "type": "string",
+                                        "enum": [
+                                            "solar",
+                                            "wind",
+                                            "hydro"
+                                        ],
+                                        "description": "Type of renewable energy source."
+                                    },
+                                    "capacity": {
+                                        "type": "number",
+                                        "description": "Capacity of the energy source (in MW)."
+                                    },
+                                    "integration_status": {
+                                        "type": "string",
+                                        "description": "Status of the integration process.",
+                                        "enum": [
+                                            "integrated",
+                                            "pending",
+                                            "failed"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Renewable energy integration data submitted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

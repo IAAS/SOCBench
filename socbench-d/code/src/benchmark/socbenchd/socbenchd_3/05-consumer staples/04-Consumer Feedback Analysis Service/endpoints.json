@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /feedback",
+            "description": "Retrieve a list of all customer feedback and reviews aggregated from various platforms."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit a new piece of customer feedback for analysis."
+        },
+        {
+            "endpoint": "GET /feedback/summary",
+            "description": "Access a summary of customer feedback analysis for aggregated insights."
+        },
+        {
+            "endpoint": "GET /products",
+            "description": "Retrieve a list of all products being monitored for feedback analysis."
+        },
+        {
+            "endpoint": "POST /products",
+            "description": "Add a new product to the monitoring list for feedback analysis."
+        },
+        {
+            "endpoint": "GET /insights",
+            "description": "Retrieve detailed insights derived from the analyzed customer feedback."
+        },
+        {
+            "endpoint": "PUT /products/{id}",
+            "description": "Update the details of a specific product being monitored."
+        },
+        {
+            "endpoint": "DELETE /products/{id}",
+            "description": "Remove a product from the monitoring list based on its ID."
+        },
+        {
+            "endpoint": "GET /trends",
+            "description": "Retrieve trend data based on customer feedback over specified time intervals."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Configure custom alerts based on specific feedback trends or insights."
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /menu/template",
+            "description": "Create a new menu template based on the restaurant's offerings."
+        },
+        {
+            "endpoint": "GET /menu/template/{id}",
+            "description": "Retrieve a detailed view of a specific menu template by its identifier."
+        },
+        {
+            "endpoint": "PUT /menu/template/{id}",
+            "description": "Update an existing menu template with the provided changes."
+        },
+        {
+            "endpoint": "DELETE /menu/template/{id}",
+            "description": "Remove a specific menu template by its identifier."
+        },
+        {
+            "endpoint": "POST /dishes/customize",
+            "description": "Create a custom configuration for a dish accounting for user's selected preferences."
+        },
+        {
+            "endpoint": "GET /dishes/preferences",
+            "description": "Retrieve a list of predefined dietary preferences for user customization."
+        },
+        {
+            "endpoint": "POST /allergens/check",
+            "description": "Analyze a dish's ingredients to identify potential allergens based on user input."
+        },
+        {
+            "endpoint": "GET /restaurants/{id}/menu",
+            "description": "Retrieve the entire menu for a specific restaurant including categorized dishes."
+        },
+        {
+            "endpoint": "PUT /dishes/{id}/popularity",
+            "description": "Update the popularity metric of a dish for analytics purposes."
+        },
+        {
+            "endpoint": "POST /feedback/menu",
+            "description": "Submit user feedbacks related to the menu browsing and selection experience."
+        }
+    ]
+}

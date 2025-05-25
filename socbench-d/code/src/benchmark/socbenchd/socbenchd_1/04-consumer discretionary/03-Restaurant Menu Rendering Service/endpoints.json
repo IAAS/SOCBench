@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /menus",
+            "description": "Retrieve the list of all currently configured menus for the establishment."
+        },
+        {
+            "endpoint": "GET /menus/{id}",
+            "description": "Fetch details of a specific menu by its identifier."
+        },
+        {
+            "endpoint": "POST /menus",
+            "description": "Create a new menu with customizable options and configurations."
+        },
+        {
+            "endpoint": "PUT /menus/{id}",
+            "description": "Update an existing menu identified by its ID with new details."
+        },
+        {
+            "endpoint": "DELETE /menus/{id}",
+            "description": "Remove a specific menu based on its ID."
+        },
+        {
+            "endpoint": "GET /ingredients",
+            "description": "List all available ingredients for menu customization."
+        },
+        {
+            "endpoint": "POST /ingredients",
+            "description": "Add new ingredients to the available pool for menu creation."
+        },
+        {
+            "endpoint": "DELETE /ingredients/{id}",
+            "description": "Delete a specific ingredient entry by its identifier."
+        },
+        {
+            "endpoint": "GET /customer-preferences",
+            "description": "Gather customer dining preferences to enhance menu recommendations."
+        },
+        {
+            "endpoint": "POST /simulate-preview",
+            "description": "Simulate and preview menu presentation as seen by customers."
+        }
+    ]
+}

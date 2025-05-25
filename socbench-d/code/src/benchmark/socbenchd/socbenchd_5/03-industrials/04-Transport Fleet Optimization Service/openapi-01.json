@@ -1,0 +1,513 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Transport Fleet Optimization Service API",
+    "description": "The Transport Fleet Optimization Service API provides logistics companies with tools to manage and optimize their vehicle fleets. Capabilities include route optimization, real-time tracking, fuel usage analysis, and maintenance scheduling. This API ensures efficient resource usage, minimizes costs, and improves service reliability.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.fleetoptimization.com/v1",
+      "description": "Production Server"
+    }
+  ],
+  "paths": {
+    "/optimize_route": {
+      "post": {
+        "summary": "Optimize vehicle routing",
+        "description": "Submit cargo and delivery schedule data to receive optimized vehicle routing instructions and cost estimations.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cargoDetails": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "weight": {
+                          "type": "number",
+                          "description": "Weight of the cargo in kilograms."
+                        },
+                        "dimensions": {
+                          "type": "string",
+                          "description": "Dimensions of the cargo (e.g., 2m x 1m x 0.5m)."
+                        },
+                        "type": {
+                          "type": "string",
+                          "description": "Type of cargo (e.g., fragile, refrigerated)."
+                        }
+                      }
+                    }
+                  },
+                  "deliverySchedule": {
+                    "type": "string",
+                    "description": "ISO 8601 format start and finish time for the delivery (e.g., 2023-10-01T10:00:00Z/2023-10-01T16:00:00Z)."
+                  },
+                  "origin": {
+                    "type": "string",
+                    "description": "Starting location of the delivery."
+                  },
+                  "destination": {
+                    "type": "string",
+                    "description": "Final destination of the delivery."
+                  }
+                },
+                "required": ["cargoDetails", "deliverySchedule", "origin", "destination"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Optimized routing details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "optimizedRoutes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "List of optimized routes for the fleet."
+                    },
+                    "estimatedCost": {
+                      "type": "number",
+                      "description": "Estimated cost of the operation in USD."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vehicle_status": {
+      "get": {
+        "summary": "Get real-time vehicle status",
+        "description": "Retrieve the real-time status and location data for all active vehicles in the fleet.",
+        "responses": {
+          "200": {
+            "description": "Real-time status and location of all vehicles.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "vehicleId": {
+                        "type": "string",
+                        "description": "Unique identifier of the vehicle."
+                      },
+                      "status": {
+                        "type": "string",
+                        "description": "Current status of the vehicle (e.g., en route, idle, under maintenance)."
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "latitude": {
+                            "type": "number",
+                            "description": "Latitude of the vehicle's location."
+                          },
+                          "longitude": {
+                            "type": "number",
+                            "description": "Longitude of the vehicle's location."
+                          }
+                        }
+                      },
+                      "lastUpdated": {
+                        "type": "string",
+                        "description": "Timestamp of the last status update in ISO 8601 format."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maintenance_schedule": {
+      "post": {
+        "summary": "Generate a maintenance schedule",
+        "description": "Submit the details of a vehicle to generate its maintenance schedule, considering its usage data and operational patterns.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "vehicleId": {
+                    "type": "string",
+                    "description": "Unique identifier of the vehicle."
+                  },
+                  "mileage": {
+                    "type": "number",
+                    "description": "Cumulative mileage of the vehicle in kilometers."
+                  },
+                  "lastMaintenanceDate": {
+                    "type": "string",
+                    "description": "Date of the last maintenance in ISO 8601 format."
+                  }
+                },
+                "required": ["vehicleId", "mileage", "lastMaintenanceDate"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Generated maintenance schedule.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nextMaintenanceDate": {
+                      "type": "string",
+                      "description": "Recommended date for the next maintenance in ISO 8601 format."
+                    },
+                    "scheduleDetails": {
+                      "type": "string",
+                      "description": "Details about the maintenance tasks to be performed."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fuel_consumption_report": {
+      "get": {
+        "summary": "Retrieve fuel consumption analysis",
+        "description": "Request a detailed fuel consumption report for a specified time period.",
+        "parameters": [
+          {
+            "name": "vehicleId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the vehicle."
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "Start date for the fuel consumption report in ISO 8601 format."
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "End date for the fuel consumption report in ISO 8601 format."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Fuel consumption report.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "vehicleId": {
+                      "type": "string",
+                      "description": "Unique identifier of the vehicle."
+                    },
+                    "fuelConsumed": {
+                      "type": "number",
+                      "description": "Total fuel consumed in liters."
+                    },
+                    "averageConsumptionRate": {
+                      "type": "number",
+                      "description": "Average fuel consumption rate in liters per 100 kilometers."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/update_vehicle_info": {
+      "put": {
+        "summary": "Update vehicle information",
+        "description": "Update information for a specific vehicle such as capacity, operational status, and other details.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "vehicleId": {
+                    "type": "string",
+                    "description": "Unique identifier of the vehicle."
+                  },
+                  "capacity": {
+                    "type": "number",
+                    "description": "Vehicle capacity in kilograms."
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Current operational status of the vehicle (e.g., active, inactive)."
+                  }
+                },
+                "required": ["vehicleId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Vehicle information updated successfully."
+          }
+        }
+      }
+    },
+    "/remove_vehicle": {
+      "delete": {
+        "summary": "Remove a vehicle",
+        "description": "Remove a vehicle from the fleet management system.",
+        "parameters": [
+          {
+            "name": "vehicleId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the vehicle to be removed."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle removed successfully."
+          }
+        }
+      }
+    },
+    "/delivery_statistics": {
+      "get": {
+        "summary": "Retrieve delivery statistics",
+        "description": "Retrieve aggregated performance statistics for completed deliveries.",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "Start date for the delivery statistics in ISO 8601 format."
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "End date for the delivery statistics in ISO 8601 format."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delivery performance statistics.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalDeliveries": {
+                      "type": "integer",
+                      "description": "Total number of completed deliveries."
+                    },
+                    "averageDeliveryTime": {
+                      "type": "string",
+                      "description": "Average delivery time in ISO 8601 duration format."
+                    },
+                    "deliverySuccessRate": {
+                      "type": "number",
+                      "description": "Percentage of successful deliveries."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/add_vehicle": {
+      "post": {
+        "summary": "Add a new vehicle",
+        "description": "Add a new vehicle to the fleet management system with its specifications.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "vehicleId": {
+                    "type": "string",
+                    "description": "Unique identifier for the vehicle."
+                  },
+                  "capacity": {
+                    "type": "number",
+                    "description": "Vehicle capacity in kilograms."
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Initial operational status of the vehicle (e.g., active, inactive)."
+                  }
+                },
+                "required": ["vehicleId", "capacity", "status"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Vehicle added successfully."
+          }
+        }
+      }
+    },
+    "/route_history": {
+      "get": {
+        "summary": "Retrieve vehicle route history",
+        "description": "Retrieve past routing data and path analytics for a specified vehicle.",
+        "parameters": [
+          {
+            "name": "vehicleId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the vehicle."
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "Start date for the route history in ISO 8601 format."
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "End date for the route history in ISO 8601 format."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle route history retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "routeHistory": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "timestamp": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Time of the route data in ISO 8601 format."
+                          },
+                          "location": {
+                            "type": "object",
+                            "properties": {
+                              "latitude": {
+                                "type": "number",
+                                "description": "Latitude of the vehicle location."
+                              },
+                              "longitude": {
+                                "type": "number",
+                                "description": "Longitude of the vehicle location."
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fuel_usage_alert": {
+      "post": {
+        "summary": "Set up fuel usage alerts",
+        "description": "Set an alert to monitor excessive fuel consumption for a vehicle in real-time.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "vehicleId": {
+                    "type": "string",
+                    "description": "Unique identifier of the vehicle."
+                  },
+                  "threshold": {
+                    "type": "number",
+                    "description": "Fuel consumption threshold in liters per 100 kilometers."
+                  }
+                },
+                "required": ["vehicleId", "threshold"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Fuel usage alert configured successfully."
+          }
+        }
+      }
+    }
+  }
+}

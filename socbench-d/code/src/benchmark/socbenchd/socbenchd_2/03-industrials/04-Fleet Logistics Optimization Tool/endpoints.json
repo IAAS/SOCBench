@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /route/optimize",
+            "description": "Submit routing data to obtain optimized routes for a fleet of vehicles."
+        },
+        {
+            "endpoint": "GET /vehicle/{id}/location",
+            "description": "Retrieve the current location of a specified vehicle in real time."
+        },
+        {
+            "endpoint": "PUT /delivery/schedule",
+            "description": "Update and schedule deliveries for specific vehicles in the fleet."
+        },
+        {
+            "endpoint": "GET /vehicles",
+            "description": "Retrieve a list of all vehicles managed within the service."
+        },
+        {
+            "endpoint": "DELETE /vehicle/{id}",
+            "description": "Remove a specified vehicle from the managed fleet."
+        },
+        {
+            "endpoint": "POST /incident/report",
+            "description": "Report an incident or delay along a specific route for attention."
+        },
+        {
+            "endpoint": "GET /delivery/history",
+            "description": "Access the historical delivery data of fleet vehicles."
+        },
+        {
+            "endpoint": "PATCH /vehicle/{id}/config",
+            "description": "Modify configuration settings for a specified vehicle in the fleet."
+        },
+        {
+            "endpoint": "GET /analytics/performance",
+            "description": "Retrieve analytics data about the performance of the fleet's delivery operations."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit user or customer feedback regarding the service or individual deliveries."
+        }
+    ]
+}

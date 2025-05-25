@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /water-consumption",
+            "description": "Retrieve detailed water consumption statistics for all monitored locations."
+        },
+        {
+            "endpoint": "POST /leak-detection",
+            "description": "Submit new data to initiate analysis for potential leaks in specified areas."
+        },
+        {
+            "endpoint": "GET /usage-trends",
+            "description": "Obtain usage trends over time for better forecast and planning."
+        },
+        {
+            "endpoint": "PUT /system-settings",
+            "description": "Modify configuration settings of the water distribution monitoring system."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Fetch all alerts generated for unusual system behavior or anomalies detected."
+        },
+        {
+            "endpoint": "DELETE /alert/{id}",
+            "description": "Remove a resolved or erroneous alert from the system."
+        },
+        {
+            "endpoint": "POST /usage-reports",
+            "description": "Generate and retrieve detailed usage and efficiency reports."
+        },
+        {
+            "endpoint": "GET /sensor-health",
+            "description": "Check the operational status of all water consumption sensors."
+        },
+        {
+            "endpoint": "GET /distribution-metrics",
+            "description": "Access distribution performance metrics for water systems."
+        },
+        {
+            "endpoint": "GET /optimization-suggestions",
+            "description": "Fetch suggested actions for optimizing water resource allocation to reduce wastage."
+        }
+    ]
+}

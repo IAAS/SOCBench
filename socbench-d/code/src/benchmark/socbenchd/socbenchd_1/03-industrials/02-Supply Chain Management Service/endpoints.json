@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /items",
+            "description": "Add a new industrial good item to the inventory system."
+        },
+        {
+            "endpoint": "GET /items",
+            "description": "Retrieve the complete list of items currently held in inventory."
+        },
+        {
+            "endpoint": "GET /items/{id}",
+            "description": "Fetch the details of a specific item identified by its unique ID."
+        },
+        {
+            "endpoint": "PUT /items/{id}",
+            "description": "Update details of an item identified by its unique ID."
+        },
+        {
+            "endpoint": "DELETE /items/{id}",
+            "description": "Remove a specific item from the inventory by its unique ID."
+        },
+        {
+            "endpoint": "POST /orders",
+            "description": "Create a new order for industrial goods from the existing inventory."
+        },
+        {
+            "endpoint": "GET /orders",
+            "description": "Retrieve a list of all orders processed by the service."
+        },
+        {
+            "endpoint": "GET /orders/{id}",
+            "description": "Retrieve detailed information for a specific order by its unique ID."
+        },
+        {
+            "endpoint": "PUT /orders/{id}",
+            "description": "Update order details for a specific order identified by its unique ID."
+        },
+        {
+            "endpoint": "POST /transport/routes",
+            "description": "Plan and generate optimal transportation routes for goods delivery."
+        }
+    ]
+}

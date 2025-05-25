@@ -1,0 +1,361 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Renewable Energy Facility Performance Monitoring API",
+        "description": "This API monitors the performance of renewable energy facilities, providing real-time and historical insights into solar panels and wind turbines. It also gives information about environmental conditions, supports maintenance management, and enables energy output forecasting.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.renewable-ops.com",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/performance/solar-panels": {
+            "get": {
+                "summary": "Get Solar Panels Performance Metrics",
+                "description": "Fetch performance metrics of all solar panels within the monitored system, including energy output, efficiency, and potential warnings.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of solar panel performance data.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "panels": [
+                                        {
+                                            "panel_id": "SP-001",
+                                            "output_kw": 5.6,
+                                            "efficiency_percentage": 90.5,
+                                            "status": "normal"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/performance/wind-turbines": {
+            "get": {
+                "summary": "Get Wind Turbines Performance Metrics",
+                "description": "Retrieve performance data for all wind turbines managed by the service, including energy production, operational efficiency, and potential alerts.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of wind turbine performance metrics.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "turbines": [
+                                        {
+                                            "turbine_id": "WT-034",
+                                            "output_kw": 12.4,
+                                            "efficiency_percentage": 85.6,
+                                            "status": "normal"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/environment": {
+            "get": {
+                "summary": "Get Environmental Conditions",
+                "description": "Provide current environmental conditions such as irradiance, wind speed, and temperature, as well as historical environmental data.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "The start date for historical data retrieval in ISO 8601 format (e.g., 2023-01-01).",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "The end date for historical data retrieval in ISO 8601 format (e.g., 2023-01-31).",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Environmental conditions retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "temperature_celsius": 28.5,
+                                    "wind_speed_mps": 7.2,
+                                    "irradiance_w_m2": 850
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/maintenance/schedule": {
+            "post": {
+                "summary": "Schedule Maintenance Activity",
+                "description": "Schedule a maintenance activity for a specific device, such as a solar panel or wind turbine.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "device_id": "SP-001",
+                                "maintenance_date": "2023-12-01",
+                                "description": "Clean the solar panel surface to improve efficiency."
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Maintenance activity scheduled successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "maintenance_id": "MNT-12345",
+                                    "status": "Scheduled"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/energy-output/history": {
+            "get": {
+                "summary": "Access Historical Energy Output Records",
+                "description": "Retrieve historical energy output data for all devices or a specific device, segmented by date or time period.",
+                "parameters": [
+                    {
+                        "name": "device_id",
+                        "in": "query",
+                        "description": "Optional. Specify the device ID to filter historical data.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "The start date for historical records in ISO 8601 format (e.g., 2023-01-01).",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "The end date for historical records in ISO 8601 format (e.g., 2023-01-31).",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Energy output data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "data": [
+                                        {
+                                            "date": "2023-01-01",
+                                            "output_kw": 120.5
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/subscribe": {
+            "post": {
+                "summary": "Subscribe to Alerts",
+                "description": "Enable alert notifications for specified performance metrics or environmental conditions thresholds.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "metric": "efficiency",
+                                "threshold": 80
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Subscribed to alerts successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "alert_id": "ALT-56789",
+                                    "status": "Subscribed"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/device/configuration/{device_id}": {
+            "patch": {
+                "summary": "Update Device Configuration",
+                "description": "Modify configuration settings or performance thresholds for a specific device.",
+                "parameters": [
+                    {
+                        "name": "device_id",
+                        "in": "path",
+                        "description": "The unique identifier of the device to configure.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "parameter": "efficiency_threshold",
+                                "value": 85
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Device configuration updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "status": "Updated",
+                                    "device_id": "SP-001"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/energy-output/forecast": {
+            "get": {
+                "summary": "Retrieve Energy Output Forecast",
+                "description": "Access forecasted energy output data based on historical and current environmental conditions.",
+                "responses": {
+                    "200": {
+                        "description": "Forecasted energy output retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "forecast": [
+                                        {
+                                            "date": "2023-12-02",
+                                            "output_kw": 14.2
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/{alert_id}": {
+            "delete": {
+                "summary": "Delete Alert Subscription",
+                "description": "Remove a specific alert notification subscription.",
+                "parameters": [
+                    {
+                        "name": "alert_id",
+                        "in": "path",
+                        "description": "The unique identifier of the alert to delete.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Alert subscription removed."
+                    }
+                }
+            }
+        },
+        "/reports/summary": {
+            "get": {
+                "summary": "Generate Summary Reports",
+                "description": "Generate and retrieve summary reports for defined time periods and device groups.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "The start date of the report time period in ISO 8601 format (e.g., 2023-01-01).",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "The end date of the report time period in ISO 8601 format (e.g., 2023-01-31).",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "group_by",
+                        "in": "query",
+                        "description": "Group devices by type (e.g., 'solar-panels', 'wind-turbines').",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Summary report generated successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "report": {
+                                        "total_output_kw": 1245.3,
+                                        "group_by": "solar-panels"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

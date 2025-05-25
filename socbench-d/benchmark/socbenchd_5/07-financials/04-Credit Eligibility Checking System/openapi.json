@@ -1,0 +1,431 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Creditworthiness Assessment and Financial Product Recommendations API",
+        "description": "This API allows users to assess creditworthiness for loans or other financial products, retrieve related data such as credit scores and financial reports, and set up customized alerts. It also provides recommendations for financial products based on creditworthiness analysis.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.financials.example.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/credit-checks": {
+            "post": {
+                "summary": "Initiate a new creditworthiness assessment",
+                "description": "Starts a new creditworthiness assessment for a user or entity by providing their financial information.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the user or entity to assess."
+                                    },
+                                    "details": {
+                                        "type": "object",
+                                        "description": "Additional details or metadata related to the assessment."
+                                    }
+                                },
+                                "required": [
+                                    "userId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Creditworthiness assessment initiated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "assessmentId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the newly created creditworthiness assessment."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the assessment request."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "List all creditworthiness assessments",
+                "description": "Retrieve a list of all creditworthiness assessments performed by the user.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Filter the list by the user's unique identifier."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of creditworthiness assessments.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "assessmentId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the creditworthiness assessment."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Status of the assessment (e.g., 'completed', 'in-progress')."
+                                            },
+                                            "createdAt": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Timestamp when the assessment was initiated."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/credit-checks/{id}": {
+            "get": {
+                "summary": "Retrieve details of a specific creditworthiness assessment",
+                "description": "Retrieve details and outcomes of a specific creditworthiness assessment by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the creditworthiness assessment."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the creditworthiness assessment.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "assessmentId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the creditworthiness assessment."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the assessment."
+                                        },
+                                        "result": {
+                                            "type": "object",
+                                            "description": "Result and details of the creditworthiness assessment."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/credit-checks/upload-financial-documents": {
+            "post": {
+                "summary": "Upload financial documents for creditworthiness analysis",
+                "description": "Allows users to upload necessary financial documents required for a creditworthiness analysis.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "assessmentId": {
+                                        "type": "string",
+                                        "description": "Identifier for the relevant creditworthiness assessment."
+                                    },
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Financial document file to upload."
+                                    }
+                                },
+                                "required": [
+                                    "assessmentId",
+                                    "file"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Financial document uploaded successfully."
+                    }
+                }
+            }
+        },
+        "/credit-scores": {
+            "get": {
+                "summary": "Retrieve credit scores",
+                "description": "Retrieve comprehensive credit scores associated with a user or entity.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the user whose credit scores are to be retrieved."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Credit scores retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "userId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the user."
+                                        },
+                                        "creditScores": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "score": {
+                                                        "type": "integer",
+                                                        "description": "Credit score value."
+                                                    },
+                                                    "source": {
+                                                        "type": "string",
+                                                        "description": "Source of the credit score."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/credit-scores/history": {
+            "get": {
+                "summary": "Retrieve historical credit score data",
+                "description": "Obtain the historical data and changes related to credit scores for a user or entity.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the user."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historical credit score data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Date of the credit score record."
+                                            },
+                                            "score": {
+                                                "type": "integer",
+                                                "description": "Credit score at the given date."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/financial-reports/{id}": {
+            "get": {
+                "summary": "Retrieve a financial report",
+                "description": "Access detailed financial reports submitted for a creditworthiness check.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the financial report."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Financial report retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reportId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the financial report."
+                                        },
+                                        "details": {
+                                            "type": "object",
+                                            "description": "Content of the detailed financial report."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/financial-reports": {
+            "post": {
+                "summary": "Request the generation of a financial report",
+                "description": "Submit a request to generate a detailed financial report for a creditworthiness check.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the user."
+                                    }
+                                },
+                                "required": [
+                                    "userId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Request to generate a financial report accepted."
+                    }
+                }
+            }
+        },
+        "/recommendations": {
+            "get": {
+                "summary": "Retrieve financial product recommendations",
+                "description": "Retrieve suggested financial products based on the results of a creditworthiness assessment.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the user."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Recommendations retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "productId": {
+                                                "type": "string",
+                                                "description": "Identifier of the recommended product."
+                                            },
+                                            "productDetails": {
+                                                "type": "object",
+                                                "description": "Details about the recommended financial product."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "post": {
+                "summary": "Set up customized alerts",
+                "description": "Allows users to set up alerts for changes in credit scores or financial standings.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the user."
+                                    },
+                                    "alertCriteria": {
+                                        "type": "object",
+                                        "description": "Criteria for the alert (e.g., score threshold)."
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "alertCriteria"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Customized alert created successfully."
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /tenant/identity-verification",
+            "description": "Initiate identity verification for a prospective tenant based on provided identification information."
+        },
+        {
+            "endpoint": "GET /tenant/identity-verification/status/{tenantId}",
+            "description": "Retrieve the current status and results of a previously requested identity verification for a specific tenant."
+        },
+        {
+            "endpoint": "POST /tenant/credit-check",
+            "description": "Request a credit check for a prospective tenant using their financial history."
+        },
+        {
+            "endpoint": "GET /tenant/credit-check/status/{tenantId}",
+            "description": "Obtain the status and outcomes of a completed credit check for a specific tenant."
+        },
+        {
+            "endpoint": "POST /tenant/rental-history",
+            "description": "Submit a request to validate and obtain a tenant's past rental history."
+        },
+        {
+            "endpoint": "GET /tenant/rental-history/{tenantId}",
+            "description": "Access the verified detailed rental history information of a specific tenant."
+        },
+        {
+            "endpoint": "GET /documentation",
+            "description": "Retrieve service documentation for available endpoints and their usage."
+        },
+        {
+            "endpoint": "PUT /settings/notifications",
+            "description": "Configure notification preferences related to updates on verification checks."
+        },
+        {
+            "endpoint": "GET /support/contact",
+            "description": "Retrieve contact information and assistance options for service-related inquiries."
+        },
+        {
+            "endpoint": "DELETE /tenant/data/{tenantId}",
+            "description": "Request the permanent removal of data stored for a specific tenant from the system."
+        }
+    ]
+}

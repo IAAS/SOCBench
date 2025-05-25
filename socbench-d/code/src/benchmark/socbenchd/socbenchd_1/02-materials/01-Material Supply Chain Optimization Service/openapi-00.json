@@ -1,0 +1,284 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Materials Tracking and Optimization Service",
+    "description": "This service provides a comprehensive solution for tracking and optimizing material procurement, inventory, and logistics by leveraging real-time data analytics to enhance operational efficiency.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/materials": {
+      "get": {
+        "summary": "Retrieve overview of materials",
+        "description": "Fetch a list of all available materials along with their associated attributes, such as type, category, and availability status.",
+        "responses": {
+          "200": {
+            "description": "List of materials retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "material_id": { "type": "string", "description": "Unique identifier for the material" },
+                      "name": { "type": "string", "description": "Name of the material" },
+                      "type": { "type": "string", "description": "Type/category of the material" },
+                      "availability_status": { "type": "string", "description": "Current availability status of the material" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/procurement/request": {
+      "post": {
+        "summary": "Initiate a procurement request",
+        "description": "Submit a request to procure a specific material or a collection of materials, specifying the required quantities and other preferences.",
+        "requestBody": {
+          "description": "Details of the procurement request",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "materials": {
+                    "type": "array",
+                    "description": "List of materials to be procured",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "material_id": { "type": "string", "description": "Unique identifier for the material" },
+                        "quantity": { "type": "integer", "description": "Quantity to be procured", "minimum": 1 }
+                      },
+                      "required": ["material_id", "quantity"]
+                    }
+                  },
+                  "priority": { "type": "string", "description": "Priority of the procurement request (e.g., high, medium, low)" }
+                },
+                "required": ["materials"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Procurement request has been successfully initiated" }
+        }
+      }
+    },
+    "/inventory/status": {
+      "get": {
+        "summary": "View inventory status",
+        "description": "Obtain a detailed report of the current inventory levels across various facilities, including material quantities, locations, and related metadata.",
+        "responses": {
+          "200": {
+            "description": "Inventory status retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "facility_id": { "type": "string", "description": "Unique identifier for the facility" },
+                      "materials": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "material_id": { "type": "string", "description": "Unique identifier for the material" },
+                            "quantity": { "type": "integer", "description": "Quantity available in this facility" }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logistics/route": {
+      "patch": {
+        "summary": "Update shipment routing information",
+        "description": "Modify or optimize the routing information for an ongoing material shipment.",
+        "requestBody": {
+          "description": "Routing details to be updated",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "shipment_id": { "type": "string", "description": "Unique identifier for the shipment" },
+                  "new_route": { "type": "array", "description": "Updated routing information", "items": { "type": "string" } }
+                },
+                "required": ["shipment_id", "new_route"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Route information successfully updated" }
+        }
+      }
+    },
+    "/inventory/material/{material_id}": {
+      "delete": {
+        "summary": "Remove material from inventory",
+        "description": "Remove specified material items from inventory following standard removal protocols.",
+        "parameters": [
+          {
+            "name": "material_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the material to be removed",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Material successfully removed from inventory" }
+        }
+      }
+    },
+    "/analytics/demand-prediction": {
+      "post": {
+        "summary": "Get demand prediction",
+        "description": "Submit specific parameters to predict future demand for materials based on historical data.",
+        "requestBody": {
+          "description": "Parameters for demand prediction",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "material_id": { "type": "string", "description": "Unique identifier for the material" },
+                  "time_period": { "type": "string", "description": "Time period for the prediction (e.g., 1M, 6M, 1Y)" }
+                },
+                "required": ["material_id", "time_period"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Demand prediction response",
+            "content": { "application/json": { "schema": { "type": "object" } } }
+          }
+        }
+      }
+    },
+    "/settings/notifications": {
+      "put": {
+        "summary": "Configure notification settings",
+        "description": "Modify notification preferences for receiving updates about procurement, inventory, and logistics.",
+        "requestBody": {
+          "description": "Notification settings",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "notification_type": { "type": "string", "description": "Type of notification (e.g., email, SMS)" },
+                  "enabled": { "type": "boolean", "description": "Enable or disable notifications" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Notification settings updated" }
+        }
+      }
+    },
+    "/logistics/tracking/{shipment_id}": {
+      "get": {
+        "summary": "Track shipment",
+        "description": "Track the real-time location and status of a specified shipment.",
+        "parameters": [
+          {
+            "name": "shipment_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the shipment",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Shipment tracking information returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "current_location": { "type": "string", "description": "Current location of the shipment" },
+                    "status": { "type": "string", "description": "Current status of the shipment (e.g., in-transit, delivered)" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/generate": {
+      "post": {
+        "summary": "Generate a report",
+        "description": "Create and download a comprehensive report summarizing procurement and logistics activities.",
+        "requestBody": {
+          "description": "Parameters for report generation",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "report_type": { "type": "string", "description": "Type of report to generate (e.g., procurement, logistics)" },
+                  "date_range": { "type": "string", "description": "Date range for the report (e.g., YYYY-MM-DD to YYYY-MM-DD)" }
+                },
+                "required": ["report_type", "date_range"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Report successfully generated" }
+        }
+      }
+    },
+    "/suppliers/rating": {
+      "get": {
+        "summary": "Retrieve supplier ratings",
+        "description": "Fetch a list of suppliers, including their performance and reliability ratings.",
+        "responses": {
+          "200": {
+            "description": "List of supplier ratings retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "supplier_id": { "type": "string", "description": "Unique identifier for the supplier" },
+                      "name": { "type": "string", "description": "Name of the supplier" },
+                      "rating": { "type": "number", "description": "Performance rating of the supplier", "minimum": 0, "maximum": 5 }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

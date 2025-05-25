@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /appointments",
+            "description": "Create a new appointment with patient details and schedule."
+        },
+        {
+            "endpoint": "GET /appointments/{id}",
+            "description": "Retrieve details of a specific appointment using its unique identifier."
+        },
+        {
+            "endpoint": "PATCH /appointments/{id}",
+            "description": "Modify details of an existing appointment with specified changes."
+        },
+        {
+            "endpoint": "DELETE /appointments/{id}",
+            "description": "Cancel an appointment by its unique identifier."
+        },
+        {
+            "endpoint": "GET /patients/{id}/history",
+            "description": "Access the medical history of a specific patient."
+        },
+        {
+            "endpoint": "POST /virtual-consultations",
+            "description": "Initialize a new virtual consultation session between provider and patient."
+        },
+        {
+            "endpoint": "GET /consultation-tools",
+            "description": "Retrieve a list of available diagnostic tools for virtual consultations."
+        },
+        {
+            "endpoint": "POST /secure-data-exchange",
+            "description": "Submit encrypted medical data for secure exchange between users."
+        },
+        {
+            "endpoint": "GET /patients/{id}/scheduled-consultations",
+            "description": "Get a list of upcoming consultations scheduled for a specific patient."
+        },
+        {
+            "endpoint": "PATCH /consultations/{id}/status",
+            "description": "Update the status of an ongoing virtual consultation."
+        }
+    ]
+}

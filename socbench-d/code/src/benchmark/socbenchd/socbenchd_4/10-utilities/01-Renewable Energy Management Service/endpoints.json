@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /generation/real-time-data",
+            "description": "Retrieves the current real-time energy generation statistics from renewable resources."
+        },
+        {
+            "endpoint": "POST /storage/deployment",
+            "description": "Schedules and configures the deployment of energy storage systems based on real-time or predictive data."
+        },
+        {
+            "endpoint": "GET /efficiency/report",
+            "description": "Provides a detailed report of resource efficiency over a specified time period."
+        },
+        {
+            "endpoint": "PUT /generation/thresholds",
+            "description": "Updates the operational thresholds for renewable energy generation systems to optimize production."
+        },
+        {
+            "endpoint": "GET /alert/settings",
+            "description": "Fetches the current settings for system alerts and notifications."
+        },
+        {
+            "endpoint": "POST /alert/settings",
+            "description": "Configures new or modifies existing alert settings for monitoring systems."
+        },
+        {
+            "endpoint": "GET /analytics/projections",
+            "description": "Returns projections of energy generation based on historical and current data."
+        },
+        {
+            "endpoint": "POST /maintenance/scheduling",
+            "description": "Schedules maintenance operations for renewable energy generation facilities."
+        },
+        {
+            "endpoint": "GET /system/status",
+            "description": "Returns the operational status of all monitored utility systems."
+        },
+        {
+            "endpoint": "DELETE /archive/data",
+            "description": "Deletes stored historical generation data that meets specific criteria for archival or compliance management."
+        }
+    ]
+}

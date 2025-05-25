@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /threats",
+            "description": "Retrieve the current list of identified threats for monitoring."
+        },
+        {
+            "endpoint": "POST /threats/identify",
+            "description": "Submit new data to identify potential threats."
+        },
+        {
+            "endpoint": "GET /threats/{id}",
+            "description": "Acquire detailed information about a specific threat using its identifier."
+        },
+        {
+            "endpoint": "PATCH /threats/{id}",
+            "description": "Update the status or properties of an identified threat."
+        },
+        {
+            "endpoint": "DELETE /threats/{id}",
+            "description": "Remove a resolved or irrelevant threat from the tracking system."
+        },
+        {
+            "endpoint": "POST /data/upload",
+            "description": "Upload and integrate relevant datasets for threat analysis."
+        },
+        {
+            "endpoint": "GET /datasets",
+            "description": "List all accessible datasets available for analysis."
+        },
+        {
+            "endpoint": "GET /analytics/report",
+            "description": "Generate and retrieve a comprehensive security analysis report."
+        },
+        {
+            "endpoint": "POST /tools/execution",
+            "description": "Run specific tools available in the platform for security tasks."
+        },
+        {
+            "endpoint": "GET /tools/{tool_id}/status",
+            "description": "Check the current status or outcomes of a deployed tool."
+        }
+    ]
+}

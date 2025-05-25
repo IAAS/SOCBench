@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+Service:
+Patients and healthcare professionals can receive timely notifications when diagnostic test results are available. This service ensures fast communication and enables a prompt response to medical conditions.
+
+Endpoints:
+GET /test-results/available: Retrieve a list of available diagnostic test results with their corresponding statuses.
+POST /test-results/notify: Send a notification to a healthcare professional or patient regarding an available test result.
+GET /test-results/{id}: Fetch the detailed information of a specific diagnostic test result by its unique identifier.
+PATCH /test-results/{id}/status: Update the status of the specific test result to indicate acknowledgment.
+GET /healthcare-providers: Retrieve a list of healthcare providers within the system.
+GET /notifications/history: Access the history of notifications sent within a specified timeframe.
+POST /notifications/resend: Resend a previously issued notification to its intended recipient.
+GET /patients/{id}/test-results: List all test results associated with a specific patient.
+POST /test-results: Submit new diagnostic test results into the system for processing and notification.
+DELETE /notifications/{id}: Remove a notification from the notification history by its identifier.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

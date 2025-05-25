@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /routes/optimization",
+            "description": "Submit routing data and constraints to generate an optimized transportation path for efficient delivery."
+        },
+        {
+            "endpoint": "GET /shipments/status",
+            "description": "Retrieve the current status of all active shipments in the network."
+        },
+        {
+            "endpoint": "GET /analytics/historical-reports",
+            "description": "Access predictive delivery reports based on historical shipment data and patterns."
+        },
+        {
+            "endpoint": "PATCH /shipments/{shipment_id}/update",
+            "description": "Modify specific details of an ongoing shipment, such as delivery time or route."
+        },
+        {
+            "endpoint": "PUT /alerts/notifications",
+            "description": "Configure alert settings for delays or deviations in tracked shipments."
+        },
+        {
+            "endpoint": "GET /traffic/conditions",
+            "description": "Retrieve current traffic conditions relevant to planned shipment routes."
+        },
+        {
+            "endpoint": "GET /geo/locations/{location_id}",
+            "description": "Fetch detailed information about a specific logistics location based on its identifier."
+        },
+        {
+            "endpoint": "POST /feedback/report-issue",
+            "description": "Allow users to report transportation issues to improve service quality."
+        },
+        {
+            "endpoint": "DELETE /shipments/{shipment_id}",
+            "description": "Permit the deletion of specific shipment records from the system if needed."
+        },
+        {
+            "endpoint": "GET /metrics/effectiveness",
+            "description": "Provide insights into the transportation network's efficiency and performance metrics."
+        }
+    ]
+}

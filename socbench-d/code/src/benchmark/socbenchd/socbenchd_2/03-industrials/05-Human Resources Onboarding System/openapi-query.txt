@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+Facilitating seamless employee onboarding, this service aids in document submission, training assignment, and task tracking to enhance the HR onboarding process.
+
+Endpoints:
+POST /employees: Register a new employee and initiate the onboarding process.
+GET /employees/{id}: Retrieve detailed information about a specific employee.
+PUT /employees/{id}/documents: Update the submitted documents for the specified employee.
+POST /onboarding/trainings: Assign predefined training modules to new hires during onboarding.
+GET /onboarding/tasks: List all pending tasks within the onboarding workflow.
+POST /tasks/completion: Mark a specified task as completed for an employee.
+GET /reports/onboarding-status: Generate a report of the onboarding status segmented by departmental units.
+DELETE /employees/{id}: Remove an existing employee's onboarding profile.
+GET /trainings/modules: Retrieve all available training modules for employees.
+PUT /trainings/modules/{id}/status: Update the completion status of a training module for a specific employee.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

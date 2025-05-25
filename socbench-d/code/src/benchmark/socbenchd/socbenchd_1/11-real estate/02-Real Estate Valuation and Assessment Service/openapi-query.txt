@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+Through this service, users can obtain estimates for a property's value based on market trends, location, property features, and historical data. It integrates data from multiple sources to provide accurate assessments and supports users in making informed investment decisions.
+
+Endpoints:
+GET /properties/valuation: Retrieve the estimated value of a property by providing location and features.
+POST /properties/add: Submit detailed property information to be stored and analyzed.
+GET /location/trends: Get market trends for a specific location, including price movement.
+GET /properties/features: Fetch a list of features commonly seen in properties within a given area.
+GET /properties/history: Access historical valuation data of a property.
+PUT /properties/update: Update the details of an existing property record in the service database.
+GET /reits/list: Retrieve a list of noteworthy real estate investment trusts and their performance.
+GET /properties/similar: Identify similar properties based on input property details.
+DELETE /properties/remove: Delete a previously entered property record from the database.
+GET /properties/comparison: Get a detailed comparison of two or more properties based on given attributes.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

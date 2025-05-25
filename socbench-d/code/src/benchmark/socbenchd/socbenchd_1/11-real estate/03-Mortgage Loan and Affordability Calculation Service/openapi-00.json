@@ -1,0 +1,555 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Real Estate Mortgage & Loan Analysis API",
+    "description": "This API provides endpoints for calculating mortgage payments, analyzing interest rates, comparing loan options, evaluating affordability, and more. It is designed for real estate buyers to make informed decisions about loans and properties.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.realestate-loanservice.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/calculate-payment": {
+      "post": {
+        "summary": "Calculate Monthly Payment",
+        "description": "Submit loan details to compute the estimated monthly mortgage payment. Accounts for principal, interest rate, and loan tenure.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "loanAmount": {
+                    "type": "number",
+                    "description": "The total loan amount in USD."
+                  },
+                  "interestRate": {
+                    "type": "number",
+                    "description": "The annual interest rate as a percentage (e.g., 4.5 for 4.5%)."
+                  },
+                  "tenureYears": {
+                    "type": "integer",
+                    "description": "The loan tenure in years."
+                  }
+                },
+                "required": ["loanAmount", "interestRate", "tenureYears"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Monthly payment successfully calculated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "monthlyPayment": {
+                      "type": "number",
+                      "description": "The calculated monthly payment amount in USD."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/interest-rates": {
+      "get": {
+        "summary": "Get Interest Rates",
+        "description": "Retrieve current and historical interest rates for mortgage loans to aid comparison and decision-making.",
+        "responses": {
+          "200": {
+            "description": "Interest rates data retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "currentInterestRate": {
+                      "type": "number",
+                      "description": "The current interest rate as a percentage."
+                    },
+                    "historicalRates": {
+                      "type": "array",
+                      "description": "An array of historical interest rates with their respective dates.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date",
+                            "description": "The date of the historical interest rate."
+                          },
+                          "rate": {
+                            "type": "number",
+                            "description": "The interest rate on the specified date."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/compare-loans": {
+      "post": {
+        "summary": "Compare Loan Options",
+        "description": "Compare multiple loan options based on their terms to get a better understanding of the most suitable loan.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "description": "Array of loan options to compare.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "loanAmount": {
+                      "type": "number",
+                      "description": "The loan amount for this option in USD."
+                    },
+                    "interestRate": {
+                      "type": "number",
+                      "description": "The annual interest rate for this option as a percentage."
+                    },
+                    "tenureYears": {
+                      "type": "integer",
+                      "description": "The loan tenure for this option in years."
+                    }
+                  },
+                  "required": ["loanAmount", "interestRate", "tenureYears"]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Comparison of loan options processed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "Array of loan options with analysis results.",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "loanOption": {
+                        "description": "Details of the analyzed loan option.",
+                        "type": "object"
+                      },
+                      "monthlyPayment": {
+                        "type": "number",
+                        "description": "The calculated monthly payment for this loan option."
+                      },
+                      "totalInterest": {
+                        "type": "number",
+                        "description": "The total interest paid over the tenure for this option."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/property-value-estimate": {
+      "get": {
+        "summary": "Fetch Property Value Estimate",
+        "description": "Fetch an estimated value of a property based on its location and other provided details.",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "query",
+            "required": true,
+            "description": "The location of the property (e.g., address, city, state).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "propertyDetails",
+            "in": "query",
+            "required": false,
+            "description": "Additional details about the property (e.g., size, type).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Property value estimate retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "estimatedValue": {
+                      "type": "number",
+                      "description": "The estimated value of the property in USD."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluate-affordability": {
+      "post": {
+        "summary": "Evaluate Affordability",
+        "description": "Analyze user's financial data to assess their property affordability.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "income": {
+                    "type": "number",
+                    "description": "User's annual income in USD."
+                  },
+                  "expenses": {
+                    "type": "number",
+                    "description": "User's monthly expenses in USD."
+                  },
+                  "downPayment": {
+                    "type": "number",
+                    "description": "Proposed down payment amount in USD."
+                  }
+                },
+                "required": ["income", "expenses", "downPayment"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Affordability analysis completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "affordablePrice": {
+                      "type": "number",
+                      "description": "The maximum affordable property price based on provided data."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/down-payment-summary": {
+      "get": {
+        "summary": "Get Down Payment Summary",
+        "description": "Retrieve a breakdown of down payment options and associated costs.",
+        "responses": {
+          "200": {
+            "description": "Down payment summary retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "minimumDownPayment": {
+                      "type": "number",
+                      "description": "The minimum required down payment in USD."
+                    },
+                    "recommendedDownPayment": {
+                      "type": "number",
+                      "description": "The recommended down payment amount in USD."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/loan-plan-builder": {
+      "post": {
+        "summary": "Create Custom Loan Plan",
+        "description": "Create a custom loan repayment plan tailored to user's financial conditions.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "loanAmount": {
+                    "type": "number",
+                    "description": "The loan amount in USD."
+                  },
+                  "customTerms": {
+                    "type": "object",
+                    "description": "Custom terms for the loan repayment.",
+                    "properties": {
+                      "tenureYears": {
+                        "type": "integer",
+                        "description": "The desired tenure of the loan in years."
+                      },
+                      "fixedMonthlyPayment": {
+                        "type": "number",
+                        "description": "A fixed monthly payment amount, if applicable."
+                      }
+                    }
+                  }
+                },
+                "required": ["loanAmount"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Custom loan repayment plan created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "planDetails": {
+                      "type": "object",
+                      "description": "Details of the custom loan repayment plan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/amortization-schedule": {
+      "get": {
+        "summary": "Retrieve Amortization Schedule",
+        "description": "Provide a detailed breakdown of principal and interest payments over the loan tenure.",
+        "parameters": [
+          {
+            "name": "loanAmount",
+            "in": "query",
+            "required": true,
+            "description": "The loan amount in USD.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "interestRate",
+            "in": "query",
+            "required": true,
+            "description": "The annual interest rate as a percentage.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "tenureYears",
+            "in": "query",
+            "required": true,
+            "description": "The loan tenure in years.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Amortization schedule retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "The amortization schedule as an array of payments.",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "paymentNumber": {
+                        "type": "integer",
+                        "description": "The payment number in the schedule."
+                      },
+                      "principalPayment": {
+                        "type": "number",
+                        "description": "The portion of the payment applied to the principal."
+                      },
+                      "interestPayment": {
+                        "type": "number",
+                        "description": "The portion of the payment applied to interest."
+                      },
+                      "remainingBalance": {
+                        "type": "number",
+                        "description": "The remaining loan balance after this payment."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tenure-variation-impact": {
+      "get": {
+        "summary": "Analyze Loan Tenure Impact",
+        "description": "Analyze the impact of varying loan tenures on monthly payment size and total interest.",
+        "parameters": [
+          {
+            "name": "loanAmount",
+            "in": "query",
+            "required": true,
+            "description": "The loan amount in USD.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "interestRate",
+            "in": "query",
+            "required": true,
+            "description": "The annual interest rate as a percentage.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "tenures",
+            "in": "query",
+            "required": true,
+            "description": "The list of loan tenures (in years) to analyze.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tenure impact analysis completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "Impact analysis summary for each provided tenure.",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "tenureYears": {
+                        "type": "integer",
+                        "description": "The loan tenure analyzed (in years)."
+                      },
+                      "monthlyPayment": {
+                        "type": "number",
+                        "description": "The monthly payment amount for this tenure."
+                      },
+                      "totalInterest": {
+                        "type": "number",
+                        "description": "The total interest paid over the tenure."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rate-sensitivity-analysis": {
+      "post": {
+        "summary": "Simulate Interest Rate Changes",
+        "description": "Simulate changes in interest rates to understand their impact on loan terms and payments.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "loanAmount": {
+                    "type": "number",
+                    "description": "The loan amount in USD."
+                  },
+                  "currentInterestRate": {
+                    "type": "number",
+                    "description": "The current interest rate as a percentage."
+                  },
+                  "rateScenarios": {
+                    "type": "array",
+                    "description": "Array of interest rate scenarios to simulate.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "rate": {
+                          "type": "number",
+                          "description": "The interest rate to simulate as a percentage."
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": ["loanAmount", "currentInterestRate", "rateScenarios"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Rate sensitivity analysis completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "Sensitivity analysis for each interest rate scenario.",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "interestRate": {
+                        "type": "number",
+                        "description": "The simulated interest rate."
+                      },
+                      "monthlyPayment": {
+                        "type": "number",
+                        "description": "The monthly payment amount under this rate."
+                      },
+                      "totalInterest": {
+                        "type": "number",
+                        "description": "The total interest over the loan tenure."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

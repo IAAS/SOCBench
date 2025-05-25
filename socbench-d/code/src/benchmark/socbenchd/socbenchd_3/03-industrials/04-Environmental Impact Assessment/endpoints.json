@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /sites",
+            "description": "Retrieve a list of all registered industrial sites."
+        },
+        {
+            "endpoint": "POST /sites/add",
+            "description": "Register a new industrial site by providing its details."
+        },
+        {
+            "endpoint": "GET /sites/{site_id}/environmental_data",
+            "description": "Fetch environmental impact data for a specific industrial site."
+        },
+        {
+            "endpoint": "POST /sites/{site_id}/report",
+            "description": "Submit an environmental impact report for a specific site."
+        },
+        {
+            "endpoint": "GET /regulations/standards",
+            "description": "Retrieve applicable environmental regulatory standards."
+        },
+        {
+            "endpoint": "PUT /sites/{site_id}/configure_alerts",
+            "description": "Set up environmental monitoring alerts for a site."
+        },
+        {
+            "endpoint": "GET /analytics/summary",
+            "description": "Obtain a summary of analytics across all managed sites."
+        },
+        {
+            "endpoint": "POST /analytics/generate",
+            "description": "Request a detailed analytics report for specified parameters."
+        },
+        {
+            "endpoint": "DELETE /sites/{site_id}",
+            "description": "Remove the registration of an industrial site from the system."
+        },
+        {
+            "endpoint": "PATCH /sites/{site_id}/update",
+            "description": "Update specific details of an industrial site."
+        }
+    ]
+}

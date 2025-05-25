@@ -1,0 +1,400 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Inventory Optimization Service",
+    "description": "A service enabling retailers to optimize inventory levels by analyzing purchase and restock patterns, improving efficiency, and reducing waste in the Consumer Staples sector.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.inventory-optimization.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/inventory/status": {
+      "get": {
+        "summary": "Retrieve current inventory status",
+        "description": "Fetch the current inventory quantities and item locations from the system to monitor stock situation across different locations.",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "query",
+            "required": false,
+            "description": "Specific location identifier to filter inventory status for a particular store or warehouse.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "item",
+            "in": "query",
+            "required": false,
+            "description": "Item identifier to filter inventory status for a specific product.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of inventory status.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string", "description": "Unique identifier for the item." },
+                          "name": { "type": "string", "description": "Name of the product." },
+                          "quantity": { "type": "integer", "description": "Current quantity of the item in stock." },
+                          "location": { "type": "string", "description": "Location of the item." }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/restock": {
+      "post": {
+        "summary": "Submit restock request",
+        "description": "Request restocking of specific items based on demand predictions to maintain optimal inventory levels.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string", "description": "Unique identifier of the item to restock." },
+                        "quantity": { "type": "integer", "description": "Quantity of the item to restock." }
+                      }
+                    }
+                  }
+                },
+                "required": ["items"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Restock request successfully submitted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "requestId": { "type": "string", "description": "Identifier for the submitted restock request." },
+                    "status": { "type": "string", "description": "Status of the restock request." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/patterns": {
+      "get": {
+        "summary": "Analyze purchase trends",
+        "description": "Generate reports on purchasing trends and seasonal patterns to better understand customer behavior and demands.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved purchasing trends data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "patterns": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "season": { "type": "string", "description": "Season or time period." },
+                          "trends": { "type": "array", "items": { "type": "string", "description": "Notable trends observed." } }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/forecast": {
+      "post": {
+        "summary": "Provide inventory forecast",
+        "description": "Submit historical data to generate predictions for future inventory needs.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "historicalData": {
+                    "type": "array",
+                    "description": "Historical sales or inventory data for analysis.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "date": { "type": "string", "format": "date", "description": "Date of the record." },
+                        "quantitySold": { "type": "integer", "description": "Quantity of the item sold." },
+                        "itemId": { "type": "string", "description": "Identifier of the item sold." }
+                      }
+                    }
+                  }
+                },
+                "required": ["historicalData"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully generated forecast data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "forecast": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "itemId": { "type": "string", "description": "Identifier of the item." },
+                          "predictedQuantity": { "type": "integer", "description": "Predicted quantity needed for the forecasted period." }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/waste/reports": {
+      "get": {
+        "summary": "Retrieve waste reports",
+        "description": "Retrieve detailed waste reports to identify potential inefficiencies and reduce excess inventory.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved waste reports.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "itemId": { "type": "string", "description": "Identifier of the item." },
+                      "quantityWasted": { "type": "integer", "description": "Quantity of the item lost due to waste." },
+                      "reason": { "type": "string", "description": "Reason for waste (e.g., expiration, damage)." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/adjust": {
+      "put": {
+        "summary": "Manually adjust inventory",
+        "description": "Manually adjust inventory levels for specific items after review and verification by staff.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "itemId": { "type": "string", "description": "Identifier of the item to adjust." },
+                  "newQuantity": { "type": "integer", "description": "Updated quantity after adjustment." },
+                  "reason": { "type": "string", "description": "Reason for the manual adjustment." }
+                },
+                "required": ["itemId", "newQuantity"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Inventory successfully adjusted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "description": "Result status of the update." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/suppliers/list": {
+      "get": {
+        "summary": "List suppliers",
+        "description": "Retrieve the list of suppliers and their associated products.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the supplier list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "supplierId": { "type": "string", "description": "Identifier of the supplier." },
+                      "name": { "type": "string", "description": "Name of the supplier." },
+                      "products": {
+                        "type": "array",
+                        "items": { "type": "string", "description": "List of products supplied." }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/new": {
+      "post": {
+        "summary": "Create a new order",
+        "description": "Place a new order to replenish inventory for specified items.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "description": "Items to be ordered.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "itemId": { "type": "string", "description": "Identifier of the item to order." },
+                        "quantity": { "type": "integer", "description": "Quantity to order." }
+                      }
+                    }
+                  },
+                  "deliveryDate": { "type": "string", "format": "date", "description": "Expected delivery date for the order." }
+                },
+                "required": ["items"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Order successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "orderId": { "type": "string", "description": "Identifier of the new order." },
+                    "status": { "type": "string", "description": "Order creation status." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/remove": {
+      "delete": {
+        "summary": "Remove items from inventory",
+        "description": "Remove specific items from inventory after verifying the need for removal (e.g., obsolete, damaged).",
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "query",
+            "required": true,
+            "description": "Identifier of the item to remove.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully removed the item from inventory.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "description": "Result status of the removal." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/performance/metrics": {
+      "get": {
+        "summary": "Retrieve performance metrics",
+        "description": "Retrieve key performance indicators (KPIs) and other metrics related to inventory optimization to evaluate the system's success and efficiency.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved performance metrics.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "metrics": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "metricName": { "type": "string", "description": "Name of the metric." },
+                          "value": { "type": "number", "description": "Value of the metric." },
+                          "unit": { "type": "string", "description": "Unit of measurement for the metric." }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

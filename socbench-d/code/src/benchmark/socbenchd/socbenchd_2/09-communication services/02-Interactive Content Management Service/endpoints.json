@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /content/upload",
+            "description": "Upload a new piece of interactive content to the platform."
+        },
+        {
+            "endpoint": "GET /content/{id}",
+            "description": "Retrieve detailed information about specific content by its ID."
+        },
+        {
+            "endpoint": "DELETE /content/{id}",
+            "description": "Remove interactive content identified by its ID."
+        },
+        {
+            "endpoint": "GET /analytics/content/{id}",
+            "description": "Fetch audience engagement metrics related to a particular content."
+        },
+        {
+            "endpoint": "GET /analytics/global",
+            "description": "Access comprehensive real-time engagement analytics across all contents."
+        },
+        {
+            "endpoint": "PUT /content/{id}",
+            "description": "Update the metadata or details of existing interactive content."
+        },
+        {
+            "endpoint": "GET /categories",
+            "description": "Retrieve a list of existing categories for organizing content."
+        },
+        {
+            "endpoint": "POST /categorizations",
+            "description": "Assign content to specific categories for improved organization."
+        },
+        {
+            "endpoint": "GET /popular-content",
+            "description": "Retrieve a list of currently trending or highly popular content."
+        },
+        {
+            "endpoint": "GET /system/status",
+            "description": "Check the operational status of the content distribution platform."
+        }
+    ]
+}

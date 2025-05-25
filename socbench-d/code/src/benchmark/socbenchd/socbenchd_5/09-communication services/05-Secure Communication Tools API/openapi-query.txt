@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+Provides end-to-end encrypted communication solutions for messaging, calling, and file sharing to ensure user privacy and regulatory compliance, suitable for individuals and organizations.
+
+Endpoints:
+POST /messages/send: Send a new message to a specific user or group.
+GET /messages/{message_id}: Retrieve detailed information about a specific message using its unique ID.
+GET /conversations: List all conversations for the logged-in user.
+PUT /conversations/{conversation_id}/read: Mark all messages in a specific conversation as read.
+POST /files/share: Upload and share a file securely with end-to-end encryption.
+GET /files/{file_id}/download: Download an encrypted file using its unique ID.
+GET /contacts: Retrieve the contact list of the logged-in user.
+POST /calls/start: Initiate a secure voice or video call with a specific user or group.
+PUT /settings/privacy: Update the privacy settings for the user's account.
+DELETE /messages/{message_id}: Permanently delete a specific message from the server.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

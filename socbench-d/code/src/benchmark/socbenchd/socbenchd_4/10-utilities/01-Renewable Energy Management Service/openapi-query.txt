@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+This API facilitates utility companies in managing and monitoring renewable energy production such as solar, wind, and hydroelectric power sources. Users can analyze real-time generation data, adjust deployment of energy storage systems, and ensure resource efficiency.
+
+Endpoints:
+GET /generation/real-time-data: Retrieves the current real-time energy generation statistics from renewable resources.
+POST /storage/deployment: Schedules and configures the deployment of energy storage systems based on real-time or predictive data.
+GET /efficiency/report: Provides a detailed report of resource efficiency over a specified time period.
+PUT /generation/thresholds: Updates the operational thresholds for renewable energy generation systems to optimize production.
+GET /alert/settings: Fetches the current settings for system alerts and notifications.
+POST /alert/settings: Configures new or modifies existing alert settings for monitoring systems.
+GET /analytics/projections: Returns projections of energy generation based on historical and current data.
+POST /maintenance/scheduling: Schedules maintenance operations for renewable energy generation facilities.
+GET /system/status: Returns the operational status of all monitored utility systems.
+DELETE /archive/data: Deletes stored historical generation data that meets specific criteria for archival or compliance management.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,327 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Consumer Discretionary Sector Inventory Management API",
+        "description": "API focused on assisting distributors and sellers by providing real-time insights into stock levels, inventory schedules, restock notifications, and demand forecasts for the Consumer Discretionary Sector.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/stock-levels": {
+            "get": {
+                "summary": "Retrieve Current Stock Levels",
+                "description": "Fetch the real-time stock levels for a specified product to monitor inventory.",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "query",
+                        "description": "The unique identifier for the product whose stock levels are being requested.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Stock levels successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "productId": "12345",
+                                    "currentStock": 250,
+                                    "unit": "pieces"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory-schedules": {
+            "get": {
+                "summary": "Upcoming Inventory Delivery Schedules",
+                "description": "Retrieve the upcoming inventory delivery dates, quantities, and items for efficient planning.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Delivery schedules retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "productId": "12345",
+                                        "expectedDeliveryDate": "2023-11-05",
+                                        "quantity": 500,
+                                        "unit": "pieces"
+                                    },
+                                    {
+                                        "productId": "67890",
+                                        "expectedDeliveryDate": "2023-11-10",
+                                        "quantity": 300,
+                                        "unit": "boxes"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/restock-alerts": {
+            "post": {
+                "summary": "Set Restock Alert",
+                "description": "Set up an automatic notification to alert when the stock level of a specified product falls below the restock threshold.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "productId": "12345",
+                                "threshold": 50,
+                                "alertType": "email"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Restock alert created successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "alertId": "alert123",
+                                    "status": "active",
+                                    "productId": "12345",
+                                    "threshold": 50
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts-log": {
+            "get": {
+                "summary": "View Restock Alerts Log",
+                "description": "Access a historical log of all previously triggered restock notifications.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Alerts log retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "alertId": "alert123",
+                                        "productId": "12345",
+                                        "triggeredAt": "2023-10-15T10:30:00Z",
+                                        "threshold": 50,
+                                        "currentStock": 45
+                                    },
+                                    {
+                                        "alertId": "alert124",
+                                        "productId": "67890",
+                                        "triggeredAt": "2023-10-20T14:45:00Z",
+                                        "threshold": 100,
+                                        "currentStock": 95
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/product-catalog": {
+            "get": {
+                "summary": "Fetch Product Catalog",
+                "description": "Retrieve a complete list of all products that are tracked in the inventory system, along with their current stock levels and other details.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Product catalog retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "productId": "12345",
+                                        "productName": "Premium Television",
+                                        "category": "Electronics",
+                                        "currentStock": 250
+                                    },
+                                    {
+                                        "productId": "67890",
+                                        "productName": "Luxury Sofa Set",
+                                        "category": "Furniture",
+                                        "currentStock": 80
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/order-restock": {
+            "post": {
+                "summary": "Initiate Restock Order",
+                "description": "Create an order to restock a specific product based on demand forecasts or low stock levels.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "productId": "12345",
+                                "quantity": 200,
+                                "priority": "high"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Restock order initiated successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "orderId": "restock789",
+                                    "productId": "12345",
+                                    "quantity": 200,
+                                    "status": "processing"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/distribution-centers": {
+            "get": {
+                "summary": "List Distribution Centers",
+                "description": "Retrieve a list of all distribution centers along with their stockholding summaries.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Distribution centers retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "centerId": "DC001",
+                                        "name": "West Coast Distribution",
+                                        "location": "California, USA",
+                                        "stockSummary": {
+                                            "totalItems": 10000,
+                                            "categories": [
+                                                "Electronics",
+                                                "Furniture"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "centerId": "DC002",
+                                        "name": "East Coast Distribution",
+                                        "location": "New York, USA",
+                                        "stockSummary": {
+                                            "totalItems": 15000,
+                                            "categories": [
+                                                "Apparel",
+                                                "Home Goods"
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/consumption-trends": {
+            "get": {
+                "summary": "Retrieve Consumption Trends",
+                "description": "Analyze and retrieve sales and consumption trends for specific products to help predict demand.",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "query",
+                        "description": "The unique identifier for the product whose consumption trends are being analyzed.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Consumption trends retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "productId": "12345",
+                                    "trends": {
+                                        "weeklyAverage": 50,
+                                        "monthlyAverage": 200,
+                                        "peakConsumption": "Monday"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/restock-alerts/{id}": {
+            "delete": {
+                "summary": "Delete Restock Alert",
+                "description": "Remove an existing restock alert using its unique identifier (ID).",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The unique ID of the restock alert to delete.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Restock alert deleted successfully."
+                    }
+                }
+            }
+        },
+        "/threshold-violations": {
+            "get": {
+                "summary": "Retrieve Threshold Violations",
+                "description": "Get a report of instances where stock levels fell below defined thresholds.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Threshold violations retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "productId": "12345",
+                                        "violatedAt": "2023-10-15T09:30:00Z",
+                                        "threshold": 50,
+                                        "currentStock": 45
+                                    },
+                                    {
+                                        "productId": "67890",
+                                        "violatedAt": "2023-10-20T13:45:00Z",
+                                        "threshold": 100,
+                                        "currentStock": 95
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

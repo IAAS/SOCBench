@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /vehicle-data/trends",
+            "description": "Retrieve aggregated trends of vehicle sales categorized by region, model, and timeframe."
+        },
+        {
+            "endpoint": "POST /vehicle-data/preferences",
+            "description": "Submit data to analyze customer preferences based on recent survey inputs."
+        },
+        {
+            "endpoint": "GET /market-demand/forecasts",
+            "description": "Access predictive analytics reports on market demands for upcoming periods."
+        },
+        {
+            "endpoint": "GET /dealerships/sales-report",
+            "description": "Obtain a detailed report on sales performance for a specific dealership."
+        },
+        {
+            "endpoint": "POST /manufacturer/goals",
+            "description": "Set desired sales goals and receive insights to achieve them effectively."
+        },
+        {
+            "endpoint": "GET /customer-segments",
+            "description": "Retrieve detailed data on customer segmentation for better targeted marketing."
+        },
+        {
+            "endpoint": "GET /vehicle-pricing/trends",
+            "description": "Analyze historical and current pricing trends for various vehicle categories."
+        },
+        {
+            "endpoint": "POST /inventory/optimize",
+            "description": "Upload current inventory data to receive optimization recommendations."
+        },
+        {
+            "endpoint": "GET /regional/sales-comparisons",
+            "description": "Compare vehicle sales performance across different geographical regions."
+        },
+        {
+            "endpoint": "POST /marketing/campaign-effectiveness",
+            "description": "Submit marketing campaign data to evaluate its effectiveness and ROI."
+        }
+    ]
+}

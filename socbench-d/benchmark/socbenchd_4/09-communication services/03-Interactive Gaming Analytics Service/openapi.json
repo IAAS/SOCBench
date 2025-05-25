@@ -1,0 +1,421 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Gaming Platform Insights API",
+        "description": "This API provides insights into user behavior, engagement metrics, and monetization strategies to support data-driven enhancements for gaming platforms. Designed for developers and analysts to refine game design and marketing approaches.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/users/engagement": {
+            "get": {
+                "summary": "Retrieve User Engagement Metrics",
+                "description": "Fetch engagement metrics for individual users over a specific time period to analyze user behavior and interactions.",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true,
+                        "description": "The unique identifier of the user whose engagement metrics are being queried.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The start date for the engagement period (in ISO 8601 format).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The end date for the engagement period (in ISO 8601 format).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of engagement metrics for the specified user and time period.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "metric_name": {
+                                                        "type": "string"
+                                                    },
+                                                    "value": {
+                                                        "type": "number"
+                                                    },
+                                                    "timestamp": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/games/session/start": {
+            "post": {
+                "summary": "Start a New Game Session",
+                "description": "Initiate a new game session for a specific user and record the event for tracking purposes.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "user_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the user starting the session."
+                                    },
+                                    "game_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the game being played."
+                                    },
+                                    "start_time": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "The time the game session is started."
+                                    }
+                                },
+                                "required": [
+                                    "user_id",
+                                    "game_id",
+                                    "start_time"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Game session successfully started.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "session_id": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/games/{game_id}/monetization": {
+            "get": {
+                "summary": "Fetch Monetization Strategy Data",
+                "description": "Retrieve insights and metrics related to monetization strategies for a specified game.",
+                "parameters": [
+                    {
+                        "name": "game_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the game whose monetization data is being requested.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Monetization data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "strategy": {
+                                            "type": "string"
+                                        },
+                                        "revenue": {
+                                            "type": "number"
+                                        },
+                                        "transactions": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/preferences": {
+            "put": {
+                "summary": "Update User Preferences",
+                "description": "Modify the gaming and engagement settings of a specific user.",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the user whose preferences are being updated.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "preferences": {
+                                        "type": "object",
+                                        "description": "A structured object representing user preferences."
+                                    }
+                                },
+                                "required": [
+                                    "preferences"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "User preferences updated successfully."
+                    }
+                }
+            }
+        },
+        "/games/session/{session_id}": {
+            "delete": {
+                "summary": "End a Game Session",
+                "description": "Terminate and delete a specific game session.",
+                "parameters": [
+                    {
+                        "name": "session_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the game session to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Game session terminated and deleted."
+                    }
+                }
+            }
+        },
+        "/analytics/overview": {
+            "get": {
+                "summary": "Access Analytics Overview",
+                "description": "Retrieve a summary of overall platform usage and engagement statistics.",
+                "responses": {
+                    "200": {
+                        "description": "Analytics overview data successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "total_users": {
+                                            "type": "integer"
+                                        },
+                                        "active_sessions": {
+                                            "type": "integer"
+                                        },
+                                        "average_engagement_time": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/advertisements/click": {
+            "post": {
+                "summary": "Log Advertisement Click",
+                "description": "Record an engagement event where a user clicked on an advertisement.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "ad_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the advertisement clicked."
+                                    },
+                                    "user_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the user who clicked the ad."
+                                    },
+                                    "timestamp": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Timestamp of the ad click event."
+                                    }
+                                },
+                                "required": [
+                                    "ad_id",
+                                    "user_id",
+                                    "timestamp"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Advertisement click event recorded successfully."
+                    }
+                }
+            }
+        },
+        "/games/{game_id}/feedback": {
+            "get": {
+                "summary": "Retrieve Game Feedback",
+                "description": "Fetch user feedback and reviews for a specified game.",
+                "parameters": [
+                    {
+                        "name": "game_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the game to fetch feedback for.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Game feedback retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "review": {
+                                                "type": "string"
+                                            },
+                                            "rating": {
+                                                "type": "integer"
+                                            },
+                                            "user_id": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/activity": {
+            "post": {
+                "summary": "Log User Activity",
+                "description": "Record a user activity to support behavior analysis and engagement tracking.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "user_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the user."
+                                    },
+                                    "activity": {
+                                        "type": "string",
+                                        "description": "A description of the user activity being logged."
+                                    },
+                                    "timestamp": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "The time the activity occurred."
+                                    }
+                                },
+                                "required": [
+                                    "user_id",
+                                    "activity",
+                                    "timestamp"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User activity logged successfully."
+                    }
+                }
+            }
+        },
+        "/trends/popularity": {
+            "get": {
+                "summary": "Retrieve Trending Games and Topics",
+                "description": "Access real-time analytics to identify trending games and topics.",
+                "responses": {
+                    "200": {
+                        "description": "Trending topics and games data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "trending_games": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "trending_topics": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

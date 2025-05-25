@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /materials/classify",
+            "description": "Analyze the uploaded material data and determine its recyclability classification."
+        },
+        {
+            "endpoint": "GET /materials/categories",
+            "description": "Retrieve the list of possible material categories for classification purposes."
+        },
+        {
+            "endpoint": "PUT /materials/{id}",
+            "description": "Update information for a specific material by providing its identifier."
+        },
+        {
+            "endpoint": "DELETE /materials/{id}",
+            "description": "Remove a specified material and its data using its unique identifier."
+        },
+        {
+            "endpoint": "GET /analysis/statistics",
+            "description": "Fetch aggregated statistical data of classified materials over a defined period."
+        },
+        {
+            "endpoint": "POST /streams/process",
+            "description": "Submit a batch of materials within a waste stream for analysis and classification."
+        },
+        {
+            "endpoint": "GET /streams/{id}/results",
+            "description": "Access the classification results for a specified waste stream."
+        },
+        {
+            "endpoint": "GET /recyclers/compatibility",
+            "description": "Identify suitable recycling facilities for recyclable material types."
+        },
+        {
+            "endpoint": "POST /recyclers/suggestions",
+            "description": "Submit a recycler's information to enhance the database of recycling options."
+        },
+        {
+            "endpoint": "GET /suggestions/material-improvements",
+            "description": "Receive recommendations for improving the recyclability of specific materials."
+        }
+    ]
+}

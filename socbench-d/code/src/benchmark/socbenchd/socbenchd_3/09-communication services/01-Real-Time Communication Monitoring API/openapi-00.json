@@ -1,0 +1,251 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Communication Network Performance Monitoring Service",
+    "description": "This RESTful service facilitates real-time monitoring of communication network performance metrics, assisting telecom providers in maintaining optimal service standards. Users can access data on latency, throughput, and error rates via specific API endpoints, subscribe to alerts for potential disruptions, and configure monitoring preferences. Secure authentication ensures data integrity, making it a reliable tool for proactive network management.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.networkmonitoring.example.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/metrics/latency": {
+      "get": {
+        "summary": "Retrieve Real-Time Latency Data",
+        "description": "Fetch the real-time latency data for the monitored network to assess network delays.",
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of latency data.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "latency": "34ms",
+                  "timestamp": "2023-10-28T12:00:00Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics/throughput": {
+      "get": {
+        "summary": "Retrieve Current Throughput Data",
+        "description": "Fetch the current throughput metrics of the monitored network to understand bandwidth availability.",
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of throughput data.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "throughput": "120Mbps",
+                  "timestamp": "2023-10-28T12:00:00Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics/errorrate": {
+      "get": {
+        "summary": "Retrieve Real-Time Error Rate Statistics",
+        "description": "Obtain the ongoing error rate statistics of network operations to identify potential issues.",
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of error rate statistics.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "errorRate": "0.02%",
+                  "timestamp": "2023-10-28T12:00:00Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts/subscribe": {
+      "post": {
+        "summary": "Subscribe to Alert Notifications",
+        "description": "Register to receive alerts for network anomalies or potential disruptions.",
+        "requestBody": {
+          "description": "Provide details for subscription, such as the email or webhook URL.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "email": "example@domain.com",
+                "webhookUrl": "http://example.com/webhook",
+                "preferences": ["latency", "errorRate"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully subscribed to alerts."
+          }
+        }
+      }
+    },
+    "/alerts/unsubscribe": {
+      "delete": {
+        "summary": "Unsubscribe from Alert Notifications",
+        "description": "Remove subscription from alert notifications for network updates.",
+        "responses": {
+          "200": {
+            "description": "Successfully unsubscribed from alerts."
+          }
+        }
+      }
+    },
+    "/regions/{regionID}/metrics": {
+      "get": {
+        "summary": "Retrieve Performance Metrics for a Specific Region",
+        "description": "Fetch performance metrics for a specified region using its region ID.",
+        "parameters": [
+          {
+            "name": "regionID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the region.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of region-specific metrics.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "regionID": "123",
+                  "latency": "40ms",
+                  "throughput": "100Mbps",
+                  "errorRate": "0.01%"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts": {
+      "get": {
+        "summary": "Retrieve Triggered Alerts",
+        "description": "Fetch a list of triggered alerts along with their details for further analysis.",
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of alerts.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "alertID": "A123",
+                    "type": "latency",
+                    "timestamp": "2023-10-28T10:00:00Z",
+                    "details": "Latency exceeded 50ms"
+                  },
+                  {
+                    "alertID": "A124",
+                    "type": "errorRate",
+                    "timestamp": "2023-10-28T11:00:00Z",
+                    "details": "Error rate exceeded 0.05%"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/settings/monitoring": {
+      "put": {
+        "summary": "Configure Monitoring Preferences",
+        "description": "Update and configure the network monitoring settings such as threshold values and alert preferences.",
+        "requestBody": {
+          "description": "Settings data for configuration.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "latencyThreshold": "50ms",
+                "throughputThreshold": "100Mbps",
+                "errorRateThreshold": "0.05%",
+                "alertPreferences": ["email", "webhook"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated monitoring preferences."
+          }
+        }
+      }
+    },
+    "/services/status": {
+      "get": {
+        "summary": "Check Service Status",
+        "description": "Retrieve the overall operational status and health of the service endpoints.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the service status.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Operational",
+                  "uptime": "99.99%",
+                  "lastChecked": "2023-10-28T12:00:00Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback": {
+      "post": {
+        "summary": "Submit Service Feedback",
+        "description": "Send user feedback about the service to help improve functionality.",
+        "requestBody": {
+          "description": "Provide details of the feedback.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "userId": "user123",
+                "feedback": "The monitoring service is very effective but could benefit from additional metrics."
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Feedback submitted successfully."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "apiKeyAuth": []
+    }
+  ]
+}

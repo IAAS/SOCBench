@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+The Human Resource Allocation Service API enables industries to effectively assign workforce resources to active and upcoming projects. Features include employee availability monitoring, skillset matching, and shift scheduling. The API supports secure integration with HRIS platforms to fetch employee details. For example, a human resource manager can send an API call with specific project requirements, obtaining a list of suitable candidates, their availability, and optimal scheduling recommendations.
+
+Endpoints:
+GET /employees: Retrieve the details of all employees managed within the system including their skills and availability.
+GET /projects: Fetch the list of active and planned projects along with relevant resource requirements.
+POST /projects: Submit a new project along with its workforce and skill requirements.
+PUT /employees/{id}: Update the information associated with a specific employee, such as skills or assigned projects.
+DELETE /projects/{id}: Remove a specific project from the system, releasing assigned resources for reallocation.
+GET /shifts: Retrieve the current and upcoming shift schedules for all employees.
+POST /recommendations: Request a resource allocation recommendation based on project inputs and available staff.
+GET /availability: Fetch the availability status of employees over a specified timeframe.
+PUT /shifts/{id}: Modify the shift scheduling of an employee to optimize resource distribution.
+POST /analytics: Generate detailed reports on resource allocation efficiency and project workforce adequacy.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,381 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Global Energy Market Data API",
+        "version": "1.0.0",
+        "description": "This API aggregates and provides access to global energy market data, including pricing, supply levels, geopolitical factors, and renewable energy trends. By integrating this service, energy businesses can make informed pricing and investment decisions. Endpoints cover historical and real-time data for energy pricing, supply, trade flows, predictions, and trends."
+    },
+    "servers": [
+        {
+            "url": "https://api.globalenergymarket.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/energy/pricing": {
+            "get": {
+                "summary": "Fetch current and historical energy pricing data",
+                "description": "Retrieve real-time or historical pricing data for various energy commodities, including oil, gas, coal, and renewable energy sources.",
+                "parameters": [
+                    {
+                        "name": "energy_type",
+                        "in": "query",
+                        "description": "The type of energy resource to fetch pricing for (e.g., oil, gas, coal, renewable).",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "oil",
+                                "gas",
+                                "coal",
+                                "renewable"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "The start date for historical pricing data (format: YYYY-MM-DD).",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "The end date for historical pricing data (format: YYYY-MM-DD).",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with pricing data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "price": {
+                                                        "type": "number"
+                                                    },
+                                                    "currency": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/energy/supply-levels": {
+            "get": {
+                "summary": "Retrieve supply level data for energy resources",
+                "description": "Get data on the current supply levels of energy resources, including oil, gas, or coal.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "The geographical region for supply data (e.g., US, EU, Asia). Optional for global data.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "energy_type",
+                        "in": "query",
+                        "description": "The energy type to retrieve supply level data for (e.g., oil, gas, coal).",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "oil",
+                                "gas",
+                                "coal"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with supply level data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "region": {
+                                                        "type": "string"
+                                                    },
+                                                    "supply_level": {
+                                                        "type": "number"
+                                                    },
+                                                    "unit": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/energy/geopolitical-impact": {
+            "get": {
+                "summary": "Analyze geopolitical impact on energy markets",
+                "description": "Analyze the effects of geopolitical events or policies on global energy markets.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "The region of interest for geopolitical impact analysis.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with geopolitical impact analysis.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "event": {
+                                                        "type": "string"
+                                                    },
+                                                    "impact": {
+                                                        "type": "string"
+                                                    },
+                                                    "affected_energy_resource": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analysis/request": {
+            "post": {
+                "summary": "Submit a request for custom analysis",
+                "description": "Submit a request for detailed, custom analysis of energy market data based on specified parameters.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "parameters": {
+                                        "type": "object"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "parameters"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Request accepted for processing."
+                    }
+                }
+            }
+        },
+        "/energy/trade-flows": {
+            "get": {
+                "summary": "Retrieve energy trade flow data",
+                "description": "Access data on international trade flows and transactions related to energy resources.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with trade flow data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "trade_partner": {
+                                                        "type": "string"
+                                                    },
+                                                    "resource": {
+                                                        "type": "string"
+                                                    },
+                                                    "quantity": {
+                                                        "type": "number"
+                                                    },
+                                                    "unit": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/energy/statistics/annual": {
+            "get": {
+                "summary": "Access annual energy statistics",
+                "description": "Retrieve data on annual production, consumption, and pricing statistics for various energy resources.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with annual statistics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/price-prediction": {
+            "get": {
+                "summary": "Access future energy pricing predictions",
+                "description": "Retrieve predictive analytics for future pricing trends of energy commodities such as oil, gas, and coal.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with price prediction analytics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/renewables/trends": {
+            "get": {
+                "summary": "Retrieve trends on renewable energy",
+                "description": "Get insights on trends, advancements, and updates in the renewable energy sector.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with renewable energy trends data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/environmental/impact": {
+            "get": {
+                "summary": "Retrieve environmental impact data",
+                "description": "Get data and insights about the environmental impacts of energy sourcing and usage.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with environmental impact data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/energy/alerts": {
+            "get": {
+                "summary": "Get energy market alerts",
+                "description": "Receive alerts about sudden changes in metrics such as energy prices or supply levels.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with market alerts.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

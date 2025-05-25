@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+This service offers advanced analytical tools for predicting energy demand based on historical data, environmental factors, and market trends. Users can efficiently plan resources using these insights. For instance, a utility company can utilize the API to forecast peak electricity demand in a region, enabling optimized grid management and cost-effective energy distribution.
+
+Endpoints:
+POST /data/upload: Upload historical energy consumption data for analysis and forecasting.
+GET /forecast/daily: Retrieve daily energy demand predictions based on provided datasets and market conditions.
+GET /forecast/monthly: Fetch monthly aggregated energy demand forecasts for more extensive planning.
+POST /environment/factors: Submit environmental variables to adjust the energy demand model dynamically.
+GET /market/trends: Access current market trends affecting energy consumption patterns.
+POST /grid/parameters: Provide specific grid parameters to tailor the forecasting model outputs.
+GET /grid/optimization: Retrieve recommendations for optimal grid operation based on forecasted demands.
+DELETE /data/reset: Clear all previously uploaded data sets and initiate new forecasting cycles.
+GET /analysis/reports: Generate detailed reports of energy consumption analysis and trends.
+GET /status: Check the operational status and most recent activity log of the forecasting service.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

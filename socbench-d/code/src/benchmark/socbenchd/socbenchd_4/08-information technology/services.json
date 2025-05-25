@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Data Center Infrastructure Monitoring Service",
+            "description": "This RESTful API enables real-time monitoring and analysis of data center infrastructure metrics, supporting administrators in optimizing resources, managing energy consumption, and ensuring system integrity."
+        },
+        {
+            "name": "Cloud Resource Management Service",
+            "description": "This service offers operations teams tools for automated provisioning, scaling, and management of cloud ecosystem resources via an extensive REST API."
+        },
+        {
+            "name": "Software License Compliance Service",
+            "description": "Organizations can utilize this API to track software license usage, ensuring compliance with agreements and avoiding potential legal or financial penalties."
+        },
+        {
+            "name": "Cybersecurity Threat Intelligence Service",
+            "description": "Security specialists are granted access to a robust set of tools and datasets enabling the identification, tracking, and mitigation of potential threats in their IT landscape."
+        },
+        {
+            "name": "IT Asset Lifecycle Management Service",
+            "description": "Assets across organizations can be efficiently managed, with features supporting acquisition, maintenance, auditing, and decommissioning, leveraging a comprehensive API suite."
+        }
+    ]
+}

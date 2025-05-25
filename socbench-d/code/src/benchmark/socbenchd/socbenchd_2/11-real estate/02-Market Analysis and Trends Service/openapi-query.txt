@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+Provides real-time insights into property price trends, neighborhood growth statistics, and market demand analysis for informed decision-making.
+
+Endpoints:
+GET /properties/trends: Retrieve real-time property price trends based on specified criteria.
+GET /neighborhoods/growth: Access growth statistics for specific neighborhoods including development indicators.
+GET /market/demand: Fetch current market demand analysis for desired property types or locations.
+POST /properties/analyze: Submit property listing information to get an extensive analytics report.
+GET /regions/insights: Provide detailed market insights for selected regions or zones.
+PUT /alerts/price-threshold: Set alerts for properties matching specific price thresholds to monitor price changes.
+GET /rental-analysis: Analyze the rental market dynamics for tenant demand and pricing trends.
+POST /neighborhood/comparison: Compare multiple neighborhoods based on predefined growth and demand metrics.
+GET /investment-opportunities: Identify top investment opportunities based on growth indicators and market conditions.
+GET /realtor-assist/service-ratings: Retrieve reviews and efficiency ratings for real estate service providers.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

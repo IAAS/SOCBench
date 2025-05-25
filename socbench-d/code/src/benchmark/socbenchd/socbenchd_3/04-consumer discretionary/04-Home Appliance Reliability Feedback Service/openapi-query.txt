@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+The Home Appliance Reliability Feedback Service gathers and analyzes feedback from consumers about household appliance performance post-purchase. Manufacturers can leverage this information to enhance product reliability and address common concerns.
+
+Endpoints:
+POST /submit-feedback: Submit feedback regarding a specific home appliance's performance after purchase.
+GET /feedback-summary: Retrieve a summary analysis of collected feedback for different product categories.
+GET /products: Retrieve a list of home appliances currently supported by the service.
+POST /register-product: Register a new product category or model to begin collecting feedback.
+GET /manufacturer-reports: Retrieve detailed reports tailored for appliance manufacturers.
+POST /flag-feedback: Report and mark specific feedback for moderation or review.
+GET /trend-analysis: Retrieve analysis indicating trends in reliability data over time.
+GET /regional-insights: Retrieve insights related to specific regions or geographic areas.
+GET /comparison-statistics: Compare reliability feedback statistics between different products or models.
+DELETE /remove-feedback: Request the removal of specific feedback entries, subject to service policies.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

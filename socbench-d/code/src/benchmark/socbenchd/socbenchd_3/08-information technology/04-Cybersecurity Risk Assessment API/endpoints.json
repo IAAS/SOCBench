@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /vulnerabilities",
+            "description": "Retrieve a list of identified vulnerabilities within the organization's system network based on preset configurations."
+        },
+        {
+            "endpoint": "POST /scan/network",
+            "description": "Initiate a network-wide scan to detect potential vulnerabilities."
+        },
+        {
+            "endpoint": "GET /scan/{scan_id}/results",
+            "description": "Retrieve the results of a specific scan using its unique identifier."
+        },
+        {
+            "endpoint": "POST /configurations",
+            "description": "Create new configurations to tailor vulnerability detection parameters."
+        },
+        {
+            "endpoint": "PUT /configurations/{config_id}",
+            "description": "Modify an existing configuration using its unique identifier."
+        },
+        {
+            "endpoint": "DELETE /configurations/{config_id}",
+            "description": "Delete an existing configuration using its unique identifier."
+        },
+        {
+            "endpoint": "GET /mitigation/recommendations",
+            "description": "Retrieve a list of recommended actions to address identified vulnerabilities."
+        },
+        {
+            "endpoint": "POST /mitigation/apply",
+            "description": "Submit a request to apply specific mitigation measures to the system network."
+        },
+        {
+            "endpoint": "GET /reports",
+            "description": "Retrieve a list of generated reports detailing vulnerability assessments and mitigations."
+        },
+        {
+            "endpoint": "POST /reports/export",
+            "description": "Request an export of detailed reports in specified formats (e.g., PDF, CSV)."
+        }
+    ]
+}

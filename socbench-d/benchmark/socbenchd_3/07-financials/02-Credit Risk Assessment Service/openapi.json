@@ -1,0 +1,452 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Credit Risk Evaluation API",
+        "description": "This API allows financial institutions to evaluate the creditworthiness of clients using advanced algorithms and historical data. The service calculates a risk score and provides associated insights for better decision-making. Institutions must adhere to legally compliant data usage policies when using this API.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/evaluate-credit-risk": {
+            "post": {
+                "summary": "Evaluate a client's credit risk",
+                "description": "Submit client details to evaluate their credit risk. The API returns a calculated risk score alongside recommendations and insights.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "clientId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the client."
+                                    },
+                                    "financialData": {
+                                        "type": "object",
+                                        "description": "A collection of financial data points, including income, credit history, liabilities, and other relevant details.",
+                                        "properties": {
+                                            "income": {
+                                                "type": "number",
+                                                "description": "Client's annual income."
+                                            },
+                                            "creditScore": {
+                                                "type": "integer",
+                                                "description": "Client's existing credit score."
+                                            },
+                                            "liabilities": {
+                                                "type": "number",
+                                                "description": "Client's total liabilities."
+                                            },
+                                            "employmentStatus": {
+                                                "type": "string",
+                                                "description": "Client's employment status (e.g., 'employed', 'unemployed')."
+                                            }
+                                        },
+                                        "required": [
+                                            "income",
+                                            "creditScore",
+                                            "liabilities"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "clientId",
+                                    "financialData"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Risk evaluation result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "riskScore": {
+                                            "type": "number",
+                                            "description": "Calculated risk score for the client."
+                                        },
+                                        "recommendations": {
+                                            "type": "string",
+                                            "description": "Recommended lending terms and insights."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/risk-score/{clientId}": {
+            "get": {
+                "summary": "Get a client's risk score",
+                "description": "Retrieve a previously calculated risk score for a specific client using their unique identifier.",
+                "parameters": [
+                    {
+                        "name": "clientId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the client."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Risk score retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "riskScore": {
+                                            "type": "number",
+                                            "description": "Previously calculated risk score for the client."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/add-client-profile": {
+            "post": {
+                "summary": "Add a new client profile",
+                "description": "Add a new client profile by providing their financial and personal data.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "clientId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the client."
+                                    },
+                                    "clientData": {
+                                        "type": "object",
+                                        "description": "Detailed profile data for the client.",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Client's full name."
+                                            },
+                                            "address": {
+                                                "type": "string",
+                                                "description": "Client's address."
+                                            },
+                                            "contactInfo": {
+                                                "type": "string",
+                                                "description": "Client's contact information."
+                                            },
+                                            "financialData": {
+                                                "type": "object",
+                                                "description": "Financial details, including income, liabilities, etc.",
+                                                "properties": {
+                                                    "income": {
+                                                        "type": "number",
+                                                        "description": "Client's annual income."
+                                                    },
+                                                    "liabilities": {
+                                                        "type": "number",
+                                                        "description": "Client's total liabilities."
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "name",
+                                            "address",
+                                            "financialData"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "clientId",
+                                    "clientData"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Client profile added successfully"
+                    }
+                }
+            }
+        },
+        "/client-profile/{clientId}": {
+            "get": {
+                "summary": "Retrieve a client's profile",
+                "description": "Retrieve details of a specific client profile using their unique identifier.",
+                "parameters": [
+                    {
+                        "name": "clientId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the client."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Client profile retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "clientData": {
+                                            "type": "object",
+                                            "description": "Details of the client profile.",
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "description": "Client's name."
+                                                },
+                                                "address": {
+                                                    "type": "string",
+                                                    "description": "Client's address."
+                                                },
+                                                "financialData": {
+                                                    "type": "object",
+                                                    "description": "Client's financial details.",
+                                                    "properties": {
+                                                        "income": {
+                                                            "type": "number",
+                                                            "description": "Annual income."
+                                                        },
+                                                        "liabilities": {
+                                                            "type": "number",
+                                                            "description": "Total liabilities."
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/update-client-profile": {
+            "put": {
+                "summary": "Update a client profile",
+                "description": "Update existing client profile data with new or modified information.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "clientId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the client."
+                                    },
+                                    "updatedData": {
+                                        "type": "object",
+                                        "description": "Updated profile data for the client.",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Updated name, if applicable."
+                                            },
+                                            "address": {
+                                                "type": "string",
+                                                "description": "Updated address, if applicable."
+                                            },
+                                            "financialData": {
+                                                "type": "object",
+                                                "description": "Updated financial details.",
+                                                "properties": {
+                                                    "income": {
+                                                        "type": "number",
+                                                        "description": "Updated income."
+                                                    },
+                                                    "liabilities": {
+                                                        "type": "number",
+                                                        "description": "Updated liabilities."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Client profile updated successfully"
+                    }
+                }
+            }
+        },
+        "/risk-analytics": {
+            "post": {
+                "summary": "Analyze risk trends",
+                "description": "Analyze trends and statistics over the accumulated risk scores of clients.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "timeFrame": {
+                                        "type": "string",
+                                        "description": "Time range for the analysis (e.g., 'last month', 'Q1 2023')."
+                                    },
+                                    "filters": {
+                                        "type": "object",
+                                        "description": "Optional filters for the analysis (e.g., region, income range)."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Risk analytics result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "description": "List of analyzed risk trends and statistics."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/suggested-lending-terms/{clientId}": {
+            "get": {
+                "summary": "Get lending terms",
+                "description": "Retrieve detailed recommended lending terms for a specific client based on their risk profile.",
+                "parameters": [
+                    {
+                        "name": "clientId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the client."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Recommended lending terms retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "lendingTerms": {
+                                            "type": "string",
+                                            "description": "Recommended lending terms."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/delete-client-profile/{clientId}": {
+            "delete": {
+                "summary": "Delete a client profile",
+                "description": "Remove a specific client profile from the system using their unique identifier.",
+                "parameters": [
+                    {
+                        "name": "clientId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the client profile to delete."
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Client profile deleted successfully"
+                    }
+                }
+            }
+        },
+        "/algorithm-insights": {
+            "get": {
+                "summary": "Retrieve algorithm insights",
+                "description": "Receive insights into the performance and reliability of the credit risk evaluation algorithm.",
+                "responses": {
+                    "200": {
+                        "description": "Algorithm insights retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "performanceMetrics": {
+                                            "type": "object",
+                                            "description": "Performance metrics of the algorithm (e.g., accuracy, precision, recall)."
+                                        },
+                                        "reliabilityMetrics": {
+                                            "type": "object",
+                                            "description": "Reliability metrics of the algorithm (e.g., uptime, error rates)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/report-compliance-check": {
+            "post": {
+                "summary": "Submit compliance report",
+                "description": "Submit data usage information for compliance verification per legal requirements.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "dataUsageDetails": {
+                                        "type": "object",
+                                        "description": "Details about how the client's data was used in the system."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Compliance report submitted successfully"
+                    }
+                }
+            }
+        }
+    }
+}

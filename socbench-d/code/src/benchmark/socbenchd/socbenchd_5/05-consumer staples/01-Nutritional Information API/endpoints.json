@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /products",
+            "description": "Retrieve a list of all supported products with detailed nutritional information."
+        },
+        {
+            "endpoint": "GET /products/{upc}",
+            "description": "Fetch detailed nutritional data for a specific product identified by its UPC code."
+        },
+        {
+            "endpoint": "GET /categories",
+            "description": "List all product categories and their descriptions available in the API."
+        },
+        {
+            "endpoint": "GET /categories/{categoryId}/products",
+            "description": "Retrieve products belonging to a specific category identified by categoryId."
+        },
+        {
+            "endpoint": "GET /products/{upc}/ingredients",
+            "description": "Get ingredient information for the given product identified by its UPC."
+        },
+        {
+            "endpoint": "GET /products/{upc}/allergens",
+            "description": "Retrieve allergen information for the specific product identified by its UPC."
+        },
+        {
+            "endpoint": "GET /products/{upc}/labels",
+            "description": "Fetch regulation labels like 'Gluten-Free' or 'Organic' for the given product."
+        },
+        {
+            "endpoint": "GET /products/{upc}/compare/{otherUpc}",
+            "description": "Compare the nutritional values and ingredients of two products by their UPC codes."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit feedback or corrections regarding a specific product."
+        },
+        {
+            "endpoint": "GET /version",
+            "description": "Retrieve the current version of the API for compatibility checks."
+        }
+    ]
+}

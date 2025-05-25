@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+Focusing on end-user engagement, this service delivers personalized energy usage reports, recommendations for reducing consumption, and prediction of future bills, providing users with tools to enhance energy efficiency and reduce costs.
+
+Endpoints:
+GET /user/energy-report: Retrieve a personalized energy usage report for the user, detailing current trends and areas for improvement.
+POST /user/recommendations: Submit data to generate tailored recommendations for reducing energy consumption and increasing efficiency.
+GET /billing/predictions: Obtain predictions of future energy bills based on past and current usage patterns.
+GET /energy-sources/distribution: Access the distribution details of energy sources utilized, highlighting renewable versus non-renewable contributions.
+POST /feedback/insights: Provide feedback on received insights, enabling refinement and customization of reported data.
+GET /user/goal-progress: Track the progress towards achieving user-defined energy-saving goals.
+POST /alerts/preferences: Set preferences for customizable alerts related to high usage or anomaly detections.
+GET /community/averages: Retrieve average energy consumption data from similar users within the community for comparison.
+POST /actions/validate: Submit user-initiated actions for validation concerning energy-saving effectiveness.
+GET /dashboard/summary: Access a consolidated summary of relevant energy usage information for quick user reference.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

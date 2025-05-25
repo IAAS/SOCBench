@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+Service:
+This API equips manufacturers and distributors with insights into consumer behavior trends concerning staples. By analyzing purchase patterns, demographic data, and seasonal tendencies, organizations can tailor production and marketing strategies to meet demand more effectively. Access requires authenticated API keys, and endpoints offer data segmentation by region and product category.
+
+Endpoints:
+GET /consumer-trends/overview: Retrieve a summary of current consumer behavior trends based on region and product category.
+POST /market-analysis/region: Submit a request to analyze market performance and purchasing patterns within a specific region.
+GET /product-categories/top: Obtain a ranked overview of product categories experiencing the highest demand.
+POST /seasonal-trends/predictions: Calculate and provide predictions on seasonal consumer behavior variations for selected items.
+GET /demographics/preferences: Access statistical data regarding product preferences segmented by demographic groups.
+GET /historical-data/trends: Fetch historical trends in consumer behavior for strategic data analysis.
+POST /campaign-analysis/effectiveness: Analyze the success and impact of recent marketing campaigns on product sales.
+GET /inventory/demand-forecast: Provide demand forecasts to align inventory management with market requirements.
+POST /feedback/consumer: Allow the submission of aggregated consumer feedback to identify product improvement opportunities.
+GET /insights/competitor-comparison: Deliver comparative analytics between the client's performance and competitors within the sector.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

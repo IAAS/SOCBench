@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /outages",
+            "description": "Retrieve current outage data across the utility network."
+        },
+        {
+            "endpoint": "POST /report-issue",
+            "description": "Submit a report of a potential issue or outage detected by users."
+        },
+        {
+            "endpoint": "GET /status/{sensor_id}",
+            "description": "Fetch the operational status of a specific IoT sensor."
+        },
+        {
+            "endpoint": "PUT /sensor-calibration",
+            "description": "Update the calibration parameters for sensors in the network."
+        },
+        {
+            "endpoint": "GET /dashboard/overview",
+            "description": "Access a summarized dashboard view of network performance metrics."
+        },
+        {
+            "endpoint": "POST /alerts/subscribe",
+            "description": "Register for notifications about service status changes and outages."
+        },
+        {
+            "endpoint": "GET /energy-generation/renewable",
+            "description": "View statistics on energy produced from renewable sources."
+        },
+        {
+            "endpoint": "PATCH /customer/communication",
+            "description": "Modify customer contact preferences for outage alerts."
+        },
+        {
+            "endpoint": "GET /incident-history",
+            "description": "List past incidents and associated resolutions within the network."
+        },
+        {
+            "endpoint": "POST /simulation/drill",
+            "description": "Initiate a simulated outage drill for preparedness analysis."
+        }
+    ]
+}

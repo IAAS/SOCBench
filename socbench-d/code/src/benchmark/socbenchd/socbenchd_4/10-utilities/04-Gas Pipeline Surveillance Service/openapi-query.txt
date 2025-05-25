@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+Equipping gas companies with comprehensive monitoring capabilities, this service tracks pipeline conditions, detects leaks via IoT sensors, and facilitates rapid response to prevent accidents and maintain operational integrity.
+
+Endpoints:
+GET /pipelines: Retrieve a list of all monitored pipelines and their details.
+POST /pipelines: Add a new pipeline to be included in the monitoring system.
+GET /pipelines/{id}/status: Retrieve the current status and condition details of a specific pipeline.
+POST /alerts: Report an observed issue or anomaly in the pipeline operations.
+GET /alerts: Retrieve a list of all triggered alerts for pipeline issues.
+PATCH /pipelines/{id}/maintenance: Update the maintenance status or schedule for a specific pipeline.
+GET /sensors/{id}/readings: Retrieve the latest readings from a specific IoT sensor.
+POST /sensors/{id}/calibrate: Calibrate a specific IoT sensor to ensure accuracy.
+DELETE /pipelines/{id}: Remove a pipeline from the monitoring system.
+GET /statistics/overview: Retrieve an analytical overview of the monitored systems with aggregated data trends.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

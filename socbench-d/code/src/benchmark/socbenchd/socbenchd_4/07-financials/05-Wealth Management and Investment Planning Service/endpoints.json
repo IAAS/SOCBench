@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /portfolio/optimization",
+            "description": "Retrieve the optimized portfolio allocation based on user preferences and current market conditions."
+        },
+        {
+            "endpoint": "POST /portfolio/customize",
+            "description": "Allow users to customize portfolio parameters and simulate potential outcomes."
+        },
+        {
+            "endpoint": "GET /assets/overview",
+            "description": "Provide an overview of all available asset classes for investment."
+        },
+        {
+            "endpoint": "GET /financial-goals/status",
+            "description": "Retrieve the progress status towards predefined financial goals."
+        },
+        {
+            "endpoint": "POST /assets/evaluation",
+            "description": "Evaluate specific asset performance scenarios as per user selection."
+        },
+        {
+            "endpoint": "PATCH /goals/update",
+            "description": "Modify the details of existing financial goals set by the user."
+        },
+        {
+            "endpoint": "GET /market/trends",
+            "description": "Access insights into current market trends influencing investment choices."
+        },
+        {
+            "endpoint": "POST /advice/consultation",
+            "description": "Obtain tailored investment advice based on existing portfolios and market strategies."
+        },
+        {
+            "endpoint": "DELETE /portfolio/remove",
+            "description": "Allow users to remove or reset their current portfolio settings."
+        },
+        {
+            "endpoint": "GET /investment/simulation",
+            "description": "Simulate potential returns on selected investment strategies over a designated time frame."
+        }
+    ]
+}

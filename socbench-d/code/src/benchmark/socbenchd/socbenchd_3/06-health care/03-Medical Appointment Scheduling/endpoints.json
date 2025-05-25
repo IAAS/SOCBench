@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /appointments",
+            "description": "Create a new medical appointment for a patient with a specified practitioner."
+        },
+        {
+            "endpoint": "GET /appointments",
+            "description": "Retrieve a list of all scheduled appointments for a particular patient or practitioner."
+        },
+        {
+            "endpoint": "PATCH /appointments/{appointment_id}",
+            "description": "Update the details of a specific appointment using its unique ID."
+        },
+        {
+            "endpoint": "DELETE /appointments/{appointment_id}",
+            "description": "Cancel a medical appointment by its ID."
+        },
+        {
+            "endpoint": "GET /practitioners",
+            "description": "Retrieve a list of all available healthcare practitioners within the network."
+        },
+        {
+            "endpoint": "GET /practitioners/{practitioner_id}/availability",
+            "description": "Retrieve the available time slots for a specific practitioner."
+        },
+        {
+            "endpoint": "POST /practitioners/{practitioner_id}/availability",
+            "description": "Add or update the availability schedule for a specific practitioner."
+        },
+        {
+            "endpoint": "GET /patients/{patient_id}/history",
+            "description": "Retrieve the appointment history for a specific patient."
+        },
+        {
+            "endpoint": "GET /appointment-types",
+            "description": "Retrieve a list of available types of medical appointments."
+        },
+        {
+            "endpoint": "POST /reports",
+            "description": "Generate a detailed report summarizing appointments and availability for a specified timeframe."
+        }
+    ]
+}

@@ -1,0 +1,355 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Video Streaming Management API",
+    "description": "This platform allows content providers to manage live and on-demand video streaming, including features like adaptive bitrate handling, viewer engagement analytics, and dynamic advertisement insertion.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.streamingplatform.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/video/upload": {
+      "post": {
+        "summary": "Upload a new video",
+        "description": "Upload a new video to the platform for processing and streaming.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The video file to be uploaded."
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "The title of the uploaded video."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "A brief description of the video."
+                  }
+                },
+                "required": ["file"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Video successfully uploaded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "videoID": {
+                      "type": "string",
+                      "description": "The ID of the uploaded video."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Possible issues with the provided video file or data."
+          }
+        }
+      }
+    },
+    "/video/{videoID}/streamingUrl": {
+      "get": {
+        "summary": "Retrieve a video streaming URL",
+        "description": "Retrieve the streaming URL for a specific video.",
+        "parameters": [
+          {
+            "name": "videoID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the video.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Streaming URL retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "streamingUrl": {
+                      "type": "string",
+                      "description": "The URL for streaming the video."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Video not found."
+          }
+        }
+      }
+    },
+    "/live/start": {
+      "post": {
+        "summary": "Start a live streaming session",
+        "description": "Initiate a live video streaming session.",
+        "responses": {
+          "200": {
+            "description": "Live streaming session started successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionID": {
+                      "type": "string",
+                      "description": "The unique identifier for the live streaming session."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/live/{sessionID}/advertisement": {
+      "patch": {
+        "summary": "Insert an advertisement in a live stream",
+        "description": "Dynamically insert an advertisement into a live streaming session.",
+        "parameters": [
+          {
+            "name": "sessionID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the live streaming session.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "adURL": {
+                    "type": "string",
+                    "description": "The URL of the advertisement to insert."
+                  }
+                },
+                "required": ["adURL"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Advertisement successfully inserted."
+          }
+        }
+      }
+    },
+    "/analytics/viewership": {
+      "get": {
+        "summary": "Retrieve viewer engagement analytics",
+        "description": "Retrieve analytics data regarding viewer engagement and statistics.",
+        "responses": {
+          "200": {
+            "description": "Analytics data retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "viewershipData": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "timestamp": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "The analytics timestamp."
+                          },
+                          "viewers": {
+                            "type": "integer",
+                            "description": "The number of viewers at that timestamp."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/video/{videoID}": {
+      "delete": {
+        "summary": "Delete a video",
+        "description": "Remove a specific video from the platform.",
+        "parameters": [
+          {
+            "name": "videoID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the video.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Video successfully deleted."
+          },
+          "404": {
+            "description": "Video not found."
+          }
+        }
+      }
+    },
+    "/live/{sessionID}/end": {
+      "post": {
+        "summary": "End a live stream session",
+        "description": "Terminate an active live streaming session.",
+        "parameters": [
+          {
+            "name": "sessionID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the live streaming session.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Live streaming session ended successfully."
+          }
+        }
+      }
+    },
+    "/video/metadata": {
+      "get": {
+        "summary": "Retrieve video metadata",
+        "description": "Obtain metadata for videos, including titles and descriptions.",
+        "responses": {
+          "200": {
+            "description": "Metadata retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "videoID": {
+                        "type": "string",
+                        "description": "The unique identifier of the video."
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "The title of the video."
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "A brief description of the video."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/video/{videoID}/advertisement": {
+      "put": {
+        "summary": "Replace on-demand video advertisements",
+        "description": "Replace advertisements associated with an on-demand video.",
+        "parameters": [
+          {
+            "name": "videoID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the video.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "adURLs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "The URL of the advertisements to replace the existing ones."
+                    }
+                  }
+                },
+                "required": ["adURLs"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Advertisements replaced successfully."
+          }
+        }
+      }
+    },
+    "/platform/health": {
+      "get": {
+        "summary": "Check platform health status",
+        "description": "Check the current health and operational status of the streaming platform.",
+        "responses": {
+          "200": {
+            "description": "Platform health status retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "The operational status of the platform (e.g., 'healthy', 'degraded', 'unavailable')."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

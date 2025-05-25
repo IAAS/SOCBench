@@ -1,0 +1,410 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Industrial Workforce Management API",
+        "version": "1.0.0",
+        "description": "This API allows industrial organizations to manage workforce skill assessments, training modules, and certifications. It also provides user progress tracking, analytics insights, and support ticketing functionality."
+    },
+    "servers": [
+        {
+            "url": "https://api.industrialworkforce.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/skill-assessments": {
+            "get": {
+                "summary": "Retrieve available workforce skill assessments",
+                "description": "Fetch a list of workforce skill assessment modules available on the platform.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with a list of skill assessments",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "assessmentId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the skill assessment"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the skill assessment"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Overview of the skill covered in the assessment"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/skill-assessments/{assessmentId}/complete": {
+            "post": {
+                "summary": "Submit completion status of an assessment",
+                "description": "Mark a specific skill assessment as complete for the user.",
+                "parameters": [
+                    {
+                        "name": "assessmentId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the skill assessment to be marked complete",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Data required to mark an assessment as complete",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the user completing the assessment"
+                                    },
+                                    "timestamp": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Time when the skill assessment was completed"
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "timestamp"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Skill assessment completion acknowledged"
+                    }
+                }
+            }
+        },
+        "/training-modules": {
+            "get": {
+                "summary": "Fetch available training modules",
+                "description": "Retrieve the catalog of training modules currently available for users.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with a list of training modules",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "moduleId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the training module"
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "description": "Name of the training module"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Detailed description of the training module"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/training-modules/{moduleId}/enroll": {
+            "post": {
+                "summary": "Enroll a user in a training module",
+                "description": "Enrolls a specific user into a training module based on its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "moduleId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the training module to enroll in",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Information required to enroll the user",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the user"
+                                    }
+                                },
+                                "required": [
+                                    "userId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User successfully enrolled in the training module"
+                    }
+                }
+            }
+        },
+        "/certifications": {
+            "get": {
+                "summary": "List all certifications",
+                "description": "Retrieve a list of certifications offered by the platform, including details for each.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with a list of certifications",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "certId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the certification"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the certification"
+                                            },
+                                            "requirements": {
+                                                "type": "string",
+                                                "description": "Prerequisites for earning the certification"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/certifications/{certId}/apply": {
+            "post": {
+                "summary": "Apply for a certification exam",
+                "description": "Allows a user to apply for a certification associated with a unique identifier.",
+                "parameters": [
+                    {
+                        "name": "certId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the certification",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Data required to apply for the certification exam",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the user applying for the certification exam"
+                                    }
+                                },
+                                "required": [
+                                    "userId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Application for the certification exam submitted successfully"
+                    }
+                }
+            }
+        },
+        "/users/{userId}/progress": {
+            "get": {
+                "summary": "Retrieve user progress",
+                "description": "Fetch training progress and skill assessment completion status for a specific user.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the user",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User progress data retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "skillAssessmentsCompleted": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "description": "List of completed skill assessments"
+                                        },
+                                        "trainingModulesEnrolled": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "description": "List of training modules the user is currently enrolled in"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{userId}/profile": {
+            "put": {
+                "summary": "Update a user's profile",
+                "description": "Allows updating of a user's profile information.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the user",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Profile details to update",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the user"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "Email of the user"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User profile successfully updated"
+                    }
+                }
+            }
+        },
+        "/analytics/completion-rates": {
+            "get": {
+                "summary": "Retrieve completion rates",
+                "description": "Fetch analytics data about the completion rates of assessments and training modules.",
+                "responses": {
+                    "200": {
+                        "description": "Completion rates retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "skillAssessmentsCompletionRate": {
+                                            "type": "number",
+                                            "description": "Percentage of completed skill assessments"
+                                        },
+                                        "trainingModulesCompletionRate": {
+                                            "type": "number",
+                                            "description": "Percentage of completed training modules"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/support/tickets": {
+            "post": {
+                "summary": "Submit a support ticket",
+                "description": "Submit a support ticket for platform-related inquiries or issues.",
+                "requestBody": {
+                    "description": "Details of the support ticket",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the user submitting the ticket"
+                                    },
+                                    "subject": {
+                                        "type": "string",
+                                        "description": "Subject of the support ticket"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Detailed description of the issue or inquiry"
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "subject",
+                                    "description"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Support ticket submitted successfully"
+                    }
+                }
+            }
+        }
+    }
+}

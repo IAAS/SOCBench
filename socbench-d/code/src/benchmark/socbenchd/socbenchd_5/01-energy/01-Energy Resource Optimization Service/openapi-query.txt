@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+This service provides tools for optimizing energy production and distribution strategies by analyzing resource availability, operational efficiency, and market demand.
+
+Endpoints:
+GET /production/sources: Retrieve the current statuses and availabilities of various energy production sources.
+POST /analysis/market-demand: Submit market parameters to analyze and forecast future energy demand trends.
+GET /distribution/status: Check real-time distribution grid statuses and detect potential inefficiencies.
+POST /optimization/run: Initiate an optimization process for energy production and distribution strategies.
+GET /reports/energy-usage: Retrieve detailed energy consumption and usage patterns for analysis.
+PUT /production/parameters: Modify operational parameters for energy production facilities to enhance efficiency.
+GET /alerts/system: Obtain active alerts related to energy systems and production units.
+POST /evaluations/resource-availability: Submit data to evaluate the availability of resources required for energy production.
+GET /insights/environmental-impact: Access reports on the environmental impact of current energy operations.
+DELETE /logs/operational-data: Purge archived data logs from the system based on specified retention policies.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

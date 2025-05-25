@@ -1,0 +1,390 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Leisure Facilities Event Management API",
+        "description": "An API to help leisure facilities manage event schedules and attendee registrations. Enables creating and publishing events, handling attendance, ticketing, and sending updates to attendees, facilitating seamless event organization.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/events": {
+            "get": {
+                "summary": "Retrieve all scheduled events",
+                "description": "Fetch a list of all events currently scheduled at the leisure facility. Useful for displaying upcoming events.",
+                "responses": {
+                    "200": {
+                        "description": "A list of scheduled events.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Event"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new event",
+                "description": "Add a new event to the schedule with its details, such as title, description, and date.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EventInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The event has been successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Event"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/events/{event_id}": {
+            "get": {
+                "summary": "Retrieve a specific event",
+                "description": "Fetch details of a specific event using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "event_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the event.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the specified event.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Event"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update event information",
+                "description": "Modify the details of a specific event using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "event_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the event to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EventInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The event has been successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Event"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete an event",
+                "description": "Remove a specific event from the schedule using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "event_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the event to be deleted.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The event has been successfully deleted."
+                    }
+                }
+            }
+        },
+        "/attendees/{event_id}": {
+            "get": {
+                "summary": "Retrieve attendees of an event",
+                "description": "Fetch the list of all registered attendees for a specific event using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "event_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the event whose attendees need to be fetched.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of registered attendees for the event.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Attendee"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/attendees": {
+            "post": {
+                "summary": "Register a new attendee",
+                "description": "Allow a new attendee to register for an event by submitting their information.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AttendeeInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The attendee has been successfully registered.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Attendee"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/attendees/{attendee_id}": {
+            "delete": {
+                "summary": "Remove an attendee",
+                "description": "Remove a specific attendee from the registration list using their unique identifier.",
+                "parameters": [
+                    {
+                        "name": "attendee_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the attendee to be removed.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The attendee has been successfully removed."
+                    }
+                }
+            }
+        },
+        "/notifications": {
+            "post": {
+                "summary": "Send event notifications",
+                "description": "Send notifications or updates to all registered attendees of a specific event.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NotificationInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Notifications have been successfully sent."
+                    }
+                }
+            }
+        },
+        "/statistics": {
+            "get": {
+                "summary": "Retrieve attendance statistics",
+                "description": "Fetch attendance and participation statistics for events held during a specified period.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The start date of the period (in YYYY-MM-DD format).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The end date of the period (in YYYY-MM-DD format).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Statistics for attendance and participation during the specified period.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Statistics"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Event": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the event."
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "The title of the event."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "A detailed description of the event."
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The date and time of the event."
+                    }
+                }
+            },
+            "EventInput": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "The title of the event to create."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "A brief description of the event."
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The date and time of the event."
+                    }
+                }
+            },
+            "Attendee": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique ID of the attendee."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the attendee."
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "The email address of the attendee."
+                    }
+                }
+            },
+            "AttendeeInput": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the attendee."
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "The email address of the attendee."
+                    },
+                    "event_id": {
+                        "type": "string",
+                        "description": "The ID of the event the attendee is registering for."
+                    }
+                }
+            },
+            "NotificationInput": {
+                "type": "object",
+                "properties": {
+                    "event_id": {
+                        "type": "string",
+                        "description": "The ID of the event for which notifications are being sent."
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "The message content of the notification."
+                    }
+                }
+            },
+            "Statistics": {
+                "type": "object",
+                "properties": {
+                    "total_events": {
+                        "type": "integer",
+                        "description": "The total number of events during the specified period."
+                    },
+                    "total_attendees": {
+                        "type": "integer",
+                        "description": "The total number of attendees across all events in the specified period."
+                    }
+                }
+            }
+        }
+    }
+}

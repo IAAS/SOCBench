@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /portfolios",
+            "description": "Retrieve the list of all user investment portfolios."
+        },
+        {
+            "endpoint": "GET /portfolios/{id}",
+            "description": "Retrieve details of a specific investment portfolio identified by its ID."
+        },
+        {
+            "endpoint": "POST /portfolios",
+            "description": "Create a new investment portfolio with specific parameters."
+        },
+        {
+            "endpoint": "PUT /portfolios/{id}",
+            "description": "Update the details of an existing investment portfolio by its ID."
+        },
+        {
+            "endpoint": "GET /performance",
+            "description": "Obtain the performance metrics of all linked investment portfolios."
+        },
+        {
+            "endpoint": "POST /recommendations",
+            "description": "Receive tailored investment recommendations based on portfolio data."
+        },
+        {
+            "endpoint": "GET /assets",
+            "description": "List details and metrics of all assets within a portfolio."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Set up alerts for important financial events or metrics."
+        },
+        {
+            "endpoint": "GET /market-data",
+            "description": "Retrieve real-time market data for analysis and comparison."
+        },
+        {
+            "endpoint": "DELETE /portfolios/{id}",
+            "description": "Remove a specified investment portfolio and associated data by its ID."
+        }
+    ]
+}

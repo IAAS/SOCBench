@@ -1,0 +1,370 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Industrial Maintenance Management API",
+    "description": "This API allows industrial companies to track, manage, and schedule maintenance operations for aerospace machinery and vehicles. Features include equipment status monitoring, maintenance history retrieval, and predictive analysis for future needs.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.industrial-maintenance.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/equipment-status": {
+      "get": {
+        "summary": "Get equipment operational statuses",
+        "description": "Retrieve the current operational status, diagnostics, and details of all registered equipment.",
+        "responses": {
+          "200": {
+            "description": "A list of equipment statuses and diagnostics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "equipmentId": {
+                        "type": "string",
+                        "description": "Unique identifier for the equipment"
+                      },
+                      "status": {
+                        "type": "string",
+                        "description": "Current operational status of the equipment"
+                      },
+                      "diagnostics": {
+                        "type": "string",
+                        "description": "Diagnostics details for the equipment"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maintenance-schedule": {
+      "post": {
+        "summary": "Create maintenance schedule",
+        "description": "Create and schedule a new maintenance operation for a specified piece of equipment.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "equipmentId": {
+                    "type": "string",
+                    "description": "Unique identifier of the equipment"
+                  },
+                  "scheduledDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date and time for the maintenance operation"
+                  },
+                  "details": {
+                    "type": "string",
+                    "description": "Details about the maintenance activity"
+                  }
+                },
+                "required": ["equipmentId", "scheduledDate"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Maintenance schedule created successfully"
+          }
+        }
+      }
+    },
+    "/maintenance-history/{equipmentId}": {
+      "get": {
+        "summary": "Fetch maintenance history",
+        "description": "Retrieve the maintenance logs and actions performed on a specific piece of equipment using its unique identifier.",
+        "parameters": [
+          {
+            "name": "equipmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier for the equipment"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Maintenance history fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Date of the maintenance"
+                      },
+                      "action": {
+                        "type": "string",
+                        "description": "Maintenance action performed"
+                      },
+                      "details": {
+                        "type": "string",
+                        "description": "Additional details about the maintenance"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maintenance-schedule/{scheduleId}": {
+      "delete": {
+        "summary": "Cancel maintenance schedule",
+        "description": "Cancel a previously scheduled maintenance operation by its unique schedule identifier.",
+        "parameters": [
+          {
+            "name": "scheduleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier for the maintenance schedule"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Maintenance schedule canceled successfully"
+          }
+        }
+      }
+    },
+    "/equipment/{equipmentId}": {
+      "put": {
+        "summary": "Update equipment information",
+        "description": "Update the information or operational parameters of a specific equipment using its unique identifier.",
+        "parameters": [
+          {
+            "name": "equipmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier for the equipment"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the equipment"
+                  },
+                  "parameters": {
+                    "type": "object",
+                    "description": "Updated operational parameters for the equipment",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Equipment information updated successfully"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove equipment entry",
+        "description": "Remove an equipment entry from the tracking system using its unique identifier.",
+        "parameters": [
+          {
+            "name": "equipmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier for the equipment"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Equipment removed successfully"
+          }
+        }
+      }
+    },
+    "/predictive-analysis": {
+      "get": {
+        "summary": "Run predictive maintenance analysis",
+        "description": "Perform predictive analysis on equipment to generate insights for future maintenance needs.",
+        "responses": {
+          "200": {
+            "description": "Predictive analysis results fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "equipmentId": {
+                      "type": "string",
+                      "description": "Unique identifier for the equipment"
+                    },
+                    "insights": {
+                      "type": "string",
+                      "description": "Maintenance insights and recommendations"
+                    },
+                    "predictedDate": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Date predicted for next maintenance requirement"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts": {
+      "get": {
+        "summary": "Retrieve active maintenance alerts",
+        "description": "Fetch a list of all active maintenance and status alerts for the equipment.",
+        "responses": {
+          "200": {
+            "description": "Active alerts retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "alertId": {
+                        "type": "string",
+                        "description": "Unique identifier for the alert"
+                      },
+                      "equipmentId": {
+                        "type": "string",
+                        "description": "Unique identifier for the impacted equipment"
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Details about the alert"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The time the alert was created"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback": {
+      "post": {
+        "summary": "Submit feedback",
+        "description": "Submit feedback or report issues concerning equipment management or maintenance processes.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "feedbackType": {
+                    "type": "string",
+                    "description": "Type of feedback (e.g., issue, suggestion)"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Detailed message about the feedback"
+                  },
+                  "equipmentId": {
+                    "type": "string",
+                    "description": "Optional equipment ID related to the feedback"
+                  }
+                },
+                "required": ["feedbackType", "message"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Feedback submitted successfully"
+          }
+        }
+      }
+    },
+    "/equipment": {
+      "post": {
+        "summary": "Register new equipment",
+        "description": "Add a new piece of equipment to the maintenance tracking system.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the equipment"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "Type/category of the equipment"
+                  },
+                  "parameters": {
+                    "type": "object",
+                    "description": "Operational parameters of the equipment",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": ["name", "type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Equipment registered successfully"
+          }
+        }
+      }
+    }
+  }
+}

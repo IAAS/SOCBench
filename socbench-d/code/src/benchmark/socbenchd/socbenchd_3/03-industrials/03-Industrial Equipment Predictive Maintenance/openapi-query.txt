@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+A predictive maintenance platform for monitoring machinery status, forecasting potential failures, and scheduling timely repairs to minimize operational interruptions.
+
+Endpoints:
+GET /machinery/status: Retrieve the current status and health metrics of all monitored machinery.
+POST /maintenance/schedule: Schedule a maintenance task for a specific machinery unit based on predictive analysis.
+GET /reports/failures: Retrieve detailed reports of past machinery failures and their causes.
+POST /alerts/notifications: Set up custom notifications for specific maintenance thresholds.
+DELETE /sensors/{sensorId}: Remove a sensor from monitoring.
+PUT /settings/thresholds: Update the warning and critical thresholds for machinery parameters.
+GET /predictive-analysis: Retrieve a predictive analysis for potential machinery failures within a specified time frame.
+POST /feedback/issues: Submit and track issues identified by operators for review.
+GET /history/alerts: Retrieve the history of sent alerts and their acknowledgments.
+PATCH /machinery/metadata: Update the descriptive metadata associated with machinery units.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

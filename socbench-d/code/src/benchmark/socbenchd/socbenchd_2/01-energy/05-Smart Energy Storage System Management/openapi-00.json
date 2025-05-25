@@ -1,0 +1,365 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Energy Storage Management API",
+        "description": "An API to assist energy sector professionals in managing large-scale energy storage systems such as battery banks and pumped hydro facilities. The API offers functionalities like status monitoring, charge-discharge cycle analysis, and integration with renewable energy sources to optimize operations and improve grid stability.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.energysector.com/v1",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/storagesystems": {
+            "get": {
+                "summary": "Retrieve all energy storage systems",
+                "description": "Fetch a list of all managed energy storage systems available in the platform.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with a list of energy storage systems.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "id": "123",
+                                        "name": "Battery System A",
+                                        "type": "Lithium-Ion",
+                                        "status": "Active"
+                                    },
+                                    {
+                                        "id": "124",
+                                        "name": "Pumped Hydro B",
+                                        "type": "Pumped Hydro",
+                                        "status": "Inactive"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Register a new energy storage system",
+                "description": "Register a new energy storage system with details such as name, type, capacity, and initial configuration.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "name": "New Battery System",
+                                "type": "Lithium-Ion",
+                                "capacity_kwh": 5000,
+                                "initial_status": "Active"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The energy storage system was successfully registered.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": "125",
+                                    "message": "Energy storage system successfully created."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/storagesystems/{id}": {
+            "get": {
+                "summary": "Retrieve specific storage system details",
+                "description": "Fetch detailed information about a specific energy storage system identified by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the energy storage system.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the specified energy storage system.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": "123",
+                                    "name": "Battery System A",
+                                    "type": "Lithium-Ion",
+                                    "capacity_kwh": 10000,
+                                    "status": "Active",
+                                    "created_at": "2023-10-01T10:00:00Z"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Energy storage system not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a specific storage system",
+                "description": "Remove a specific energy storage system from the platform using its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the energy storage system to be deleted.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Energy storage system successfully deleted.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": "124",
+                                    "message": "Energy storage system successfully deleted."
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Energy storage system not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update storage system configuration",
+                "description": "Update the configuration settings of a specific energy storage system.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the energy storage system.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "name": "Updated Battery System",
+                                "capacity_kwh": 15000,
+                                "status": "Active"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Configuration updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": "123",
+                                    "message": "Storage system configuration updated."
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Energy storage system not found."
+                    }
+                }
+            }
+        },
+        "/storagesystems/{id}/cycles": {
+            "get": {
+                "summary": "Retrieve charge-discharge cycle data",
+                "description": "Fetch data on all charge-discharge cycles for a specific energy storage system.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the energy storage system.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Charge-discharge cycle data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "timestamp": "2023-10-01T12:00:00Z",
+                                        "charge_percent": 20,
+                                        "discharge_percent": 10,
+                                        "cycle_duration": "120 minutes"
+                                    },
+                                    {
+                                        "timestamp": "2023-10-02T14:00:00Z",
+                                        "charge_percent": 25,
+                                        "discharge_percent": 15,
+                                        "cycle_duration": "100 minutes"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Energy storage system not found."
+                    }
+                }
+            }
+        },
+        "/storagesystems/{id}/actions/charge": {
+            "post": {
+                "summary": "Initiate charge operation",
+                "description": "Start a charge operation for a specific energy storage system.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the energy storage system.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Charge operation initiated successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": "123",
+                                    "message": "Charge operation initiated."
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Energy storage system not found."
+                    }
+                }
+            }
+        },
+        "/storagesystems/{id}/actions/discharge": {
+            "post": {
+                "summary": "Initiate discharge operation",
+                "description": "Start a discharge operation for a specific energy storage system.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the energy storage system.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Discharge operation initiated successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": "123",
+                                    "message": "Discharge operation initiated."
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Energy storage system not found."
+                    }
+                }
+            }
+        },
+        "/renewablesources": {
+            "get": {
+                "summary": "Retrieve linked renewable energy sources",
+                "description": "Retrieve a list of all renewable energy sources linked to the energy storage systems.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with a list of linked renewable energy sources.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "id": "r001",
+                                        "name": "Solar Farm A",
+                                        "type": "Solar"
+                                    },
+                                    {
+                                        "id": "r002",
+                                        "name": "Wind Turbine B",
+                                        "type": "Wind"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/renewablesources/{id}/link": {
+            "put": {
+                "summary": "Link renewable source to storage system",
+                "description": "Link a specified renewable energy source to an energy storage system for optimized management.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the renewable energy source.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "storage_system_id": "123"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Renewable energy source successfully linked to the storage system.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": "r001",
+                                    "message": "Renewable source linked to storage system successfully."
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Renewable energy source or storage system not found."
+                    }
+                }
+            }
+        }
+    }
+}

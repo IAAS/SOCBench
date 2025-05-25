@@ -1,0 +1,401 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Personalized Content Recommendation API",
+        "description": "This RESTful API enables media companies to provide personalized content recommendations to their users based on preferences, viewing history, and trending patterns. It utilizes sophisticated machine learning algorithms to optimize recommendations.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.contentrecommendationservice.com/v1",
+            "description": "Main production server"
+        }
+    ],
+    "paths": {
+        "/content/recommendations": {
+            "get": {
+                "summary": "Get personalized content recommendations",
+                "description": "Retrieve a list of personalized content recommendations for a user based on their preferences and viewing history.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The unique identifier of the user for whom recommendations are being retrieved.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of personalized content recommendations",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Content ID"
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "description": "Title of the content"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Brief description of the content"
+                                            },
+                                            "genre": {
+                                                "type": "string",
+                                                "description": "Genre or category of the content"
+                                            },
+                                            "rating": {
+                                                "type": "number",
+                                                "description": "Average rating for the content",
+                                                "format": "float"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/content/feedback": {
+            "post": {
+                "summary": "Submit feedback on recommended content",
+                "description": "Allows users to provide feedback on recommended content, helping to refine the personalization model.",
+                "requestBody": {
+                    "description": "User feedback data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the user submitting feedback"
+                                    },
+                                    "contentId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the content being reviewed"
+                                    },
+                                    "feedback": {
+                                        "type": "string",
+                                        "description": "The feedback from the user regarding the content (e.g., liked, disliked, etc.)"
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "contentId",
+                                    "feedback"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback successfully submitted"
+                    }
+                }
+            }
+        },
+        "/content/trending": {
+            "get": {
+                "summary": "Get globally or regionally trending content",
+                "description": "Retrieve a list of trending content worldwide or filtered by a specific region.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": false,
+                        "description": "The region for which to fetch trending content. If omitted, global trends will be returned.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of trending content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Content ID"
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "description": "Title of the content"
+                                            },
+                                            "region": {
+                                                "type": "string",
+                                                "description": "Region where the content is trending"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/preferences": {
+            "get": {
+                "summary": "Retrieve user preferences",
+                "description": "Fetch a user's content preferences and settings for personalized content recommendations.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The unique identifier of the user whose preferences are being retrieved.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User preferences retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "userId": {
+                                            "type": "string",
+                                            "description": "User's unique identifier"
+                                        },
+                                        "preferences": {
+                                            "type": "object",
+                                            "description": "User's content preferences"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update user preferences",
+                "description": "Allows updating a user's content preferences to refine personalized recommendations.",
+                "requestBody": {
+                    "description": "New user preferences",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the user whose preferences are being updated"
+                                    },
+                                    "preferences": {
+                                        "type": "object",
+                                        "description": "Updated content preferences"
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "preferences"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Preferences updated successfully"
+                    }
+                }
+            }
+        },
+        "/history/view": {
+            "post": {
+                "summary": "Update user viewing history",
+                "description": "Submit user viewing history to inform recommendations and improve personalization.",
+                "requestBody": {
+                    "description": "Viewing history data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the user"
+                                    },
+                                    "contentId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the viewed content"
+                                    },
+                                    "viewedAt": {
+                                        "type": "string",
+                                        "description": "Timestamp of when the content was viewed",
+                                        "format": "date-time"
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "contentId",
+                                    "viewedAt"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Viewing history updated successfully"
+                    }
+                }
+            }
+        },
+        "/genres/popular": {
+            "get": {
+                "summary": "Get popular genres",
+                "description": "Fetch a list of popular genres or categories in the system.",
+                "responses": {
+                    "200": {
+                        "description": "A list of popular genres",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "description": "Name of the genre"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/content/similar/{id}": {
+            "get": {
+                "summary": "Retrieve similar content",
+                "description": "Fetch content similar to a specific title based on its characteristics.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the reference content.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of similar content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Content ID"
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "description": "Title of the content"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/engagement": {
+            "get": {
+                "summary": "Fetch engagement metrics",
+                "description": "Retrieve engagement insights and metrics for recommended content.",
+                "responses": {
+                    "200": {
+                        "description": "Engagement metrics retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "metrics": {
+                                            "type": "object",
+                                            "description": "Engagement metrics details"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/manual/recommendation": {
+            "post": {
+                "summary": "Submit a manual recommendation",
+                "description": "Manually submit a content recommendation for testing or specific scenarios.",
+                "requestBody": {
+                    "description": "Manual recommendation data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "The identifier of the user"
+                                    },
+                                    "contentId": {
+                                        "type": "string",
+                                        "description": "The identifier of the recommended content"
+                                    },
+                                    "reason": {
+                                        "type": "string",
+                                        "description": "Reason for the manual recommendation"
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "contentId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Manual recommendation submitted successfully"
+                    }
+                }
+            }
+        }
+    }
+}

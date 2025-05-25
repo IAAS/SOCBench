@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+This real-time service identifies outages across the utility network and alerts both the utility operator and affected customers. With integrated IoT sensor data and user-submitted reports, it facilitates quick diagnostic and resolution actions, ensuring minimal disruption and enhanced customer trust.
+
+Endpoints:
+GET /outages: Retrieve current outage data across the utility network.
+POST /report-issue: Submit a report of a potential issue or outage detected by users.
+GET /status/{sensor_id}: Fetch the operational status of a specific IoT sensor.
+PUT /sensor-calibration: Update the calibration parameters for sensors in the network.
+GET /dashboard/overview: Access a summarized dashboard view of network performance metrics.
+POST /alerts/subscribe: Register for notifications about service status changes and outages.
+GET /energy-generation/renewable: View statistics on energy produced from renewable sources.
+PATCH /customer/communication: Modify customer contact preferences for outage alerts.
+GET /incident-history: List past incidents and associated resolutions within the network.
+POST /simulation/drill: Initiate a simulated outage drill for preparedness analysis.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

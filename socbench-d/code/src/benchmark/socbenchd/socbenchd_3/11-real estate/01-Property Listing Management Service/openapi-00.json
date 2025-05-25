@@ -1,0 +1,398 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Property Listing Management Service API",
+    "version": "1.0.0",
+    "description": "The Property Listing Management Service API facilitates real estate agencies and individuals to create, update, and manage property listings effectively. Users can aggregate property details, including descriptions, images, and pricing, and publish them to various platforms to reach potential buyers or renters."
+  },
+  "paths": {
+    "/properties": {
+      "get": {
+        "summary": "Retrieve a list of all property listings",
+        "description": "Fetch all property listings available in the system. Supports optional filtering options such as location, price range, property type, etc.",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "query",
+            "description": "Filter properties based on location.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "price_min",
+            "in": "query",
+            "description": "Filter properties with a minimum price.",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "float"
+            }
+          },
+          {
+            "name": "price_max",
+            "in": "query",
+            "description": "Filter properties with a maximum price.",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "float"
+            }
+          },
+          {
+            "name": "property_type",
+            "in": "query",
+            "description": "Filter properties by type (e.g., apartment, villa, office).",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of property listings retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Property"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Submit a new property listing",
+        "description": "Create a new property listing by providing all required details such as descriptions, price, and associated images.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Property"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Property listing created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Property"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{id}": {
+      "get": {
+        "summary": "Retrieve property details by ID",
+        "description": "Fetch detailed information for a specific property listing identified by its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of the property listing.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Property details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Property"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update property listing details",
+        "description": "Update specific details of an existing property listing. The ID of the listing must be provided.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of the property listing to update.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Property"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Property listing updated successfully."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete property listing",
+        "description": "Remove a property listing from the platform using its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of the property listing to delete.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Property listing deleted successfully."
+          }
+        }
+      }
+    },
+    "/properties/{id}/images": {
+      "post": {
+        "summary": "Upload images for a property listing",
+        "description": "Attach images to a specific property listing by uploading them.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of the property listing to attach images to.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Image uploaded successfully."
+          }
+        }
+      }
+    },
+    "/properties/{id}/images/{image_id}": {
+      "delete": {
+        "summary": "Delete an image from a property listing",
+        "description": "Remove a specific image from the gallery of a property listing.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of the property listing.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "image_id",
+            "in": "path",
+            "description": "Unique identifier of the image to delete.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Image deleted successfully."
+          }
+        }
+      }
+    },
+    "/platforms": {
+      "get": {
+        "summary": "Retrieve a list of supported platforms",
+        "description": "Fetch all external platforms where property listings can be published.",
+        "responses": {
+          "200": {
+            "description": "List of supported platforms retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Platform"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/properties/{id}/publish": {
+      "post": {
+        "summary": "Publish a property listing to external platforms",
+        "description": "Publish a specific property listing to selected external platforms using its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of the property listing to publish.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "platform_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Property listing published successfully."
+          }
+        }
+      }
+    },
+    "/properties/{id}/status": {
+      "get": {
+        "summary": "Check publication status",
+        "description": "Retrieve the publication status of a property listing on external platforms using its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of the property listing.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Publication status retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Property": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the property listing."
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the property listing."
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description of the property."
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "description": "Price of the property."
+          },
+          "location": {
+            "type": "string",
+            "description": "Location of the property."
+          },
+          "property_type": {
+            "type": "string",
+            "description": "Type of the property (e.g., apartment, villa, office)."
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "List of image URLs associated with the property."
+          }
+        }
+      },
+      "Platform": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the platform."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the platform."
+          }
+        }
+      }
+    }
+  }
+}

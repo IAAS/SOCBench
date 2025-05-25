@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /applications",
+            "description": "Submit a new loan application with applicant details and initiate processing."
+        },
+        {
+            "endpoint": "GET /applications/status",
+            "description": "Retrieve the current status and required next steps for a specific loan application."
+        },
+        {
+            "endpoint": "POST /applications/documents/upload",
+            "description": "Submit required documents for a specific loan application for validation."
+        },
+        {
+            "endpoint": "GET /credit-scores",
+            "description": "Retrieve the credit score computed for a specified applicant."
+        },
+        {
+            "endpoint": "PATCH /applications",
+            "description": "Update applicant information or application details during processing."
+        },
+        {
+            "endpoint": "GET /compliance-status",
+            "description": "Obtain compliance validation results for the current state of a loan application."
+        },
+        {
+            "endpoint": "DELETE /applications",
+            "description": "Cancel or delete a specific loan application from the system."
+        },
+        {
+            "endpoint": "POST /applications/workflows/customize",
+            "description": "Define and save customized workflows to match specific operational requirements."
+        },
+        {
+            "endpoint": "GET /applications/log",
+            "description": "Access a detailed log of activities and changes associated with a loan application."
+        },
+        {
+            "endpoint": "GET /services/healthcheck",
+            "description": "Check the operational status of the service."
+        }
+    ]
+}

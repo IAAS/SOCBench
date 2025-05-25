@@ -1,0 +1,332 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+OpenAPI:
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Industrial Sector Market Trends API",
+        "description": "This API offers tools and resources for analyzing market trends in the industrial sector, leveraging a mix of historical data, external dynamics, and AI-based forecasting models.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.industrialsector.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/market-trends": {
+            "get": {
+                "summary": "Retrieve Market Trends Data",
+                "description": "Get historical and forecasted market trends for a specified industrial sub-sector. Provides actionable insights to understand historical behavior and predict future developments.",
+                "parameters": [
+                    {
+                        "name": "sub_sector",
+                        "in": "query",
+                        "required": true,
+                        "description": "The industrial sub-sector to retrieve trends for (e.g., aerospace, construction, transportation).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The start date for the trends data in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The end date for the trends data in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved market trends data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "historical_data": {
+                                            "type": "array",
+                                            "description": "List of historical market trends.",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        },
+                                        "forecasted_data": {
+                                            "type": "array",
+                                            "description": "List of forecasted market trends.",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/scenario-analysis": {
+            "post": {
+                "summary": "Submit Market Scenario Analysis",
+                "description": "Submit hypothetical market scenarios to understand their potential impacts on the industrial sector. Useful for evaluating different strategies or changes in market conditions.",
+                "requestBody": {
+                    "description": "Market scenario details for analysis.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "scenario_name": {
+                                        "type": "string",
+                                        "description": "A name for the hypothetical scenario."
+                                    },
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Key parameters defining the market scenario.",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Scenario analysis results returned successfully."
+                    }
+                }
+            }
+        },
+        "/insights-summary": {
+            "get": {
+                "summary": "Retrieve Insights Summary",
+                "description": "Get actionable insights for a specific industrial category by summarizing key trends and predictions.",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "required": true,
+                        "description": "The industrial category (e.g., aerospace, machinery) to retrieve the insights for.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved insights summary."
+                    }
+                }
+            }
+        },
+        "/trend-visualizations": {
+            "get": {
+                "summary": "Retrieve Trend Visualizations",
+                "description": "Get visual representations (e.g., charts) of market trends for analysis and presentation purposes.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved visualizations."
+                    }
+                }
+            }
+        },
+        "/demand-prediction": {
+            "post": {
+                "summary": "Predict Future Demand",
+                "description": "Predict the future demand for specific products based on industry input parameters.",
+                "requestBody": {
+                    "description": "Parameters for demand prediction.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "product_category": {
+                                        "type": "string",
+                                        "description": "The category of the product (e.g., electrical equipment)."
+                                    },
+                                    "region": {
+                                        "type": "string",
+                                        "description": "The region for demand prediction."
+                                    }
+                                },
+                                "required": [
+                                    "product_category",
+                                    "region"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Demand prediction completed successfully."
+                    }
+                }
+            }
+        },
+        "/sector-comparison": {
+            "get": {
+                "summary": "Compare Industrial Sub-Sectors",
+                "description": "Retrieve statistical comparisons between multiple industrial sub-sectors to gain insights into relative performance and growth opportunities.",
+                "parameters": [
+                    {
+                        "name": "sectors",
+                        "in": "query",
+                        "required": true,
+                        "description": "Comma-separated list of sub-sectors to compare.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved sector comparison data."
+                    }
+                }
+            }
+        },
+        "/resource-optimization": {
+            "post": {
+                "summary": "Optimize Resource Allocation",
+                "description": "Provide input parameters to generate resource optimization recommendations based on market trends.",
+                "requestBody": {
+                    "description": "Input data for resource optimization.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "resources_available": {
+                                        "type": "number",
+                                        "description": "The quantity of resources available."
+                                    },
+                                    "sub_sector": {
+                                        "type": "string",
+                                        "description": "The industrial sub-sector under consideration."
+                                    }
+                                },
+                                "required": [
+                                    "resources_available",
+                                    "sub_sector"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Resource allocation recommendations successfully generated."
+                    }
+                }
+            }
+        },
+        "/regional-distribution": {
+            "get": {
+                "summary": "Retrieve Regional Distribution Data",
+                "description": "Get data on the distribution of industrial resources and demand by region for better geographic insights.",
+                "parameters": [
+                    {
+                        "name": "sub_sector",
+                        "in": "query",
+                        "required": true,
+                        "description": "The industrial sub-sector to retrieve regional distribution for.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Regional distribution data successfully retrieved."
+                    }
+                }
+            }
+        },
+        "/investment-opportunities": {
+            "post": {
+                "summary": "Generate Investment Opportunities",
+                "description": "Submit criteria to identify potential investment opportunities and associated risks.",
+                "requestBody": {
+                    "description": "Parameters for investment analysis.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "investment_capital": {
+                                        "type": "number",
+                                        "description": "The available capital for investment."
+                                    },
+                                    "market_conditions": {
+                                        "type": "string",
+                                        "description": "Key market conditions to consider."
+                                    }
+                                },
+                                "required": [
+                                    "investment_capital",
+                                    "market_conditions"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Investment opportunities recommendations returned."
+                    }
+                }
+            }
+        },
+        "/support-documents": {
+            "get": {
+                "summary": "Access Support Documents",
+                "description": "Get access to documentation and guides providing insights into the datasets and methodologies used by the service.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Support documents retrieved."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

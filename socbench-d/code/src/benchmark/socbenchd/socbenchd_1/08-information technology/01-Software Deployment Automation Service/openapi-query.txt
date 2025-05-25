@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+Service:
+Facilitates seamless deployment and integration processes for various software products, ensuring reduced downtime and enhanced operational efficiency.
+
+Endpoints:
+POST /deploy: Initiate the deployment process for a specified software application.
+GET /status: Retrieve the current operational status and deployed configurations.
+PUT /integration: Update integration settings for external systems.
+GET /logs: Fetch detailed logs associated with deployment activities.
+DELETE /rollback: Rollback a deployment to its previous version.
+POST /validate: Validate the configuration before initiating deployment.
+PATCH /update-config: Apply partial updates to an existing configuration.
+GET /settings: List current settings for deployment services.
+POST /trigger-hook: Trigger a specific hook action during the deployment process.
+GET /reports: Obtain deployment and integration activity reports.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

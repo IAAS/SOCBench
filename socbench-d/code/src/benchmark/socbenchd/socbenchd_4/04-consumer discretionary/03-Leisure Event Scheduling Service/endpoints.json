@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /events",
+            "description": "Retrieve the list of all scheduled events."
+        },
+        {
+            "endpoint": "POST /events",
+            "description": "Create a new event with details such as title, date, and description."
+        },
+        {
+            "endpoint": "GET /events/{event_id}",
+            "description": "Retrieve detailed information about a specific event using its unique ID."
+        },
+        {
+            "endpoint": "PUT /events/{event_id}",
+            "description": "Update information regarding a specific event."
+        },
+        {
+            "endpoint": "DELETE /events/{event_id}",
+            "description": "Remove a specific event from the schedule."
+        },
+        {
+            "endpoint": "GET /attendees/{event_id}",
+            "description": "Retrieve a list of all attendees registered for a specific event."
+        },
+        {
+            "endpoint": "POST /attendees",
+            "description": "Allow a new attendee to register for an event."
+        },
+        {
+            "endpoint": "DELETE /attendees/{attendee_id}",
+            "description": "Remove an attendee from the registration list using their unique ID."
+        },
+        {
+            "endpoint": "POST /notifications",
+            "description": "Send notifications or updates to all attendees of a specific event."
+        },
+        {
+            "endpoint": "GET /statistics",
+            "description": "Retrieve attendance and participation statistics for a specified period."
+        }
+    ]
+}

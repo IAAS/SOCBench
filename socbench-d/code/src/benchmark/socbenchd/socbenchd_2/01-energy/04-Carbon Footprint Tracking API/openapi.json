@@ -1,0 +1,352 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Carbon Emissions API for Energy Sector",
+        "description": "This API quantifies the carbon emissions resulting from energy usage. It enables businesses and individuals to calculate, analyze, and reduce their carbon footprint by providing real-time evaluations, trend analytics, and actionable strategies. Designed to integrate into sustainability dashboards, it promotes accountability and sustainable practices.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.energycarbonfootprint.com/v1",
+            "description": "Primary API server"
+        }
+    ],
+    "paths": {
+        "/emissions/calculate": {
+            "get": {
+                "summary": "Calculate Carbon Emissions",
+                "description": "Calculate the carbon emissions based on provided energy input details such as energy source type and consumption levels.",
+                "parameters": [
+                    {
+                        "name": "energySource",
+                        "in": "query",
+                        "required": true,
+                        "description": "Type of energy source (e.g., coal, natural gas, wind, solar).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "consumption",
+                        "in": "query",
+                        "required": true,
+                        "description": "Energy consumption in kWh or other applicable units.",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "unit",
+                        "in": "query",
+                        "required": false,
+                        "description": "Unit of energy consumption. Default is kWh.",
+                        "schema": {
+                            "type": "string",
+                            "default": "kWh"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Carbon emissions successfully calculated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "carbonEmissions": {
+                                            "type": "number",
+                                            "description": "The calculated carbon emissions in kg CO2."
+                                        },
+                                        "energySource": {
+                                            "type": "string",
+                                            "description": "The energy source used."
+                                        },
+                                        "consumption": {
+                                            "type": "number",
+                                            "description": "The energy consumption value used for calculation."
+                                        },
+                                        "unit": {
+                                            "type": "string",
+                                            "description": "Unit of energy consumption."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input. Check the energy source or consumption parameters."
+                    }
+                }
+            }
+        },
+        "/emissions/history": {
+            "post": {
+                "summary": "Submit Historical Data",
+                "description": "Submit historical energy usage data to analyze trends in carbon emissions over time.",
+                "requestBody": {
+                    "description": "Historical energy data to be submitted.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "energyUsageData": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "date": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "description": "Date of energy usage."
+                                                },
+                                                "energySource": {
+                                                    "type": "string",
+                                                    "description": "Type of energy source used."
+                                                },
+                                                "consumption": {
+                                                    "type": "number",
+                                                    "description": "Energy consumption amount."
+                                                },
+                                                "unit": {
+                                                    "type": "string",
+                                                    "description": "Unit of energy consumption."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Historical data submitted successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input. Check the data format."
+                    }
+                }
+            }
+        },
+        "/emissions/sources": {
+            "get": {
+                "summary": "Retrieve Supported Energy Sources",
+                "description": "Get a list of supported energy sources with their corresponding emission factors (kg CO2 per unit).",
+                "responses": {
+                    "200": {
+                        "description": "List of supported energy sources retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "energySource": {
+                                                "type": "string",
+                                                "description": "Name of energy source."
+                                            },
+                                            "emissionFactor": {
+                                                "type": "number",
+                                                "description": "Carbon emission factor in kg CO2 per unit."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/emissions/compare": {
+            "post": {
+                "summary": "Compare Carbon Emissions",
+                "description": "Compare carbon emissions data across different energy source combinations.",
+                "requestBody": {
+                    "description": "Parameters for energy source comparison.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "sources": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "energySource": {
+                                                    "type": "string",
+                                                    "description": "Type of energy source."
+                                                },
+                                                "consumption": {
+                                                    "type": "number",
+                                                    "description": "Consumption for this energy source."
+                                                },
+                                                "unit": {
+                                                    "type": "string",
+                                                    "description": "Unit of consumption."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Comparison data generated successfully."
+                    },
+                    "400": {
+                        "description": "Error in comparing energy sources."
+                    }
+                }
+            }
+        },
+        "/dashboard/summary": {
+            "get": {
+                "summary": "Retrieve Dashboard Summary",
+                "description": "Fetch a summarized dashboard containing the organization's carbon footprint data.",
+                "responses": {
+                    "200": {
+                        "description": "Dashboard summary retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/emissions/preferences": {
+            "put": {
+                "summary": "Update User Preferences",
+                "description": "Update preferences for emission calculations and energy usage reporting.",
+                "requestBody": {
+                    "description": "User preference settings.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "preferredUnits": {
+                                        "type": "string",
+                                        "description": "Preferred units for energy consumption."
+                                    },
+                                    "notificationFrequency": {
+                                        "type": "string",
+                                        "description": "Frequency of notifications for emission updates."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Preferences updated successfully."
+                    }
+                }
+            }
+        },
+        "/recommendations/strategies": {
+            "get": {
+                "summary": "Retrieve Reduction Strategies",
+                "description": "Get strategies for reducing energy consumption and carbon emissions.",
+                "responses": {
+                    "200": {
+                        "description": "Reduction strategies retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/emissions/scenarios": {
+            "post": {
+                "summary": "Analyze Emission Scenarios",
+                "description": "Analyze potential carbon emissions for forecasted or hypothetical energy usage scenarios.",
+                "requestBody": {
+                    "description": "Hypothetical or forecasted data for scenario analysis.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "scenarios": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "energySource": {
+                                                    "type": "string",
+                                                    "description": "Type of energy source."
+                                                },
+                                                "estimatedConsumption": {
+                                                    "type": "number",
+                                                    "description": "Estimated energy consumption."
+                                                },
+                                                "unit": {
+                                                    "type": "string",
+                                                    "description": "Unit of consumption."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Scenario analysis completed successfully."
+                    },
+                    "400": {
+                        "description": "Invalid scenario input data."
+                    }
+                }
+            }
+        },
+        "/data/usage": {
+            "delete": {
+                "summary": "Delete Energy Usage Data",
+                "description": "Remove previously submitted energy usage data from the system.",
+                "parameters": [
+                    {
+                        "name": "recordId",
+                        "in": "query",
+                        "required": true,
+                        "description": "ID of the record to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Energy usage data deleted successfully."
+                    },
+                    "404": {
+                        "description": "Record not found."
+                    }
+                }
+            }
+        },
+        "/analytics/trends": {
+            "get": {
+                "summary": "View Energy Trends",
+                "description": "Retrieve analytics and trends in energy usage and carbon emissions over time.",
+                "responses": {
+                    "200": {
+                        "description": "Analytics and trends successfully retrieved."
+                    }
+                }
+            }
+        }
+    }
+}

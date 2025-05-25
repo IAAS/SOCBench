@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /stocks/historical",
+            "description": "Fetch historical stock data for a specific ticker and a designated date range."
+        },
+        {
+            "endpoint": "GET /stocks/realtime",
+            "description": "Retrieve real-time stock prices and related market data."
+        },
+        {
+            "endpoint": "GET /forex/historical",
+            "description": "Obtain historical foreign exchange rates for specified currency pairs."
+        },
+        {
+            "endpoint": "GET /forex/realtime",
+            "description": "Access real-time foreign exchange rates for the selected currency pairs."
+        },
+        {
+            "endpoint": "GET /derivatives/data",
+            "description": "Retrieve analytical data on derivatives, including options and futures."
+        },
+        {
+            "endpoint": "POST /alerts/configure",
+            "description": "Create or update market movement alert settings for personalized monitoring."
+        },
+        {
+            "endpoint": "DELETE /alerts/remove",
+            "description": "Delete an existing market alert configuration."
+        },
+        {
+            "endpoint": "GET /markets/overview",
+            "description": "Acquire a summary of the current global market status, segmented by categories."
+        },
+        {
+            "endpoint": "GET /reports/daily",
+            "description": "Download daily report summaries covering financial sectors and trends."
+        },
+        {
+            "endpoint": "GET /trends/analysis",
+            "description": "Analyze and display significant financial trends based on pre-selected conditions."
+        }
+    ]
+}

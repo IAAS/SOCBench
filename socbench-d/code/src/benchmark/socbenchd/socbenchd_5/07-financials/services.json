@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Personal Financial Management API",
+            "description": "Facilitates the management of personal finances, including budgeting and expense tracking."
+        },
+        {
+            "name": "Insurance Policy Information Retrieval Service",
+            "description": "Provides access to details about various insurance policies, their coverage, and premium estimates."
+        },
+        {
+            "name": "Real-Time Stock Market Data Access",
+            "description": "Offers live data on stock prices, market trends, and trading volumes to assist investors."
+        },
+        {
+            "name": "Credit Eligibility Checking System",
+            "description": "Allows users to assess creditworthiness for loans or other financial products."
+        },
+        {
+            "name": "Online Payment Gateway Integration API",
+            "description": "Enables secure and seamless transaction processing for e-commerce and banking purposes."
+        }
+    ]
+}

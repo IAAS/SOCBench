@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+Service:
+Aimed at promoting eco-friendly production, this API evaluates and provides insights into the environmental impact of manufacturing processes in the consumer staples domain.
+
+Endpoints:
+GET /environmental-impact/reports: Retrieve a comprehensive environmental impact report for a specific manufacturing process.
+POST /environmental-impact/evaluate: Submit data for evaluation to receive an environmental impact score.
+GET /green-practices/resources: Retrieve a list of recommended eco-friendly practices for manufacturers.
+POST /production-data/upload: Upload detailed production dataset for analysis.
+GET /reports/historical: Access historical reports on environmental assessment outcomes.
+GET /materials/impact: Retrieve environmental impact information based on material composition.
+POST /benchmarking/compare: Compare the environmental footprints of similar manufacturing processes.
+GET /facility/audit/schedule: Retrieve scheduling details for an environmental facility audit.
+POST /facility/audit/request: Request a new audit to evaluate a facility's environmental practices.
+GET /certifications: List available eco-certification programs and their requirements.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

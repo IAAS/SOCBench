@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+Designed for real estate agents, this CRM service enables the organization of client interactions, schedule management, lead tracking, and personalized communication management to improve relationship handling and sales processes.
+
+Endpoints:
+GET /clients: Retrieve a list of all clients associated with the real estate agent's profile.
+POST /clients: Add a new client to the real estate agent's database.
+PUT /clients/{clientID}: Update details of a specific client using their unique ID.
+DELETE /clients/{clientID}: Remove a specified client from the database based on their unique ID.
+GET /properties: Fetch a list of all available properties managed by the agent or agency.
+POST /properties: Add a new property to the portfolio for sale or rent.
+PUT /properties/{propertyID}: Edit information about a specific property identified by its unique ID.
+GET /appointments: Retrieve all scheduled appointments and meetings for the real estate agent.
+POST /appointments: Schedule a new appointment with a client or third party.
+DELETE /appointments/{appointmentID}: Cancel a scheduled appointment identified by its unique ID.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

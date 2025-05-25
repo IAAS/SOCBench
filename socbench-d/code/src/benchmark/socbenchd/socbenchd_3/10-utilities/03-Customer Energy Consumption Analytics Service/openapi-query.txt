@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+Focusing on analyzing customers' energy use patterns, this API offers insights into consumption trends, peak usage hours, and energy-saving opportunities. Customers can receive monthly energy summaries, and utilities can utilize this data to promote sustainable practices and customized service plans.
+
+Endpoints:
+GET /usage-patterns: Retrieve an analysis of the customer's historical energy usage patterns.
+POST /sustainability-advice: Submit data to calculate and obtain energy-saving advice.
+GET /consumption/summary: Fetch the summarized energy consumption statistics for a given time period.
+GET /tariff-analysis: Request an analysis of current energy tariffs to identify opportunities for savings.
+POST /peak-alert: Set up customer notifications for approaching peak energy usage times.
+GET /solar-availability: Check localized availability and efficiency of solar energy options.
+PUT /setting/threshold: Modify the user's energy usage threshold for monitoring.
+GET /reports/monthly: Retrieve a comprehensive monthly energy usage report.
+DELETE /alert-settings/{alertId}: Remove an existing alert setting by its unique identifier.
+POST /feedback: Submit user feedback regarding energy consumption or service experience.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

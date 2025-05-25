@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Service:
+This API allows financial institutions to assess the creditworthiness of potential borrowers using comprehensive data analysis and predictive models.
+
+Endpoints:
+POST /api/borrower-evaluation: Submit detailed borrower information for creditworthiness analysis.
+GET /api/model-status: Retrieve the current operational status of predictive models.
+GET /api/loan-recommendations: Obtain model-generated loan product recommendations based on borrower profiles.
+POST /api/data-qualification: Submit potential borrowers' financial datasets for model compatibility review.
+GET /api/credit-score-prediction: Request calculated credit scores from predictive models.
+PUT /api/model-calibration: Update model parameters with newly derived statistics or policies.
+POST /api/multi-borrower-analysis: Submit a batch of borrower profiles for group creditworthiness evaluations.
+DELETE /api/old-entries: Remove outdated or irrelevant borrower data from the analysis database.
+GET /api/market-data-integration: Access external financial markets data leveraged in predictive models.
+GET /api/service-compliance: Retrieve details ensuring compliance with financial regulations and standards.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

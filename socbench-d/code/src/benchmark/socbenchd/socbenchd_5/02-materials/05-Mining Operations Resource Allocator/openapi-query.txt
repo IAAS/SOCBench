@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+Service:
+Provides tools for mining companies to allocate machines and personnel dynamically to various sites, enhancing operational efficiency and minimizing costs.
+
+Endpoints:
+GET /machinery/allocate: Retrieve current allocation details for mining machinery to various sites.
+POST /machinery/allocate: Submit or update allocation plans for mining machinery across sites.
+GET /personnel/allocate: Retrieve current personnel allocation details for mining sites.
+POST /personnel/allocate: Submit or update personnel allocation plans for mining operations.
+GET /operations/status: Retrieve status and productivity metrics for ongoing mining operations.
+POST /operations/optimize: Request optimization for resource allocation based on current operation data.
+GET /inventory/materials: Retrieve available inventory data for materials and resources at each site.
+POST /inventory/materials/update: Update material stock levels to reflect changes in inventory.
+GET /sites/details: Retrieve geographic and operational details for all active mining sites.
+POST /reports/efficiency: Submit and generate efficiency and performance reports based on the latest operation metrics.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

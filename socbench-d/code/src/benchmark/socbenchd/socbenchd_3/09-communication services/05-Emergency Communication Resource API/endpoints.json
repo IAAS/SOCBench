@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /alerts",
+            "description": "Submit a new alert to be communicated to residents in the target region."
+        },
+        {
+            "endpoint": "GET /alerts/{alert_id}",
+            "description": "Retrieve detailed information about a specific alert, identified by its ID."
+        },
+        {
+            "endpoint": "PUT /alerts/{alert_id}",
+            "description": "Update the content or scope of a specific alert."
+        },
+        {
+            "endpoint": "DELETE /alerts/{alert_id}",
+            "description": "Remove an alert, halting any further dissemination."
+        },
+        {
+            "endpoint": "GET /regions",
+            "description": "List all defined regions available for targeted alerts."
+        },
+        {
+            "endpoint": "POST /regions",
+            "description": "Define a new region for alert dissemination."
+        },
+        {
+            "endpoint": "GET /resources",
+            "description": "Retrieve a list of emergency resources available for allocation."
+        },
+        {
+            "endpoint": "POST /resources/allocation",
+            "description": "Allocate specific resources to a region during an emergency."
+        },
+        {
+            "endpoint": "GET /communications/logs",
+            "description": "View logs of all communication attempts made through the service."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit feedback regarding a communicated alert to improve future service."
+        }
+    ]
+}

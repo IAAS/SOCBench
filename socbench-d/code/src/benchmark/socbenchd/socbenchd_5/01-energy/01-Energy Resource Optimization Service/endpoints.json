@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /production/sources",
+            "description": "Retrieve the current statuses and availabilities of various energy production sources."
+        },
+        {
+            "endpoint": "POST /analysis/market-demand",
+            "description": "Submit market parameters to analyze and forecast future energy demand trends."
+        },
+        {
+            "endpoint": "GET /distribution/status",
+            "description": "Check real-time distribution grid statuses and detect potential inefficiencies."
+        },
+        {
+            "endpoint": "POST /optimization/run",
+            "description": "Initiate an optimization process for energy production and distribution strategies."
+        },
+        {
+            "endpoint": "GET /reports/energy-usage",
+            "description": "Retrieve detailed energy consumption and usage patterns for analysis."
+        },
+        {
+            "endpoint": "PUT /production/parameters",
+            "description": "Modify operational parameters for energy production facilities to enhance efficiency."
+        },
+        {
+            "endpoint": "GET /alerts/system",
+            "description": "Obtain active alerts related to energy systems and production units."
+        },
+        {
+            "endpoint": "POST /evaluations/resource-availability",
+            "description": "Submit data to evaluate the availability of resources required for energy production."
+        },
+        {
+            "endpoint": "GET /insights/environmental-impact",
+            "description": "Access reports on the environmental impact of current energy operations."
+        },
+        {
+            "endpoint": "DELETE /logs/operational-data",
+            "description": "Purge archived data logs from the system based on specified retention policies."
+        }
+    ]
+}

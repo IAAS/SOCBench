@@ -1,0 +1,429 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Vulnerability Detection and Mitigation Service",
+    "description": "This API allows organizations to identify, assess, and mitigate potential vulnerabilities in their system networks.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.vulnerabilityservice.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/vulnerabilities": {
+      "get": {
+        "summary": "Get Identified Vulnerabilities",
+        "description": "Retrieve a list of identified vulnerabilities within the organization's system network based on preset configurations.",
+        "responses": {
+          "200": {
+            "description": "Successful response with a list of vulnerabilities.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Unique identifier of the vulnerability."
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Detailed description of the vulnerability."
+                      },
+                      "severity": {
+                        "type": "string",
+                        "description": "Severity level of the vulnerability (e.g., low, medium, high, critical)."
+                      },
+                      "status": {
+                        "type": "string",
+                        "description": "Current status of the vulnerability (e.g., identified, in progress, mitigated)."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scan/network": {
+      "post": {
+        "summary": "Initiate Network Scan",
+        "description": "Start a network-wide scan to detect potential vulnerabilities.",
+        "responses": {
+          "201": {
+            "description": "Scan initiated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "scan_id": {
+                      "type": "string",
+                      "description": "Unique identifier for the initiated scan."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Confirmation message indicating that the scan was started."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scan/{scan_id}/results": {
+      "get": {
+        "summary": "Get Scan Results",
+        "description": "Retrieve the results of a specific scan using its unique identifier.",
+        "parameters": [
+          {
+            "name": "scan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the scan."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scan results retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "scan_id": {
+                      "type": "string",
+                      "description": "Unique identifier for the scan."
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "vulnerability_id": {
+                            "type": "string",
+                            "description": "ID of the identified vulnerability."
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "Details of the vulnerability."
+                          },
+                          "severity": {
+                            "type": "string",
+                            "description": "Severity level of the vulnerability."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/configurations": {
+      "post": {
+        "summary": "Create Configuration",
+        "description": "Create new configurations to tailor vulnerability detection parameters.",
+        "requestBody": {
+          "description": "Details for the new configuration.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the configuration."
+                  },
+                  "parameters": {
+                    "type": "object",
+                    "description": "Key-value pairs of configuration parameters."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Configuration created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "config_id": {
+                      "type": "string",
+                      "description": "Unique identifier for the new configuration."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Confirmation message indicating the configuration was created."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/configurations/{config_id}": {
+      "put": {
+        "summary": "Update Configuration",
+        "description": "Modify an existing configuration using its unique identifier.",
+        "parameters": [
+          {
+            "name": "config_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the configuration to update."
+          }
+        ],
+        "requestBody": {
+          "description": "Updated details for the configuration.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "parameters": {
+                    "type": "object",
+                    "description": "Key-value pairs of updated configuration parameters."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Configuration updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Confirmation message indicating the configuration was updated."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Configuration",
+        "description": "Delete an existing configuration using its unique identifier.",
+        "parameters": [
+          {
+            "name": "config_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the configuration to delete."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Configuration deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Confirmation message indicating the configuration was deleted."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mitigation/recommendations": {
+      "get": {
+        "summary": "Get Mitigation Recommendations",
+        "description": "Retrieve a list of recommended actions to address identified vulnerabilities.",
+        "responses": {
+          "200": {
+            "description": "Recommendations retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "vulnerability_id": {
+                        "type": "string",
+                        "description": "ID of the identified vulnerability."
+                      },
+                      "recommendation": {
+                        "type": "string",
+                        "description": "Recommended action to mitigate the vulnerability."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mitigation/apply": {
+      "post": {
+        "summary": "Apply Mitigation",
+        "description": "Submit a request to apply specific mitigation measures to the system network.",
+        "requestBody": {
+          "description": "Details of the mitigation measures to apply.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "vulnerability_id": {
+                    "type": "string",
+                    "description": "ID of the vulnerability to mitigate."
+                  },
+                  "action": {
+                    "type": "string",
+                    "description": "Specific mitigation action to apply."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Mitigation applied successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Confirmation message indicating the mitigation was applied."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports": {
+      "get": {
+        "summary": "Get Reports",
+        "description": "Retrieve a list of generated reports detailing vulnerability assessments and mitigations.",
+        "responses": {
+          "200": {
+            "description": "Reports retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "report_id": {
+                        "type": "string",
+                        "description": "Unique identifier of the report."
+                      },
+                      "generated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp when the report was generated."
+                      },
+                      "summary": {
+                        "type": "string",
+                        "description": "Summary of the report's contents."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/export": {
+      "post": {
+        "summary": "Export Report",
+        "description": "Request an export of detailed reports in specified formats.",
+        "requestBody": {
+          "description": "Details of the report export request.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "report_id": {
+                    "type": "string",
+                    "description": "ID of the report to export."
+                  },
+                  "format": {
+                    "type": "string",
+                    "description": "Desired export format (e.g., PDF, CSV)."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Report export request submitted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Confirmation message indicating the export request was submitted."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

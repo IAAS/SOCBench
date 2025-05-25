@@ -1,0 +1,394 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Real Estate Transaction Management API",
+        "description": "This API assists in preparing, validating, and managing all necessary paperwork for real estate transactions, such as contracts, titles, and permits, ensuring a seamless and compliant transfer process of ownership.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/documents": {
+            "get": {
+                "summary": "Fetch all documents",
+                "description": "Retrieve a list of all real estate transaction-related documents managed by the service.",
+                "responses": {
+                    "200": {
+                        "description": "A list of documents.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Document"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Upload a new document",
+                "description": "Upload a new document relevant to a real estate transaction.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "The document file to upload."
+                                    },
+                                    "metadata": {
+                                        "type": "object",
+                                        "description": "Additional properties for the document, such as type and related transaction ID.",
+                                        "properties": {
+                                            "documentType": {
+                                                "type": "string",
+                                                "description": "Type of the document (e.g., contract, title, permit)."
+                                            },
+                                            "transactionId": {
+                                                "type": "string",
+                                                "description": "The ID of the related transaction."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Document successfully uploaded.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Document"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/documents/{id}": {
+            "get": {
+                "summary": "Fetch a document by ID",
+                "description": "Retrieve the details and content of a specific document using its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the document to retrieve.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Document details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Document"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update document by ID",
+                "description": "Update the metadata or content of an existing document using its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the document to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Document"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Document successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Document"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete document by ID",
+                "description": "Remove a document from the system, using its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the document to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Document successfully deleted."
+                    }
+                }
+            }
+        },
+        "/transactions": {
+            "get": {
+                "summary": "Fetch all transactions",
+                "description": "Retrieve a list of all real estate transactions currently being processed.",
+                "responses": {
+                    "200": {
+                        "description": "List of transactions.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Transaction"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Initiate a new transaction",
+                "description": "Create and initiate a new real estate transaction.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Transaction"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Transaction successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Transaction"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/{id}/validate": {
+            "put": {
+                "summary": "Validate transaction",
+                "description": "Execute validation procedures for the documents and information of a given transaction.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the transaction to validate.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Validation results for the transaction.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "isValid": {
+                                            "type": "boolean",
+                                            "description": "Indicates if the transaction is valid."
+                                        },
+                                        "messages": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "description": "List of validation messages or errors."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/{id}/finalize": {
+            "post": {
+                "summary": "Finalize transaction",
+                "description": "Mark a transaction as finalized and archive associated documents properly.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the transaction to finalize.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction successfully finalized.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Transaction"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/{id}/status": {
+            "get": {
+                "summary": "Check transaction status",
+                "description": "Retrieve the current status and compliance results of a specified transaction.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the transaction for which to check the status.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction status details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionStatus"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Document": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the document."
+                    },
+                    "documentType": {
+                        "type": "string",
+                        "description": "Type of the document (e.g., contract, title, permit)."
+                    },
+                    "transactionId": {
+                        "type": "string",
+                        "description": "The ID of the related transaction."
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "The content of the document (e.g., encoded in base64 for binary files)."
+                    }
+                }
+            },
+            "Transaction": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the transaction."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Current status of the transaction (e.g., pending, validated, finalized)."
+                    },
+                    "documents": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Document"
+                        },
+                        "description": "List of documents associated with the transaction."
+                    }
+                }
+            },
+            "TransactionStatus": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the transaction."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The current status of the transaction."
+                    },
+                    "complianceResults": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Compliance-related messages or alerts for the transaction."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

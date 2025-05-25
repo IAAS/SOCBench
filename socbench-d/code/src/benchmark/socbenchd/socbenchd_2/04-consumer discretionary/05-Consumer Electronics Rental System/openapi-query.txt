@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+Provides users with the capability to rent household electronics, manage rental periods, and coordinate returns, fostering economic and environmentally conscious usage.
+
+Endpoints:
+GET /devices: Retrieve a list of all rentable household electronic devices.
+POST /rentals: Initiate a rental for a specific household electronic by providing device ID and rental duration.
+GET /rentals/{rentalId}: Fetch information about a specific rental using its rental ID.
+PUT /rentals/{rentalId}/extend: Extend the rental duration of an active rental by providing an additional time period.
+POST /returns/{rentalId}: Coordinate the return of a rented device using its rental ID.
+GET /devices/{deviceId}/availability: Check the availability of a specific household electronic device.
+GET /rental-history: Retrieve the rental history for the user, including past and active rentals.
+GET /recycling-options: Provide available recycling options for used household electronics.
+POST /reviews: Submit a review for an electronic device post-rental to share user feedback.
+GET /support/contact: Retrieve contact information for support related to rentals and device issues.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

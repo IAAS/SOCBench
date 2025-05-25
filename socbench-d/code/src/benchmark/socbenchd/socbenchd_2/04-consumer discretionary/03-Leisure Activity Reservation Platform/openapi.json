@@ -1,0 +1,420 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Recreation Activity Booking and Management API",
+        "description": "API for managing recreational activities, ticketing, and promotions for consumers. This service helps recreation providers enable activity reservations, ticket purchasing, and promotions for end-users through a user-friendly interface.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/activities": {
+            "get": {
+                "summary": "Retrieve all available recreational activities",
+                "description": "Fetch a list of all recreational activities that are available for booking. Each activity includes details such as name, location, price, and availability.",
+                "responses": {
+                    "200": {
+                        "description": "A list of available recreational activities.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Activity"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/activities/{id}": {
+            "get": {
+                "summary": "Fetch detailed information for a specific activity",
+                "description": "Retrieve detailed information about a specific activity using its unique ID. Details include the activity's description, schedule, location, pricing, and availability.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the activity.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detailed information about the activity.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ActivityDetails"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Activity not found."
+                    }
+                }
+            }
+        },
+        "/activities/{id}/reserve": {
+            "post": {
+                "summary": "Reserve a spot for a specific activity",
+                "description": "Reserve a spot for a specific activity by providing user details and preferred time slots.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the activity.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Details required for making an activity reservation.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ReservationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Reservation successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ReservationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid reservation request."
+                    }
+                }
+            }
+        },
+        "/reservations/{reservation_id}": {
+            "delete": {
+                "summary": "Cancel an existing reservation",
+                "description": "Cancel an existing reservation identified by its unique reservation ID. The slot will become available for other users.",
+                "parameters": [
+                    {
+                        "name": "reservation_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the reservation.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Reservation successfully canceled."
+                    },
+                    "404": {
+                        "description": "Reservation not found."
+                    }
+                }
+            }
+        },
+        "/tickets": {
+            "get": {
+                "summary": "Retrieve the user's reserved or purchased tickets",
+                "description": "Fetch a list of tickets for activities that the user has booked or purchased.",
+                "responses": {
+                    "200": {
+                        "description": "A list of tickets for the user.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ticket"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tickets/{ticket_id}": {
+            "get": {
+                "summary": "Fetch detailed information about a specific ticket",
+                "description": "Retrieve detailed information about a specific ticket using its unique ID.",
+                "parameters": [
+                    {
+                        "name": "ticket_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the ticket.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detailed ticket information.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TicketDetails"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ticket not found."
+                    }
+                }
+            }
+        },
+        "/tickets/{ticket_id}/validate": {
+            "post": {
+                "summary": "Validate a ticket for usage",
+                "description": "Validate a ticket to check-in and use the ticket for the associated activity.",
+                "parameters": [
+                    {
+                        "name": "ticket_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the ticket.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ticket validation successful."
+                    },
+                    "400": {
+                        "description": "Invalid ticket or validation failed."
+                    }
+                }
+            }
+        },
+        "/promotions": {
+            "get": {
+                "summary": "List active promotions and special offers",
+                "description": "Fetch a list of all active promotions or discount codes for activities and reservations.",
+                "responses": {
+                    "200": {
+                        "description": "A list of active promotions.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Promotion"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/promotions/apply": {
+            "post": {
+                "summary": "Apply a promotion to a reservation or account",
+                "description": "Apply a promotion code to gain associated benefits. The promotion code must be valid and active.",
+                "requestBody": {
+                    "description": "Details of the promotion code to apply.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PromotionApplication"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Promotion applied successfully."
+                    },
+                    "400": {
+                        "description": "Invalid or expired promotion code."
+                    }
+                }
+            }
+        },
+        "/user/preferences": {
+            "patch": {
+                "summary": "Update user preferences",
+                "description": "Update user preferences for activity recommendations and reminders.",
+                "requestBody": {
+                    "description": "The updated user preferences.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserPreferences"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User preferences updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid user preferences data."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Activity": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "location": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number"
+                    },
+                    "availability": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "ActivityDetails": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "location": {
+                        "type": "string"
+                    },
+                    "schedule": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number"
+                    },
+                    "availability": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "ReservationRequest": {
+                "type": "object",
+                "properties": {
+                    "userDetails": {
+                        "type": "object"
+                    },
+                    "preferredTimeSlot": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ReservationResponse": {
+                "type": "object",
+                "properties": {
+                    "reservationId": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Ticket": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "activityId": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "TicketDetails": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "activity": {
+                        "type": "object"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Promotion": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "discountPercentage": {
+                        "type": "number"
+                    },
+                    "validUntil": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "PromotionApplication": {
+                "type": "object",
+                "properties": {
+                    "promotionCode": {
+                        "type": "string"
+                    },
+                    "reservationId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserPreferences": {
+                "type": "object",
+                "properties": {
+                    "recommendationsEnabled": {
+                        "type": "boolean"
+                    },
+                    "reminderFrequency": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

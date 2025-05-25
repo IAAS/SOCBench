@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /power/forecast",
+            "description": "Retrieve power output forecast data based on specific weather conditions and location."
+        },
+        {
+            "endpoint": "POST /power/forecast",
+            "description": "Submit new weather data to update the power output forecast."
+        },
+        {
+            "endpoint": "GET /weather/trends",
+            "description": "Access historical and present weather trends data to assess its impact on renewable energy production."
+        },
+        {
+            "endpoint": "GET /performance/history",
+            "description": "Retrieve past performance metrics of renewable power generation for analysis."
+        },
+        {
+            "endpoint": "POST /alert/settings",
+            "description": "Define alert thresholds for power generation deviation and receive notifications."
+        },
+        {
+            "endpoint": "GET /grid/stability",
+            "description": "Obtain analytics on current grid stability and insights to enhance distribution."
+        },
+        {
+            "endpoint": "GET /resource/allocation",
+            "description": "Access recommendations for optimal resource allocation among renewable sources."
+        },
+        {
+            "endpoint": "POST /model/training",
+            "description": "Initiate training of predictive models using newly uploaded performance datasets."
+        },
+        {
+            "endpoint": "GET /renewable/overview",
+            "description": "Gain comprehensive overviews of renewable energy sector trends and statistics."
+        },
+        {
+            "endpoint": "PUT /api/settings",
+            "description": "Update specific settings for the API service to customize its functionalities."
+        }
+    ]
+}

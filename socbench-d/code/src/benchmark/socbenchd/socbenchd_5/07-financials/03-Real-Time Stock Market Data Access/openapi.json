@@ -1,0 +1,502 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Financial Data API",
+        "description": "This API provides access to live stock prices, market trends, trading volumes, sector insights, historical data, and various other financial tools to assist investors.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.financialdata.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/stocks/latest-data": {
+            "get": {
+                "summary": "Retrieve the latest stock data",
+                "description": "Fetch the latest stock prices, trading volumes, and trend data for specified securities.",
+                "parameters": [
+                    {
+                        "name": "symbols",
+                        "in": "query",
+                        "description": "Comma-separated list of stock symbols to fetch data for (e.g., AAPL, TSLA).",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with stock data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "symbols": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "price": {
+                                                        "type": "number"
+                                                    },
+                                                    "volume": {
+                                                        "type": "number"
+                                                    },
+                                                    "trend": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sectors/market-insights": {
+            "get": {
+                "summary": "Get market insights by sectors or industries",
+                "description": "Retrieve summarized market insights and analysis categorized by sectors or industries.",
+                "responses": {
+                    "200": {
+                        "description": "Market insights data retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "sectors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "performance": {
+                                                        "type": "string"
+                                                    },
+                                                    "summary": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/assets/historical": {
+            "get": {
+                "summary": "Access historical data for assets",
+                "description": "Fetch historical prices, volumes, and market performance for a given asset over a specified time period.",
+                "parameters": [
+                    {
+                        "name": "symbol",
+                        "in": "query",
+                        "description": "The stock or asset symbol (e.g., AAPL, TSLA).",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "The start date for fetching historical data (yyyy-mm-dd).",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "The end date for fetching historical data (yyyy-mm-dd).",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historical data retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "symbol": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "price": {
+                                                        "type": "number"
+                                                    },
+                                                    "volume": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trends/moving-averages": {
+            "get": {
+                "summary": "Calculate moving averages for a stock",
+                "description": "Retrieve moving averages (e.g., 50-day or 200-day averages) to assist in trend analysis.",
+                "parameters": [
+                    {
+                        "name": "symbol",
+                        "in": "query",
+                        "description": "The stock symbol to calculate moving averages for (e.g., AAPL).",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "period",
+                        "in": "query",
+                        "description": "The period (e.g., 50 or 200 days) for calculating the moving average.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Moving average data retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "symbol": {
+                                            "type": "string"
+                                        },
+                                        "moving_average": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/watchlist/create": {
+            "post": {
+                "summary": "Create a custom watchlist",
+                "description": "Allows the user to create a customized watchlist containing a list of securities for ongoing monitoring.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Watchlist name"
+                                    },
+                                    "symbols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of stock or asset symbols to include in the watchlist"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "symbols"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Watchlist created successfully"
+                    }
+                }
+            }
+        },
+        "/news/recent": {
+            "get": {
+                "summary": "Get the latest financial news",
+                "description": "Fetches the latest news related to financial markets and specific stocks or assets.",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "in": "query",
+                        "description": "Keyword or phrase to filter news articles by.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "News articles retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "title": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            },
+                                            "url": {
+                                                "type": "string"
+                                            },
+                                            "published_at": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/currencies/exchange-rates": {
+            "get": {
+                "summary": "Retrieve live currency exchange rates",
+                "description": "Provides live data on currency exchange rates and fluctuations.",
+                "parameters": [
+                    {
+                        "name": "base_currency",
+                        "in": "query",
+                        "description": "The base currency (e.g., USD).",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "target_currency",
+                        "in": "query",
+                        "description": "The target currency to compare against the base (e.g., EUR).",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exchange rate data retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "base_currency": {
+                                            "type": "string"
+                                        },
+                                        "target_currency": {
+                                            "type": "string"
+                                        },
+                                        "exchange_rate": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/volatility-calculator": {
+            "get": {
+                "summary": "Calculate asset volatility",
+                "description": "Fetches volatility metrics for specified assets to assist in risk management and analysis.",
+                "parameters": [
+                    {
+                        "name": "symbol",
+                        "in": "query",
+                        "description": "The asset or stock symbol to calculate volatility for.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Volatility data retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "symbol": {
+                                            "type": "string"
+                                        },
+                                        "volatility": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/portfolio/asses": {
+            "post": {
+                "summary": "Analyze and provide recommendations for user portfolios",
+                "description": "Allows users to analyze the performance of their portfolio and get predictions and actionable recommendations.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "assets": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "symbol": {
+                                                    "type": "string"
+                                                },
+                                                "quantity": {
+                                                    "type": "number"
+                                                }
+                                            },
+                                            "required": [
+                                                "symbol",
+                                                "quantity"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "assets"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Portfolio assessment and recommendations provided successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "summary": {
+                                            "type": "string"
+                                        },
+                                        "recommendations": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dividends/announcement": {
+            "get": {
+                "summary": "Fetch upcoming dividend announcements",
+                "description": "Retrieve information about upcoming dividend announcements for specified stocks.",
+                "parameters": [
+                    {
+                        "name": "symbol",
+                        "in": "query",
+                        "description": "The stock symbol to retrieve dividend announcements for (optional).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dividend announcement information retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "symbol": {
+                                                "type": "string"
+                                            },
+                                            "announcement_date": {
+                                                "type": "string",
+                                                "format": "date"
+                                            },
+                                            "dividend_amount": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

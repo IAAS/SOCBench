@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /transactions",
+            "description": "Retrieve a list of recent financial transactions for the authenticated user."
+        },
+        {
+            "endpoint": "POST /transactions",
+            "description": "Initiates a new financial transaction between specified accounts."
+        },
+        {
+            "endpoint": "GET /accounts",
+            "description": "Fetches detailed information about the user's linked accounts."
+        },
+        {
+            "endpoint": "PUT /accounts/{account_id}",
+            "description": "Updates the details of an existing banking or financial account."
+        },
+        {
+            "endpoint": "POST /accounts",
+            "description": "Adds a new financial account to the user's profile."
+        },
+        {
+            "endpoint": "GET /currency-rates",
+            "description": "Provides current foreign exchange rates for multiple currencies."
+        },
+        {
+            "endpoint": "POST /transfers",
+            "description": "Creates a transfer transaction between user accounts."
+        },
+        {
+            "endpoint": "GET /transactions/{transaction_id}",
+            "description": "Retrieves detailed information about a specific financial transaction."
+        },
+        {
+            "endpoint": "DELETE /transactions/{transaction_id}",
+            "description": "Cancels a pending transaction specified by its ID."
+        },
+        {
+            "endpoint": "GET /financial-summary",
+            "description": "Generates a summary of the user's financial activities over a specific time period."
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+Service:
+The Material Supply Chain Optimization Service enables companies within the materials sector to efficiently manage and optimize their supply chain operations. This service aggregates real-time data from various supply chain stages including raw material sourcing, transportation logistics, and inventory levels. Through advanced analytics and machine learning models, the service provides recommendations for inventory management, supplier selection, and transport route optimization. By integrating this service using RESTful API endpoints, users can obtain actionable insights to reduce costs, improve delivery times, and enhance overall supply chain efficiency.
+
+Endpoints:
+GET /inventory-overview: Retrieve a current snapshot of the inventory levels categorized by material type.
+POST /supplier-feedback: Submit performance feedback for a specific supplier based on recent transactions.
+GET /transport-routes: Obtain recommended logistics routes based on current transportation data and constraints.
+POST /reorder-schedule: Upload intended reordering schedules for materials to align with predictive demand planning.
+GET /raw-material-sources: Access a list of available raw material sources with quality and cost evaluations.
+POST /transportation-tracking: Submit and manage data related to in-transit shipments for improved monitoring.
+GET /inventory-forecast: Analyze trends and receive predictive insights on inventory levels based on historical data.
+POST /cost-analysis: Perform cost breakdown studies concerning procurement and logistics expenditures.
+GET /supply-chain-health: Retrieve a comprehensive status report of the supply chain's operational efficiency.
+POST /strategic-suggestions: Input considerations and retrieve optimization recommendations tailored for supply chain strategies.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /inventory",
+            "description": "Retrieve the current inventory levels including product details, quantities, and expiration dates."
+        },
+        {
+            "endpoint": "POST /inventory/order",
+            "description": "Place a new order for replenishment based on required inventory thresholds."
+        },
+        {
+            "endpoint": "GET /inventory/{itemID}",
+            "description": "Fetch detailed information about a specific item in the inventory by its ID."
+        },
+        {
+            "endpoint": "DELETE /inventory/{itemID}",
+            "description": "Remove an item from the inventory list using its unique ID."
+        },
+        {
+            "endpoint": "GET /sales/trends",
+            "description": "Analyze and retrieve trending data on sales to help inform stocking decisions."
+        },
+        {
+            "endpoint": "POST /inventory/adjust",
+            "description": "Make manual adjustments to the inventory levels for discrepancies or corrections."
+        },
+        {
+            "endpoint": "GET /notifications",
+            "description": "Obtain notifications related to upcoming product expirations or low stock levels."
+        },
+        {
+            "endpoint": "POST /notifications/acknowledge",
+            "description": "Mark notifications as acknowledged to maintain streamlined operations."
+        },
+        {
+            "endpoint": "GET /reports/sales-summary",
+            "description": "Access a summarized report of sales over a selected time period."
+        },
+        {
+            "endpoint": "POST /inventory/check",
+            "description": "Start a comprehensive inventory check process for actual stock verification."
+        }
+    ]
+}

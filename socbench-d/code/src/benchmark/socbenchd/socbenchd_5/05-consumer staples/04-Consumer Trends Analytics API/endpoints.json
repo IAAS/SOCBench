@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /consumer-trends/overview",
+            "description": "Retrieve a summary of current consumer behavior trends based on region and product category."
+        },
+        {
+            "endpoint": "POST /market-analysis/region",
+            "description": "Submit a request to analyze market performance and purchasing patterns within a specific region."
+        },
+        {
+            "endpoint": "GET /product-categories/top",
+            "description": "Obtain a ranked overview of product categories experiencing the highest demand."
+        },
+        {
+            "endpoint": "POST /seasonal-trends/predictions",
+            "description": "Calculate and provide predictions on seasonal consumer behavior variations for selected items."
+        },
+        {
+            "endpoint": "GET /demographics/preferences",
+            "description": "Access statistical data regarding product preferences segmented by demographic groups."
+        },
+        {
+            "endpoint": "GET /historical-data/trends",
+            "description": "Fetch historical trends in consumer behavior for strategic data analysis."
+        },
+        {
+            "endpoint": "POST /campaign-analysis/effectiveness",
+            "description": "Analyze the success and impact of recent marketing campaigns on product sales."
+        },
+        {
+            "endpoint": "GET /inventory/demand-forecast",
+            "description": "Provide demand forecasts to align inventory management with market requirements."
+        },
+        {
+            "endpoint": "POST /feedback/consumer",
+            "description": "Allow the submission of aggregated consumer feedback to identify product improvement opportunities."
+        },
+        {
+            "endpoint": "GET /insights/competitor-comparison",
+            "description": "Deliver comparative analytics between the client's performance and competitors within the sector."
+        }
+    ]
+}

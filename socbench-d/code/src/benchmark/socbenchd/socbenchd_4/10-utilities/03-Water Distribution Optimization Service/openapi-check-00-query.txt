@@ -1,0 +1,333 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Water Distribution Management API",
+        "description": "This API optimizes the management and oversight of water distribution systems by monitoring consumption, identifying leaks, and proposing adjustments for sustainable resource allocation and reduced wastage.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.water-management.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/water-consumption": {
+            "get": {
+                "summary": "Retrieve water consumption statistics",
+                "description": "Fetches detailed water consumption statistics for all monitored locations, providing insights into usage patterns.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of water consumption statistics",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "locations": [
+                                        {
+                                            "id": "location-1",
+                                            "consumption": 2500,
+                                            "unit": "liters",
+                                            "timestamp": "2023-10-01T10:00:00Z"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/leak-detection": {
+            "post": {
+                "summary": "Submit data for leak detection",
+                "description": "Sends a request with new data to analyze for potential leaks in specified areas.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "areaId": "area-7",
+                                "sensorData": {
+                                    "volume": 1500,
+                                    "timestamp": "2023-10-01T11:00:00Z"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Leak analysis initiated successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "analysisId": "analysis-12345",
+                                    "status": "InProgress"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/usage-trends": {
+            "get": {
+                "summary": "Get usage trends over time",
+                "description": "Retrieves water usage trends over time to help in better forecasting and planning.",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start date for the trend analysis in ISO 8601 format (e.g., 2023-01-01).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": true,
+                        "description": "End date for the trend analysis in ISO 8601 format (e.g., 2023-01-31).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of usage trends",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "trends": [
+                                        {
+                                            "date": "2023-01-01",
+                                            "consumption": 3000,
+                                            "unit": "liters"
+                                        },
+                                        {
+                                            "date": "2023-01-02",
+                                            "consumption": 2800,
+                                            "unit": "liters"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/system-settings": {
+            "put": {
+                "summary": "Modify system configuration settings",
+                "description": "Updates the configuration settings of the water distribution monitoring system.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "settingName": "alertThreshold",
+                                "newValue": 100
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Settings updated successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "status": "success",
+                                    "message": "Configuration updated"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "get": {
+                "summary": "Fetch system alerts",
+                "description": "Retrieves all system alerts generated for unusual behavior or anomalies detected.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of alerts",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "alerts": [
+                                        {
+                                            "id": "alert-12345",
+                                            "type": "leakDetected",
+                                            "severity": "high",
+                                            "timestamp": "2023-10-01T09:00:00Z",
+                                            "details": "Leak detected in area-5."
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alert/{id}": {
+            "delete": {
+                "summary": "Remove a resolved or erroneous alert",
+                "description": "Deletes a specified alert from the system. Typically used for resolved or invalid alerts.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Alert ID to be deleted.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Alert deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "status": "success",
+                                    "message": "Alert deleted"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/usage-reports": {
+            "post": {
+                "summary": "Generate and retrieve efficiency reports",
+                "description": "Generates and retrieves detailed reports on water usage and efficiency statistics.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "reportType": "monthly",
+                                "criteria": {
+                                    "region": "area-3",
+                                    "timePeriod": "2023-09"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Report generated successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "reportId": "report-56789",
+                                    "status": "Completed",
+                                    "downloadUrl": "https://api.water-management.com/reports/report-56789"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensor-health": {
+            "get": {
+                "summary": "Check sensor health",
+                "description": "Fetches the operational status of all water consumption sensors.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of sensor health status",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "sensors": [
+                                        {
+                                            "id": "sensor-1",
+                                            "operational": true,
+                                            "lastChecked": "2023-10-01T12:00:00Z"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/distribution-metrics": {
+            "get": {
+                "summary": "Access water distribution performance",
+                "description": "Retrieves performance metrics for water distribution systems, such as efficiency and wastage rates.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of distribution metrics",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "metrics": {
+                                        "totalDistribution": 10000,
+                                        "wastage": 500,
+                                        "efficiency": 95
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/optimization-suggestions": {
+            "get": {
+                "summary": "Fetch resource optimization suggestions",
+                "description": "Provides suggested actions to optimize water resource allocation and minimize wastage.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of optimization suggestions",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "suggestions": [
+                                        {
+                                            "action": "Install pressure-reducing valve",
+                                            "area": "area-2",
+                                            "expectedImpact": "10% reduction in wastage"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

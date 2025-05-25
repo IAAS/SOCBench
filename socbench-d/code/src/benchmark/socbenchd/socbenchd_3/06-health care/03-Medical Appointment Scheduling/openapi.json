@@ -1,0 +1,438 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Healthcare Appointment Management API",
+        "version": "1.0.0",
+        "description": "This API allows patients and healthcare providers to seamlessly schedule, manage, and track medical appointments. Practitioners can manage their schedules and availability, while patients can search and book appointments easily."
+    },
+    "paths": {
+        "/appointments": {
+            "post": {
+                "summary": "Create a medical appointment",
+                "description": "Allows patients to schedule a new appointment with a specified practitioner.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "patient_id": {
+                                        "type": "string",
+                                        "description": "The unique ID of the patient scheduling the appointment."
+                                    },
+                                    "practitioner_id": {
+                                        "type": "string",
+                                        "description": "The unique ID of the practitioner for the appointment."
+                                    },
+                                    "appointment_type": {
+                                        "type": "string",
+                                        "description": "The type of medical appointment being scheduled."
+                                    },
+                                    "date_time": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "The scheduled date and time for the appointment in ISO format."
+                                    }
+                                },
+                                "required": [
+                                    "patient_id",
+                                    "practitioner_id",
+                                    "appointment_type",
+                                    "date_time"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Appointment created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "appointment_id": {
+                                            "type": "string",
+                                            "description": "The unique ID of the created appointment."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve scheduled appointments",
+                "description": "Retrieve a list of all scheduled appointments for a specific patient or practitioner.",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Filter appointments by the specific patient ID."
+                    },
+                    {
+                        "name": "practitioner_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Filter appointments by the specific practitioner ID."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of scheduled appointments retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "appointment_id": {
+                                                "type": "string",
+                                                "description": "The unique ID of the appointment."
+                                            },
+                                            "patient_id": {
+                                                "type": "string",
+                                                "description": "The unique ID of the patient."
+                                            },
+                                            "practitioner_id": {
+                                                "type": "string",
+                                                "description": "The unique ID of the practitioner."
+                                            },
+                                            "appointment_type": {
+                                                "type": "string",
+                                                "description": "The type of medical appointment."
+                                            },
+                                            "date_time": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "The date and time of the appointment in ISO format."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/appointments/{appointment_id}": {
+            "patch": {
+                "summary": "Update an appointment",
+                "description": "Modify the details of a specific appointment using its unique ID.",
+                "parameters": [
+                    {
+                        "name": "appointment_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique ID of the appointment to be updated."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "date_time": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "The updated date and time of the appointment in ISO format."
+                                    },
+                                    "appointment_type": {
+                                        "type": "string",
+                                        "description": "The updated type of the medical appointment."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Appointment updated successfully."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Cancel an appointment",
+                "description": "Cancel a specific medical appointment by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "appointment_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique ID of the appointment to be cancelled."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Appointment cancelled successfully."
+                    }
+                }
+            }
+        },
+        "/practitioners": {
+            "get": {
+                "summary": "Retrieve practitioners",
+                "description": "Get a list of all available healthcare practitioners within the network.",
+                "responses": {
+                    "200": {
+                        "description": "List of practitioners retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "practitioner_id": {
+                                                "type": "string",
+                                                "description": "The unique ID of the practitioner."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "The name of the practitioner."
+                                            },
+                                            "specialty": {
+                                                "type": "string",
+                                                "description": "The practitioner's area of specialization."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/practitioners/{practitioner_id}/availability": {
+            "get": {
+                "summary": "Retrieve practitioner availability",
+                "description": "Get available time slots for a specific practitioner.",
+                "parameters": [
+                    {
+                        "name": "practitioner_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique ID of the practitioner."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Practitioner availability retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "available_slots": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "An available time slot in ISO format."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add/update practitioner availability",
+                "description": "Add or update the availability schedule for a specific practitioner.",
+                "parameters": [
+                    {
+                        "name": "practitioner_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique ID of the practitioner."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "available_slots": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "An available time slot in ISO format."
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "available_slots"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Availability added/updated successfully."
+                    }
+                }
+            }
+        },
+        "/patients/{patient_id}/history": {
+            "get": {
+                "summary": "Retrieve patient appointment history",
+                "description": "Retrieve all past appointments for a specific patient.",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique ID of the patient."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Patient appointment history retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "appointment_id": {
+                                                "type": "string",
+                                                "description": "The unique ID of the appointment."
+                                            },
+                                            "practitioner_id": {
+                                                "type": "string",
+                                                "description": "The unique ID of the practitioner."
+                                            },
+                                            "appointment_type": {
+                                                "type": "string",
+                                                "description": "The type of medical appointment."
+                                            },
+                                            "date_time": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "The date and time of the appointment in ISO format."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/appointment-types": {
+            "get": {
+                "summary": "Retrieve appointment types",
+                "description": "Get a list of available types of medical appointments.",
+                "responses": {
+                    "200": {
+                        "description": "List of appointment types retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "description": "A type of medical appointment."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports": {
+            "post": {
+                "summary": "Generate appointment report",
+                "description": "Create a report that summarizes appointments and availability within a specified timeframe.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "The start date for the report period."
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "The end date for the report period."
+                                    }
+                                },
+                                "required": [
+                                    "start_date",
+                                    "end_date"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Report generated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "report_id": {
+                                            "type": "string",
+                                            "description": "The unique ID of the generated report."
+                                        },
+                                        "report_url": {
+                                            "type": "string",
+                                            "description": "The URL to access the generated report."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

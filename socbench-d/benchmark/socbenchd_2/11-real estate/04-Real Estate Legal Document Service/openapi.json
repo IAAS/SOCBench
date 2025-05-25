@@ -1,0 +1,453 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Real Estate Contract Management API",
+        "description": "API for managing real estate contracts and documents. This service provides templates and customization options to streamline property transactions.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.realestatecontracts.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/templates": {
+            "get": {
+                "summary": "Retrieve contract templates",
+                "description": "Fetch a list of available real estate contract templates that users can utilize for property transactions.",
+                "responses": {
+                    "200": {
+                        "description": "List of contract templates successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "template_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the template."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the template."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Brief description of the template's purpose."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Upload a new template",
+                "description": "Upload a new real estate document template for customization and use in property transactions.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "template_file": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "The file for the template being uploaded."
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The name of the template."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "A brief description of the template."
+                                    }
+                                },
+                                "required": [
+                                    "template_file",
+                                    "name"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Template uploaded successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "template_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the uploaded template."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/documents/customization-options": {
+            "get": {
+                "summary": "Fetch customization options",
+                "description": "Retrieve the possible customization fields and settings for a specified real estate document.",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "template_id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID of the template for which customization options are being requested."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Customization options successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "fields": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "description": "Name of the customizable fields."
+                                            }
+                                        },
+                                        "settings": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "string"
+                                            },
+                                            "description": "Possible customization settings."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/documents": {
+            "post": {
+                "summary": "Generate a customized document",
+                "description": "Generate a new real estate document using a selected template and user specifications.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "template_id": {
+                                        "type": "string",
+                                        "description": "ID of the template to be used."
+                                    },
+                                    "customization_data": {
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        },
+                                        "description": "Key-value pairs representing field customizations."
+                                    }
+                                },
+                                "required": [
+                                    "template_id",
+                                    "customization_data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Document created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "document_id": {
+                                            "type": "string",
+                                            "description": "Unique ID of the created document."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the document, e.g., 'draft'."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/documents/{document_id}": {
+            "put": {
+                "summary": "Update a document",
+                "description": "Update an existing document with new information or changes.",
+                "parameters": [
+                    {
+                        "name": "document_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID of the document to be updated."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "updated_data": {
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        },
+                                        "description": "New data to update the document with."
+                                    }
+                                },
+                                "required": [
+                                    "updated_data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Document updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "document_id": {
+                                            "type": "string",
+                                            "description": "ID of the updated document."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a document",
+                "description": "Remove a specific document from the repository.",
+                "parameters": [
+                    {
+                        "name": "document_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID of the document to be deleted."
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Document successfully deleted."
+                    }
+                }
+            }
+        },
+        "/documents/{document_id}/status": {
+            "patch": {
+                "summary": "Update document status",
+                "description": "Change the status of a specific document, e.g., from 'draft' to 'finalized'.",
+                "parameters": [
+                    {
+                        "name": "document_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID of the document whose status will be updated."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "description": "New status of the document, e.g., 'draft', 'finalized'."
+                                    }
+                                },
+                                "required": [
+                                    "status"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Document status successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "document_id": {
+                                            "type": "string",
+                                            "description": "ID of the document with updated status."
+                                        },
+                                        "new_status": {
+                                            "type": "string",
+                                            "description": "The updated status of the document."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/contracts/validation": {
+            "get": {
+                "summary": "Validate a contract",
+                "description": "Analyze a real estate contract for missing fields or inconsistencies.",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "contract_id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID of the contract to be validated."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Contract validation report generated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "description": "Description of an error or inconsistency."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/contracts/comparison": {
+            "get": {
+                "summary": "Compare contracts",
+                "description": "Compare two real estate contracts and summarize their differences.",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "contract_id_1",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID of the first contract for comparison."
+                    },
+                    {
+                        "in": "query",
+                        "name": "contract_id_2",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID of the second contract for comparison."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Contracts compared successfully. Differences summarized.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "differences": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "description": "Description of a difference between the contracts."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/contracts/examples": {
+            "get": {
+                "summary": "Retrieve contract examples",
+                "description": "Fetch example sections of real estate contracts for drafting purposes.",
+                "responses": {
+                    "200": {
+                        "description": "Example contract sections retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "section_name": {
+                                                "type": "string",
+                                                "description": "Name of the contract section."
+                                            },
+                                            "example_text": {
+                                                "type": "string",
+                                                "description": "Text of the example section."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

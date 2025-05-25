@@ -1,0 +1,373 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Health Care Sector Inventory and Analytics API",
+        "description": "An API for pharmacies and healthcare outlets to track inventory levels of medications and supplies, receive alerts for restocking, and analyze transactional trends. Enables uninterrupted availability of essential medicines and better supply chain management.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/inventory": {
+            "get": {
+                "summary": "Retrieve current inventory levels",
+                "description": "Fetch the current inventory levels for all tracked medications and supplies in the system.",
+                "responses": {
+                    "200": {
+                        "description": "A list of inventory items with their current levels.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "item_id": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the medication or supply."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "The name of the medication or supply item."
+                                            },
+                                            "quantity": {
+                                                "type": "integer",
+                                                "description": "The current quantity of the item in stock."
+                                            },
+                                            "unit": {
+                                                "type": "string",
+                                                "description": "The unit of measurement of the item (e.g., tablets, liters)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/update": {
+            "post": {
+                "summary": "Update inventory count",
+                "description": "Update the inventory count for specific medications or supplies.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "item_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the item to update."
+                                    },
+                                    "new_quantity": {
+                                        "type": "integer",
+                                        "description": "The updated quantity for the item."
+                                    }
+                                },
+                                "required": [
+                                    "item_id",
+                                    "new_quantity"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The updated inventory details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "item_id": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the updated item."
+                                        },
+                                        "updated_quantity": {
+                                            "type": "integer",
+                                            "description": "The new inventory quantity for the item."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "get": {
+                "summary": "Fetch active restocking alerts",
+                "description": "Retrieve a list of active alerts for items that need restocking.",
+                "responses": {
+                    "200": {
+                        "description": "A list of active restocking alerts.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "alert_id": {
+                                                "type": "string",
+                                                "description": "The unique identifier for the alert."
+                                            },
+                                            "item_name": {
+                                                "type": "string",
+                                                "description": "The name of the item requiring restocking."
+                                            },
+                                            "quantity_threshold": {
+                                                "type": "integer",
+                                                "description": "The threshold quantity that triggered the alert."
+                                            },
+                                            "current_quantity": {
+                                                "type": "integer",
+                                                "description": "The current quantity of the item."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/dismiss": {
+            "post": {
+                "summary": "Mark restocking alerts as resolved",
+                "description": "Dismiss specific restocking alerts by marking them as resolved.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "alert_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the alert to dismiss."
+                                    }
+                                },
+                                "required": [
+                                    "alert_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Confirmation that the specified alert has been dismissed."
+                    }
+                }
+            }
+        },
+        "/transactions": {
+            "get": {
+                "summary": "Retrieve transaction history",
+                "description": "Fetch a log of transactional activities for medications and supplies.",
+                "responses": {
+                    "200": {
+                        "description": "A list of transaction records.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "transaction_id": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the transaction."
+                                            },
+                                            "item_id": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the item involved in the transaction."
+                                            },
+                                            "quantity": {
+                                                "type": "integer",
+                                                "description": "The quantity of the item transacted."
+                                            },
+                                            "transaction_type": {
+                                                "type": "string",
+                                                "description": "The type of transaction (e.g., incoming, outgoing)."
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "The timestamp when the transaction occurred."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/add": {
+            "post": {
+                "summary": "Add a new transaction",
+                "description": "Record a new transaction for specific items.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "item_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the item for the transaction."
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "description": "The quantity involved in the transaction."
+                                    },
+                                    "transaction_type": {
+                                        "type": "string",
+                                        "description": "The type of transaction (e.g., incoming, outgoing)."
+                                    }
+                                },
+                                "required": [
+                                    "item_id",
+                                    "quantity",
+                                    "transaction_type"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Confirmation that the transaction has been successfully recorded."
+                    }
+                }
+            }
+        },
+        "/analytics/trends": {
+            "get": {
+                "summary": "Fetch utilization trends",
+                "description": "Analyze and retrieve trends in the utilization of medications and supplies over time.",
+                "responses": {
+                    "200": {
+                        "description": "A summary of utilization trends.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "trend_summary": {
+                                            "type": "string",
+                                            "description": "Summary of the observed trends."
+                                        },
+                                        "items_analyzed": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "description": "List of items analyzed in this trend report."
+                                            }
+                                        },
+                                        "time_period": {
+                                            "type": "string",
+                                            "description": "The time period covered by the analysis."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/custom": {
+            "post": {
+                "summary": "Get customized analytics report",
+                "description": "Submit parameters to receive a customized analytic report based on specific needs.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "The customization parameters for the report."
+                                    }
+                                },
+                                "required": [
+                                    "parameters"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The generated customized analytics report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "report": {
+                                            "type": "string",
+                                            "description": "The content of the customized report."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/settings": {
+            "get": {
+                "summary": "Fetch service configuration settings",
+                "description": "Retrieve the current configuration settings for the API service.",
+                "responses": {
+                    "200": {
+                        "description": "The service configuration settings.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/settings/update": {
+            "put": {
+                "summary": "Update service configuration",
+                "description": "Update configuration settings for specific functionalities.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Confirmation that the configuration settings have been updated."
+                    }
+                }
+            }
+        }
+    }
+}

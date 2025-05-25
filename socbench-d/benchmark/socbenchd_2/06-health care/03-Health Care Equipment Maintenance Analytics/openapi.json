@@ -1,0 +1,410 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Medical Equipment Monitoring and Maintenance API",
+        "description": "This API enables tracking, reporting, and predictive maintenance scheduling of medical equipment. By connecting to on-device sensors, the service gathers operational data to predict maintenance needs, reducing unexpected downtime and enhancing equipment longevity. It also provides detailed analytical reports for health care facilities.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/devices": {
+            "get": {
+                "summary": "Get All Devices",
+                "description": "Retrieve a list of all registered medical devices along with their respective details, including specifications and sensor information.",
+                "responses": {
+                    "200": {
+                        "description": "List of registered devices retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Device"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Register a New Device",
+                "description": "Add a new medical device to the monitoring system by providing its specifications and sensor information.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewDevice"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Device registered successfully."
+                    }
+                }
+            }
+        },
+        "/device/{id}/status": {
+            "get": {
+                "summary": "Get Device Status",
+                "description": "Retrieve the current operational status and performance metrics for a specific medical device.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the device whose status is being requested.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Device status and metrics retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeviceStatus"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/device/{id}/update": {
+            "put": {
+                "summary": "Update Device Details",
+                "description": "Update the information of an existing device, such as its location, specifications, or associated sensors.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the device to be updated.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateDevice"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Device updated successfully."
+                    }
+                }
+            }
+        },
+        "/analytics/reports": {
+            "get": {
+                "summary": "Get Analytical Reports",
+                "description": "Retrieve generated analytical reports that provide insights into device usage and health trends.",
+                "responses": {
+                    "200": {
+                        "description": "Analytical reports retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Report"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/create": {
+            "post": {
+                "summary": "Create Alert",
+                "description": "Define a new alert for devices based on specified maintenance or operational thresholds.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Alert"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert created successfully."
+                    }
+                }
+            }
+        },
+        "/maintenance/schedule": {
+            "get": {
+                "summary": "Get Maintenance Schedule",
+                "description": "Retrieve the current predictive maintenance schedule for all monitored devices.",
+                "responses": {
+                    "200": {
+                        "description": "Maintenance schedule retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MaintenanceSchedule"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/maintenance/schedule/update": {
+            "post": {
+                "summary": "Update Maintenance Schedule",
+                "description": "Modify the maintenance schedule for devices by specifying new maintenance tasks and their timelines.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateMaintenanceSchedule"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Maintenance schedule updated successfully."
+                    }
+                }
+            }
+        },
+        "/device/{id}": {
+            "delete": {
+                "summary": "Delete Device",
+                "description": "Remove a device from the system, discontinuing its monitoring and maintenance scheduling.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the device to be removed.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Device deleted successfully."
+                    }
+                }
+            }
+        },
+        "/sensors/data/{id}": {
+            "get": {
+                "summary": "Get Sensor Data",
+                "description": "Retrieve raw data from the specified sensor for diagnostic and analytical purposes.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the sensor whose data is being requested.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sensor data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SensorData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Device": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the device."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the device."
+                    },
+                    "specifications": {
+                        "type": "object",
+                        "description": "Detailed specifications of the device."
+                    },
+                    "sensors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Sensor"
+                        }
+                    }
+                }
+            },
+            "NewDevice": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the new device."
+                    },
+                    "specifications": {
+                        "type": "object",
+                        "description": "Specifications of the new device."
+                    },
+                    "sensors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Sensor"
+                        }
+                    }
+                }
+            },
+            "UpdateDevice": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Updated name of the device."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Updated location of the device."
+                    },
+                    "specifications": {
+                        "type": "object",
+                        "description": "Updated specifications of the device."
+                    }
+                }
+            },
+            "DeviceStatus": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Current operational status of the device."
+                    },
+                    "metrics": {
+                        "type": "object",
+                        "description": "Performance metrics of the device."
+                    }
+                }
+            },
+            "Report": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the report."
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "Detailed content of the report."
+                    }
+                }
+            },
+            "Alert": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the alert."
+                    },
+                    "threshold": {
+                        "type": "object",
+                        "description": "Thresholds that trigger the alert."
+                    }
+                }
+            },
+            "MaintenanceSchedule": {
+                "type": "object",
+                "properties": {
+                    "deviceId": {
+                        "type": "string",
+                        "description": "Unique identifier for the device."
+                    },
+                    "tasks": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "List of scheduled maintenance tasks."
+                        }
+                    }
+                }
+            },
+            "UpdateMaintenanceSchedule": {
+                "type": "object",
+                "properties": {
+                    "deviceId": {
+                        "type": "string",
+                        "description": "Unique identifier for the device."
+                    },
+                    "newTasks": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "List of new maintenance tasks to be added."
+                        }
+                    }
+                }
+            },
+            "Sensor": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the sensor."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Type of the sensor."
+                    },
+                    "data": {
+                        "type": "object",
+                        "description": "Data captured by the sensor."
+                    }
+                }
+            },
+            "SensorData": {
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "type": "string",
+                        "description": "Timestamp of the data captured by the sensor."
+                    },
+                    "values": {
+                        "type": "object",
+                        "description": "Raw sensor data values."
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+The Property Listing Management Service facilitates real estate agencies and individuals to create, update, and manage property listings effectively. Users can aggregate property details, including descriptions, images, and pricing, and publish them to various platforms to reach potential buyers or renters.
+
+Endpoints:
+GET /properties: Retrieve a list of all property listings with filtering options.
+POST /properties: Submit a new property listing with associated details.
+GET /properties/{id}: Fetch detailed information for a specific property listing by its identifier.
+PUT /properties/{id}: Update information for an existing property listing.
+DELETE /properties/{id}: Remove a property listing from the platform.
+POST /properties/{id}/images: Upload images associated with a specific property listing.
+DELETE /properties/{id}/images/{image_id}: Delete a specific image from a property listing's gallery.
+GET /platforms: Retrieve a list of supported platforms where property listings can be published.
+POST /properties/{id}/publish: Publish a specific property listing to selected external platforms.
+GET /properties/{id}/status: Check the publication status of a property listing on external platforms.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

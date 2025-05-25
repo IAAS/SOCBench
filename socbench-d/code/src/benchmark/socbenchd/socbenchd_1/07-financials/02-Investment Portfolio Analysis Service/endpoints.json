@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /performance/portfolio",
+            "description": "Retrieve the detailed performance metrics for a specified portfolio."
+        },
+        {
+            "endpoint": "POST /portfolio/upload",
+            "description": "Upload and process a new portfolio dataset to calculate performance metrics."
+        },
+        {
+            "endpoint": "GET /diversification/analysis",
+            "description": "Obtain an analysis of the diversification level of a given portfolio."
+        },
+        {
+            "endpoint": "POST /risk/assessment",
+            "description": "Submit data to perform a comprehensive risk assessment on a portfolio."
+        },
+        {
+            "endpoint": "GET /benchmarks/compare",
+            "description": "Retrieve comparative analysis data between a portfolio and selected benchmarks."
+        },
+        {
+            "endpoint": "GET /alerts/thresholds",
+            "description": "Get the list of set thresholds for portfolio performance alerts."
+        },
+        {
+            "endpoint": "POST /alerts/configure",
+            "description": "Configure notification thresholds for monitoring portfolio metrics."
+        },
+        {
+            "endpoint": "GET /reports/summary",
+            "description": "Retrieve a summarized report of the investment portfolio's insights."
+        },
+        {
+            "endpoint": "GET /market-trends",
+            "description": "Access market trend analysis relevant to the portfolio."
+        },
+        {
+            "endpoint": "DELETE /portfolio/remove",
+            "description": "Remove a previously uploaded portfolio dataset from the system."
+        }
+    ]
+}

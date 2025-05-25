@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /calculate-payment",
+            "description": "Submit loan details to compute the estimated monthly payment amount."
+        },
+        {
+            "endpoint": "GET /interest-rates",
+            "description": "Retrieve current and historical interest rates for comparison and analysis."
+        },
+        {
+            "endpoint": "POST /compare-loans",
+            "description": "Compare different loan options using their terms for a better understanding."
+        },
+        {
+            "endpoint": "GET /property-value-estimate",
+            "description": "Fetch estimates of property values based on provided location and details."
+        },
+        {
+            "endpoint": "POST /evaluate-affordability",
+            "description": "Analyze user's financial data to assess property affordability."
+        },
+        {
+            "endpoint": "GET /down-payment-summary",
+            "description": "Retrieve a breakdown of down payment options and associated costs."
+        },
+        {
+            "endpoint": "POST /loan-plan-builder",
+            "description": "Create a custom loan repayment plan tailored to user's conditions."
+        },
+        {
+            "endpoint": "GET /amortization-schedule",
+            "description": "Provide detailed breakdown of principal and interest payments over time."
+        },
+        {
+            "endpoint": "GET /tenure-variation-impact",
+            "description": "Analyze the impact of different loan tenures on payment size and interest."
+        },
+        {
+            "endpoint": "POST /rate-sensitivity-analysis",
+            "description": "Simulate changes in interest rates to understand sensitivity on loan terms."
+        }
+    ]
+}

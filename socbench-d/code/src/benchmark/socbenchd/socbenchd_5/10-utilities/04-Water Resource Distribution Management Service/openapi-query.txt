@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+Enables efficient planning and management of water distribution networks, supporting sustainable use of water resources through advanced modeling and monitoring tools.
+
+Endpoints:
+GET /networks: Retrieve an overview of all water distribution networks.
+POST /networks: Create a new water distribution network configuration.
+GET /networks/{id}: Retrieve details of a specific water distribution network by its ID.
+PUT /networks/{id}: Update an existing water distribution network configuration by its ID.
+DELETE /networks/{id}: Delete a specified water distribution network configuration by its ID.
+GET /networks/{id}/analytics: Retrieve analytics data for a specific water distribution network by its ID, including resource usage and efficiency metrics.
+POST /alerts: Create a notification alert based on specified conditions for water distribution metrics.
+GET /sensors/{id}/data: Retrieve data collected by a specific sensor identified by its ID over a given timeframe.
+PUT /maintenance/{id}: Update the maintenance schedule or status for a specific component identified by its ID within the water distribution network.
+GET /reports: Generate comprehensive reports summarizing water usage and distribution efficiency across networks.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

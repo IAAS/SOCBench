@@ -1,0 +1,29 @@
+SUMMARY:
+List the 10 most important endpoints for the given service.
+
+DOCUMENT:
+Domain:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+Service:
+This service provides tools for tracking, managing, and optimizing IT assets within an organization, ensuring cost-effectiveness and operational efficiency. Users can register devices, perform inventory checks, and predict lifecycle stages.
+
+Previous endpoints:
+
+
+TASK:
+Given the description of the service, please think what could be the 10 most important endpoints of the service.
+
+EXAMPLE:
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /sensors",
+            "description": "Retrieve the list of all available sensors."
+        }
+        ...
+    ]
+}
+
+INSTRUCTIONS:
+You are given a domain and a corresponding service. You are tasked to list endpoints for a given service. These should be specific for the service. The previously created endpoints are given. You can decide which endpoints these are. Align them with the service description. Avoid generic endpoints not related to the domain like authentication or user management. List them as "Verb Path" and add an extensive description as JSON. The endpoints should be different from the already previous ones. Make sure that the endpoints are consistent, compatible with each other, and in total create a self-contained service.

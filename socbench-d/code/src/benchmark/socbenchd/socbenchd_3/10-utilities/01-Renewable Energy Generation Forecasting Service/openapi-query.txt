@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+This service provides predictive analysis for energy production from renewable sources by processing historical weather data combined with current meteorological patterns. By using advanced machine learning models, users can receive forecasts about solar, wind, and hydroelectric energy yield. For example, an energy manager can access projected solar generation for the upcoming week to prepare grid management strategies.
+
+Endpoints:
+GET /energy/forecast/solar: Retrieve predicted energy production values for solar power based on provided date ranges.
+GET /energy/forecast/wind: Retrieve predicted energy production values for wind power based on provided date ranges.
+GET /energy/forecast/hydro: Retrieve predicted energy production values for hydroelectric power based on provided date ranges.
+POST /energy/forecast/request: Submit a request for customized forecasts by providing specific requirements.
+GET /energy/history/solar: Access historical data for solar energy production to analyze performance trends.
+GET /energy/history/wind: Access historical data for wind energy production to analyze performance trends.
+GET /energy/history/hydro: Access historical data for hydroelectric energy production to analyze performance trends.
+PUT /user/settings/alert: Modify notifications settings for energy forecast updates and alerts.
+GET /weather/current: Retrieve current meteorological data influencing renewable energy production rates.
+GET /weather/projection: Retrieve meteorological patterns projected for an extended timeframe.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,461 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Consumer Staples Order Fulfillment & Inventory Management API",
+    "description": "An API to optimize order fulfillment, inventory tracking, and distribution routes for companies in the Consumer Staples sector, enhancing operational efficiency and customer satisfaction.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.consumerstaples.com",
+      "description": "Production Server"
+    }
+  ],
+  "paths": {
+    "/inventory": {
+      "get": {
+        "summary": "Retrieve current inventory",
+        "description": "Fetch the current state of the inventory, including stock levels and product details for each item.",
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of inventory details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order": {
+      "post": {
+        "summary": "Create a new order",
+        "description": "Submit a new order specifying product quantities, customer details, and delivery preferences.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Order created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request payload."
+          }
+        }
+      }
+    },
+    "/orders/{orderId}": {
+      "get": {
+        "summary": "Retrieve order details",
+        "description": "Fetch the details of a specific order by its ID, including its status, items, and expected delivery date.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "description": "Unique ID of the order to retrieve.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an order",
+        "description": "Modify an existing order's details, such as product quantities or delivery preferences.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "description": "Unique ID of the order to update.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Cancel an order",
+        "description": "Cancel a specific order by its ID, and update the inventory accordingly.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "description": "Unique ID of the order to cancel.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Order canceled successfully."
+          },
+          "404": {
+            "description": "Order not found."
+          }
+        }
+      }
+    },
+    "/products": {
+      "post": {
+        "summary": "Add a new product",
+        "description": "Add a new product to the inventory, specifying details such as name, category, price, and stock quantity.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Product added successfully."
+          },
+          "400": {
+            "description": "Invalid product data."
+          }
+        }
+      }
+    },
+    "/suppliers": {
+      "get": {
+        "summary": "List suppliers",
+        "description": "Fetch a list of all suppliers, including their contact details and the products they provide.",
+        "responses": {
+          "200": {
+            "description": "Suppliers retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Supplier"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/distribution-routes": {
+      "post": {
+        "summary": "Define a distribution route",
+        "description": "Set up a new distribution route including its stops, transit times, and associated regions.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DistributionRoute"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Distribution route created successfully."
+          },
+          "400": {
+            "description": "Invalid route data."
+          }
+        }
+      }
+    },
+    "/analytics/inventory": {
+      "get": {
+        "summary": "Inventory analytics",
+        "description": "Retrieve analytical insights and trends related to inventory levels and turnover rates.",
+        "responses": {
+          "200": {
+            "description": "Inventory analytics retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventoryAnalytics"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/warehouse/settings": {
+      "patch": {
+        "summary": "Update warehouse settings",
+        "description": "Alter operational settings of a specific warehouse, such as hours of operation or storage capacities.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WarehouseSettings"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Warehouse settings updated successfully."
+          },
+          "400": {
+            "description": "Invalid warehouse settings."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the product."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the product."
+          },
+          "category": {
+            "type": "string",
+            "description": "The category the product belongs to."
+          },
+          "price": {
+            "type": "number",
+            "description": "Price of the product."
+          },
+          "stockQuantity": {
+            "type": "integer",
+            "description": "Quantity of the product available in stock."
+          }
+        }
+      },
+      "OrderRequest": {
+        "type": "object",
+        "properties": {
+          "customerId": {
+            "type": "string",
+            "description": "Unique identifier of the customer placing the order."
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            }
+          },
+          "deliveryPreferences": {
+            "type": "string",
+            "description": "Delivery instructions or preferences (e.g., delivery time windows)."
+          }
+        }
+      },
+      "OrderResponse": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "description": "Unique identifier of the order."
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            }
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the order (e.g., pending, shipped, delivered)."
+          },
+          "expectedDeliveryDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Expected delivery date and time."
+          }
+        }
+      },
+      "OrderItem": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "The ID of the product being ordered."
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Quantity of the product ordered."
+          }
+        }
+      },
+      "OrderUpdate": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            }
+          },
+          "deliveryPreferences": {
+            "type": "string",
+            "description": "Updated delivery instructions or preferences."
+          }
+        }
+      },
+      "Supplier": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the supplier."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the supplier."
+          },
+          "contactDetails": {
+            "type": "string",
+            "description": "Contact information for the supplier."
+          },
+          "providedProducts": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "List of products supplied by this supplier."
+            }
+          }
+        }
+      },
+      "DistributionRoute": {
+        "type": "object",
+        "properties": {
+          "routeId": {
+            "type": "string",
+            "description": "Unique identifier for the distribution route."
+          },
+          "stops": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "List of stop locations on the route."
+            }
+          },
+          "transitTimes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Estimated transit times between stops."
+            }
+          },
+          "regions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Associated regions covered by this route."
+            }
+          }
+        }
+      },
+      "InventoryAnalytics": {
+        "type": "object",
+        "properties": {
+          "insights": {
+            "type": "string",
+            "description": "Summary of inventory statistics."
+          },
+          "turnoverRates": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Capture turnover rates per product or category."
+            }
+          }
+        }
+      },
+      "WarehouseSettings": {
+        "type": "object",
+        "properties": {
+          "warehouseId": {
+            "type": "string",
+            "description": "Unique identifier for the warehouse."
+          },
+          "hoursOfOperation": {
+            "type": "string",
+            "description": "Updated hours of operation."
+          },
+          "storageCapacities": {
+            "type": "integer",
+            "description": "Maximum storage capacity of the warehouse."
+          }
+        }
+      }
+    }
+  }
+}

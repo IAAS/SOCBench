@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /billing/history",
+            "description": "Retrieve the complete billing history for the authenticated user."
+        },
+        {
+            "endpoint": "GET /usage/statistics",
+            "description": "Fetch real-time statistics of the user's service usage."
+        },
+        {
+            "endpoint": "POST /payments",
+            "description": "Initiate a secure transaction for paying a service billing invoice."
+        },
+        {
+            "endpoint": "GET /notifications",
+            "description": "List all notifications related to billing and usage alerts."
+        },
+        {
+            "endpoint": "POST /communication/queries",
+            "description": "Submit a query or issue related to the communication service."
+        },
+        {
+            "endpoint": "GET /overview",
+            "description": "Provide a summary of the user's account, including billing and usage."
+        },
+        {
+            "endpoint": "PUT /alerts/settings",
+            "description": "Update the settings for real-time usage and billing alerts."
+        },
+        {
+            "endpoint": "GET /support/contacts",
+            "description": "Retrieve contact information for customer support related to the service."
+        },
+        {
+            "endpoint": "DELETE /account/data",
+            "description": "Request deletion of the user's personal data and associated service history."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit user feedback about the billing and service monitoring interface."
+        }
+    ]
+}

@@ -1,0 +1,435 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Electronic Health Records (EHR) Management API",
+        "description": "The Electronic Health Records (EHR) Management API allows healthcare providers to store, retrieve, and update patient health records securely. This service facilitates data interoperability among different healthcare systems and improves care quality and efficiency. Providers can access data including patient history, lab results, medication records, and appointments in real time.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/patients": {
+            "get": {
+                "summary": "Retrieve all patient records",
+                "description": "Fetch a comprehensive list of patient records accessible to the requesting healthcare provider.",
+                "responses": {
+                    "200": {
+                        "description": "List of patient records successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Patient"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new patient record",
+                "description": "Create a new patient record in the Electronic Health Records system.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Patient"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Patient record successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Patient"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/patients/{patientId}": {
+            "get": {
+                "summary": "Retrieve specific patient details",
+                "description": "Fetch detailed information for a specific patient using their unique identifier.",
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the patient.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Patient details successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Patient"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update patient record",
+                "description": "Update the patient record identified by their unique patient ID.",
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the patient.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Patient"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Patient record successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Patient"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/patients/{patientId}/lab-results": {
+            "get": {
+                "summary": "Retrieve patient lab results",
+                "description": "Fetch a list of all lab results associated with the specified patient.",
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the patient.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lab results successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/LabResult"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add patient lab results",
+                "description": "Add new lab results to a patient's record.",
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the patient.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LabResult"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Lab result successfully added.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LabResult"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/patients/{patientId}/medications": {
+            "get": {
+                "summary": "Retrieve patient medications",
+                "description": "Fetch a list of medications prescribed to the specified patient.",
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the patient.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Medications successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Medication"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new medication",
+                "description": "Add a new medication record to the specified patient's profile.",
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the patient.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Medication"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Medication successfully added.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Medication"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/patients/{patientId}/appointments": {
+            "get": {
+                "summary": "Retrieve patient appointments",
+                "description": "Fetch a list of scheduled appointments for the given patient.",
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the patient.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Appointments successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Appointment"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Schedule a new appointment",
+                "description": "Schedule a new appointment for the specified patient.",
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the patient.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Appointment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Appointment successfully scheduled.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Appointment"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Patient": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the patient."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Full name of the patient."
+                    },
+                    "dateOfBirth": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Date of birth of the patient."
+                    },
+                    "gender": {
+                        "type": "string",
+                        "description": "Gender of the patient."
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "Residential address of the patient."
+                    }
+                }
+            },
+            "LabResult": {
+                "type": "object",
+                "properties": {
+                    "testId": {
+                        "type": "string",
+                        "description": "Unique identifier for the lab test."
+                    },
+                    "testName": {
+                        "type": "string",
+                        "description": "Name of the lab test."
+                    },
+                    "result": {
+                        "type": "string",
+                        "description": "Result of the lab test."
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Date and time the lab test was performed."
+                    }
+                }
+            },
+            "Medication": {
+                "type": "object",
+                "properties": {
+                    "medicationId": {
+                        "type": "string",
+                        "description": "Unique identifier for the medication."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the medication."
+                    },
+                    "dosage": {
+                        "type": "string",
+                        "description": "Dosage information for the medication."
+                    },
+                    "prescribedBy": {
+                        "type": "string",
+                        "description": "Name of the prescribing physician."
+                    },
+                    "startDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Start date of the prescription."
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "End date of the prescription, if applicable."
+                    }
+                }
+            },
+            "Appointment": {
+                "type": "object",
+                "properties": {
+                    "appointmentId": {
+                        "type": "string",
+                        "description": "Unique identifier for the appointment."
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Date and time of the appointment."
+                    },
+                    "reason": {
+                        "type": "string",
+                        "description": "Reason for the appointment."
+                    },
+                    "provider": {
+                        "type": "string",
+                        "description": "Healthcare provider for the appointment."
+                    }
+                }
+            }
+        }
+    }
+}

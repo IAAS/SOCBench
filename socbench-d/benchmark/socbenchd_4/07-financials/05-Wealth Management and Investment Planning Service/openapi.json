@@ -1,0 +1,359 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Personal Investment Management Service",
+        "description": "This API provides tools for portfolio optimization, asset allocation advice, and financial goal tracking, empowering users to manage their personal investments effectively.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.financials-sector.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/portfolio/optimization": {
+            "get": {
+                "summary": "Retrieve optimized portfolio allocation",
+                "description": "Fetch an optimized portfolio allocation based on user preferences and current market conditions.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of optimized portfolio allocation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "allocation": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "number"
+                                            },
+                                            "description": "Asset allocation percentage breakdown by category."
+                                        },
+                                        "metrics": {
+                                            "type": "object",
+                                            "description": "Performance metrics for the optimized portfolio.",
+                                            "properties": {
+                                                "expectedReturn": {
+                                                    "type": "number",
+                                                    "description": "Expected return of the portfolio."
+                                                },
+                                                "risk": {
+                                                    "type": "number",
+                                                    "description": "Portfolio risk level."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/portfolio/customize": {
+            "post": {
+                "summary": "Customize portfolio parameters",
+                "description": "Allows users to customize their portfolio by modifying parameters and simulating potential outcomes.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Custom portfolio parameters to evaluate.",
+                                        "additionalProperties": {
+                                            "type": "number",
+                                            "description": "Parameter input, e.g., risk tolerance or allocation preferences."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Simulation results based on customized portfolio parameters.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "description": "Response includes the simulated portfolio outcomes.",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "description": "Indicates whether the simulation was successful."
+                                        },
+                                        "results": {
+                                            "type": "object",
+                                            "description": "Outcome of the simulation including projected returns and risks."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/assets/overview": {
+            "get": {
+                "summary": "Get asset overview",
+                "description": "Provides an overview of all available asset classes for investment.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved asset overview.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "description": "Array of asset categories and details.",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "type": "string",
+                                                "description": "The name of the asset category."
+                                            },
+                                            "details": {
+                                                "type": "object",
+                                                "description": "Detailed data about the asset class."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/financial-goals/status": {
+            "get": {
+                "summary": "Retrieve financial goal status",
+                "description": "Fetches the progress of users' predefined financial goals.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved financial goal status.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "goals": {
+                                            "type": "array",
+                                            "description": "List of goals with their status.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "goalId": {
+                                                        "type": "string",
+                                                        "description": "Unique identifier for the goal."
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "description": "Goal name or description."
+                                                    },
+                                                    "progress": {
+                                                        "type": "number",
+                                                        "description": "Progress percentage towards the goal."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/assets/evaluation": {
+            "post": {
+                "summary": "Evaluate asset performance",
+                "description": "Evaluate performance scenarios for specific assets as selected by the user.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "assetIds": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "description": "List of asset IDs to evaluate."
+                                        }
+                                    },
+                                    "criteria": {
+                                        "type": "object",
+                                        "description": "Evaluation criteria such as time frame or metrics."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Asset evaluation performed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "results": {
+                                            "type": "object",
+                                            "description": "Evaluation results for the selected assets."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/goals/update": {
+            "patch": {
+                "summary": "Update financial goals",
+                "description": "Allows users to modify the details of their existing financial goals.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "goalId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the goal to update."
+                                    },
+                                    "updates": {
+                                        "type": "object",
+                                        "description": "Key-value updates for the goal details."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated financial goal."
+                    }
+                }
+            }
+        },
+        "/market/trends": {
+            "get": {
+                "summary": "Get market trends",
+                "description": "Access insights into current market trends influencing investment decisions.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved market trends.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "description": "List providing market trend insights.",
+                                    "items": {
+                                        "type": "object",
+                                        "description": "Market trend detail."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/advice/consultation": {
+            "post": {
+                "summary": "Get tailored investment advice",
+                "description": "Retrieve personalized investment advice based on the user's portfolio and market strategies.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "portfolioId": {
+                                        "type": "string",
+                                        "description": "Identifier for the relevant portfolio."
+                                    },
+                                    "preferences": {
+                                        "type": "object",
+                                        "description": "User preferences for advice."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tailored investment advice provided."
+                    }
+                }
+            }
+        },
+        "/portfolio/remove": {
+            "delete": {
+                "summary": "Remove/reset portfolio settings",
+                "description": "Allows the user to remove or reset their current portfolio.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully removed or reset portfolio."
+                    }
+                }
+            }
+        },
+        "/investment/simulation": {
+            "get": {
+                "summary": "Simulate potential investment returns",
+                "description": "Simulates potential returns for user-selected investment strategies over a specified timeframe.",
+                "parameters": [
+                    {
+                        "name": "strategyId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The ID of the investment strategy for the simulation."
+                    },
+                    {
+                        "name": "timeframe",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "1Y",
+                                "3Y",
+                                "5Y",
+                                "10Y"
+                            ]
+                        },
+                        "description": "Time frame for the simulation (e.g., 1Y for one year)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Simulation results for the selected investment strategy."
+                    }
+                }
+            }
+        }
+    }
+}

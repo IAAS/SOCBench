@@ -1,0 +1,387 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Real Estate Agent CRM Service API",
+        "description": "This API is designed for real estate agents to manage client relationships, track leads, organize schedules, and handle properties effectively. It enables seamless communication and management for improving sales and operational processes.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.realestatecrm.com/v1",
+            "description": "Primary API endpoint"
+        }
+    ],
+    "paths": {
+        "/clients": {
+            "get": {
+                "summary": "Retrieve all clients",
+                "description": "Fetch a list of all clients associated with the real estate agent's profile.",
+                "responses": {
+                    "200": {
+                        "description": "A list of clients successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "clientID": "123",
+                                        "name": "John Doe",
+                                        "email": "john.doe@example.com",
+                                        "phone": "+1234567890"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new client",
+                "description": "Create a new client entry in the database associated with the real estate agent.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    },
+                                    "notes": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "phone"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Client successfully added."
+                    },
+                    "400": {
+                        "description": "Invalid or missing input data."
+                    }
+                }
+            }
+        },
+        "/clients/{clientID}": {
+            "put": {
+                "summary": "Update client details",
+                "description": "Modify information of an existing client identified by their unique ID.",
+                "parameters": [
+                    {
+                        "name": "clientID",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the client.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    },
+                                    "notes": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Client details successfully updated."
+                    },
+                    "404": {
+                        "description": "Client not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a client",
+                "description": "Remove a client from the database identified by their unique ID.",
+                "parameters": [
+                    {
+                        "name": "clientID",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the client.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Client successfully deleted."
+                    },
+                    "404": {
+                        "description": "Client not found."
+                    }
+                }
+            }
+        },
+        "/properties": {
+            "get": {
+                "summary": "Retrieve all properties",
+                "description": "Fetch a list of all properties managed by the real estate agent or agency.",
+                "responses": {
+                    "200": {
+                        "description": "A list of properties successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "propertyID": "101",
+                                        "address": "123 Main Street",
+                                        "price": 500000,
+                                        "status": "For Sale"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new property",
+                "description": "Add a new property to the real estate agent\u2019s portfolio for sale or rent.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "For Sale",
+                                            "For Rent",
+                                            "Sold"
+                                        ]
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "address",
+                                    "price",
+                                    "status"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Property successfully added."
+                    },
+                    "400": {
+                        "description": "Invalid or missing input data."
+                    }
+                }
+            }
+        },
+        "/properties/{propertyID}": {
+            "put": {
+                "summary": "Update property details",
+                "description": "Modify information of an existing property specified by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "propertyID",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the property.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "For Sale",
+                                            "For Rent",
+                                            "Sold"
+                                        ]
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Property details successfully updated."
+                    },
+                    "404": {
+                        "description": "Property not found."
+                    }
+                }
+            }
+        },
+        "/appointments": {
+            "get": {
+                "summary": "Retrieve all appointments",
+                "description": "Fetch a list of all scheduled appointments and meetings for the real estate agent.",
+                "responses": {
+                    "200": {
+                        "description": "A list of appointments successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "appointmentID": "3001",
+                                        "clientID": "123",
+                                        "date": "2023-10-12T10:00:00Z",
+                                        "location": "123 Main Street"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Schedule a new appointment",
+                "description": "Create a new appointment or meeting for the real estate agent with a client or third party.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "clientID": {
+                                        "type": "string"
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "location": {
+                                        "type": "string"
+                                    },
+                                    "notes": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "clientID",
+                                    "date",
+                                    "location"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Appointment successfully scheduled."
+                    },
+                    "400": {
+                        "description": "Invalid or missing input data."
+                    }
+                }
+            }
+        },
+        "/appointments/{appointmentID}": {
+            "delete": {
+                "summary": "Cancel an appointment",
+                "description": "Remove or cancel a scheduled appointment identified by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "appointmentID",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the appointment.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Appointment successfully canceled."
+                    },
+                    "404": {
+                        "description": "Appointment not found."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

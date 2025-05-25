@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /emissions/reports",
+            "description": "Generate a tailored emissions report based on the provided operational data inputs."
+        },
+        {
+            "endpoint": "GET /emissions/reports/{report_id}",
+            "description": "Retrieve details of a previously generated emissions report using its unique identifier."
+        },
+        {
+            "endpoint": "PUT /emissions/reports/{report_id}",
+            "description": "Update an existing emissions report with new operational data or corrections."
+        },
+        {
+            "endpoint": "DELETE /emissions/reports/{report_id}",
+            "description": "Remove a previously generated emissions report from the system."
+        },
+        {
+            "endpoint": "POST /data/uploads",
+            "description": "Upload operational data files for analysis and inclusion in emissions calculations."
+        },
+        {
+            "endpoint": "GET /data/processing/status",
+            "description": "Check the status of data currently being processed for emissions calculations."
+        },
+        {
+            "endpoint": "GET /factors/emissions",
+            "description": "Retrieve standardized carbon emission factors related to various activities within the energy sector."
+        },
+        {
+            "endpoint": "POST /factors/emissions/calculations",
+            "description": "Submit calculations for specific emissions scenarios using pre-defined factors."
+        },
+        {
+            "endpoint": "GET /regulations/requirements",
+            "description": "List the current regulatory requirements related to emissions reporting applicable to the energy sector."
+        },
+        {
+            "endpoint": "GET /sustainability/goals",
+            "description": "View user-defined sustainability targets and associated progress measures."
+        }
+    ]
+}

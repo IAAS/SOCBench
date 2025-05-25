@@ -1,0 +1,25 @@
+SUMMARY:
+List further needed endpoints.
+
+DOCUMENT:
+Services:
+{services}
+
+Query:
+{query}
+
+List of endpoints:
+{endpoints}
+
+TASK:
+You are given a query and a set of OpenAPI specification. Check if there are further endpoints compared to the list of endpoints needed to be called to fulfill the task or to retrieve parameters needed by one of the endpoints of the list of endpoints.
+
+EXAMPLE:
+{{
+    "additional_endpoints": [
+        "GET /data"
+    ]
+}}
+
+INSTRUCTIONS:
+You are an expert endpoint detector if the given list of endpoints is complete to fulfill the task. List the additionally needed endpoints from the services or return an empty list if there are no additionally endpoints needed. Consider the query and if a call is needed to retrieve necessary parameters for another endpoint in the list. Stick to the formatting as you are in an automated setting.

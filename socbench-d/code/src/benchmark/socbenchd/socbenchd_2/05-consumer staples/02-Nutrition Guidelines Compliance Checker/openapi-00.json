@@ -1,0 +1,414 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Dietary Evaluation Service API",
+    "version": "1.0.0",
+    "description": "An API that evaluates food and beverage products against recognized dietary recommendations, assisting businesses in aligning with health and wellness trends and regulatory standards."
+  },
+  "paths": {
+    "/products": {
+      "get": {
+        "summary": "Retrieve available food and beverage products",
+        "description": "Fetches a list of all food and beverage products currently stored in the system for evaluation.",
+        "responses": {
+          "200": {
+            "description": "List of all available products.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/evaluate": {
+      "post": {
+        "summary": "Evaluate a product against dietary recommendations",
+        "description": "Submits a product for evaluation to determine its alignment with health and wellness dietary guidelines.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product successfully evaluated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request payload."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/recommendations": {
+      "get": {
+        "summary": "Fetch dietary guidelines",
+        "description": "Retrieve a summary of all dietary guidelines used for evaluating food and beverage products.",
+        "responses": {
+          "200": {
+            "description": "Summary of dietary recommendations.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recommendations"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/feedback": {
+      "post": {
+        "summary": "Submit user feedback",
+        "description": "Allows users to provide feedback related to the evaluation process, enabling improvements to the service.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Feedback"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Feedback successfully submitted."
+          },
+          "400": {
+            "description": "Invalid feedback data."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "summary": "Retrieve specific product information",
+        "description": "Fetch details about a specific food or beverage product by its unique identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the product.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product information retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove a product",
+        "description": "Deletes a specific product from the system using its unique identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the product to delete.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product successfully removed."
+          },
+          "404": {
+            "description": "Product not found."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update product details",
+        "description": "Modify the details of an existing product in the system using its unique identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the product to update.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product successfully updated."
+          },
+          "404": {
+            "description": "Product not found."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/evaluation-history": {
+      "get": {
+        "summary": "Retrieve evaluation history",
+        "description": "Fetch a comprehensive history of all products that have been evaluated.",
+        "responses": {
+          "200": {
+            "description": "List of evaluated products and their results.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EvaluationHistory"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/compliance/{region}": {
+      "get": {
+        "summary": "Retrieve compliance requirements",
+        "description": "Fetch region-specific regulatory compliance requirements for food and beverage products.",
+        "parameters": [
+          {
+            "name": "region",
+            "in": "path",
+            "required": true,
+            "description": "The geographic region for which compliance requirements are requested.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Compliance requirements retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Compliance"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/trends": {
+      "get": {
+        "summary": "Access health and wellness trends",
+        "description": "Provides data and insights on current health and wellness trends derived from product evaluations.",
+        "responses": {
+          "200": {
+            "description": "Trends successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Trends"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the product."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the product."
+          },
+          "category": {
+            "type": "string",
+            "description": "The category to which the product belongs (e.g., food, beverage)."
+          },
+          "nutritionalInfo": {
+            "type": "object",
+            "description": "Nutritional details of the product."
+          }
+        },
+        "required": ["id", "name", "category"]
+      },
+      "EvaluationRequest": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "The unique identifier of the product to evaluate."
+          },
+          "parameters": {
+            "type": "object",
+            "description": "Additional parameters for the evaluation process."
+          }
+        },
+        "required": ["productId"]
+      },
+      "EvaluationResponse": {
+        "type": "object",
+        "properties": {
+          "evaluationId": {
+            "type": "string",
+            "description": "The unique identifier of the evaluation process."
+          },
+          "result": {
+            "type": "string",
+            "description": "The result of the product evaluation."
+          }
+        }
+      },
+      "Recommendations": {
+        "type": "object",
+        "properties": {
+          "guidelines": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of dietary guidelines."
+          }
+        }
+      },
+      "Feedback": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "The unique identifier of the user providing feedback."
+          },
+          "comment": {
+            "type": "string",
+            "description": "The content of the feedback."
+          }
+        }
+      },
+      "EvaluationHistory": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "The unique identifier of the product."
+          },
+          "evaluationResults": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Results of evaluations for the specified product."
+          }
+        }
+      },
+      "Compliance": {
+        "type": "object",
+        "properties": {
+          "region": {
+            "type": "string",
+            "description": "The region name."
+          },
+          "requirements": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Compliance requirements for the region."
+          }
+        }
+      },
+      "Trends": {
+        "type": "object",
+        "properties": {
+          "analysisDate": {
+            "type": "string",
+            "format": "date",
+            "description": "The date of the trend analysis."
+          },
+          "trendData": {
+            "type": "object",
+            "description": "Details of the current health and wellness trends."
+          }
+        }
+      }
+    }
+  }
+}

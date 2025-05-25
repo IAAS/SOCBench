@@ -1,0 +1,341 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Home Appliance Reliability Feedback Service API",
+        "description": "This API allows consumers, manufacturers, and administrators to interact with the Home Appliance Reliability Feedback Service for collecting, analyzing, and acting upon feedback regarding household appliances.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.homeappliancereliability.com",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/submit-feedback": {
+            "post": {
+                "summary": "Submit feedback about an appliance",
+                "description": "Allows consumers to submit their feedback regarding the performance of a specific household appliance after purchase.",
+                "requestBody": {
+                    "description": "Feedback details to be submitted.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "productId": {
+                                        "type": "string",
+                                        "description": "The ID of the appliance being reviewed."
+                                    },
+                                    "rating": {
+                                        "type": "integer",
+                                        "description": "A rating for the appliance, usually between 1 (poor) to 5 (excellent)."
+                                    },
+                                    "comments": {
+                                        "type": "string",
+                                        "description": "Detailed feedback or comments about the product."
+                                    },
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Optional. The ID of the user submitting the feedback."
+                                    }
+                                },
+                                "required": [
+                                    "productId",
+                                    "rating",
+                                    "comments"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback submitted successfully."
+                    },
+                    "400": {
+                        "description": "Validation error or missing required fields."
+                    }
+                }
+            }
+        },
+        "/feedback-summary": {
+            "get": {
+                "summary": "Retrieve summary of feedback",
+                "description": "Provides a summary analysis of all the feedback data collected for various product categories.",
+                "responses": {
+                    "200": {
+                        "description": "Feedback summary retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "type": "string",
+                                                "description": "The product category (e.g., 'Refrigerators', 'Washing Machines')."
+                                            },
+                                            "averageRating": {
+                                                "type": "number",
+                                                "description": "The average rating for products in the category."
+                                            },
+                                            "feedbackCount": {
+                                                "type": "integer",
+                                                "description": "Total number of feedback entries for the category."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products": {
+            "get": {
+                "summary": "Get list of supported products",
+                "description": "Fetches a list of all household appliances currently supported by the service for feedback collection.",
+                "responses": {
+                    "200": {
+                        "description": "List of supported products retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "productId": {
+                                                "type": "string",
+                                                "description": "The unique ID of the product."
+                                            },
+                                            "productName": {
+                                                "type": "string",
+                                                "description": "The name of the product."
+                                            },
+                                            "category": {
+                                                "type": "string",
+                                                "description": "The category of the product."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/register-product": {
+            "post": {
+                "summary": "Register a new product",
+                "description": "Allows manufacturers or administrators to register a new product category or model to start collecting feedback.",
+                "requestBody": {
+                    "description": "Details of the product to be registered.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "productName": {
+                                        "type": "string",
+                                        "description": "The name of the product."
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "description": "The category of the product (e.g., 'Refrigerators')."
+                                    }
+                                },
+                                "required": [
+                                    "productName",
+                                    "category"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product registered successfully."
+                    },
+                    "400": {
+                        "description": "Validation error or missing required fields."
+                    }
+                }
+            }
+        },
+        "/manufacturer-reports": {
+            "get": {
+                "summary": "Download manufacturer reports",
+                "description": "Retrieves detailed reports tailored for appliance manufacturers based on collected feedback data.",
+                "parameters": [
+                    {
+                        "name": "manufacturerId",
+                        "in": "query",
+                        "description": "The ID of the manufacturer requesting the report.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Manufacturer report retrieved successfully."
+                    },
+                    "404": {
+                        "description": "Manufacturer not found."
+                    }
+                }
+            }
+        },
+        "/flag-feedback": {
+            "post": {
+                "summary": "Flag feedback for moderation",
+                "description": "Allows administrators or users to flag specific feedback entries for moderation or review.",
+                "requestBody": {
+                    "description": "Details of the feedback to be flagged.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "feedbackId": {
+                                        "type": "string",
+                                        "description": "The ID of the feedback being flagged."
+                                    },
+                                    "reason": {
+                                        "type": "string",
+                                        "description": "The reason for flagging the feedback."
+                                    }
+                                },
+                                "required": [
+                                    "feedbackId",
+                                    "reason"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback flagged successfully."
+                    },
+                    "400": {
+                        "description": "Invalid feedback ID or reason provided."
+                    }
+                }
+            }
+        },
+        "/trend-analysis": {
+            "get": {
+                "summary": "Get trend analysis",
+                "description": "Fetches an analysis of trends in reliability data over time for various products.",
+                "responses": {
+                    "200": {
+                        "description": "Trend analysis data retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/regional-insights": {
+            "get": {
+                "summary": "Get regional insights",
+                "description": "Retrieves insights related to a specific geographical area, based on feedback data.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "The geographic region for which insights are required.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Regional insights retrieved successfully."
+                    },
+                    "400": {
+                        "description": "Invalid region provided."
+                    }
+                }
+            }
+        },
+        "/comparison-statistics": {
+            "get": {
+                "summary": "Compare product feedback",
+                "description": "Retrieves comparison statistics between different products or models based on feedback data.",
+                "parameters": [
+                    {
+                        "name": "productIds",
+                        "in": "query",
+                        "description": "A comma-separated list of product IDs to compare.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comparison statistics retrieved successfully."
+                    },
+                    "400": {
+                        "description": "Invalid or missing product IDs."
+                    }
+                }
+            }
+        },
+        "/remove-feedback": {
+            "delete": {
+                "summary": "Remove a specific feedback entry",
+                "description": "Allows administrators to request the removal of a specific feedback entry. Requests are subject to service policies.",
+                "parameters": [
+                    {
+                        "name": "feedbackId",
+                        "in": "query",
+                        "description": "The ID of the feedback to be removed.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Feedback entry marked for removal successfully."
+                    },
+                    "404": {
+                        "description": "Specified feedback ID not found."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /user/preferences",
+            "description": "Fetch the current preferences and purchasing history for a specific user to personalize suggestions."
+        },
+        {
+            "endpoint": "POST /user/preferences",
+            "description": "Update the user's preferences based on recent interactions and feedback to enhance personalization."
+        },
+        {
+            "endpoint": "GET /product/suggestions",
+            "description": "Obtain a list of recommended products for a user, customized based on their purchase history and preferences."
+        },
+        {
+            "endpoint": "GET /products",
+            "description": "Retrieve a comprehensive list of available products within the personal care category to include in the recommendation engine."
+        },
+        {
+            "endpoint": "POST /promotion/apply",
+            "description": "Integrate with active marketing campaigns to deliver promotional offers that complement the product recommendations."
+        },
+        {
+            "endpoint": "GET /promotion/details",
+            "description": "Fetch the current promotional offers linked to specific products, which can be shown alongside recommendations."
+        },
+        {
+            "endpoint": "GET /analytics/user-engagement",
+            "description": "Access analytics data related to user engagement and behavior to fine-tune personalization strategies."
+        },
+        {
+            "endpoint": "PATCH /user/feedback",
+            "description": "Submit feedback on the accuracy of the personalized recommendations, aiding in the refinement of the AI model."
+        },
+        {
+            "endpoint": "GET /user/recommendation-history",
+            "description": "View the history of recommendations and interactions made to a specific user to evaluate effectiveness."
+        },
+        {
+            "endpoint": "GET /system/status",
+            "description": "Check the health status and availability of the service to ensure seamless integration and minimum downtimes."
+        }
+    ]
+}

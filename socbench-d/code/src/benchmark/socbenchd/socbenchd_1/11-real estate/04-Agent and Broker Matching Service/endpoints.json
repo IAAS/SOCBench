@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /agents",
+            "description": "Retrieve the list of real estate agents based on given filters like location and specialization."
+        },
+        {
+            "endpoint": "POST /agents",
+            "description": "Create a new real estate agent profile."
+        },
+        {
+            "endpoint": "GET /properties",
+            "description": "Fetch available properties listed for sale or rent."
+        },
+        {
+            "endpoint": "POST /properties",
+            "description": "Add a new property listing to the service."
+        },
+        {
+            "endpoint": "GET /recommendations",
+            "description": "Get recommended agents for a specific property based on user preferences and metrics."
+        },
+        {
+            "endpoint": "POST /reviews",
+            "description": "Submit a review and rating for a real estate agent by a user."
+        },
+        {
+            "endpoint": "GET /reviews/{agentId}",
+            "description": "Retrieve all reviews and ratings for a specific agent."
+        },
+        {
+            "endpoint": "PUT /agents/{agentId}",
+            "description": "Update the information of a specific real estate agent."
+        },
+        {
+            "endpoint": "DELETE /properties/{propertyId}",
+            "description": "Remove a property listing from the service."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit user feedback regarding the overall service."
+        }
+    ]
+}

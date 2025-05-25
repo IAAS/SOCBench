@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+The Environmental Compliance Monitoring Service API offers manufacturing and industrial companies a platform to monitor and report compliance with environmental regulations. Key features include pollutant level tracking, calibration reminders for monitoring equipment, and actionable analytics to ensure adherence to regulations. By making a GET request, compliance officers can acquire current pollutant level data for a specific factory, ensuring compliance and proactive resolution of potential violations.
+
+Endpoints:
+GET /factories: Retrieve a list of registered factories with compliance monitoring enabled.
+POST /factories: Add a new factory to the compliance monitoring system.
+GET /factories/{factory_id}/pollutants: Retrieve current pollutant data for a specific factory.
+POST /factories/{factory_id}/pollutants: Submit new pollutant data for a factory.
+GET /factories/{factory_id}/analytics: Generate actionable environmental compliance analytics for a factory.
+GET /sensors/{sensor_id}/calibration: Check the calibration status and due dates of a specific sensor.
+POST /sensors/{sensor_id}/calibration: Submit a completed calibration record for a specific sensor.
+GET /reports: Retrieve historical compliance reports for all monitored factories.
+GET /reports/{report_id}: Access specific details of a historical compliance report.
+DELETE /factories/{factory_id}: Remove a factory and its monitoring data from the system.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

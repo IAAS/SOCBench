@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+Supports landlords by offering identity verification, credit checks, and rental history reporting of prospective tenants.
+
+Endpoints:
+POST /tenant/identity-verification: Initiate identity verification for a prospective tenant based on provided identification information.
+GET /tenant/identity-verification/status/{tenantId}: Retrieve the current status and results of a previously requested identity verification for a specific tenant.
+POST /tenant/credit-check: Request a credit check for a prospective tenant using their financial history.
+GET /tenant/credit-check/status/{tenantId}: Obtain the status and outcomes of a completed credit check for a specific tenant.
+POST /tenant/rental-history: Submit a request to validate and obtain a tenant's past rental history.
+GET /tenant/rental-history/{tenantId}: Access the verified detailed rental history information of a specific tenant.
+GET /documentation: Retrieve service documentation for available endpoints and their usage.
+PUT /settings/notifications: Configure notification preferences related to updates on verification checks.
+GET /support/contact: Retrieve contact information and assistance options for service-related inquiries.
+DELETE /tenant/data/{tenantId}: Request the permanent removal of data stored for a specific tenant from the system.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

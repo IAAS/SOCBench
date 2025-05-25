@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /dashboard/overview",
+            "description": "Retrieve a summary overview of the user's utilities usage and account status."
+        },
+        {
+            "endpoint": "GET /usage-history",
+            "description": "Request detailed consumption history data for the user's utility services."
+        },
+        {
+            "endpoint": "POST /usage-goals",
+            "description": "Set or update the user's consumption goals for better resource management."
+        },
+        {
+            "endpoint": "GET /bills/recent",
+            "description": "Access a list of the latest billing statements and payment statuses."
+        },
+        {
+            "endpoint": "POST /bills/pay",
+            "description": "Submit a payment for an outstanding utility bill."
+        },
+        {
+            "endpoint": "GET /energy-tips",
+            "description": "Retrieve personalized energy-saving advice based on the user's usage patterns."
+        },
+        {
+            "endpoint": "PUT /profile/settings",
+            "description": "Update user preferences and notification settings for the service."
+        },
+        {
+            "endpoint": "GET /announcements",
+            "description": "Access announcements and messages from utilities providers."
+        },
+        {
+            "endpoint": "DELETE /usage-goals",
+            "description": "Remove previously set consumption goals for the user's account."
+        },
+        {
+            "endpoint": "GET /outage-info",
+            "description": "Request information on current or upcoming utility outages in the user's area."
+        }
+    ]
+}

@@ -1,0 +1,399 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Dynamic Restaurant Menu Management API",
+        "description": "This API allows restaurants to design, customize, and manage dynamic menus based on availability, season, and customer preferences. Enhance the dining experience for customers by providing engaging and relevant menus.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.restaurantmenu.com/v1",
+            "description": "Base URL for the Dynamic Restaurant Menu Management API"
+        }
+    ],
+    "paths": {
+        "/menus": {
+            "get": {
+                "summary": "Retrieve all menus",
+                "description": "Fetch the list of all currently configured menus for the restaurant.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved the list of menus.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Menu"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new menu",
+                "description": "Create a new menu with customizable options and configurations.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Menu"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Menu created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Menu"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/menus/{id}": {
+            "get": {
+                "summary": "Fetch details of a specific menu",
+                "description": "Retrieve the details of a specific menu by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the menu.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Menu details fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Menu"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update an existing menu",
+                "description": "Update the details of an existing menu identified by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the menu.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Menu"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Menu updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Menu"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a specific menu",
+                "description": "Remove a menu from the restaurant's system by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the menu.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Menu deleted successfully."
+                    }
+                }
+            }
+        },
+        "/ingredients": {
+            "get": {
+                "summary": "List all available ingredients",
+                "description": "Retrieve a complete list of all ingredients currently available for menu customization.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved the list of ingredients.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ingredient"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new ingredient",
+                "description": "Add a new ingredient to the restaurant's pool of available ingredients for menu creation.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Ingredient"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ingredient added successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ingredient"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ingredients/{id}": {
+            "delete": {
+                "summary": "Delete an ingredient",
+                "description": "Delete a specific ingredient from the list by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the ingredient.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Ingredient deleted successfully."
+                    }
+                }
+            }
+        },
+        "/customer-preferences": {
+            "get": {
+                "summary": "Gather customer preferences",
+                "description": "Retrieve data on customer dining preferences to better understand and cater to customer tastes.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved customer preferences.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CustomerPreference"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/simulate-preview": {
+            "post": {
+                "summary": "Simulate and preview menu presentation",
+                "description": "Simulate the menu as it would appear to customers. This preview helps ensure proper configuration and visuals before displaying to patrons.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MenuPreviewRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Preview generated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MenuPreviewResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Menu": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the menu."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the menu."
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "List of items included in the menu."
+                        }
+                    },
+                    "available": {
+                        "type": "boolean",
+                        "description": "Indicates whether the menu is currently available."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp when the menu was created."
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp when the menu was last updated."
+                    }
+                },
+                "required": [
+                    "name",
+                    "available"
+                ]
+            },
+            "Ingredient": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the ingredient."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the ingredient."
+                    },
+                    "available": {
+                        "type": "boolean",
+                        "description": "Indicates whether the ingredient is currently available."
+                    }
+                },
+                "required": [
+                    "name",
+                    "available"
+                ]
+            },
+            "CustomerPreference": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the customer preference entry."
+                    },
+                    "preferences": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "List of customer dining preferences."
+                        }
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of when preferences were captured."
+                    }
+                }
+            },
+            "MenuPreviewRequest": {
+                "type": "object",
+                "properties": {
+                    "menuId": {
+                        "type": "string",
+                        "description": "Unique identifier for the menu to preview."
+                    },
+                    "parameters": {
+                        "type": "object",
+                        "additionalProperties": true,
+                        "description": "Additional parameters for customizing the preview."
+                    }
+                },
+                "required": [
+                    "menuId"
+                ]
+            },
+            "MenuPreviewResponse": {
+                "type": "object",
+                "properties": {
+                    "previewUrl": {
+                        "type": "string",
+                        "description": "URL of the generated menu preview."
+                    },
+                    "valid": {
+                        "type": "boolean",
+                        "description": "Indicates whether the preview was successfully created."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

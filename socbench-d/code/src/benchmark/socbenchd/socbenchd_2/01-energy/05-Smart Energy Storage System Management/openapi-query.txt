@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+This API enables energy sector professionals to effectively manage large-scale energy storage systems such as battery banks and pumped hydro facilities. Its features include status monitoring, charge-discharge cycle analysis, and integration support with renewable energy sources. System operators can access these functionalities through secure API endpoints to optimize energy storage operations and contribute to grid stability.
+
+Endpoints:
+GET /storagesystems: Retrieve a list of all managed energy storage systems.
+GET /storagesystems/{id}: Retrieve detailed information about a specific storage system identified by {id}.
+POST /storagesystems: Register a new energy storage system with the management service.
+DELETE /storagesystems/{id}: Remove a specific storage system, identified by {id}, from the management service.
+PUT /storagesystems/{id}/settings: Update the configuration settings for a specific storage system identified by {id}.
+GET /storagesystems/{id}/cycles: Retrieve data on all charge-discharge cycles of a specific storage system identified by {id}.
+POST /storagesystems/{id}/actions/charge: Initiate a charge operation for a specific storage system identified by {id}.
+POST /storagesystems/{id}/actions/discharge: Initiate a discharge operation for a specific storage system identified by {id}.
+GET /renewablesources: Retrieve a list of linked renewable energy sources integrated with the energy storage systems.
+PUT /renewablesources/{id}/link: Link a specified renewable energy source identified by {id} to a storage system for optimized management.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

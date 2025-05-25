@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+This RESTful API aids users in searching for available real estate properties based on given criteria such as location, price range, and property type. Users can perform queries to gather detailed property information, view multimedia resources, and access data regarding surrounding amenities.
+
+Endpoints:
+GET /properties: Retrieve a list of real estate properties based on provided search criteria such as location, price range, and property type.
+GET /properties/{id}: Fetch detailed information for a specific property identified by its unique ID.
+POST /favorites: Add a property to a user's list of favorite properties for easy reference.
+GET /favorites: Retrieve the user's list of favorite properties.
+GET /amenities: List available amenities by location or property category.
+GET /multimedia/{id}: Access multimedia resources, such as images and videos, for a specific property.
+POST /inquiries: Submit an inquiry regarding a specific property, including user contact details and questions.
+GET /inquiries: View the user's submitted inquiries and their statuses.
+GET /developers: Retrieve information on developers and companies associated with the properties.
+GET /locations: List available locations or regions for real estate searches.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,355 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Renewable Energy Performance and Analytics API",
+        "description": "This API provides real-time performance data and predictive analytics for renewable energy installations such as solar panels and wind turbines. It enables optimization of energy output and maintenance scheduling while providing tools for efficiency and alert management.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.renewable-energy.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/real-time-data": {
+            "get": {
+                "summary": "Retrieve Real-Time Data",
+                "description": "Fetch real-time data for all monitored renewable energy installations, including solar panels and wind turbines.",
+                "responses": {
+                    "200": {
+                        "description": "A list of real-time data for all managed renewable energy sources.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "installationId": {
+                                                "type": "string",
+                                                "description": "Unique ID of the installation"
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Timestamp of the data"
+                                            },
+                                            "energyOutput": {
+                                                "type": "number",
+                                                "description": "Amount of energy being generated in kWh"
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current operational status of the installation"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/predictive-maintenance": {
+            "post": {
+                "summary": "Trigger Predictive Maintenance Analytics",
+                "description": "Submit a request to generate a predictive maintenance schedule for a specified renewable energy installation.",
+                "requestBody": {
+                    "description": "Payload specifying the installation for which predictive maintenance is being requested.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "installationId"
+                                ],
+                                "properties": {
+                                    "installationId": {
+                                        "type": "string",
+                                        "description": "Unique ID of the installation"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Operation successful. The predictive maintenance schedule will be returned.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "schedule": {
+                                            "type": "object",
+                                            "description": "Predictive maintenance schedule details"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/performance/summary": {
+            "get": {
+                "summary": "Fetch Performance Summary",
+                "description": "Retrieve a summarized performance report for all managed renewable energy sources to identify trends and insights.",
+                "responses": {
+                    "200": {
+                        "description": "The summarized performance report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "summary": {
+                                            "type": "string",
+                                            "description": "Performance summary for managed sources"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/efficiency-reports": {
+            "get": {
+                "summary": "Retrieve Efficiency Analytics",
+                "description": "Access detailed efficiency analytics for a specified renewable energy system.",
+                "parameters": [
+                    {
+                        "name": "systemId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The ID of the renewable energy system for which efficiency analytics are requested.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The efficiency analytics report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "efficiency": {
+                                            "type": "number",
+                                            "description": "Efficiency percentage of the system"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/configuration": {
+            "put": {
+                "summary": "Update Device Configuration",
+                "description": "Modify the configuration settings of a specific renewable energy device.",
+                "requestBody": {
+                    "description": "Details of the configuration changes.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "deviceId",
+                                    "configuration"
+                                ],
+                                "properties": {
+                                    "deviceId": {
+                                        "type": "string",
+                                        "description": "Unique ID of the device."
+                                    },
+                                    "configuration": {
+                                        "type": "object",
+                                        "description": "Configuration settings to update."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Device configuration updated successfully."
+                    }
+                }
+            }
+        },
+        "/alerts/configure": {
+            "post": {
+                "summary": "Configure Alert Triggers",
+                "description": "Define custom alert triggers for anomalies detected in energy production or equipment functioning.",
+                "requestBody": {
+                    "description": "Payload specifying the alert triggers to configure.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "installationId",
+                                    "triggerConditions"
+                                ],
+                                "properties": {
+                                    "installationId": {
+                                        "type": "string",
+                                        "description": "Unique ID of the installation."
+                                    },
+                                    "triggerConditions": {
+                                        "type": "object",
+                                        "description": "Defined conditions for the alert triggers."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Alerts configured successfully."
+                    }
+                }
+            }
+        },
+        "/alerts/history": {
+            "get": {
+                "summary": "View Alert History",
+                "description": "Retrieve historical records of alerts and triggers for all systems.",
+                "responses": {
+                    "200": {
+                        "description": "A list of historical alerts.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "alertId": {
+                                                "type": "string",
+                                                "description": "Unique ID of the alert."
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Time of the alert."
+                                            },
+                                            "triggeredCondition": {
+                                                "type": "string",
+                                                "description": "Condition that triggered the alert."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/data/obsolete-records": {
+            "delete": {
+                "summary": "Remove Obsolete Performance Data",
+                "description": "Delete outdated and irrelevant historical performance data from the database.",
+                "responses": {
+                    "200": {
+                        "description": "Obsolete data removed successfully."
+                    }
+                }
+            }
+        },
+        "/weather-impact": {
+            "get": {
+                "summary": "Retrieve Weather Impact Analysis",
+                "description": "Analyze the impact of weather data on energy production from connected systems.",
+                "responses": {
+                    "200": {
+                        "description": "Weather impact analysis data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "analysis": {
+                                            "type": "string",
+                                            "description": "Weather impact analysis details."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/insights/data-share": {
+            "post": {
+                "summary": "Share Analytical Insights",
+                "description": "Share aggregate analytical insights with selected stakeholders for collaborative evaluation.",
+                "requestBody": {
+                    "description": "Payload specifying the insights to share and the stakeholder details.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "insightsData",
+                                    "stakeholders"
+                                ],
+                                "properties": {
+                                    "insightsData": {
+                                        "type": "string",
+                                        "description": "Analytical insights to be shared."
+                                    },
+                                    "stakeholders": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of stakeholders to share insights with."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Insights shared successfully."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

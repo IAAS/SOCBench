@@ -1,0 +1,403 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Personal Finance Management API",
+        "description": "API for managing personal finances, including budgeting, expense tracking, and financial insights.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/accounts": {
+            "get": {
+                "summary": "Retrieve all linked accounts",
+                "description": "Returns a list of all financial accounts linked to the user's profile for tracking and management.",
+                "responses": {
+                    "200": {
+                        "description": "A list of linked accounts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "account_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the account"
+                                            },
+                                            "account_name": {
+                                                "type": "string",
+                                                "description": "Name of the linked account"
+                                            },
+                                            "balance": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Current balance in the account"
+                                            },
+                                            "account_type": {
+                                                "type": "string",
+                                                "description": "Type of account (e.g., checking, savings, credit card)"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions": {
+            "post": {
+                "summary": "Record a new financial transaction",
+                "description": "Creates a new transaction entry to track income or expenses.",
+                "requestBody": {
+                    "description": "Transaction details to be recorded",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "description": "Transaction amount"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "Type of transaction (e.g., income, expense)"
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Date of the transaction"
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "description": "Category of the transaction (e.g., groceries, rent)"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Additional details about the transaction"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Transaction successfully created"
+                    }
+                }
+            }
+        },
+        "/transactions/monthly": {
+            "get": {
+                "summary": "Retrieve monthly transaction summary",
+                "description": "Returns a summary of transactions grouped and categorized by month.",
+                "responses": {
+                    "200": {
+                        "description": "Monthly transaction summary",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "month": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Month of the transactions"
+                                            },
+                                            "total_income": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Total income for the month"
+                                            },
+                                            "total_expense": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Total expenses for the month"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/budgets/{budget_id}": {
+            "put": {
+                "summary": "Update budget details",
+                "description": "Modify an existing budget configuration by providing updated details.",
+                "parameters": [
+                    {
+                        "name": "budget_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the budget"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated budget details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "description": "New budget amount"
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "description": "Category the budget applies to"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Budget successfully updated"
+                    }
+                }
+            }
+        },
+        "/transactions/{transaction_id}": {
+            "delete": {
+                "summary": "Remove a transaction",
+                "description": "Deletes a specific financial transaction from the system.",
+                "parameters": [
+                    {
+                        "name": "transaction_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the transaction"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Transaction successfully deleted"
+                    }
+                }
+            }
+        },
+        "/budgets/summary": {
+            "get": {
+                "summary": "Retrieve budget overview",
+                "description": "Returns a summary of all active budgets and their current statuses.",
+                "responses": {
+                    "200": {
+                        "description": "Budget summary",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "budget_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the budget"
+                                            },
+                                            "category": {
+                                                "type": "string",
+                                                "description": "Category the budget applies to"
+                                            },
+                                            "amount": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Total budgeted amount"
+                                            },
+                                            "spent": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Amount spent so far"
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current status of the budget (e.g., within budget, exceeded budget)"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/goals": {
+            "post": {
+                "summary": "Create a financial goal",
+                "description": "Creates a new financial savings or expense goal for the user.",
+                "requestBody": {
+                    "description": "Details about the financial goal",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "goal_name": {
+                                        "type": "string",
+                                        "description": "Name of the financial goal"
+                                    },
+                                    "target_amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "description": "Target amount for the goal"
+                                    },
+                                    "deadline": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Deadline for achieving the goal"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Goal successfully created"
+                    }
+                }
+            }
+        },
+        "/insights": {
+            "get": {
+                "summary": "Retrieve financial insights",
+                "description": "Provides analytics and insights based on historical financial data trends.",
+                "responses": {
+                    "200": {
+                        "description": "Financial insights and data trends",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "spending_trends": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "category": {
+                                                        "type": "string",
+                                                        "description": "Expense category"
+                                                    },
+                                                    "amount": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "description": "Amount spent"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "savings_suggestions": {
+                                            "type": "string",
+                                            "description": "Suggestions for improving financial savings"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications": {
+            "get": {
+                "summary": "Retrieve financial notifications",
+                "description": "Returns a list of notifications related to financial events or reminders.",
+                "responses": {
+                    "200": {
+                        "description": "List of notifications",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "notification_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the notification"
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "description": "Notification message content"
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Date and time the notification was generated"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/accounts/{account_id}": {
+            "patch": {
+                "summary": "Modify account details",
+                "description": "Allows the user to update specific information about a linked financial account.",
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the account"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Modified account details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "account_name": {
+                                        "type": "string",
+                                        "description": "Updated name for the account"
+                                    },
+                                    "nickname": {
+                                        "type": "string",
+                                        "description": "New nickname for the account"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Account details successfully updated"
+                    }
+                }
+            }
+        }
+    }
+}

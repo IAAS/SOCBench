@@ -1,0 +1,26 @@
+SUMMARY:
+List 5 services for the financials domain.
+
+DOCUMENT:
+Domain:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Previous services:
+
+
+TASK:
+List 5 distinct and meaningful RESTful services within the financials sector. Describe each service extensively.
+
+EXAMPLE:
+{
+    "services": [
+        {
+            "name": "Oil and Gas Production Monitoring Service",
+            "description": "The Oil and Gas Production Monitoring Service is a RESTful API specifically designed to empower energy companies with real-time monitoring capabilities of their oil and gas wells. By providing detailed insights into production volumes, well statuses, equipment performance, and operational alerts, this service facilitates data-driven decision-making, optimizes production processes, and ensures efficient resource management within the energy sector. To utilize the service, energy companies are required to register and obtain an API access key. Integration with field sensors and data collection systems is essential to feed real-time data into the API, ensuring that the information provided is up-to-date and accurate. Role-based access control mechanisms are implemented to ensure that users have appropriate permissions, maintaining data security and integrity. Key features of the Oil and Gas Production Monitoring Service include access to real-time production data, enabling users to monitor up-to-the-minute production volumes from individual wells or entire fields. Historical data retrieval is also available, allowing for trend analysis and reporting that can inform strategic decisions. The service offers equipment monitoring capabilities, providing operational status updates on critical equipment such as pumps and compressors. Users can set up custom alerts for production anomalies or equipment malfunctions, ensuring that potential issues are addressed promptly. Additionally, the service supports integration with analytics tools, facilitating advanced data visualization and forecasting that can further enhance operational efficiency. For example, an operations manager who wants to monitor the production of Well A in Field X can use the service to receive alerts if production falls below a specified threshold, such as 4,500 barrels per day. The manager would first authenticate by obtaining an access token. They can then retrieve the current production data by making a GET request to the appropriate endpoint, receiving a JSON response that includes the well's production volume, status, and a timestamp. To set up an alert, the manager would make a POST request to the alerts endpoint, specifying the well ID, threshold conditions, and notification preferences such as email. If the production drops below the set threshold, the service automatically sends an email alert to the manager. The manager also has the option to access historical production data by specifying a date range in a GET request, facilitating further analysis and reporting. By offering these comprehensive monitoring and alert functionalities, the Oil and Gas Production Monitoring Service plays a crucial role in helping energy companies optimize their operations. It reduces downtime by enabling swift responses to anomalies, enhances resource management through detailed data insights, and supports overall operational efficiency within the energy sector."
+        },
+        ...
+    ]
+}
+
+INSTRUCTIONS:
+You are a RESTful service creator. You get a domain in which you should create the service and the list of already created services. The refinements of the domain are descriptive, i.e., you do not have to convert them to services directly. Specify services within these refined domains. The services should be meaningful and cover the most essential areas of the domain. Make sure that each service covers precisely one use case. The services should be different from the already previous ones. Make sure that every service has an extensive description covering settings, prerequisites, features, and detailed example of usage. The result is a JSON list of services consisting of names and descriptions.

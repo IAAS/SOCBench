@@ -1,0 +1,312 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Recyclable Materials Classification API",
+    "description": "A service that facilitates the identification and classification of recyclable materials in waste streams, assisting manufacturers in achieving sustainability goals.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/materials/classify": {
+      "post": {
+        "summary": "Classify a material",
+        "description": "Analyze the uploaded material data and determine its recyclability classification.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "materialName": { "type": "string", "description": "Name of the material being analyzed." },
+                  "properties": { "type": "object", "description": "Key-value pairs of material properties.", "additionalProperties": { "type": "string" } }
+                },
+                "required": ["materialName", "properties"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Material classification results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "classification": { "type": "string", "description": "Recyclability classification of the material." },
+                    "details": { "type": "string", "description": "Additional details about the classification." }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid input data." }
+        }
+      }
+    },
+    "/materials/categories": {
+      "get": {
+        "summary": "Get material categories",
+        "description": "Retrieve the list of possible material categories for classification purposes.",
+        "responses": {
+          "200": {
+            "description": "List of material categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "description": "Array of material categories."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/materials/{id}": {
+      "put": {
+        "summary": "Update material information",
+        "description": "Update information for a specific material by providing its identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the material to update.",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "materialName": { "type": "string", "description": "Updated name of the material." },
+                  "properties": { "type": "object", "description": "Updated key-value pairs of material properties.", "additionalProperties": { "type": "string" } }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Material successfully updated." },
+          "404": { "description": "Material not found." }
+        }
+      },
+      "delete": {
+        "summary": "Delete a material",
+        "description": "Remove a specified material and its data using its unique identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the material to delete.",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Material successfully deleted." },
+          "404": { "description": "Material not found." }
+        }
+      }
+    },
+    "/analysis/statistics": {
+      "get": {
+        "summary": "Get material classification statistics",
+        "description": "Fetch aggregated statistical data of classified materials over a defined period.",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Start date for the statistics range (in YYYY-MM-DD).",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "End date for the statistics range (in YYYY-MM-DD).",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Statistics data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalMaterials": { "type": "integer", "description": "The total number of materials classified." },
+                    "categories": { "type": "object", "description": "Classification counts per category.", "additionalProperties": { "type": "integer" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/streams/process": {
+      "post": {
+        "summary": "Submit waste stream for classification",
+        "description": "Submit a batch of materials within a waste stream for analysis and classification.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "streamName": { "type": "string", "description": "Name of the waste stream." },
+                  "materials": {
+                    "type": "array",
+                    "items": { "type": "object" },
+                    "description": "List of materials in the waste stream."
+                  }
+                },
+                "required": ["streamName", "materials"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Successfully submitted waste stream for processing." }
+        }
+      }
+    },
+    "/streams/{id}/results": {
+      "get": {
+        "summary": "Get waste stream results",
+        "description": "Access the classification results for a specified waste stream.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of the waste stream.",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Classification results for the waste stream.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "streamId": { "type": "string", "description": "Unique identifier of the waste stream." },
+                    "resultDetails": { "type": "string", "description": "Details of the classification results." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recyclers/compatibility": {
+      "get": {
+        "summary": "Find compatible recyclers",
+        "description": "Identify suitable recycling facilities for recyclable material types.",
+        "parameters": [
+          {
+            "name": "materialType",
+            "in": "query",
+            "description": "Type of material to filter recyclers.",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of compatible recyclers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "recyclerName": { "type": "string", "description": "Name of the recycler." },
+                      "location": { "type": "string", "description": "Location of the recycler." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recyclers/suggestions": {
+      "post": {
+        "summary": "Submit recycler suggestions",
+        "description": "Submit a recycler's information to enhance the database of recycling options.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "recyclerName": { "type": "string", "description": "Name of the recycler." },
+                  "location": { "type": "string", "description": "Location of the recycler." },
+                  "materialsAccepted": {
+                    "type": "array",
+                    "items": { "type": "string" },
+                    "description": "List of materials accepted by the recycler."
+                  }
+                },
+                "required": ["recyclerName", "location", "materialsAccepted"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Recycler suggestion successfully submitted." }
+        }
+      }
+    },
+    "/suggestions/material-improvements": {
+      "get": {
+        "summary": "Get material improvement suggestions",
+        "description": "Receive recommendations for improving the recyclability of specific materials.",
+        "parameters": [
+          {
+            "name": "materialId",
+            "in": "query",
+            "description": "The identifier of the material to receive recommendations for.",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Material improvement suggestions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "recommendations": {
+                      "type": "array",
+                      "items": { "type": "string" },
+                      "description": "List of improvement suggestions."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

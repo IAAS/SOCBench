@@ -1,0 +1,425 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Industrial Logistics Optimization Service API",
+        "version": "1.0.0",
+        "description": "An API to manage transportation and distribution networks within the industrial sector using real-time data, predictive tools, and optimization algorithms to enhance efficiency and reduce costs."
+    },
+    "servers": [
+        {
+            "url": "https://api.industrial-logistics.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/routes/optimization": {
+            "post": {
+                "summary": "Generate Optimized Transportation Path",
+                "description": "Submit routing data and constraints to calculate the most efficient transportation route for deliveries based on real-time traffic, geo-location, and operational parameters.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "origin": {
+                                        "type": "string",
+                                        "description": "Starting location for the route."
+                                    },
+                                    "destination": {
+                                        "type": "string",
+                                        "description": "Ending location for the route."
+                                    },
+                                    "constraints": {
+                                        "type": "object",
+                                        "description": "Optional constraints for route optimization such as vehicle capacity, delivery windows, etc.",
+                                        "properties": {
+                                            "maxStops": {
+                                                "type": "integer",
+                                                "description": "Maximum number of stops allowed."
+                                            },
+                                            "timeWindows": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string",
+                                                    "description": "Specific delivery time windows in ISO 8601 format."
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "origin",
+                                    "destination"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Optimized route generated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "routeId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the calculated route."
+                                        },
+                                        "optimizedPath": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "description": "List of checkpoints or directions for the optimized route."
+                                        },
+                                        "estimatedDeliveryTime": {
+                                            "type": "string",
+                                            "description": "Expected delivery time in ISO 8601 format."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/shipments/status": {
+            "get": {
+                "summary": "Retrieve Active Shipment Status",
+                "description": "Retrieve the current status of all active shipments within the transportation network.",
+                "responses": {
+                    "200": {
+                        "description": "Shipment statuses retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "shipmentId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the shipment."
+                                            },
+                                            "currentStatus": {
+                                                "type": "string",
+                                                "description": "Current status of the shipment (e.g., In Transit, Delayed, Delivered)."
+                                            },
+                                            "lastUpdated": {
+                                                "type": "string",
+                                                "description": "Timestamp of the last status update in ISO 8601 format."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/historical-reports": {
+            "get": {
+                "summary": "Retrieve Predictive Delivery Reports",
+                "description": "Access predictive reports generated based on historical shipment data and delivery patterns for the transportation network.",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "Start date for the historical report data (YYYY-MM-DD)."
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "End date for the historical report data (YYYY-MM-DD)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historical reports retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "reportId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the report."
+                                            },
+                                            "predictions": {
+                                                "type": "object",
+                                                "description": "Predictions for delivery times and patterns based on historical data."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/shipments/{shipment_id}/update": {
+            "patch": {
+                "summary": "Update Shipment Details",
+                "description": "Modify specific delivery details of an ongoing shipment.",
+                "parameters": [
+                    {
+                        "name": "shipment_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the shipment."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "newTime": {
+                                        "type": "string",
+                                        "description": "Updated delivery time in ISO 8601 format."
+                                    },
+                                    "newRoute": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "Updated route for the delivery."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Shipment updated successfully."
+                    }
+                }
+            }
+        },
+        "/alerts/notifications": {
+            "put": {
+                "summary": "Configure Alert Settings",
+                "description": "Set or update alert settings for tracking deviations or delays in shipments.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "alertType": {
+                                        "type": "string",
+                                        "description": "Type of alert (e.g., Delay, Route Change)."
+                                    },
+                                    "recipients": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "email"
+                                        },
+                                        "description": "List of email addresses to receive the alerts."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Alert settings updated successfully."
+                    }
+                }
+            }
+        },
+        "/traffic/conditions": {
+            "get": {
+                "summary": "Retrieve Current Traffic Conditions",
+                "description": "Fetch real-time traffic conditions relevant to planned or active delivery routes.",
+                "responses": {
+                    "200": {
+                        "description": "Traffic conditions retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "conditions": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "location": {
+                                                        "type": "string",
+                                                        "description": "Location of the traffic event."
+                                                    },
+                                                    "severity": {
+                                                        "type": "string",
+                                                        "description": "Severity of the traffic condition (e.g., Low, Medium, High)."
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "description": "Details about the traffic condition."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/geo/locations/{location_id}": {
+            "get": {
+                "summary": "Fetch Detailed Location Info",
+                "description": "Retrieve detailed information about a specific logistics location.",
+                "parameters": [
+                    {
+                        "name": "location_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the location."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Location details retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/feedback/report-issue": {
+            "post": {
+                "summary": "Report Transportation Issue",
+                "description": "Submit feedback or report issues encountered during transportation to improve service quality.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Detailed description of the issue."
+                                    },
+                                    "shipmentId": {
+                                        "type": "string",
+                                        "description": "Shipment ID related to the issue, if applicable."
+                                    },
+                                    "severity": {
+                                        "type": "string",
+                                        "description": "Severity of the issue (e.g., Low, Medium, High)."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Issue reported successfully."
+                    }
+                }
+            }
+        },
+        "/shipments/{shipment_id}": {
+            "delete": {
+                "summary": "Delete Shipment Record",
+                "description": "Delete a specific shipment record from the system.",
+                "parameters": [
+                    {
+                        "name": "shipment_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the shipment to delete."
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Shipment deleted successfully."
+                    }
+                }
+            }
+        },
+        "/metrics/effectiveness": {
+            "get": {
+                "summary": "Retrieve Network Performance Metrics",
+                "description": "Get insights into the performance and efficiency of the transportation network.",
+                "responses": {
+                    "200": {
+                        "description": "Performance metrics retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "averageDeliveryTime": {
+                                            "type": "string",
+                                            "description": "Average delivery time for shipments."
+                                        },
+                                        "onTimeDeliveryRate": {
+                                            "type": "number",
+                                            "description": "Percentage of shipments delivered on time."
+                                        },
+                                        "costEfficiency": {
+                                            "type": "number",
+                                            "description": "Cost efficiency score for the network."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "name": "X-API-Key",
+                "in": "header"
+            }
+        }
+    },
+    "security": [
+        {
+            "ApiKeyAuth": []
+        }
+    ]
+}

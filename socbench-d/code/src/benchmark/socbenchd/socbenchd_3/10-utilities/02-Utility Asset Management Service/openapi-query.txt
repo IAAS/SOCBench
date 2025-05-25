@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+Designed to organize and track utility company assets, this service enables users to map infrastructure like substations and transmission lines, schedule maintenance activities, and log historical performance data. By providing GIS-based visualizations and condition-based alert systems, utility managers can optimize resource allocation and operational reliability.
+
+Endpoints:
+GET /assets: Retrieve a list of all utility company assets, including substations and transmission lines.
+POST /assets: Add a new infrastructure asset to the system, specifying details like type, location, and specifications.
+GET /assets/{assetId}/status: Fetch the current status and detailed information for a specific asset.
+PUT /assets/{assetId}/status: Update the status or modify operational parameters of a specific asset.
+GET /maintenance/schedules: Retrieve scheduled maintenance activities for all assets.
+POST /maintenance/schedules: Schedule a maintenance activity for an asset, specifying date, time, and objectives.
+GET /visualizations: Access GIS-based visual representations of assets, along with their status and distribution.
+POST /alerts: Create condition-based alerts for specific assets, defining trigger parameters.
+GET /performance/history: Retrieve historical performance data for assets over a specified date range.
+DELETE /alerts/{alertId}: Remove an existing alert based on its identifier.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

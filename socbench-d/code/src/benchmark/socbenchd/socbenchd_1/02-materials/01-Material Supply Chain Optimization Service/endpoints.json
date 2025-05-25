@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /materials",
+            "description": "Retrieve an overview of all available materials and their attributes."
+        },
+        {
+            "endpoint": "POST /procurement/request",
+            "description": "Initiate a procurement request for a specific material or set of materials."
+        },
+        {
+            "endpoint": "GET /inventory/status",
+            "description": "Obtain a detailed report of current inventory levels across facilities."
+        },
+        {
+            "endpoint": "PATCH /logistics/route",
+            "description": "Update or optimize the routing information for a material shipment."
+        },
+        {
+            "endpoint": "DELETE /inventory/material/{material_id}",
+            "description": "Remove specified material items from inventory following standard protocols."
+        },
+        {
+            "endpoint": "POST /analytics/demand-prediction",
+            "description": "Submit parameters to receive predictions on material demand based on historical data."
+        },
+        {
+            "endpoint": "PUT /settings/notifications",
+            "description": "Configure notification preferences for updates on procurement, inventory, and logistics."
+        },
+        {
+            "endpoint": "GET /logistics/tracking/{shipment_id}",
+            "description": "Track the real-time location and status of a specified shipment."
+        },
+        {
+            "endpoint": "POST /reports/generate",
+            "description": "Create and download a report summarizing procurement and logistics activities."
+        },
+        {
+            "endpoint": "GET /suppliers/rating",
+            "description": "Retrieve a list of suppliers along with their performance and reliability ratings."
+        }
+    ]
+}

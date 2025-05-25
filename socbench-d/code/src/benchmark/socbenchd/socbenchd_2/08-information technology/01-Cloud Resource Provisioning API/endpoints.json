@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /resources",
+            "description": "Retrieve a list of all available resources along with their metadata."
+        },
+        {
+            "endpoint": "POST /resources",
+            "description": "Create a new resource by specifying its parameters and configuration details."
+        },
+        {
+            "endpoint": "GET /resources/{id}",
+            "description": "Fetch the details of a specific resource identified by its ID."
+        },
+        {
+            "endpoint": "PUT /resources/{id}",
+            "description": "Update the configuration or parameters of a specific resource."
+        },
+        {
+            "endpoint": "DELETE /resources/{id}",
+            "description": "Remove a specific resource from the system based on its ID."
+        },
+        {
+            "endpoint": "POST /resources/actions/scale",
+            "description": "Scale a resource to a specified level by providing its ID and desired configuration."
+        },
+        {
+            "endpoint": "GET /vendors",
+            "description": "Retrieve a list of supported cloud vendor platforms for resource allocation."
+        },
+        {
+            "endpoint": "GET /performance",
+            "description": "Analyze and receive the performance metrics of the configured resources."
+        },
+        {
+            "endpoint": "POST /network/configuration",
+            "description": "Set up networking configurations across all active resources."
+        },
+        {
+            "endpoint": "GET /healthcheck",
+            "description": "Perform a health check of the service and return the system's operational status."
+        }
+    ]
+}

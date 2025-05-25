@@ -1,0 +1,409 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Hotel Booking Optimization Service API",
+    "description": "A RESTful API providing tools for managing and optimizing hotel room bookings. Includes real-time availability, price management, and third-party integration for seamless customer experiences.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.hotelbookingoptimization.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/rooms": {
+      "get": {
+        "summary": "Retrieve available rooms",
+        "description": "Fetches a list of all available rooms, along with their current status and attributes such as type, capacity, amenities, and more.",
+        "parameters": [
+          {
+            "name": "room_type",
+            "in": "query",
+            "description": "Filter rooms by type (e.g., suite, deluxe, standard).",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "max_price",
+            "in": "query",
+            "description": "Filter rooms by a maximum price.",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "float"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "description": "Specify the date for which room availability is queried.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of available rooms retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Room"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bookings": {
+      "post": {
+        "summary": "Create a new booking",
+        "description": "Allows users to create a new booking by specifying customer details and check-in/check-out dates.",
+        "requestBody": {
+          "description": "Details required to make a booking",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Booking created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bookings/{id}": {
+      "get": {
+        "summary": "Retrieve booking details",
+        "description": "Fetches the details of an existing booking by using a unique booking identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier for the booking.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Booking details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a booking",
+        "description": "Allows customers to modify an existing booking, such as changing check-in/check-out dates or updating preferences.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier for the booking.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Details to update the booking",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookingUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Booking updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Cancel a booking",
+        "description": "Deletes an existing booking by using a unique booking identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier for the booking.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Booking canceled successfully"
+          }
+        }
+      }
+    },
+    "/promotions": {
+      "get": {
+        "summary": "Get current promotions",
+        "description": "Gets a list of ongoing promotions and offers related to room bookings.",
+        "responses": {
+          "200": {
+            "description": "Promotions retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Promotion"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback": {
+      "post": {
+        "summary": "Submit feedback",
+        "description": "Allows users to submit feedback or reviews for their stay or booking process.",
+        "requestBody": {
+          "description": "Feedback details",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Feedback"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Feedback submitted successfully"
+          }
+        }
+      }
+    },
+    "/prices": {
+      "get": {
+        "summary": "Query room prices",
+        "description": "Fetches pricing information for rooms based on room type, location, and date range.",
+        "parameters": [
+          {
+            "name": "room_type",
+            "in": "query",
+            "description": "Type of room to query pricing for.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "Start date for the pricing query.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "End date for the pricing query.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pricing information retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Price"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/availability/{date}": {
+      "get": {
+        "summary": "Check room availability",
+        "description": "Checks room availability for a specific date.",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "description": "Date to check availability for.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Room availability retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomAvailability"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integration": {
+      "post": {
+        "summary": "Set up third-party integrations",
+        "description": "Enables third-party integration by providing required credentials and preferences.",
+        "requestBody": {
+          "description": "Integration setup details",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Integration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Third-party integration setup successfully"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Room": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string" },
+          "amenities": { "type": "array", "items": { "type": "string" } },
+          "price": { "type": "number", "format": "float" },
+          "status": { "type": "string" }
+        }
+      },
+      "Booking": {
+        "type": "object",
+        "properties": {
+          "customer_name": { "type": "string" },
+          "room_id": { "type": "string" },
+          "check_in": { "type": "string", "format": "date" },
+          "check_out": { "type": "string", "format": "date" }
+        }
+      },
+      "BookingUpdate": {
+        "type": "object",
+        "properties": {
+          "check_in": { "type": "string", "format": "date" },
+          "check_out": { "type": "string", "format": "date" }
+        }
+      },
+      "BookingResponse": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "status": { "type": "string" },
+          "details": { "$ref": "#/components/schemas/Booking" }
+        }
+      },
+      "Promotion": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "description": { "type": "string" },
+          "valid_until": { "type": "string", "format": "date" }
+        }
+      },
+      "Feedback": {
+        "type": "object",
+        "properties": {
+          "customer_name": { "type": "string" },
+          "feedback": { "type": "string" },
+          "rating": { "type": "integer", "minimum": 1, "maximum": 5 }
+        }
+      },
+      "Price": {
+        "type": "object",
+        "properties": {
+          "room_type": { "type": "string" },
+          "price": { "type": "number", "format": "float" },
+          "valid_from": { "type": "string", "format": "date" },
+          "valid_to": { "type": "string", "format": "date" }
+        }
+      },
+      "RoomAvailability": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "format": "date" },
+          "available_rooms": { "type": "array", "items": { "$ref": "#/components/schemas/Room" } }
+        }
+      },
+      "Integration": {
+        "type": "object",
+        "properties": {
+          "third_party_name": { "type": "string" },
+          "credentials": { "type": "object" },
+          "preferences": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}

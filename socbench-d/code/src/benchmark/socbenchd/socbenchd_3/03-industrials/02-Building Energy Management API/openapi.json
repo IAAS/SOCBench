@@ -1,0 +1,417 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Energy Consumption Monitoring Service",
+        "description": "A service enabling construction companies to monitor and manage energy consumption within facilities to achieve optimal efficiency and sustainability goals.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.example.com"
+        }
+    ],
+    "paths": {
+        "/facilities": {
+            "post": {
+                "summary": "Add a new construction facility",
+                "description": "Add information about a new construction facility to be monitored for energy consumption management.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the facility."
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "description": "Location details of the facility."
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "Type of the construction facility."
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "location"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Facility successfully added."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve all facilities",
+                "description": "Retrieve a list of all monitored construction facilities.",
+                "responses": {
+                    "200": {
+                        "description": "A list of construction facilities.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique ID of the facility."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the facility."
+                                            },
+                                            "location": {
+                                                "type": "string",
+                                                "description": "Location of the facility."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/facilities/energy-consumption": {
+            "get": {
+                "summary": "Retrieve energy consumption statistics",
+                "description": "Retrieve detailed energy consumption statistics for a specific facility.",
+                "parameters": [
+                    {
+                        "name": "facility_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique ID of the facility to retrieve energy consumption data for."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Energy statistics retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "facility_id": {
+                                            "type": "string"
+                                        },
+                                        "energy_usage": {
+                                            "type": "number",
+                                            "description": "Total energy consumption in kWh."
+                                        },
+                                        "time_range": {
+                                            "type": "string",
+                                            "description": "Time range for the statistics."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/facilities/{facility_id}/settings": {
+            "put": {
+                "summary": "Update facility energy monitoring settings",
+                "description": "Update energy monitoring settings such as thresholds or reporting intervals for a specific facility.",
+                "parameters": [
+                    {
+                        "name": "facility_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique ID of the facility."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "threshold": {
+                                        "type": "number",
+                                        "description": "Energy consumption threshold in kWh."
+                                    },
+                                    "reporting_interval": {
+                                        "type": "string",
+                                        "description": "Reporting interval (e.g., daily, weekly)."
+                                    }
+                                },
+                                "required": [
+                                    "threshold",
+                                    "reporting_interval"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Settings updated successfully."
+                    }
+                }
+            }
+        },
+        "/regions/reports": {
+            "get": {
+                "summary": "Retrieve energy efficiency reports",
+                "description": "Retrieve energy efficiency reports categorized by regions.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Optional region filter."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Energy efficiency reports retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "region": {
+                                                "type": "string",
+                                                "description": "Name of the region."
+                                            },
+                                            "efficiency_rating": {
+                                                "type": "string",
+                                                "description": "Energy efficiency rating."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "post": {
+                "summary": "Create energy threshold alert",
+                "description": "Create a new custom alert based on energy consumption thresholds.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "facility_id": {
+                                        "type": "string",
+                                        "description": "ID of the facility to monitor."
+                                    },
+                                    "threshold": {
+                                        "type": "number",
+                                        "description": "Energy consumption threshold in kWh."
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "Type of alert (e.g., high, low)."
+                                    }
+                                },
+                                "required": [
+                                    "facility_id",
+                                    "threshold",
+                                    "type"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert successfully created."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            },
+            "get": {
+                "summary": "List active alerts",
+                "description": "Retrieve a list of all active energy consumption alerts.",
+                "responses": {
+                    "200": {
+                        "description": "A list of active alerts.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "alert_id": {
+                                                "type": "string",
+                                                "description": "Unique ID of the alert."
+                                            },
+                                            "facility_id": {
+                                                "type": "string",
+                                                "description": "ID of the facility associated with the alert."
+                                            },
+                                            "threshold": {
+                                                "type": "number",
+                                                "description": "Energy threshold in kWh."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current status of the alert."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/{alert_id}": {
+            "delete": {
+                "summary": "Remove a specific alert",
+                "description": "Delete a specific energy consumption alert.",
+                "parameters": [
+                    {
+                        "name": "alert_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique ID of the alert to be removed."
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Alert successfully deleted."
+                    },
+                    "404": {
+                        "description": "Alert not found."
+                    }
+                }
+            }
+        },
+        "/sensors/data": {
+            "get": {
+                "summary": "Fetch sensor readings",
+                "description": "Retrieve detailed energy sensor readings for analysis.",
+                "parameters": [
+                    {
+                        "name": "facility_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique ID of the facility to fetch sensor data for."
+                    },
+                    {
+                        "name": "time_range",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "last_7_days"
+                        },
+                        "description": "Time range for sensor data (e.g., last_7_days, last_30_days)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sensor readings retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "timestamp": {
+                                                        "type": "string",
+                                                        "description": "Timestamp of the sensor reading."
+                                                    },
+                                                    "value": {
+                                                        "type": "number",
+                                                        "description": "Energy usage recorded by the sensor."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analysis/retrend": {
+            "post": {
+                "summary": "Initiate retrended analysis",
+                "description": "Start a retrended analysis to assess historical energy consumption patterns for a facility.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "facility_id": {
+                                        "type": "string",
+                                        "description": "ID of the facility to analyze."
+                                    },
+                                    "time_range": {
+                                        "type": "string",
+                                        "description": "Time range for the historical analysis."
+                                    }
+                                },
+                                "required": [
+                                    "facility_id",
+                                    "time_range"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Analysis initiated successfully. Results will be provided asynchronously."
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+Service:
+Offers organizations tools to identify and mitigate potential vulnerabilities in their system networks.
+
+Endpoints:
+GET /vulnerabilities: Retrieve a list of identified vulnerabilities within the organization's system network based on preset configurations.
+POST /scan/network: Initiate a network-wide scan to detect potential vulnerabilities.
+GET /scan/{scan_id}/results: Retrieve the results of a specific scan using its unique identifier.
+POST /configurations: Create new configurations to tailor vulnerability detection parameters.
+PUT /configurations/{config_id}: Modify an existing configuration using its unique identifier.
+DELETE /configurations/{config_id}: Delete an existing configuration using its unique identifier.
+GET /mitigation/recommendations: Retrieve a list of recommended actions to address identified vulnerabilities.
+POST /mitigation/apply: Submit a request to apply specific mitigation measures to the system network.
+GET /reports: Retrieve a list of generated reports detailing vulnerability assessments and mitigations.
+POST /reports/export: Request an export of detailed reports in specified formats (e.g., PDF, CSV).
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

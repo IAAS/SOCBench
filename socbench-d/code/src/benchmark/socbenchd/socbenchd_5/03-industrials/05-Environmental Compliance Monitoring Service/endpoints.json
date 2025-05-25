@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /factories",
+            "description": "Retrieve a list of registered factories with compliance monitoring enabled."
+        },
+        {
+            "endpoint": "POST /factories",
+            "description": "Add a new factory to the compliance monitoring system."
+        },
+        {
+            "endpoint": "GET /factories/{factory_id}/pollutants",
+            "description": "Retrieve current pollutant data for a specific factory."
+        },
+        {
+            "endpoint": "POST /factories/{factory_id}/pollutants",
+            "description": "Submit new pollutant data for a factory."
+        },
+        {
+            "endpoint": "GET /factories/{factory_id}/analytics",
+            "description": "Generate actionable environmental compliance analytics for a factory."
+        },
+        {
+            "endpoint": "GET /sensors/{sensor_id}/calibration",
+            "description": "Check the calibration status and due dates of a specific sensor."
+        },
+        {
+            "endpoint": "POST /sensors/{sensor_id}/calibration",
+            "description": "Submit a completed calibration record for a specific sensor."
+        },
+        {
+            "endpoint": "GET /reports",
+            "description": "Retrieve historical compliance reports for all monitored factories."
+        },
+        {
+            "endpoint": "GET /reports/{report_id}",
+            "description": "Access specific details of a historical compliance report."
+        },
+        {
+            "endpoint": "DELETE /factories/{factory_id}",
+            "description": "Remove a factory and its monitoring data from the system."
+        }
+    ]
+}

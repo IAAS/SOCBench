@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+Offers developers and investors market analytics, identifying price trends, demand forecasts, and investment hotspots. Users submit filter parameters to obtain comprehensive reports and visualizations for data-driven decision-making.
+
+Endpoints:
+GET /market-data/price-trends: Retrieve market price trends for various property types and locations.
+POST /market-data/demand-forecasts: Submit parameters to generate a demand forecast report for specific areas.
+GET /investment-opportunities/hotspots: Discover latest investment hotspots based on submitted filters.
+POST /reports/custom: Generate custom analytics reports based on user-defined criteria.
+GET /market-data/property-types: Fetch available property types and their classifications.
+PUT /preferences/user-settings: Update user-specific analytics and filtering preferences.
+GET /regional-analysis/zoning-laws: Access zoning law details for selected locations.
+DELETE /user-saved-reports/{report_id}: Remove a previously saved custom report by report ID.
+POST /visualizations/custom-charts: Create tailored data visualizations based on specific parameters.
+GET /analytics/market-comparisons: Compare market analytics across selected regions for informed decision-making.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

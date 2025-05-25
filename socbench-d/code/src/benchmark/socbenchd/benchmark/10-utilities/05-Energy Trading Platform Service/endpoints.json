@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /registerParticipant",
+            "description": "Allows new participants to register for the energy trading platform by providing necessary details for authentication and compliance verification."
+        },
+        {
+            "endpoint": "GET /authenticate",
+            "description": "A secure endpoint for participants to authenticate and access the trading platform services after registration."
+        },
+        {
+            "endpoint": "GET /marketData",
+            "description": "Fetches real-time market data, including spot and forward prices crucial for making informed trading decisions."
+        },
+        {
+            "endpoint": "POST /initiateTrade",
+            "description": "Facilitates the execution of trade between participants by submitting a detailed trade request. Requires compliance with specified criteria."
+        },
+        {
+            "endpoint": "GET /tradeStatus",
+            "description": "Returns the current status and history of trades executed by the participant, aiding in monitoring and review."
+        },
+        {
+            "endpoint": "POST /manageContract",
+            "description": "Allows participants to create, amend, or settle contracts digitally, providing a streamlined process for contract management."
+        },
+        {
+            "endpoint": "GET /riskAssessment",
+            "description": "Provides access to advanced risk assessment tools that evaluate potential exposures, helping participants mitigate risks effectively."
+        },
+        {
+            "endpoint": "GET /transactionLog",
+            "description": "Retrieves a detailed audit trail of all past transactions, ensuring transparency and aiding in regulatory compliance."
+        },
+        {
+            "endpoint": "POST /updateSettings",
+            "description": "Enables participants to update their trading preferences and settings, including notification preferences and risk thresholds."
+        },
+        {
+            "endpoint": "GET /complianceReport",
+            "description": "Generates comprehensive compliance reports tailored for regional energy trading standards to aid participants in meeting legal requirements."
+        }
+    ]
+}

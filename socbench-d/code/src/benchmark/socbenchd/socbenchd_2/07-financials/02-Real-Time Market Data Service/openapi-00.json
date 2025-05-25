@@ -1,0 +1,491 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Financial Market Data API",
+    "description": "Provides up-to-the-second financial market data, including stock prices, indices, and trading volumes, to aid in informed financial decision-making.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.financialdata.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/markets/overview": {
+      "get": {
+        "summary": "Retrieve Market Overview",
+        "description": "Fetch a summary of the current state of the financial markets, including major indices and key data points such as price movements, trends, and market highlights.",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "marketSummary": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "indexName": {
+                            "type": "string",
+                            "description": "Name of the market index"
+                          },
+                          "currentValue": {
+                            "type": "number",
+                            "description": "Current value of the index"
+                          },
+                          "percentageChange": {
+                            "type": "number",
+                            "description": "Percentage change in the index value"
+                          },
+                          "trend": {
+                            "type": "string",
+                            "description": "Overall trend of the index (e.g., upward, downward)"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stocks/{symbol}/price": {
+      "get": {
+        "summary": "Fetch Real-time Stock Price",
+        "description": "Retrieve the current real-time price and trading data for a specific stock identified by its symbol.",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "required": true,
+            "description": "The stock ticker symbol (e.g., AAPL for Apple).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "symbol": {
+                      "type": "string",
+                      "description": "Stock symbol"
+                    },
+                    "price": {
+                      "type": "number",
+                      "description": "Current stock price"
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "description": "Timestamp of the price data"
+                    },
+                    "volume": {
+                      "type": "integer",
+                      "description": "Trading volume"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/indices": {
+      "get": {
+        "summary": "List Financial Indices",
+        "description": "Retrieve a list of all financial indices available for data retrieval, along with their current values and associated data.",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "indices": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "indexName": {
+                            "type": "string",
+                            "description": "Name of the market index"
+                          },
+                          "currentValue": {
+                            "type": "number",
+                            "description": "Current value of the index"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trading/volumes": {
+      "get": {
+        "summary": "Retrieve Trading Volume Data",
+        "description": "Fetch aggregated trading volume statistics, segmented by market or sector, for a specific time range.",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": false,
+            "description": "Start date of the time range (format: YYYY-MM-DD).",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": false,
+            "description": "End date of the time range (format: YYYY-MM-DD).",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "marketVolumes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "market": {
+                            "type": "string",
+                            "description": "Market name or sector"
+                          },
+                          "volume": {
+                            "type": "integer",
+                            "description": "Aggregated trading volume"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sectors": {
+      "get": {
+        "summary": "Retrieve Sector Data",
+        "description": "Access financial performance data for various market sectors to analyze comparative trends.",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sectors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sectorName": {
+                            "type": "string",
+                            "description": "Name of the sector"
+                          },
+                          "performancePercentage": {
+                            "type": "number",
+                            "description": "Percentage change in sector performance"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/currencies/{currency1}-{currency2}": {
+      "get": {
+        "summary": "Retrieve Exchange Rate",
+        "description": "Provide the current exchange rate and historical trends between two specified currencies.",
+        "parameters": [
+          {
+            "name": "currency1",
+            "in": "path",
+            "required": true,
+            "description": "First currency code (e.g., USD).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currency2",
+            "in": "path",
+            "required": true,
+            "description": "Second currency code (e.g., EUR).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "currencyPair": {
+                      "type": "string",
+                      "description": "Currency pair (e.g., 'USD-EUR')"
+                    },
+                    "exchangeRate": {
+                      "type": "number",
+                      "description": "Current exchange rate"
+                    },
+                    "historicalTrends": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "description": "Date of historical exchange rate data"
+                          },
+                          "rate": {
+                            "type": "number",
+                            "description": "Exchange rate for the given date"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news/trends": {
+      "get": {
+        "summary": "Retrieve Trending Financial News",
+        "description": "Summarize trending financial news that may impact market movements or individual stock performance.",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "newsTrends": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "headline": {
+                            "type": "string",
+                            "description": "News headline"
+                          },
+                          "source": {
+                            "type": "string",
+                            "description": "Source of the news"
+                          },
+                          "summary": {
+                            "type": "string",
+                            "description": "Brief summary of the news"
+                          },
+                          "impact": {
+                            "type": "string",
+                            "description": "Predicted market impact of the news"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts/subscribe": {
+      "post": {
+        "summary": "Subscribe to Real-time Alerts",
+        "description": "Set up a subscription for real-time alerts on specific stocks, indices, or other market activities.",
+        "requestBody": {
+          "description": "Subscription details",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Type of alert (e.g., 'stock', 'index', 'market')."
+                  },
+                  "identifier": {
+                    "type": "string",
+                    "description": "Identifier for the alert (e.g., stock symbol or index name)."
+                  },
+                  "threshold": {
+                    "type": "number",
+                    "description": "Threshold value to trigger the alert (e.g., price point)."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Subscription created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Confirmation message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/historical/{symbol}/{date}": {
+      "get": {
+        "summary": "Retrieve Historical Data for Stock",
+        "description": "Access historical price and volume data for a specific stock on a given date.",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "required": true,
+            "description": "The stock ticker symbol (e.g., AAPL for Apple).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "description": "Specific date to fetch data for (format: YYYY-MM-DD).",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "symbol": {
+                      "type": "string",
+                      "description": "Stock symbol"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "Date of the data"
+                    },
+                    "price": {
+                      "type": "number",
+                      "description": "Historical stock price"
+                    },
+                    "volume": {
+                      "type": "integer",
+                      "description": "Historical trading volume"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analysis/popular": {
+      "get": {
+        "summary": "Retrieve Popular Analysis Data",
+        "description": "Fetch data on the most actively traded stocks or highly monitored indices in the current session.",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "popularItems": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "identifier": {
+                            "type": "string",
+                            "description": "Stock symbol or index name"
+                          },
+                          "tradeVolume": {
+                            "type": "integer",
+                            "description": "Trading volume"
+                          },
+                          "popularityRank": {
+                            "type": "integer",
+                            "description": "Rank in terms of popularity or monitoring"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

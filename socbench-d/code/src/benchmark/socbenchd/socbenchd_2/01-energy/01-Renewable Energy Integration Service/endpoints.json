@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /integration/grid",
+            "description": "Enable and configure the integration of a renewable energy source into the existing energy grid."
+        },
+        {
+            "endpoint": "GET /production/real-time",
+            "description": "Retrieve real-time production metrics of renewable energy sources."
+        },
+        {
+            "endpoint": "GET /grid/status",
+            "description": "Fetch the current status and performance metrics of the energy grid interface."
+        },
+        {
+            "endpoint": "POST /alerts/settings",
+            "description": "Set up notifications for certain grid or production events."
+        },
+        {
+            "endpoint": "GET /forecast/demand",
+            "description": "Obtain predictive analytics for energy demand based on historical and modeling data."
+        },
+        {
+            "endpoint": "GET /supply/overview",
+            "description": "View a summary of energy supply from renewable sources."
+        },
+        {
+            "endpoint": "POST /data/upload",
+            "description": "Allow utilities to upload external data for modeling and integration."
+        },
+        {
+            "endpoint": "PUT /grid/control",
+            "description": "Update configurations for grid energy distribution settings."
+        },
+        {
+            "endpoint": "DELETE /resource/remove",
+            "description": "Remove obsolete or inactive renewable resources from the system."
+        },
+        {
+            "endpoint": "GET /reports/summary",
+            "description": "Generate and download custom reports about renewable energy integration and performance."
+        }
+    ]
+}

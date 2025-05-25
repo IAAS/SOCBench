@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+This service enables comprehensive tracking and status updates of aerospace components within the supply chain, ensuring traceability and minimizing delays.
+
+Endpoints:
+GET /components: Retrieve a list of all aerospace components tracked within the system.
+POST /components: Add a new aerospace component to the tracking database.
+GET /components/{id}: Retrieve detailed information of a specific aerospace component by its unique identifier.
+PATCH /components/{id}: Update the details of a specific aerospace component.
+DELETE /components/{id}: Remove an aerospace component from the tracking system by its unique identifier.
+GET /tracking/{id}/status: Retrieve the current status and location of a specific tracked aerospace component.
+POST /tracking/{id}/update: Report a status or location update for a specific aerospace component.
+GET /reports/delay: Retrieve reports of components facing potential or actual delays within the supply chain.
+POST /notifications: Set up alert notifications for specific aerospace component tracking events.
+GET /supplychain/stages: Retrieve a list of all supply chain stages relevant to aerospace component tracking.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

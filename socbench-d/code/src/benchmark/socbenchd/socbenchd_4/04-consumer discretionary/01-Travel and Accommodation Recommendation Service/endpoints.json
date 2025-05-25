@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /user/preferences",
+            "description": "Submit and update user travel preferences and profiles for personalized recommendations."
+        },
+        {
+            "endpoint": "GET /recommendations/hotels",
+            "description": "Retrieve a list of hotel recommendations based on the user's preferences and destination selection."
+        },
+        {
+            "endpoint": "GET /recommendations/restaurants",
+            "description": "Retrieve a list of restaurant suggestions based on the user's preferences and travel itinerary."
+        },
+        {
+            "endpoint": "GET /recommendations/leisure",
+            "description": "Access personalized leisure activity suggestions tailored to the user's interests and destination."
+        },
+        {
+            "endpoint": "POST /itinerary/plan",
+            "description": "Submit desired destinations and receive a complete travel itinerary."
+        },
+        {
+            "endpoint": "PUT /itinerary/modify",
+            "description": "Adjust and update the existing travel itinerary with new preferences or constraints."
+        },
+        {
+            "endpoint": "DELETE /itinerary/remove",
+            "description": "Remove an individual element or the entire itinerary from the user's plan."
+        },
+        {
+            "endpoint": "GET /locations/info",
+            "description": "Retrieve detailed information about a specific location, including attractions and historical data."
+        },
+        {
+            "endpoint": "POST /feedback/submit",
+            "description": "Allow the user to submit feedback regarding recommendations or the overall travel experience provided."
+        },
+        {
+            "endpoint": "GET /user/history",
+            "description": "Access previous travel history and recommendations for reference or repeat visits."
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /policies",
+            "description": "Retrieve a list of all associated insurance policies for the user."
+        },
+        {
+            "endpoint": "GET /policies/{policyId}",
+            "description": "Fetch details about a specific insurance policy by its identifier."
+        },
+        {
+            "endpoint": "POST /policies/{policyId}/renew",
+            "description": "Initiate the renewal process for a specified insurance policy."
+        },
+        {
+            "endpoint": "POST /claims",
+            "description": "Submit a new insurance claim for review and processing."
+        },
+        {
+            "endpoint": "GET /claims/{claimId}",
+            "description": "Obtain details regarding a specific insurance claim identified by its Claim ID."
+        },
+        {
+            "endpoint": "PUT /claims/{claimId}",
+            "description": "Update previously submitted insurance claim information."
+        },
+        {
+            "endpoint": "GET /coverage",
+            "description": "Review coverage details applicable under multiple insurance policies."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit user feedback or comments pertaining to the insurance services."
+        },
+        {
+            "endpoint": "GET /notifications",
+            "description": "Access the user's notification history related to policy updates and claims."
+        },
+        {
+            "endpoint": "DELETE /policies/{policyId}",
+            "description": "Request the removal of a specific policy from the user's active policies, if applicable."
+        }
+    ]
+}

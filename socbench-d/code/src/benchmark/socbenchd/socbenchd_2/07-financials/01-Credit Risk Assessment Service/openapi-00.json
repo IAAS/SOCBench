@@ -1,0 +1,501 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Creditworthiness Assessment API",
+    "description": "This API allows financial institutions to assess the creditworthiness of potential borrowers using comprehensive data analysis and predictive models. The service provides various endpoints to submit borrower data, retrieve model statuses, and access financial insights.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.financials-sector.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/api/borrower-evaluation": {
+      "post": {
+        "summary": "Submit Borrower Information for Evaluation",
+        "description": "Submit detailed borrower information to analyze their creditworthiness using predictive models.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "borrower_id": {
+                    "type": "string",
+                    "description": "A unique identifier for the borrower."
+                  },
+                  "financial_details": {
+                    "type": "object",
+                    "description": "Detailed financial information of the borrower.",
+                    "properties": {
+                      "income": {
+                        "type": "number",
+                        "description": "Annual income of the borrower."
+                      },
+                      "expenses": {
+                        "type": "number",
+                        "description": "Monthly expenses of the borrower."
+                      },
+                      "assets": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "description": "Type of asset (e.g., property, vehicle)."
+                            },
+                            "value": {
+                              "type": "number",
+                              "description": "Monetary value of the asset."
+                            }
+                          }
+                        }
+                      },
+                      "liabilities": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "description": "Type of liability (e.g., loan, credit card debt)."
+                            },
+                            "amount": {
+                              "type": "number",
+                              "description": "Outstanding liability amount."
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": ["borrower_id", "financial_details"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Creditworthiness evaluation submitted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Request status (e.g., success, failure)."
+                    },
+                    "evaluation_id": {
+                      "type": "string",
+                      "description": "Unique identifier for the submitted evaluation."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/model-status": {
+      "get": {
+        "summary": "Retrieve Model Operational Status",
+        "description": "Get the current operational status of the predictive models used for creditworthiness assessments.",
+        "responses": {
+          "200": {
+            "description": "Model status retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Current operational status of the model (e.g., active, maintenance)."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/loan-recommendations": {
+      "get": {
+        "summary": "Get Loan Product Recommendations",
+        "description": "Retrieve loan product recommendations generated by models based on borrower profiles.",
+        "parameters": [
+          {
+            "name": "borrower_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the borrower to get loan recommendations for."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Loan recommendations retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "loan_type": {
+                        "type": "string",
+                        "description": "Type of loan (e.g., personal, mortgage)."
+                      },
+                      "estimated_rate": {
+                        "type": "number",
+                        "description": "Recommended interest rate for the loan."
+                      },
+                      "recommended_amount": {
+                        "type": "number",
+                        "description": "Loan amount recommended by the model."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/data-qualification": {
+      "post": {
+        "summary": "Submit Financial Dataset for Model Compatibility",
+        "description": "Submit a set of potential borrowers' financial data to determine compatibility with predictive models.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "dataset_id": {
+                    "type": "string",
+                    "description": "Unique identifier for the dataset."
+                  },
+                  "financial_data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "borrower_id": {
+                          "type": "string",
+                          "description": "Unique identifier of a borrower within the dataset."
+                        },
+                        "financial_details": {
+                          "type": "object",
+                          "description": "Detailed financial information for the borrower."
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": ["dataset_id", "financial_data"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dataset compatibility submitted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Request status (e.g., processed, pending)."
+                    },
+                    "compatibility_score": {
+                      "type": "number",
+                      "description": "Score indicating how compatible the dataset is with the available models."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/credit-score-prediction": {
+      "get": {
+        "summary": "Request Credit Score Prediction",
+        "description": "Retrieve calculated credit scores for a borrower based on financial data.",
+        "parameters": [
+          {
+            "name": "borrower_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the borrower."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Credit score prediction retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "credit_score": {
+                      "type": "number",
+                      "description": "Predicted credit score for the borrower."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/model-calibration": {
+      "put": {
+        "summary": "Update Model Parameters",
+        "description": "Update predictive model parameters using newly derived statistics or policies.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "model_id": {
+                    "type": "string",
+                    "description": "Unique identifier for the model to calibrate."
+                  },
+                  "calibration_data": {
+                    "type": "object",
+                    "description": "Data used to calibrate the model.",
+                    "properties": {
+                      "parameter_updates": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "parameter": {
+                              "type": "string",
+                              "description": "Name of the parameter to update."
+                            },
+                            "value": {
+                              "type": "number",
+                              "description": "Updated value for the parameter."
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": ["model_id", "calibration_data"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Model calibration completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Status of the model calibration request."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/multi-borrower-analysis": {
+      "post": {
+        "summary": "Submit Batch Borrower Profiles for Analysis",
+        "description": "Submit multiple borrower profiles for group creditworthiness evaluations using predictive models.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "borrower_profiles": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Detailed borrower profiles.",
+                      "properties": {
+                        "borrower_id": {
+                          "type": "string",
+                          "description": "Unique identifier for the borrower."
+                        },
+                        "financial_details": {
+                          "type": "object",
+                          "description": "Individual financial data of the borrower."
+                        }
+                      },
+                      "required": ["borrower_id", "financial_details"]
+                    }
+                  }
+                },
+                "required": ["borrower_profiles"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Batch borrower evaluation submitted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "batch_id": {
+                      "type": "string",
+                      "description": "Unique identifier for the batch evaluation."
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Status of the batch evaluation process."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/old-entries": {
+      "delete": {
+        "summary": "Delete Outdated Borrower Data",
+        "description": "Remove outdated or irrelevant borrower data from the analysis database.",
+        "parameters": [
+          {
+            "name": "entry_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the data entry to delete."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Outdated data entry deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Status of the deletion request."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/market-data-integration": {
+      "get": {
+        "summary": "Access External Financial Market Data",
+        "description": "Retrieve external financial market data used by predictive models.",
+        "responses": {
+          "200": {
+            "description": "Market data retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "source": {
+                        "type": "string",
+                        "description": "Source of the market data."
+                      },
+                      "data_points": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "metric": {
+                              "type": "string",
+                              "description": "Name of the financial metric."
+                            },
+                            "value": {
+                              "type": "number",
+                              "description": "Value of the metric."
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/service-compliance": {
+      "get": {
+        "summary": "Retrieve Service Compliance Information",
+        "description": "Get details about the API's compliance with financial regulations and standards.",
+        "responses": {
+          "200": {
+            "description": "Service compliance details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "compliance_status": {
+                      "type": "string",
+                      "description": "Current compliance status (e.g., compliant, non-compliant)."
+                    },
+                    "compliance_report": {
+                      "type": "string",
+                      "description": "Detailed compliance report."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

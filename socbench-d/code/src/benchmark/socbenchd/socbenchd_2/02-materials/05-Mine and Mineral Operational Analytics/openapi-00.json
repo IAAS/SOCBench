@@ -1,0 +1,282 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Excavation Operations Support Service",
+    "description": "A service that supports mining operators by providing insights into excavation operations, tracking output levels, and ensuring adherence to mining regulation standards.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.mining-support.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/excavation-progress": {
+      "get": {
+        "summary": "Fetch Excavation Progress",
+        "description": "Retrieves progress data of all ongoing excavation operations, detailing tasks completed, timelines, and overall operation status. Useful for monitoring excavation activities.",
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of excavation progress data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string", "description": "Unique identifier for the excavation operation." },
+                      "progress": { "type": "integer", "description": "Percentage completion of the excavation operation." },
+                      "status": { "type": "string", "description": "Current status of the operation (e.g., 'in-progress', 'completed')." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/output-levels": {
+      "post": {
+        "summary": "Submit Output Levels",
+        "description": "Submits output data for a specific excavation site, including the volume of materials excavated.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "siteId": { "type": "string", "description": "Unique ID of the excavation site." },
+                  "outputVolume": { "type": "integer", "description": "Volume of materials excavated in tons." },
+                  "timestamp": { "type": "string", "format": "date-time", "description": "Date and time the output data was recorded." }
+                },
+                "required": ["siteId", "outputVolume", "timestamp"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Output data successfully submitted."
+          }
+        }
+      }
+    },
+    "/regulation-compliance": {
+      "get": {
+        "summary": "Get Regulation Compliance Reports",
+        "description": "Retrieves reports on compliance with mining regulatory standards. Ensures operators adhere to safety, environmental, and operational regulations.",
+        "responses": {
+          "200": {
+            "description": "Compliance reports retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string", "description": "Unique identifier for the compliance record." },
+                      "siteId": { "type": "string", "description": "Unique ID of the excavation site." },
+                      "compliant": { "type": "boolean", "description": "Indicates if the site is compliant with regulations." },
+                      "details": { "type": "string", "description": "Details of the compliance check." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/excavation/{id}/update": {
+      "put": {
+        "summary": "Update Excavation Details",
+        "description": "Updates details related to a specific excavation operation. Allows modification of parameters like status or assigned resources.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique ID of the excavation operation to update.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string", "description": "New status of the excavation operation." },
+                  "assignedResources": { "type": "array", "items": { "type": "string" }, "description": "List of resources assigned to the operation." }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Excavation details updated successfully."
+          }
+        }
+      }
+    },
+    "/excavation/{id}": {
+      "delete": {
+        "summary": "Delete Excavation Operation",
+        "description": "Removes an excavation operation record from the system.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique ID of the excavation operation to delete.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Excavation operation deleted successfully."
+          }
+        }
+      }
+    },
+    "/mineral-distribution": {
+      "get": {
+        "summary": "Get Mineral Distribution",
+        "description": "Provides data about mineral distribution within the surveyed area, including types of minerals and their estimated quantities.",
+        "responses": {
+          "200": {
+            "description": "Mineral distribution data retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "mineralType": { "type": "string", "description": "Type of the mineral." },
+                      "quantity": { "type": "number", "description": "Estimated quantity of the mineral in tons." },
+                      "location": { "type": "string", "description": "Location details within the surveyed area." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/incident-report": {
+      "post": {
+        "summary": "Log Safety Incident",
+        "description": "Allows operators to log safety incidents at excavation sites for further investigation or reporting.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "siteId": { "type": "string", "description": "Unique ID of the excavation site." },
+                  "incidentType": { "type": "string", "description": "Type of the safety incident (e.g., 'equipment failure', 'injury')." },
+                  "description": { "type": "string", "description": "Detailed description of the incident." },
+                  "timestamp": { "type": "string", "format": "date-time", "description": "Date and time the incident occurred." }
+                },
+                "required": ["siteId", "incidentType", "description", "timestamp"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Safety incident logged successfully."
+          }
+        }
+      }
+    },
+    "/sensor-calibration": {
+      "patch": {
+        "summary": "Calibrate Sensors",
+        "description": "Adjusts calibration settings for sensors deployed in excavation sites. Ensures accurate data measurement.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sensorId": { "type": "string", "description": "Unique ID of the sensor to calibrate." },
+                  "calibrationSettings": { "type": "object", "description": "New calibration settings for the sensor." }
+                },
+                "required": ["sensorId", "calibrationSettings"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sensor calibration settings updated successfully."
+          }
+        }
+      }
+    },
+    "/fleet-status": {
+      "get": {
+        "summary": "Get Fleet Status",
+        "description": "Returns the current status of the excavation fleet, including operational, maintenance, and downtime details.",
+        "responses": {
+          "200": {
+            "description": "Fleet status retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "vehicleId": { "type": "string", "description": "Unique ID of the fleet vehicle." },
+                      "status": { "type": "string", "description": "Current operational status of the vehicle." },
+                      "lastServiceDate": { "type": "string", "format": "date", "description": "Date the vehicle was last serviced." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/training-materials": {
+      "put": {
+        "summary": "Update Training Materials",
+        "description": "Uploads or updates training materials for operators to ensure adherence to best practices and safety standards.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "materialId": { "type": "string", "description": "Unique ID of the training material." },
+                  "content": { "type": "string", "description": "Updated content for the training material." }
+                },
+                "required": ["materialId", "content"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Training materials updated successfully."
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+This service offers real-time monitoring of solar and wind energy generation, aiding in efficient resource management.
+
+Endpoints:
+GET /generation/solar: Fetch real-time solar energy generation data.
+GET /generation/wind: Fetch real-time wind energy generation data.
+GET /generation/forecast: Retrieve energy generation forecast based on current data.
+GET /resources/status: Extract operational status of energy generation resources.
+POST /alerts/configuration: Configure real-time alerts for threshold breaches.
+GET /reports/daily: Download daily aggregate reports for resource generation.
+PUT /resources/maintenance: Schedule maintenance for a specific energy resource.
+DELETE /alerts: Remove specific alert configurations by ID.
+GET /statistics/comparative: Retrieve comparative statistics of solar vs. wind energy generation.
+GET /resources/list: Fetch details of all monitored energy resources.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

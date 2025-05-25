@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /properties",
+            "description": "Retrieve a list of all property listings with filtering options."
+        },
+        {
+            "endpoint": "POST /properties",
+            "description": "Submit a new property listing with associated details."
+        },
+        {
+            "endpoint": "GET /properties/{id}",
+            "description": "Fetch detailed information for a specific property listing by its identifier."
+        },
+        {
+            "endpoint": "PUT /properties/{id}",
+            "description": "Update information for an existing property listing."
+        },
+        {
+            "endpoint": "DELETE /properties/{id}",
+            "description": "Remove a property listing from the platform."
+        },
+        {
+            "endpoint": "POST /properties/{id}/images",
+            "description": "Upload images associated with a specific property listing."
+        },
+        {
+            "endpoint": "DELETE /properties/{id}/images/{image_id}",
+            "description": "Delete a specific image from a property listing's gallery."
+        },
+        {
+            "endpoint": "GET /platforms",
+            "description": "Retrieve a list of supported platforms where property listings can be published."
+        },
+        {
+            "endpoint": "POST /properties/{id}/publish",
+            "description": "Publish a specific property listing to selected external platforms."
+        },
+        {
+            "endpoint": "GET /properties/{id}/status",
+            "description": "Check the publication status of a property listing on external platforms."
+        }
+    ]
+}

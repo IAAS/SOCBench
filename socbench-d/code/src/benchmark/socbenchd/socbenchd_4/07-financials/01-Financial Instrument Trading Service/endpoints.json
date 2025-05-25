@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /orders",
+            "description": "Place a new buy or sell order for a specified financial instrument."
+        },
+        {
+            "endpoint": "GET /orders/{orderId}",
+            "description": "Retrieve details of a specific order by its unique identifier."
+        },
+        {
+            "endpoint": "PUT /orders/{orderId}/cancel",
+            "description": "Cancel an active buy or sell order identified by its unique identifier."
+        },
+        {
+            "endpoint": "GET /markets",
+            "description": "Fetch a list of available markets for trading and their current status."
+        },
+        {
+            "endpoint": "GET /instruments",
+            "description": "Retrieve data on financial instruments including stocks, bonds, and commodities."
+        },
+        {
+            "endpoint": "GET /instruments/{instrumentId}/price",
+            "description": "Access the real-time price information for a specified financial instrument."
+        },
+        {
+            "endpoint": "POST /accounts/portfolio",
+            "description": "Retrieve a snapshot of the user's trading account portfolio and its valuation."
+        },
+        {
+            "endpoint": "PATCH /accounts/settings",
+            "description": "Update trading preferences and account-specific parameters."
+        },
+        {
+            "endpoint": "GET /analytics/trends",
+            "description": "Analyze trading trends based on curated insights and historical data."
+        },
+        {
+            "endpoint": "GET /news/market",
+            "description": "Provide the latest market news and updates for informed trading decisions."
+        }
+    ]
+}

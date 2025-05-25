@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+Supports the organization and promotion of leisure activities like events or tours, offering participants tools for booking, payment, and personalized itinerary management.
+
+Endpoints:
+GET /events/list: Retrieve a list of available leisure events for booking.
+POST /events/book: Book a specific leisure event based on user selection.
+GET /tours/list: Retrieve details about available tours for selection.
+POST /tours/schedule: Schedule and book a tour for the user.
+GET /itinerary/view: View the personalized itinerary created by the user.
+POST /payment/checkout: Complete the payment for booked events and tours.
+GET /destinations/highlights: Get recommendations for popular destinations.
+POST /feedback/submit: Provide feedback and reviews for leisure activities.
+GET /notifications/list: Retrieve notifications and updates for booked activities.
+DELETE /itinerary/cancel: Cancel and remove an item from the itinerary list.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

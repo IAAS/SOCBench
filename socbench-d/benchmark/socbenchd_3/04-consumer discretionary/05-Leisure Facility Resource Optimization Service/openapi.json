@@ -1,0 +1,373 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Leisure Facility Resource Optimization Service API",
+        "description": "The Leisure Facility Resource Optimization Service provides tools for facility managers to optimize resource allocation based on customer behaviors and seasonal demands, improving customer satisfaction and operational efficiency.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.leisure-optimization.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/resource-allocation": {
+            "get": {
+                "description": "Retrieve current status of allocated resources across leisure facilities, including their type, quantity, and allocated location.",
+                "responses": {
+                    "200": {
+                        "description": "A list of current resource allocations.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ResourceAllocation"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Submit updates for resource allocation. This endpoint allows managers to adjust the allocation of resources across various leisure facilities.",
+                "requestBody": {
+                    "description": "Resource allocation data to be updated.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResourceAllocation"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Resource allocation successfully updated."
+                    }
+                }
+            }
+        },
+        "/customer-behavior": {
+            "get": {
+                "description": "Fetch aggregated data of customer behavior, which includes patterns, preferences, and peak usage times.",
+                "responses": {
+                    "200": {
+                        "description": "Aggregated customer behavior data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerBehavior"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/seasonal-demands": {
+            "get": {
+                "description": "Obtain predictions for shifts in seasonal demand, which helps manage resources proactively.",
+                "responses": {
+                    "200": {
+                        "description": "Seasonal demand prediction data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SeasonalDemand"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/facilities": {
+            "get": {
+                "description": "Retrieve the complete list of managed leisure facilities and their details.",
+                "responses": {
+                    "200": {
+                        "description": "A list of leisure facilities and their configurations.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Facility"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/facilities/{id}": {
+            "put": {
+                "description": "Update the configuration of a specific leisure facility by its ID. This may include updates to capacity, available services, or resource specifications.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the leisure facility to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "The updated configuration for the leisure facility.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FacilityUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Facility configuration successfully updated."
+                    }
+                }
+            }
+        },
+        "/optimization-reports": {
+            "get": {
+                "description": "Access historical reports on resource optimization performance, which helps evaluate and refine strategies.",
+                "responses": {
+                    "200": {
+                        "description": "Historical optimization reports.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/OptimizationReport"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "description": "Submit feedback to help refine the resource optimization models. Feedback can include suggestions or error reporting.",
+                "requestBody": {
+                    "description": "Feedback details to improve optimization processes.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Feedback"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Feedback successfully submitted."
+                    }
+                }
+            }
+        },
+        "/dashboard": {
+            "get": {
+                "description": "Retrieve a summarized dashboard of key operation metrics, providing an overview of resource utilization, customer satisfaction, and facility performance.",
+                "responses": {
+                    "200": {
+                        "description": "Dashboard metrics retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Dashboard"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cache": {
+            "delete": {
+                "description": "Clear cached data related to predictions, forcing the system to recalculate and refresh information.",
+                "responses": {
+                    "200": {
+                        "description": "Cached data cleared successfully."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ResourceAllocation": {
+                "type": "object",
+                "properties": {
+                    "facilityId": {
+                        "type": "string",
+                        "description": "The ID of the facility where resources are allocated."
+                    },
+                    "resourceType": {
+                        "type": "string",
+                        "description": "The type of resource being allocated (e.g., staff, equipment)."
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "description": "The quantity of the particular resource type."
+                    },
+                    "timeFrame": {
+                        "type": "string",
+                        "description": "The time frame for which this allocation is valid."
+                    }
+                },
+                "required": [
+                    "facilityId",
+                    "resourceType",
+                    "quantity",
+                    "timeFrame"
+                ]
+            },
+            "CustomerBehavior": {
+                "type": "object",
+                "properties": {
+                    "peakHours": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "The peak hours for customer activity."
+                    },
+                    "preferences": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "description": "The preferences of customers based on behaviors observed."
+                    }
+                }
+            },
+            "SeasonalDemand": {
+                "type": "object",
+                "properties": {
+                    "season": {
+                        "type": "string",
+                        "description": "The season for which the demand prediction applies."
+                    },
+                    "predictedDemand": {
+                        "type": "integer",
+                        "description": "The predicted demand level for the given season."
+                    }
+                }
+            },
+            "Facility": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the facility."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the facility."
+                    },
+                    "capacity": {
+                        "type": "integer",
+                        "description": "The maximum capacity of the facility."
+                    },
+                    "services": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of services provided by the facility."
+                    }
+                }
+            },
+            "FacilityUpdate": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Updated name of the facility."
+                    },
+                    "capacity": {
+                        "type": "integer",
+                        "description": "Updated capacity of the facility."
+                    },
+                    "services": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Updated list of services offered by the facility."
+                    }
+                }
+            },
+            "OptimizationReport": {
+                "type": "object",
+                "properties": {
+                    "reportId": {
+                        "type": "string",
+                        "description": "The unique identifier for the optimization report."
+                    },
+                    "generatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The date and time this report was generated."
+                    },
+                    "summary": {
+                        "type": "string",
+                        "description": "A summary of the optimization report."
+                    },
+                    "details": {
+                        "type": "string",
+                        "description": "Detailed findings of the report."
+                    }
+                }
+            },
+            "Feedback": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "description": "The ID of the user providing feedback."
+                    },
+                    "comments": {
+                        "type": "string",
+                        "description": "Feedback comments provided by the user."
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The time when the feedback was submitted."
+                    }
+                }
+            },
+            "Dashboard": {
+                "type": "object",
+                "properties": {
+                    "totalFacilities": {
+                        "type": "integer",
+                        "description": "The total number of facilities being managed."
+                    },
+                    "averageSatisfactionScore": {
+                        "type": "number",
+                        "description": "The average customer satisfaction score across facilities."
+                    },
+                    "resourceUtilizationRate": {
+                        "type": "number",
+                        "description": "The percentage rate of resource utilization."
+                    }
+                }
+            }
+        }
+    }
+}

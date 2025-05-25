@@ -1,0 +1,375 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Personal Care Product Compliance Management API",
+    "description": "API for managing and ensuring compliance of ingredient lists and labeling for manufacturers of personal care products, adhering to international regulations and standards.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.example.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/products": {
+      "post": {
+        "summary": "Add New Product",
+        "description": "Add a new personal care product along with its initial ingredient list metadata. This endpoint streamlines the entry of product compliance data at the point of creation.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the personal care product."
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "Category of the product (e.g., shampoo, lotion)."
+                  },
+                  "ingredients": {
+                    "type": "array",
+                    "description": "List of ingredients for the product.",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "description": "Additional metadata about the product (e.g., batch number, manufacturing date).",
+                    "properties": {}
+                  }
+                },
+                "required": ["name", "ingredients"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Product created successfully."
+          },
+          "400": {
+            "description": "Invalid input data."
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "summary": "Retrieve Product by ID",
+        "description": "Retrieve detailed information and compliance status for a specific product by its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the product.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Product",
+        "description": "Update existing product details, including ingredient composition and compliance metadata.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the product to be updated.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Updated name of the product."
+                  },
+                  "ingredients": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Updated list of ingredients for the product."
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "description": "Updated metadata about the product."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product updated successfully."
+          },
+          "400": {
+            "description": "Invalid input data."
+          },
+          "404": {
+            "description": "Product not found."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Product",
+        "description": "Remove a product and its associated compliance records from the system by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the product to be deleted.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Product deleted successfully."
+          },
+          "404": {
+            "description": "Product not found."
+          }
+        }
+      }
+    },
+    "/regulations/validate": {
+      "post": {
+        "summary": "Validate Ingredient List",
+        "description": "Verify and confirm compliance of an ingredient list against specified international regulatory standards.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ingredients": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "List of ingredients to validate."
+                  },
+                  "regulations": {
+                    "type": "string",
+                    "description": "The specific regulatory standard to validate against."
+                  }
+                },
+                "required": ["ingredients", "regulations"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Validation completed successfully."
+          },
+          "400": {
+            "description": "Invalid ingredient data provided."
+          }
+        }
+      }
+    },
+    "/ingredients": {
+      "get": {
+        "summary": "Retrieve Ingredients Database",
+        "description": "Fetch a centralized database of regulated ingredients along with their compliance details.",
+        "responses": {
+          "200": {
+            "description": "Ingredients retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the ingredient."
+                      },
+                      "regulations": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "List of regulations associated with the ingredient."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts/subscribe": {
+      "post": {
+        "summary": "Subscribe to Regulation Alerts",
+        "description": "Register for notifications regarding changes in regulations for specified ingredients.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ingredients": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "List of ingredients to monitor for regulation updates."
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email address to send regulation alerts to."
+                  }
+                },
+                "required": ["ingredients", "email"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Subscription created successfully."
+          },
+          "400": {
+            "description": "Invalid input data."
+          }
+        }
+      }
+    },
+    "/reports/compliance": {
+      "get": {
+        "summary": "Generate Compliance Report",
+        "description": "Generate a report indicating the compliance status of all managed products.",
+        "responses": {
+          "200": {
+            "description": "Report generated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/settings/preferences": {
+      "patch": {
+        "summary": "Update User Preferences",
+        "description": "Modify user-specific application preferences including default regulatory standards.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "defaultStandard": {
+                    "type": "string",
+                    "description": "Default regulatory standard for validation."
+                  },
+                  "notificationPreferences": {
+                    "type": "object",
+                    "properties": {
+                      "emailAlerts": {
+                        "type": "boolean",
+                        "description": "Enable or disable email alerts."
+                      }
+                    },
+                    "description": "Notification preferences for the user."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Preferences updated successfully."
+          },
+          "400": {
+            "description": "Invalid input data."
+          }
+        }
+      }
+    },
+    "/audit/logs": {
+      "get": {
+        "summary": "Retrieve Audit Logs",
+        "description": "Access a detailed record of past operations performed through the platform for monitoring and auditing.",
+        "responses": {
+          "200": {
+            "description": "Audit logs retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Time the operation was performed."
+                      },
+                      "operation": {
+                        "type": "string",
+                        "description": "Description of the performed operation."
+                      },
+                      "user": {
+                        "type": "string",
+                        "description": "Identifier of the user who performed the operation."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

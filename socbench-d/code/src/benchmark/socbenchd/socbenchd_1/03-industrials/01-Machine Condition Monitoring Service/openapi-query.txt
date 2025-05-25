@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+This service monitors the operational health of industrial machinery in real-time using IoT sensors and predictive analytics, reducing downtime.
+
+Endpoints:
+GET /machinery_health: Retrieve real-time operational status of all monitored machinery.
+POST /alerts: Set up alerts for specific machinery condition thresholds.
+GET /analytics/predictions: Access predictive maintenance analytics and insights for machinery.
+GET /sensor_data/{id}: Retrieve historical sensor data for the specified machinery by its ID.
+PUT /machinery_config/{id}: Update configuration settings for the specified machinery by its ID.
+DELETE /alerts/{id}: Remove an existing alert by its ID.
+POST /sensor_data/upload: Upload sensor data files for processing and analysis.
+GET /system_report: Generate and download a comprehensive system health report.
+GET /maintenance_schedule: Retrieve scheduled maintenance details for all monitored machinery.
+POST /feedback: Submit user feedback regarding the service and its endpoints.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

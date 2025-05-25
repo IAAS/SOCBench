@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+Facilitating bookings for entertainment venues such as theaters, sports arenas, and amusement parks, this API empowers users to reserve tickets efficiently, receive notifications of availability, and benefit from price comparisons among facilities.
+
+Endpoints:
+GET /venues: Retrieve a list of available entertainment venues with essential details.
+GET /venues/{id}: Get detailed information about a specific venue using its unique identifier.
+POST /bookings: Create a new booking for a selected venue and date.
+GET /bookings: List all bookings associated with the requesting user.
+DELETE /bookings/{id}: Cancel an existing booking using its unique identifier.
+GET /availability: Check ticket availability for a specific venue and date.
+GET /notifications: Retrieve all user-subscribed notifications regarding ticket availability.
+POST /compare-prices: Submit a request to compare ticket prices among multiple venues.
+PUT /preferences: Update user preferences related to venue features and notifications.
+GET /recommendations: Receive recommendations for venues based on user preferences and booking history.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

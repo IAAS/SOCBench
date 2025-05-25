@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /data/ingest",
+            "description": "Upload and initiate ingestion of data streams for processing."
+        },
+        {
+            "endpoint": "GET /data/validate",
+            "description": "Retrieve validation results of the ingested data streams."
+        },
+        {
+            "endpoint": "POST /data/transform",
+            "description": "Transform uploaded datasets based on predefined configurations."
+        },
+        {
+            "endpoint": "GET /analytics/summary",
+            "description": "Fetch summarized analytical reports of processed datasets."
+        },
+        {
+            "endpoint": "GET /analytics/realtime",
+            "description": "Stream real-time analytical updates for active datasets."
+        },
+        {
+            "endpoint": "POST /config/rules",
+            "description": "Define new transformation and analytical rules."
+        },
+        {
+            "endpoint": "GET /config/rules",
+            "description": "List all existing transformation and analytical rules."
+        },
+        {
+            "endpoint": "PUT /config/rules/{ruleID}",
+            "description": "Update specific transformation or analytical rules by ID."
+        },
+        {
+            "endpoint": "DELETE /config/rules/{ruleID}",
+            "description": "Remove specific transformation or analytical rules by ID."
+        },
+        {
+            "endpoint": "GET /logs/activities",
+            "description": "Retrieve user activity and operation logs for monitoring."
+        }
+    ]
+}

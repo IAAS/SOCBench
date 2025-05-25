@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Service:
+Facilitates the management of personal finances, including budgeting and expense tracking.
+
+Endpoints:
+GET /accounts: Retrieve a list of all accounts linked for financial tracking.
+POST /transactions: Create a new entry to record a financial transaction.
+GET /transactions/monthly: Retrieve a grouped summary of transactions categorized by month.
+PUT /budgets/{budget_id}: Update the details of an existing budget configuration.
+DELETE /transactions/{transaction_id}: Remove a specific transaction from the system.
+GET /budgets/summary: Retrieve an overview of all active budgets and their statuses.
+POST /goals: Create a financial savings or expense goal.
+GET /insights: Retrieve insights and analysis based on financial data trends.
+PATCH /accounts/{account_id}: Modify specific details of a linked financial account.
+GET /notifications: Retrieve the list of scheduled or past notifications regarding financial updates.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

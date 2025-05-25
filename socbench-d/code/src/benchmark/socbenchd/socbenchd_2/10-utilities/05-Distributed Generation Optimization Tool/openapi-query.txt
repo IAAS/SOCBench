@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+This tool connects with distributed energy resources like solar panels and batteries, providing an interface for load balancing, energy storage optimization, and synchronization with main grid demands, yielding increased efficiency in energy utilization.
+
+Endpoints:
+GET /distributed-resources: Retrieve the detailed information on all connected distributed energy resources.
+POST /distributed-resources/sync: Initiate synchronization of distributed energy resources with the main grid.
+GET /energy-storage/status: Fetch the current status and performance metrics of the energy storage systems.
+POST /energy-balancing/calibrate: Perform calibration operations for optimal energy load balancing.
+GET /demand-trends: Obtain analytics data about the grid's energy demand trends over time.
+PUT /resource-config/{id}: Update configuration options for a specific distributed energy resource identified by its ID.
+DELETE /distributed-resources/{id}: Remove a distributed energy resource from the management system using its ID.
+GET /alerts: Provide a list of current alerts related to energy resource operations.
+POST /renewable-sources/analytics: Submit analytic data for monitoring renewable energy source performance.
+GET /grid-synchronization/logs: Access logs of synchronization events between the main grid and distributed resources.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /certifications",
+            "description": "Retrieve the list of sustainability certifications associated with forest products."
+        },
+        {
+            "endpoint": "POST /products",
+            "description": "Add a new forest product for monitoring and certification purposes."
+        },
+        {
+            "endpoint": "GET /products/{id}",
+            "description": "Retrieve details of a specific forest product based on its identifier."
+        },
+        {
+            "endpoint": "PUT /products/{id}",
+            "description": "Update information associated with a specific forest product."
+        },
+        {
+            "endpoint": "DELETE /products/{id}",
+            "description": "Remove a forest product from the monitoring service."
+        },
+        {
+            "endpoint": "GET /movements",
+            "description": "Retrieve the movement logs of forest products across the supply chain."
+        },
+        {
+            "endpoint": "POST /movements",
+            "description": "Record a new movement of a forest product within the supply chain."
+        },
+        {
+            "endpoint": "GET /reports",
+            "description": "Generate and retrieve analytical reports on product movements and certifications."
+        },
+        {
+            "endpoint": "GET /locations",
+            "description": "List all locations involved in the supply chain process."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Set up alerts and notifications for specific conditions such as movement anomalies."
+        }
+    ]
+}

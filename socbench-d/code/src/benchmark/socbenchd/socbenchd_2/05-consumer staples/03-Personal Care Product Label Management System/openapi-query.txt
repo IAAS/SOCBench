@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+Service:
+Streamlines the management and compliance of ingredient lists and labeling for manufacturers of personal care products, ensuring adherence to international regulations and standards.
+
+Endpoints:
+POST /products: Add a new personal care product along with initial ingredient list metadata.
+GET /products/{id}: Retrieve detailed information and compliance status for a specific product by ID.
+PUT /products/{id}: Update product details including ingredient composition for an existing product.
+DELETE /products/{id}: Remove a product and its associated compliance records from the system.
+POST /regulations/validate: Verify and confirm compliance of an ingredient list against the specified international standards.
+GET /ingredients: Fetch a database of standard ingredients along with their regulatory information.
+POST /alerts/subscribe: Register for notifications regarding changes in regulations related to specified ingredients.
+GET /reports/compliance: Generate a structured report indicating the compliance status of all managed products.
+PATCH /settings/preferences: Modify user-specific application preferences including default regulatory standards.
+GET /audit/logs: Access a record of all past operations performed in the service platform for monitoring and auditing.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

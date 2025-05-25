@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /optimize_route",
+            "description": "Submit cargo and schedule data to receive optimized routing for vehicles."
+        },
+        {
+            "endpoint": "GET /vehicle_status",
+            "description": "Retrieve real-time status and location data for all active vehicles."
+        },
+        {
+            "endpoint": "POST /maintenance_schedule",
+            "description": "Submit vehicle details to generate a maintenance schedule based on usage data."
+        },
+        {
+            "endpoint": "GET /fuel_consumption_report",
+            "description": "Retrieve a detailed fuel consumption analysis for a specified time period."
+        },
+        {
+            "endpoint": "PUT /update_vehicle_info",
+            "description": "Update information about a fleet vehicle, including capacity and operational status."
+        },
+        {
+            "endpoint": "DELETE /remove_vehicle",
+            "description": "Remove a vehicle from the fleet management system."
+        },
+        {
+            "endpoint": "GET /delivery_statistics",
+            "description": "Retrieve aggregated performance statistics for completed deliveries."
+        },
+        {
+            "endpoint": "POST /add_vehicle",
+            "description": "Add a new vehicle to the fleet management database with its specifications."
+        },
+        {
+            "endpoint": "GET /route_history",
+            "description": "Retrieve past routing data and path analytics for specified vehicles."
+        },
+        {
+            "endpoint": "POST /fuel_usage_alert",
+            "description": "Set up alerts for excess fuel consumption parameters for real-time notifications."
+        }
+    ]
+}

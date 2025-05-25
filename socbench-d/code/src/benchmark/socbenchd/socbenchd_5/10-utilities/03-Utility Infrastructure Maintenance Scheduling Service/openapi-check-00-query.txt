@@ -1,0 +1,301 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+OpenAPI:
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Utility Infrastructure Maintenance Service API",
+        "description": "API for scheduling and tracking maintenance tasks for utility infrastructures, ensuring reliability and minimizing downtime using predictive analytics and resource allocation.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.utility-service.com",
+            "description": "Production server"
+        },
+        {
+            "url": "https://staging.api.utility-service.com",
+            "description": "Staging server"
+        }
+    ],
+    "paths": {
+        "/maintenance-schedule": {
+            "get": {
+                "summary": "Retrieve Maintenance Schedules",
+                "description": "Fetch the current maintenance schedules for all utility infrastructure components.",
+                "responses": {
+                    "200": {
+                        "description": "A list of maintenance schedules.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "id": "123",
+                                        "component": "Transformer 1",
+                                        "startTime": "2023-10-10T08:00:00Z",
+                                        "endTime": "2023-10-10T12:00:00Z"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a Maintenance Schedule",
+                "description": "Create a new maintenance schedule for a specified set of infrastructure components.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "componentId": "456",
+                                "startTime": "2023-11-10T08:00:00Z",
+                                "endTime": "2023-11-10T12:00:00Z"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Maintenance schedule created successfully."
+                    }
+                }
+            }
+        },
+        "/maintenance-schedule/{id}": {
+            "put": {
+                "summary": "Update a Maintenance Schedule",
+                "description": "Update the existing maintenance schedule identified by the unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the maintenance schedule to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "startTime": "2023-11-11T10:00:00Z",
+                                "endTime": "2023-11-11T14:00:00Z"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Maintenance schedule updated successfully."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove a Maintenance Schedule",
+                "description": "Remove a maintenance schedule from the system using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the maintenance schedule to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Maintenance schedule deleted successfully."
+                    }
+                }
+            }
+        },
+        "/component-status": {
+            "get": {
+                "summary": "Retrieve Component Status",
+                "description": "Fetch the real-time operational status of all monitored utility infrastructure components.",
+                "responses": {
+                    "200": {
+                        "description": "A list of component statuses.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "componentId": "A1",
+                                        "status": "Operational",
+                                        "lastChecked": "2023-10-10T06:00:00Z"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/predictive-analysis": {
+            "post": {
+                "summary": "Submit Predictive Analysis Data",
+                "description": "Submit data for predictive analysis to identify potential future maintenance needs.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "data": [
+                                    {
+                                        "componentId": "A1",
+                                        "metricType": "temperature",
+                                        "values": [
+                                            80,
+                                            81,
+                                            79,
+                                            78
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Predictive analysis results.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "status": "Success",
+                                    "predictions": [
+                                        {
+                                            "componentId": "A1",
+                                            "prediction": "Maintenance required in 7 days."
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/resource-allocation": {
+            "get": {
+                "summary": "Retrieve Resource Allocation Info",
+                "description": "Fetch information about allocated resources for specific maintenance tasks.",
+                "responses": {
+                    "200": {
+                        "description": "A list of allocated resources.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "taskId": "789",
+                                        "allocatedPersonnel": [
+                                            "Technician A",
+                                            "Technician B"
+                                        ],
+                                        "allocatedEquipment": [
+                                            "Crane",
+                                            "Wrench Set"
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Allocate Resources",
+                "description": "Allocate resources, such as personnel or equipment, for planned maintenance activities.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "taskId": "123",
+                                "personnel": [
+                                    "Technician A",
+                                    "Technician C"
+                                ],
+                                "equipment": [
+                                    "Drill"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Resources allocated successfully."
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "get": {
+                "summary": "Retrieve Active Alerts",
+                "description": "Return a list of active alerts and notifications regarding infrastructure status.",
+                "responses": {
+                    "200": {
+                        "description": "A list of active alerts.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "alertId": "1001",
+                                        "type": "Warning",
+                                        "message": "Overheat detected in Transformer 2.",
+                                        "timestamp": "2023-10-10T05:45:00Z"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/settings": {
+            "put": {
+                "summary": "Update System Settings",
+                "description": "Update system configuration and preferences for maintenance scheduling and tracking.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "emailNotifications": true,
+                                "defaultMaintenanceDurationHours": 4
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "System settings updated successfully."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

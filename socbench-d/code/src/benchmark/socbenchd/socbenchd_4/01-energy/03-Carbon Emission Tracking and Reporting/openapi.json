@@ -1,0 +1,451 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Carbon Emissions Reporting Service",
+        "description": "A service to facilitate the recording, monitoring, and accurate reporting of carbon emissions for compliance with governmental and environmental standards.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/emission-records": {
+            "get": {
+                "summary": "Retrieve all recorded carbon emissions",
+                "description": "Fetch a list of all carbon emission records stored in the system.",
+                "responses": {
+                    "200": {
+                        "description": "A list of carbon emission records.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/EmissionRecord"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Submit a new carbon emission record",
+                "description": "Create a new carbon emission record for monitoring and compliance purposes.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewEmissionRecord"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Emission record successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmissionRecord"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/emission-records/{record_id}": {
+            "put": {
+                "summary": "Update an existing carbon emission record",
+                "description": "Modify an existing emission record by specifying its unique ID.",
+                "parameters": [
+                    {
+                        "name": "record_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the emission record.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateEmissionRecord"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Emission record successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmissionRecord"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove a specific carbon emission record",
+                "description": "Delete an emission record by providing its unique ID.",
+                "parameters": [
+                    {
+                        "name": "record_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the emission record.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Emission record successfully deleted."
+                    }
+                }
+            }
+        },
+        "/emission-reports": {
+            "get": {
+                "summary": "Generate and retrieve emission compliance reports",
+                "description": "Fetch detailed reports on carbon emissions to ensure compliance with regulations.",
+                "responses": {
+                    "200": {
+                        "description": "A detailed compliance report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmissionReport"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensors-data": {
+            "post": {
+                "summary": "Upload sensor data",
+                "description": "Submit data collected from carbon emission monitoring sensors for analysis and reporting.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SensorData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sensor data uploaded successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/thresholds": {
+            "put": {
+                "summary": "Update emission compliance thresholds",
+                "description": "Modify threshold levels for triggering compliance alerts.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Thresholds"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Thresholds successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Thresholds"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "get": {
+                "summary": "Retrieve triggered alerts",
+                "description": "List alerts generated due to exceeding emission thresholds.",
+                "responses": {
+                    "200": {
+                        "description": "A list of triggered alerts.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Alert"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/aggregation": {
+            "post": {
+                "summary": "Aggregate emission data",
+                "description": "Perform aggregation of emission data for analysis or reporting purposes.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AggregationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Aggregation result.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AggregationResult"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/audit-trails": {
+            "get": {
+                "summary": "Access audit trails",
+                "description": "Retrieve a record of all audit trails for emission records and changes made.",
+                "responses": {
+                    "200": {
+                        "description": "A list of audit trails.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/AuditTrail"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "EmissionRecord": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the emission record."
+                    },
+                    "source": {
+                        "type": "string",
+                        "description": "Source of the emission."
+                    },
+                    "amount": {
+                        "type": "number",
+                        "description": "Amount of carbon emitted."
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of the emission record."
+                    }
+                }
+            },
+            "NewEmissionRecord": {
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "type": "string",
+                        "description": "Source of the emission."
+                    },
+                    "amount": {
+                        "type": "number",
+                        "description": "Amount of carbon emitted."
+                    }
+                },
+                "required": [
+                    "source",
+                    "amount"
+                ]
+            },
+            "UpdateEmissionRecord": {
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "type": "string",
+                        "description": "Updated source of the emission."
+                    },
+                    "amount": {
+                        "type": "number",
+                        "description": "Updated amount of carbon emitted."
+                    }
+                }
+            },
+            "EmissionReport": {
+                "type": "object",
+                "properties": {
+                    "reportId": {
+                        "type": "string",
+                        "description": "Unique identifier of the report."
+                    },
+                    "details": {
+                        "type": "string",
+                        "description": "Detailed compliance report."
+                    }
+                }
+            },
+            "SensorData": {
+                "type": "object",
+                "properties": {
+                    "sensorId": {
+                        "type": "string",
+                        "description": "Unique sensor ID."
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "timestamp": {
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "description": "Time of data collection."
+                                },
+                                "value": {
+                                    "type": "number",
+                                    "description": "Measured emission value."
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "Thresholds": {
+                "type": "object",
+                "properties": {
+                    "threshold": {
+                        "type": "number",
+                        "description": "The emission threshold value."
+                    },
+                    "unit": {
+                        "type": "string",
+                        "description": "Unit of the threshold value (e.g., ppm, gCO2)."
+                    }
+                },
+                "required": [
+                    "threshold",
+                    "unit"
+                ]
+            },
+            "Alert": {
+                "type": "object",
+                "properties": {
+                    "alertId": {
+                        "type": "string",
+                        "description": "Unique identifier for the alert."
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Description of the alert."
+                    },
+                    "triggeredAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "When the alert was triggered."
+                    }
+                }
+            },
+            "AggregationRequest": {
+                "type": "object",
+                "properties": {
+                    "startDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Start date for aggregation."
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "End date for aggregation."
+                    },
+                    "metric": {
+                        "type": "string",
+                        "description": "Aggregation metric (e.g., sum, average)."
+                    }
+                },
+                "required": [
+                    "startDate",
+                    "endDate",
+                    "metric"
+                ]
+            },
+            "AggregationResult": {
+                "type": "object",
+                "properties": {
+                    "metric": {
+                        "type": "string",
+                        "description": "Aggregation metric used."
+                    },
+                    "result": {
+                        "type": "number",
+                        "description": "Result of the aggregation."
+                    }
+                }
+            },
+            "AuditTrail": {
+                "type": "object",
+                "properties": {
+                    "trailId": {
+                        "type": "string",
+                        "description": "Unique ID of the audit trail."
+                    },
+                    "action": {
+                        "type": "string",
+                        "description": "Description of the action taken."
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Time when the action was performed."
+                    }
+                }
+            }
+        }
+    }
+}

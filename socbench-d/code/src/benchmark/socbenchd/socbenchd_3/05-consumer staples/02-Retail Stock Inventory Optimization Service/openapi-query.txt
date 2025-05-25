@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+Service:
+Designed to assist retailers in managing their inventory levels efficiently, this service offers demand forecasting, restocking alerts, and sales trends analysis.
+
+Endpoints:
+GET /categories: Retrieve a list of product categories available in the system to assist in inventory grouping.
+POST /forecasts: Create a new demand forecast for a specific product based on historical sales data.
+GET /forecasts/{product_id}: Retrieve the forecast data for a specific product using its ID.
+DELETE /forecasts/{forecast_id}: Delete an existing demand forecast using its unique forecast ID.
+GET /alerts: List all active restocking alerts tailored to the inventory requirements.
+POST /alerts: Create new restocking alerts for identified product stock levels.
+PUT /alerts/{alert_id}: Modify the parameters of an existing restocking alert using the alert's ID.
+GET /trends: Retrieve sales trend analysis data for the specified time period.
+POST /trends/source: Upload additional sales or inventory data to enhance trend analysis.
+GET /products/{product_id}/details: Retrieve detailed information about a specific product, including sales and inventory attributes.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

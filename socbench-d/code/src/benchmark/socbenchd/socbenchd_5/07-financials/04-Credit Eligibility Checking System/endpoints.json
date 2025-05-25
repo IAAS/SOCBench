@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /credit-checks",
+            "description": "Initiate a new creditworthiness assessment for a user or entity."
+        },
+        {
+            "endpoint": "GET /credit-checks/{id}",
+            "description": "Retrieve details and outcome of a specific creditworthiness assessment."
+        },
+        {
+            "endpoint": "GET /credit-checks",
+            "description": "List all creditworthiness assessments performed by the user."
+        },
+        {
+            "endpoint": "POST /credit-checks/upload-financial-documents",
+            "description": "Upload necessary financial documents for creditworthiness analysis."
+        },
+        {
+            "endpoint": "GET /credit-scores",
+            "description": "Retrieve comprehensive credit scores associated with a user or entity."
+        },
+        {
+            "endpoint": "GET /credit-scores/history",
+            "description": "Obtain the historical data and changes related to credit scores."
+        },
+        {
+            "endpoint": "GET /financial-reports/{id}",
+            "description": "Access detailed financial reports submitted for a creditworthiness check."
+        },
+        {
+            "endpoint": "POST /financial-reports",
+            "description": "Submit a request for the generation of a detailed financial report."
+        },
+        {
+            "endpoint": "GET /recommendations",
+            "description": "Retrieve suggested financial products based on the creditworthiness assessment."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Set up customized alerts for changes in credit scores or financial standings."
+        }
+    ]
+}

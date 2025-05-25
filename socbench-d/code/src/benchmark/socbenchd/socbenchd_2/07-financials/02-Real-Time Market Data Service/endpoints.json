@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /markets/overview",
+            "description": "Retrieve a summary of the current state of the financial markets, including major indices and key data points."
+        },
+        {
+            "endpoint": "GET /stocks/{symbol}/price",
+            "description": "Fetch the current real-time price and trading data for a specific stock identified by its symbol."
+        },
+        {
+            "endpoint": "GET /indices",
+            "description": "List all financial indices available for data retrieval, including their current values."
+        },
+        {
+            "endpoint": "GET /trading/volumes",
+            "description": "Access aggregated trading volume statistics, segmented by market or sector, for a specific time range."
+        },
+        {
+            "endpoint": "GET /sectors",
+            "description": "Retrieve financial performance data for various market sectors to analyze comparative trends."
+        },
+        {
+            "endpoint": "GET /currencies/{currency1}-{currency2}",
+            "description": "Provide the current exchange rate and historical trends between two specified currencies."
+        },
+        {
+            "endpoint": "GET /news/trends",
+            "description": "Summarize trending financial news that may impact market movements or individual stock performance."
+        },
+        {
+            "endpoint": "POST /alerts/subscribe",
+            "description": "Set up a subscription for real-time alerts on specific stocks, indices, or market activities."
+        },
+        {
+            "endpoint": "GET /historical/{symbol}/{date}",
+            "description": "Access historical price and volume data for a specific stock symbol on a given date."
+        },
+        {
+            "endpoint": "GET /analysis/popular",
+            "description": "Retrieve data on the most actively traded stocks or highly monitored indices in the current session."
+        }
+    ]
+}

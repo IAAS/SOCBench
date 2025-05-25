@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /content/recommendations",
+            "description": "Retrieve a list of personalized content recommendations for a user based on preferences and viewing history."
+        },
+        {
+            "endpoint": "POST /content/feedback",
+            "description": "Submit user feedback on recommended content to improve the personalization model."
+        },
+        {
+            "endpoint": "GET /content/trending",
+            "description": "Fetch a list of currently trending content globally or by region."
+        },
+        {
+            "endpoint": "GET /user/preferences",
+            "description": "Retrieve a user's content preferences and settings for personalized recommendations."
+        },
+        {
+            "endpoint": "PUT /user/preferences",
+            "description": "Update a user's content preferences to refine recommendations."
+        },
+        {
+            "endpoint": "POST /history/view",
+            "description": "Add a record of content viewed by the user to update their viewing history."
+        },
+        {
+            "endpoint": "GET /genres/popular",
+            "description": "Obtain a list of popular genres or categories in the service."
+        },
+        {
+            "endpoint": "GET /content/similar/{id}",
+            "description": "Fetch content similar to a specific title based on its characteristics."
+        },
+        {
+            "endpoint": "GET /analytics/engagement",
+            "description": "Retrieve engagement metrics and insights for content recommendations."
+        },
+        {
+            "endpoint": "POST /manual/recommendation",
+            "description": "Manually submit a recommendation for a user to assist in testing the service."
+        }
+    ]
+}

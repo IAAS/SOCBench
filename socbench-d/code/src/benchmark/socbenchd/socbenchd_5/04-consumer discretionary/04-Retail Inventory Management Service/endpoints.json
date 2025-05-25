@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /stock-levels",
+            "description": "Retrieve real-time current stock levels for a specified product."
+        },
+        {
+            "endpoint": "GET /inventory-schedules",
+            "description": "Access upcoming delivery schedules for inventory items."
+        },
+        {
+            "endpoint": "POST /restock-alerts",
+            "description": "Set up automatic restock notifications for a particular product."
+        },
+        {
+            "endpoint": "GET /alerts-log",
+            "description": "View a historical log of triggered restock notifications."
+        },
+        {
+            "endpoint": "GET /product-catalog",
+            "description": "Fetch a comprehensive list of all tracked products with inventory details."
+        },
+        {
+            "endpoint": "POST /order-restock",
+            "description": "Initiate an order to restock a product based on upcoming demand forecasts."
+        },
+        {
+            "endpoint": "GET /distribution-centers",
+            "description": "List all associated distribution centers and their respective stockholding details."
+        },
+        {
+            "endpoint": "GET /consumption-trends",
+            "description": "Analyze and retrieve items' sales and consumption data to predict demand."
+        },
+        {
+            "endpoint": "DELETE /restock-alerts/{id}",
+            "description": "Remove a previously set restock notification alert using its identifier."
+        },
+        {
+            "endpoint": "GET /threshold-violations",
+            "description": "Retrieve a record of instances where stock quantities fell below defined thresholds."
+        }
+    ]
+}

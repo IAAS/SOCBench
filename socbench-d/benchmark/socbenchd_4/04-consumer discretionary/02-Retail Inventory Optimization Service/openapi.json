@@ -1,0 +1,457 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Consumer Goods Inventory Management API",
+        "version": "1.0.0",
+        "description": "This API assists consumer goods retailers in managing inventory efficiently by integrating point-of-sale data, providing real-time tracking, restocking recommendations, and sales trend analysis. It reduces overstock and stockouts while improving customer satisfaction."
+    },
+    "servers": [
+        {
+            "url": "https://api.inventorymanagement.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/inventory/update": {
+            "post": {
+                "summary": "Update Inventory Information",
+                "description": "Receive updated inventory information from the point-of-sale system.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "itemId": {
+                                                    "type": "string",
+                                                    "description": "Unique identifier for the inventory item."
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "description": "Quantity available in stock."
+                                                }
+                                            },
+                                            "required": [
+                                                "itemId",
+                                                "quantity"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "items"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inventory updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid request payload."
+                    }
+                }
+            }
+        },
+        "/inventory/status": {
+            "get": {
+                "summary": "Retrieve Inventory Status",
+                "description": "Fetch the current stock levels and inventory status for all listed products.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved inventory status.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "itemId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the item."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Description of the product."
+                                            },
+                                            "quantity": {
+                                                "type": "integer",
+                                                "description": "Available stock quantity."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Stock status (e.g., 'in stock', 'low stock', 'out of stock')."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/restock": {
+            "put": {
+                "summary": "Request Restocking",
+                "description": "Submit a request to restock specific items based on predicted requirements.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "itemId": {
+                                                    "type": "string",
+                                                    "description": "Unique identifier for the item to restock."
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "description": "Requested quantity to restock."
+                                                }
+                                            },
+                                            "required": [
+                                                "itemId",
+                                                "quantity"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "items"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Restocking request submitted successfully."
+                    },
+                    "400": {
+                        "description": "Invalid request payload."
+                    }
+                }
+            }
+        },
+        "/reports/stockouts": {
+            "get": {
+                "summary": "Generate Stockout Report",
+                "description": "Returns a report detailing items that experienced stockouts within a specified timeframe.",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "Start date for the stockout report window (YYYY-MM-DD)."
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "End date for the stockout report window (YYYY-MM-DD)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Stockout report generated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "itemId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the item."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Description of the item."
+                                            },
+                                            "stockoutDate": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Date when the stockout occurred."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/recommendations/restock": {
+            "get": {
+                "summary": "Retrieve Restocking Recommendations",
+                "description": "Retrieve a list of restocking recommendations based on sales trends analysis.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved recommendations.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "itemId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the item."
+                                            },
+                                            "recommendedQuantity": {
+                                                "type": "integer",
+                                                "description": "Suggested quantity to restock."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sales/data": {
+            "post": {
+                "summary": "Submit Sales Data",
+                "description": "Submit detailed point-of-sale transaction data for inventory analysis and trend forecasting.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "transactions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "transactionId": {
+                                                    "type": "string",
+                                                    "description": "Unique identifier for the transaction."
+                                                },
+                                                "itemId": {
+                                                    "type": "string",
+                                                    "description": "Unique identifier for the item."
+                                                },
+                                                "quantitySold": {
+                                                    "type": "integer",
+                                                    "description": "Quantity of the item sold."
+                                                },
+                                                "saleDate": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "description": "Date of the transaction."
+                                                }
+                                            },
+                                            "required": [
+                                                "transactionId",
+                                                "itemId",
+                                                "quantitySold",
+                                                "saleDate"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "transactions"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sales data submitted successfully."
+                    },
+                    "400": {
+                        "description": "Invalid request payload."
+                    }
+                }
+            }
+        },
+        "/analytics/trends": {
+            "get": {
+                "summary": "Retrieve Sales Data Trends",
+                "description": "Access analyzed sales data trends to assist in inventory planning.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved sales data trends.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "trends": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "itemId": {
+                                                        "type": "string",
+                                                        "description": "Unique identifier for the item."
+                                                    },
+                                                    "trend": {
+                                                        "type": "string",
+                                                        "description": "Sales trend (e.g., 'increasing', 'decreasing', 'steady')."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/item/{itemId}": {
+            "delete": {
+                "summary": "Delete Inventory Item",
+                "description": "Remove a specific item from the inventory tracking system.",
+                "parameters": [
+                    {
+                        "name": "itemId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the item to remove."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item deleted successfully."
+                    },
+                    "404": {
+                        "description": "Item not found."
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update Inventory Item Details",
+                "description": "Update details for a specific inventory item.",
+                "parameters": [
+                    {
+                        "name": "itemId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the item to update."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Updated description of the item."
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "description": "Updated quantity in stock."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item details updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid request data."
+                    },
+                    "404": {
+                        "description": "Item not found."
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve Inventory Item Details",
+                "description": "Fetch detailed information for a specific inventory item.",
+                "parameters": [
+                    {
+                        "name": "itemId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the item."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved item details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "itemId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the item."
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "description": "Description of the item."
+                                        },
+                                        "quantity": {
+                                            "type": "integer",
+                                            "description": "Available stock quantity."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Stock status (e.g., 'in stock', 'low stock', 'out of stock')."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Item not found."
+                    }
+                }
+            }
+        }
+    }
+}

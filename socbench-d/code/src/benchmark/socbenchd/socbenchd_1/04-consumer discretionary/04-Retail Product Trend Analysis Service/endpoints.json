@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /trends/top-products",
+            "description": "Retrieve the top trending products based on recent consumer engagement."
+        },
+        {
+            "endpoint": "GET /consumer-behavior/insights",
+            "description": "Access aggregated analytics of consumer preferences and purchasing behavior."
+        },
+        {
+            "endpoint": "POST /inventory/suggestions",
+            "description": "Submit current inventory data to receive optimized restocking suggestions."
+        },
+        {
+            "endpoint": "GET /sales/predictions",
+            "description": "Acquire sales forecasts based on current market trends and historical data."
+        },
+        {
+            "endpoint": "GET /categories/performance",
+            "description": "Analyze performance metrics across different product categories."
+        },
+        {
+            "endpoint": "POST /marketing/tasks",
+            "description": "Submit planned marketing activities and receive feedback for improvement based on trends."
+        },
+        {
+            "endpoint": "GET /geographic/trends",
+            "description": "Identify consumer trends segmented by geographic regions."
+        },
+        {
+            "endpoint": "DELETE /alerts/unwanted",
+            "description": "Remove specified alerts or notifications from users' dashboards."
+        },
+        {
+            "endpoint": "GET /competitor/analysis",
+            "description": "Retrieve insights about competitors' activities and relative market positioning."
+        },
+        {
+            "endpoint": "GET /loyalty/engagement-stats",
+            "description": "Access analytics on loyalty program efficacy and customer retention rates."
+        }
+    ]
+}

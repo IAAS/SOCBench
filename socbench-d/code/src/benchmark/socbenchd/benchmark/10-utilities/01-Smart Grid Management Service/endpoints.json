@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /real-time-grid-monitoring",
+            "description": "Fetch current power flow, consumption data, grid voltage, and frequency readings for real-time grid analysis."
+        },
+        {
+            "endpoint": "POST /load-balancing/adjust",
+            "description": "Update and adjust dynamic load distribution settings to optimize power flow and prevent overloads across the grid."
+        },
+        {
+            "endpoint": "GET /renewable-integration/status",
+            "description": "Check the integration status and performance monitoring of renewable energy sources in the grid."
+        },
+        {
+            "endpoint": "POST /outage-management/report",
+            "description": "Submit detailed reports about detected power outages, for immediate analysis and response planning."
+        },
+        {
+            "endpoint": "GET /outages/current",
+            "description": "Retrieve a list of all current power outages across the network to evaluate and address issues swiftly."
+        },
+        {
+            "endpoint": "GET /alerts/settings",
+            "description": "Access current configurations for anomaly detection alerts, such as thresholds, notification channels, and escalations."
+        },
+        {
+            "endpoint": "POST /alerts/settings/update",
+            "description": "Modify settings for anomaly alerts to improve response times and ensure efficient grid management."
+        },
+        {
+            "endpoint": "POST /sensors/register",
+            "description": "Enroll new smart meters and sensors into the grid monitoring system, enhancing data collection and accuracy."
+        },
+        {
+            "endpoint": "GET /consumption/historical",
+            "description": "Obtain historical power consumption data to analyze trends and improve future load predictions."
+        },
+        {
+            "endpoint": "POST /data/encrypt",
+            "description": "Securely transmit sensitive grid operation data over the network using robust encryption protocols."
+        }
+    ]
+}

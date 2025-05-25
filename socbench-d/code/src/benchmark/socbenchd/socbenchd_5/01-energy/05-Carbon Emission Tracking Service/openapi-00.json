@@ -1,0 +1,365 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Carbon Emissions Monitoring and Reporting Service",
+    "description": "This service provides capabilities to monitor and report carbon emissions across production and supply chains, aiding organizations in meeting environmental and compliance objectives.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.energysector.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/carbon-emissions": {
+      "get": {
+        "summary": "Retrieve Carbon Emissions Report",
+        "description": "Fetch a detailed report of carbon emissions for specified production and supply chain processes.",
+        "parameters": [
+          {
+            "name": "processId",
+            "in": "query",
+            "required": true,
+            "description": "The unique identifier for the production or supply chain process.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": false,
+            "description": "Start date for the emissions data in YYYY-MM-DD format.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": false,
+            "description": "End date for the emissions data in YYYY-MM-DD format.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carbon emissions report retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "emissions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "processId": { "type": "string" },
+                          "date": { "type": "string", "format": "date" },
+                          "amount": { "type": "number" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Submit Carbon Emission Data",
+        "description": "Submit new carbon emission data for a specific process or time period.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "processId": { "type": "string", "description": "Unique identifier for the process." },
+                  "date": { "type": "string", "format": "date", "description": "The date of emission data." },
+                  "amount": { "type": "number", "description": "The amount of emitted carbon in metric tons." }
+                },
+                "required": ["processId", "date", "amount"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Carbon emission data submitted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/emission-factors": {
+      "get": {
+        "summary": "Retrieve Emission Factors",
+        "description": "Fetch the emission factors used for specific industries and contexts.",
+        "parameters": [
+          {
+            "name": "industryType",
+            "in": "query",
+            "required": false,
+            "description": "The type of industry for which emission factors are required.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Emission factors retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "industryType": { "type": "string" },
+                      "factor": { "type": "number" },
+                      "unit": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add/Update Emission Factor",
+        "description": "Add or update an emission factor for a specific operational activity.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "industryType": { "type": "string", "description": "Industry type for the emission factor." },
+                  "factor": { "type": "number", "description": "Emission factor value." },
+                  "unit": { "type": "string", "description": "Unit of measurement." }
+                },
+                "required": ["industryType", "factor", "unit"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Emission factor added or updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/compliance-status": {
+      "get": {
+        "summary": "Check Compliance Status",
+        "description": "Verify the compliance status of reported emissions against environmental regulations.",
+        "parameters": [
+          {
+            "name": "reportId",
+            "in": "query",
+            "required": true,
+            "description": "The unique identifier of the emission report.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Compliance status retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reportId": { "type": "string" },
+                    "status": { "type": "string" },
+                    "details": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/supply-chain-data": {
+      "post": {
+        "summary": "Submit Supply Chain Data",
+        "description": "Integrate detailed supply chain data into the emissions reporting system.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "supplyChainId": { "type": "string", "description": "Unique identifier for the supply chain activity." },
+                  "data": { "type": "object", "description": "Detailed supply chain data." }
+                },
+                "required": ["supplyChainId", "data"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Supply chain data submitted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove Supply Chain Data",
+        "description": "Delete previously submitted supply chain data from the system.",
+        "parameters": [
+          {
+            "name": "supplyChainId",
+            "in": "query",
+            "required": true,
+            "description": "Unique identifier of the supply chain data to be removed.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Supply chain data removed successfully."
+          }
+        }
+      }
+    },
+    "/environmental-guidelines": {
+      "get": {
+        "summary": "Retrieve Environmental Guidelines",
+        "description": "Fetch a list of applicable environmental standards and guidelines for the organization's activities.",
+        "responses": {
+          "200": {
+            "description": "Environmental guidelines fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "guidelineId": { "type": "string" },
+                      "description": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reduction-opportunities": {
+      "get": {
+        "summary": "Recommend Carbon Reduction Opportunities",
+        "description": "Provides recommendations for reducing carbon emissions based on submitted data.",
+        "parameters": [
+          {
+            "name": "processId",
+            "in": "query",
+            "required": true,
+            "description": "The unique identifier of the production or supply chain process to analyze.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Reduction opportunities retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "opportunityId": { "type": "string" },
+                      "description": { "type": "string" },
+                      "potentialReduction": { "type": "number" },
+                      "unit": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/audit-reports": {
+      "get": {
+        "summary": "Retrieve Audit Reports",
+        "description": "Retrieve historical audit reports for compliance and reporting purposes.",
+        "parameters": [
+          {
+            "name": "reportId",
+            "in": "query",
+            "required": false,
+            "description": "Filter by a specific audit report identifier.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Audit reports retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "reportId": { "type": "string" },
+                      "date": { "type": "string", "format": "date" },
+                      "summary": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

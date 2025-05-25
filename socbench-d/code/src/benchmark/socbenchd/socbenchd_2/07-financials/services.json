@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Credit Risk Assessment Service",
+            "description": "This API allows financial institutions to assess the creditworthiness of potential borrowers using comprehensive data analysis and predictive models."
+        },
+        {
+            "name": "Real-Time Market Data Service",
+            "description": "Provides up-to-the-second financial market data, including stock prices, indices, and trading volumes, for informed financial decision-making."
+        },
+        {
+            "name": "Insurance Claim Processing Service",
+            "description": "Enables automated processing, validation, and tracking of insurance claims to expedite resolution and enhance customer satisfaction."
+        },
+        {
+            "name": "Mortgage Eligibility Analyzer",
+            "description": "Helps users determine eligibility for mortgage loans by analyzing financial data, credit scores, and current rates."
+        },
+        {
+            "name": "Banking Transaction Security Enhancer",
+            "description": "Implements robust transaction monitoring and anomaly detection to secure banking operations against fraud."
+        }
+    ]
+}

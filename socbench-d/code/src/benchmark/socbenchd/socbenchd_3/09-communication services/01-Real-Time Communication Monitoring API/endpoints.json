@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /metrics/latency",
+            "description": "Retrieve the real-time latency data for the monitored network."
+        },
+        {
+            "endpoint": "GET /metrics/throughput",
+            "description": "Fetch the current throughput values across the network."
+        },
+        {
+            "endpoint": "GET /metrics/errorrate",
+            "description": "Obtain the ongoing error rate statistics of network operations."
+        },
+        {
+            "endpoint": "POST /alerts/subscribe",
+            "description": "Register for receiving alerts regarding network anomalies or potential disruptions."
+        },
+        {
+            "endpoint": "DELETE /alerts/unsubscribe",
+            "description": "Unsubscribe from the alert notifications for network updates."
+        },
+        {
+            "endpoint": "GET /regions/{regionID}/metrics",
+            "description": "Access performance metrics for a specific operational region by its region ID."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Retrieve a list of triggered alerts and their details."
+        },
+        {
+            "endpoint": "PUT /settings/monitoring",
+            "description": "Update and configure the monitoring preferences and settings."
+        },
+        {
+            "endpoint": "GET /services/status",
+            "description": "Check the overall operational status and health of the service endpoints."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit user feedback regarding the service and its functionality."
+        }
+    ]
+}

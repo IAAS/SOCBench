@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+Allows content creators or distributors to organize, schedule, and broadcast media across various channels, complete with metadata tagging, editorial workflows, and audience targeting.
+
+Endpoints:
+GET /media: Retrieve a list of all media items managed within the service.
+POST /media: Add a new media item, including its content, metadata, and tags.
+PATCH /media/{mediaId}: Update information or metadata of an existing media item.
+DELETE /media/{mediaId}: Remove a specific media item from management.
+GET /channels: Retrieve a list of all broadcast channels configured in the service.
+POST /channels: Create a new broadcast channel with configuration settings.
+PATCH /channels/{channelId}: Modify the settings or scheduling of a broadcast channel.
+DELETE /channels/{channelId}: Remove an existing broadcast channel from the platform.
+POST /schedule: Add scheduled records linking media to specific broadcast times and channels.
+GET /schedule: Retrieve the schedule of broadcasts for all channels.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /properties/trends",
+            "description": "Retrieve real-time property price trends based on specified criteria."
+        },
+        {
+            "endpoint": "GET /neighborhoods/growth",
+            "description": "Access growth statistics for specific neighborhoods including development indicators."
+        },
+        {
+            "endpoint": "GET /market/demand",
+            "description": "Fetch current market demand analysis for desired property types or locations."
+        },
+        {
+            "endpoint": "POST /properties/analyze",
+            "description": "Submit property listing information to get an extensive analytics report."
+        },
+        {
+            "endpoint": "GET /regions/insights",
+            "description": "Provide detailed market insights for selected regions or zones."
+        },
+        {
+            "endpoint": "PUT /alerts/price-threshold",
+            "description": "Set alerts for properties matching specific price thresholds to monitor price changes."
+        },
+        {
+            "endpoint": "GET /rental-analysis",
+            "description": "Analyze the rental market dynamics for tenant demand and pricing trends."
+        },
+        {
+            "endpoint": "POST /neighborhood/comparison",
+            "description": "Compare multiple neighborhoods based on predefined growth and demand metrics."
+        },
+        {
+            "endpoint": "GET /investment-opportunities",
+            "description": "Identify top investment opportunities based on growth indicators and market conditions."
+        },
+        {
+            "endpoint": "GET /realtor-assist/service-ratings",
+            "description": "Retrieve reviews and efficiency ratings for real estate service providers."
+        }
+    ]
+}

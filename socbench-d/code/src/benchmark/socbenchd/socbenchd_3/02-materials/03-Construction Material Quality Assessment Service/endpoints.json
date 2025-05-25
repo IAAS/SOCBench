@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /materials/standards",
+            "description": "Retrieve a list of applicable quality and standards guidelines for construction materials."
+        },
+        {
+            "endpoint": "POST /materials/evaluate",
+            "description": "Submit a material sample for quality and standards compliance evaluation."
+        },
+        {
+            "endpoint": "GET /evaluation/{id}/status",
+            "description": "Check the current status of a material evaluation using its unique ID."
+        },
+        {
+            "endpoint": "GET /materials/recommendations",
+            "description": "Provide recommended materials that align with specific project requirements."
+        },
+        {
+            "endpoint": "GET /materials/categories",
+            "description": "List all categories of construction materials supported by the service."
+        },
+        {
+            "endpoint": "GET /standards/{id}",
+            "description": "Retrieve details of a specific quality standard using its unique identifier."
+        },
+        {
+            "endpoint": "POST /projects/analyze",
+            "description": "Analyze the materials used in a project for overall compliance and quality scoring."
+        },
+        {
+            "endpoint": "GET /projects/{id}/report",
+            "description": "Download the analysis report for a project using its unique ID."
+        },
+        {
+            "endpoint": "POST /materials/compare",
+            "description": "Assess the compliance differences between two specified materials."
+        },
+        {
+            "endpoint": "GET /guidelines",
+            "description": "Get a synopsis of guidelines for submitting materials for evaluation and analysis."
+        }
+    ]
+}

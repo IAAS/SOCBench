@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /performance/solar-panels",
+            "description": "Fetch performance metrics of all solar panels within the system."
+        },
+        {
+            "endpoint": "GET /performance/wind-turbines",
+            "description": "Retrieve performance data for all wind turbines managed by the service."
+        },
+        {
+            "endpoint": "GET /environment",
+            "description": "Get current and historical environmental conditions data."
+        },
+        {
+            "endpoint": "POST /maintenance/schedule",
+            "description": "Schedule a maintenance activity for a specific renewable energy device."
+        },
+        {
+            "endpoint": "GET /energy-output/history",
+            "description": "Access historical energy output records segregated by device."
+        },
+        {
+            "endpoint": "POST /alerts/subscribe",
+            "description": "Enable alert notifications for specific performance metrics or conditions."
+        },
+        {
+            "endpoint": "PATCH /device/configuration/{device_id}",
+            "description": "Update configurations or thresholds for a specified device."
+        },
+        {
+            "endpoint": "GET /energy-output/forecast",
+            "description": "Retrieve forecasted energy output based on current and historical data."
+        },
+        {
+            "endpoint": "DELETE /alerts/{alert_id}",
+            "description": "Remove an alert notification subscription for the specified alert ID."
+        },
+        {
+            "endpoint": "GET /reports/summary",
+            "description": "Generate and obtain summary reports for defined time periods and device groups."
+        }
+    ]
+}

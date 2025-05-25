@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /materials/environmental-impact",
+            "description": "Retrieve environmental impact data for all registered materials."
+        },
+        {
+            "endpoint": "POST /materials/assess",
+            "description": "Submit production details to assess and receive recommendations for sustainability adjustments."
+        },
+        {
+            "endpoint": "GET /recommendations/sustainability",
+            "description": "Access standard industry practices for reducing production environmental impact."
+        },
+        {
+            "endpoint": "GET /insights/water-usage",
+            "description": "Retrieve insights and thresholds regarding water usage in apparel manufacturing."
+        },
+        {
+            "endpoint": "POST /manufacturers/register",
+            "description": "Register a new apparel manufacturer client to the system."
+        },
+        {
+            "endpoint": "GET /analytics/emissions",
+            "description": "Retrieve analytics on emissions from submitted manufacturing processes."
+        },
+        {
+            "endpoint": "DELETE /materials/{id}",
+            "description": "Remove material data by ID for updating purposes."
+        },
+        {
+            "endpoint": "PUT /recommendations/customize/{id}",
+            "description": "Update the sustainability recommendations to suit specific client needs."
+        },
+        {
+            "endpoint": "GET /insights/environmental-compliance",
+            "description": "Fetch details on compliance with environmental regulations applicable to the apparel industry."
+        },
+        {
+            "endpoint": "POST /report/environmental-impact",
+            "description": "Generate a detailed report on the environmental impact of a specified production process."
+        }
+    ]
+}

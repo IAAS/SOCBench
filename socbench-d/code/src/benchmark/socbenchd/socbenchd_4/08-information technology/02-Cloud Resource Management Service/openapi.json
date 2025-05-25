@@ -1,0 +1,345 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Cloud Resource Automation Service",
+        "description": "This API allows operations teams to automate the provisioning, scaling, and management of cloud ecosystem resources.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.cloudservice.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/provision": {
+            "post": {
+                "summary": "Create and configure a new resource",
+                "description": "Endpoint to provision a new resource in the cloud ecosystem. The resource will be created with the specified configuration parameters.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the resource being provisioned."
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "Type of the resource (e.g., VM, container, database)."
+                                    },
+                                    "configuration": {
+                                        "type": "object",
+                                        "description": "Initial configuration settings for the resource.",
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "type",
+                                    "configuration"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Resource successfully created."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/resources": {
+            "get": {
+                "summary": "Retrieve a list of all active resources",
+                "description": "Provides a list of currently active resources along with their states and configurations.",
+                "responses": {
+                    "200": {
+                        "description": "List of active resources.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "resource_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the resource."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the resource."
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "description": "Type of the resource."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Operational status of the resource."
+                                            },
+                                            "configuration": {
+                                                "type": "object",
+                                                "description": "Current configuration settings of the resource.",
+                                                "additionalProperties": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/resources/{resource_id}": {
+            "put": {
+                "summary": "Update specific resource configuration",
+                "description": "Allows the modification of configuration settings for a specific resource identified by its ID.",
+                "parameters": [
+                    {
+                        "name": "resource_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the resource to be updated.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "description": "Configuration settings to be updated.",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Resource configuration updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    },
+                    "404": {
+                        "description": "Resource not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a specific resource",
+                "description": "Deletes the specified resource and ceases its functionalities.",
+                "parameters": [
+                    {
+                        "name": "resource_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the resource to be deleted.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Resource successfully deleted."
+                    },
+                    "404": {
+                        "description": "Resource not found."
+                    }
+                }
+            }
+        },
+        "/resources/{resource_id}/metrics": {
+            "get": {
+                "summary": "Fetch resource performance metrics",
+                "description": "Retrieves performance metrics and utilization statistics for a specific resource identified by its ID.",
+                "parameters": [
+                    {
+                        "name": "resource_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the resource.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Metrics retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu_usage": {
+                                            "type": "number",
+                                            "description": "Current CPU utilization percentage."
+                                        },
+                                        "memory_usage": {
+                                            "type": "number",
+                                            "description": "Current memory utilization in MB."
+                                        },
+                                        "disk_io": {
+                                            "type": "number",
+                                            "description": "Current disk IO in MB/s."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found."
+                    }
+                }
+            }
+        },
+        "/scaling/{resource_id}/up": {
+            "post": {
+                "summary": "Scale up a resource",
+                "description": "Increases the capacity of a specific resource to manage greater workloads.",
+                "parameters": [
+                    {
+                        "name": "resource_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the resource to scale up.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resource scaled up successfully."
+                    },
+                    "404": {
+                        "description": "Resource not found."
+                    }
+                }
+            }
+        },
+        "/scaling/{resource_id}/down": {
+            "post": {
+                "summary": "Scale down a resource",
+                "description": "Decreases the capacity of a specific resource to conserve costs.",
+                "parameters": [
+                    {
+                        "name": "resource_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the resource to scale down.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resource scaled down successfully."
+                    },
+                    "404": {
+                        "description": "Resource not found."
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "get": {
+                "summary": "List all alerts",
+                "description": "Lists all alerts and notifications related to resource thresholds and system statuses.",
+                "responses": {
+                    "200": {
+                        "description": "Alerts retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "alert_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the alert."
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "description": "Description of the alert."
+                                            },
+                                            "severity": {
+                                                "type": "string",
+                                                "description": "Severity level of the alert."
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Time when the alert was triggered."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/actions/{resource_id}/restart": {
+            "post": {
+                "summary": "Restart a resource",
+                "description": "Reinitializes the specified resource to ensure consistent operation after modifications.",
+                "parameters": [
+                    {
+                        "name": "resource_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the resource to restart.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resource restarted successfully."
+                    },
+                    "404": {
+                        "description": "Resource not found."
+                    }
+                }
+            }
+        },
+        "/healthcheck": {
+            "get": {
+                "summary": "Verify the health of the service",
+                "description": "Checks the overall operational status and health of the service infrastructure.",
+                "responses": {
+                    "200": {
+                        "description": "Service operational."
+                    },
+                    "503": {
+                        "description": "Service unavailable."
+                    }
+                }
+            }
+        }
+    }
+}

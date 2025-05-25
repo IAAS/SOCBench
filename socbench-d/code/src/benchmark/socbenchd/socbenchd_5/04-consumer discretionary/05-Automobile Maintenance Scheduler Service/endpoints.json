@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /vehicles",
+            "description": "Retrieve a list of all registered vehicles associated with the user."
+        },
+        {
+            "endpoint": "GET /vehicle/{id}/maintenancerecords",
+            "description": "Retrieve all maintenance records for a specific vehicle by its identifier."
+        },
+        {
+            "endpoint": "POST /vehicle/{id}/schedule",
+            "description": "Create a new maintenance schedule for a specific vehicle by its identifier."
+        },
+        {
+            "endpoint": "PATCH /vehicle/{id}/details",
+            "description": "Update details of a specific vehicle, such as make, model, and year."
+        },
+        {
+            "endpoint": "GET /notifications",
+            "description": "Retrieve a list of maintenance reminders and notifications for the user."
+        },
+        {
+            "endpoint": "DELETE /notification/{id}",
+            "description": "Delete a specific maintenance notification by its identifier."
+        },
+        {
+            "endpoint": "GET /history",
+            "description": "Retrieve a user's activity history regarding their vehicle maintenance interactions."
+        },
+        {
+            "endpoint": "POST /user/suggestions",
+            "description": "Submit user feedback or suggestions to improve the service."
+        },
+        {
+            "endpoint": "GET /vehicle/{id}/recommendations",
+            "description": "Retrieve recommended maintenance services based on vehicle type and usage."
+        },
+        {
+            "endpoint": "PUT /maintenancecenter/{id}/details",
+            "description": "Update the service center’s details, such as opening hours and contact information."
+        }
+    ]
+}

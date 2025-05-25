@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /patients",
+            "description": "Retrieve a comprehensive list of patient records accessible to the requesting healthcare provider."
+        },
+        {
+            "endpoint": "POST /patients",
+            "description": "Add a new patient record to the Electronic Health Records system."
+        },
+        {
+            "endpoint": "GET /patients/{patientId}",
+            "description": "Fetch detailed information for a specific patient using their unique identifier."
+        },
+        {
+            "endpoint": "PUT /patients/{patientId}",
+            "description": "Update the patient record with the provided unique identifier."
+        },
+        {
+            "endpoint": "GET /patients/{patientId}/lab-results",
+            "description": "Retrieve a list of all lab results associated with the specified patient."
+        },
+        {
+            "endpoint": "POST /patients/{patientId}/lab-results",
+            "description": "Add new lab results to a patient's record."
+        },
+        {
+            "endpoint": "GET /patients/{patientId}/medications",
+            "description": "Fetch a list of medications prescribed to the specified patient."
+        },
+        {
+            "endpoint": "POST /patients/{patientId}/medications",
+            "description": "Add a new medication record to the specified patient's profile."
+        },
+        {
+            "endpoint": "GET /patients/{patientId}/appointments",
+            "description": "Obtain a list of scheduled appointments for the given patient."
+        },
+        {
+            "endpoint": "POST /patients/{patientId}/appointments",
+            "description": "Schedule a new appointment for the specified patient."
+        }
+    ]
+}

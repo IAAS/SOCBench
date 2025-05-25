@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Renewable Energy Generation Forecasting Service",
+            "description": "This service provides predictive analysis for energy production from renewable sources by processing historical weather data combined with current meteorological patterns. By using advanced machine learning models, users can receive forecasts about solar, wind, and hydroelectric energy yield. For example, an energy manager can access projected solar generation for the upcoming week to prepare grid management strategies."
+        },
+        {
+            "name": "Utility Asset Management Service",
+            "description": "Designed to organize and track utility company assets, this service enables users to map infrastructure like substations and transmission lines, schedule maintenance activities, and log historical performance data. By providing GIS-based visualizations and condition-based alert systems, utility managers can optimize resource allocation and operational reliability."
+        },
+        {
+            "name": "Customer Energy Consumption Analytics Service",
+            "description": "Focusing on analyzing customers' energy use patterns, this API offers insights into consumption trends, peak usage hours, and energy-saving opportunities. Customers can receive monthly energy summaries, and utilities can utilize this data to promote sustainable practices and customized service plans."
+        },
+        {
+            "name": "Outage Detection and Notification Service",
+            "description": "This real-time service identifies outages across the utility network and alerts both the utility operator and affected customers. With integrated IoT sensor data and user-submitted reports, it facilitates quick diagnostic and resolution actions, ensuring minimal disruption and enhanced customer trust."
+        },
+        {
+            "name": "Utility Grid Operation Simulation Service",
+            "description": "Using this service, planners and engineers can simulate and analyze the operational performance of utility grids under various expansion scenarios and load conditions. Through virtualization and scenario testing, they can predict impacts of new infrastructures, optimize load balancing, and minimize blackout risks."
+        }
+    ]
+}

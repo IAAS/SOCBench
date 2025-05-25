@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /properties",
+            "description": "Retrieve a list of all rental properties."
+        },
+        {
+            "endpoint": "POST /properties",
+            "description": "Create a new rental property entry."
+        },
+        {
+            "endpoint": "GET /properties/{id}",
+            "description": "Retrieve detailed information about a specific property using its ID."
+        },
+        {
+            "endpoint": "PUT /properties/{id}",
+            "description": "Update information for a specific property by its ID."
+        },
+        {
+            "endpoint": "GET /tenants",
+            "description": "Retrieve a list of all tenants associated with the properties."
+        },
+        {
+            "endpoint": "POST /tenants",
+            "description": "Add a new tenant to a property."
+        },
+        {
+            "endpoint": "GET /tenants/{id}",
+            "description": "Retrieve details about a specific tenant using their ID."
+        },
+        {
+            "endpoint": "POST /maintenance-requests",
+            "description": "Submit a new maintenance request for a property."
+        },
+        {
+            "endpoint": "GET /rental-payments",
+            "description": "Retrieve the history of rental payments for all properties."
+        },
+        {
+            "endpoint": "POST /rental-agreements",
+            "description": "Create a new rental agreement between a landlord and a tenant."
+        }
+    ]
+}

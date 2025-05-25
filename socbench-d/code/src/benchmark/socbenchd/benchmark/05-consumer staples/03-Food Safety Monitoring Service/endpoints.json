@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /compliance-checks",
+            "description": "Retrieve a list of safety and regulatory compliance checks performed on specific products or product categories."
+        },
+        {
+            "endpoint": "GET /contamination-alerts",
+            "description": "Retrieve current alerts and historical data related to detected contaminants or potential hazards in food supplies."
+        },
+        {
+            "endpoint": "POST /product-data",
+            "description": "Submit product data for analysis, allowing the service to evaluate ingredient safety and compliance status."
+        },
+        {
+            "endpoint": "GET /product-status/{productId}",
+            "description": "Check the compliance status and any active alerts related to a specific product by its ID."
+        },
+        {
+            "endpoint": "GET /recalls",
+            "description": "Access and manage recall lists, view status, and obtain detailed recall information."
+        },
+        {
+            "endpoint": "POST /initiate-recall",
+            "description": "Submit a request to initiate a product recall process after detecting a significant hazard."
+        },
+        {
+            "endpoint": "PUT /update-recall-info/{recallId}",
+            "description": "Update information and status of an ongoing product recall effort, ensuring consistent communication with affected parties."
+        },
+        {
+            "endpoint": "GET /ingredient-standards",
+            "description": "Fetch detailed standards and guidelines for ensuring ingredient safety and compliance with regulations across different regions."
+        },
+        {
+            "endpoint": "POST /risk-evaluation",
+            "description": "Submit new or modified product information for a comprehensive risk evaluation, producing alerts for potential contamination risks."
+        },
+        {
+            "endpoint": "GET /user-notifications",
+            "description": "Retrieve past notifications and current alerts sent to the user concerning product safety and regulatory issues."
+        }
+    ]
+}

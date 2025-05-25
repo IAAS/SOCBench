@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /patients/{patientID}/records",
+            "description": "Retrieve the complete health records of a specific patient."
+        },
+        {
+            "endpoint": "POST /patients/{patientID}/records/update",
+            "description": "Submit updated health record information for a specific patient."
+        },
+        {
+            "endpoint": "GET /patients",
+            "description": "Access the list of patients accessible to the user based on their authorization level."
+        },
+        {
+            "endpoint": "POST /patients/new",
+            "description": "Add a new patient to the system."
+        },
+        {
+            "endpoint": "DELETE /patients/{patientID}",
+            "description": "Remove a patient's records from the system, adhering to all compliance requirements."
+        },
+        {
+            "endpoint": "GET /healthcare-providers",
+            "description": "Retrieve the list of healthcare providers using this service."
+        },
+        {
+            "endpoint": "GET /metrics/utilization",
+            "description": "Obtain utilization metrics regarding EHR system usage."
+        },
+        {
+            "endpoint": "POST /patients/{patientID}/share",
+            "description": "Facilitate the sharing of a patient's records with another authorized entity."
+        },
+        {
+            "endpoint": "PUT /configuration/settings",
+            "description": "Update secure access settings and configurations for record management."
+        },
+        {
+            "endpoint": "GET /logs/audit",
+            "description": "Retrieve an audit trail of all access and modifications to patient records."
+        }
+    ]
+}

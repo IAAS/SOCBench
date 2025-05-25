@@ -1,0 +1,457 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+OpenAPI:
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Eco-Friendly Manufacturing API",
+        "description": "This API evaluates and provides insights into the environmental impact of manufacturing processes in the Consumer Staples Sector and promotes eco-friendly production practices.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.eco-manufacturing.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/environmental-impact/reports": {
+            "get": {
+                "summary": "Retrieve Environmental Impact Report",
+                "description": "Fetch a detailed environmental impact report for a specific manufacturing process.",
+                "parameters": [
+                    {
+                        "name": "processId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The unique identifier of the manufacturing process.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A comprehensive environmental impact report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "processId": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the process."
+                                        },
+                                        "impactScore": {
+                                            "type": "number",
+                                            "description": "The environmental impact score of the process."
+                                        },
+                                        "details": {
+                                            "type": "string",
+                                            "description": "Detailed analysis and findings."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/environmental-impact/evaluate": {
+            "post": {
+                "summary": "Submit Data for Environmental Impact Evaluation",
+                "description": "Submit data about a manufacturing process to receive an environmental impact score.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "processId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the manufacturing process."
+                                    },
+                                    "data": {
+                                        "type": "object",
+                                        "description": "The data points regarding the manufacturing process."
+                                    }
+                                },
+                                "example": {
+                                    "processId": "process123",
+                                    "data": {
+                                        "materialUsage": {
+                                            "steel": 500,
+                                            "plastic": 200
+                                        },
+                                        "energyConsumption": 3000
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The environmental impact evaluation results.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "impactScore": {
+                                            "type": "number",
+                                            "description": "The calculated environmental impact score."
+                                        },
+                                        "recommendations": {
+                                            "type": "string",
+                                            "description": "Suggestions for reducing the impact."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/green-practices/resources": {
+            "get": {
+                "summary": "Retrieve Recommended Eco-Friendly Practices",
+                "description": "Retrieve a curated list of recommended eco-friendly practices that manufacturers in the consumer staples domain can adopt.",
+                "responses": {
+                    "200": {
+                        "description": "A list of recommended practices.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "practiceId": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the practice."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Detailed explanation of the practice."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/production-data/upload": {
+            "post": {
+                "summary": "Upload Production Data",
+                "description": "Upload a detailed production dataset for further environmental analysis.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "The production dataset file."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Acknowledgement of successful upload."
+                    }
+                }
+            }
+        },
+        "/reports/historical": {
+            "get": {
+                "summary": "Access Historical Environmental Assessment Outcomes",
+                "description": "Retrieve historical reports detailing past environmental assessments.",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "The start date for filtering reports (ISO 8601 format).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "The end date for filtering reports (ISO 8601 format).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historical environmental reports.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "reportId": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the report."
+                                            },
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "The date of the report."
+                                            },
+                                            "reportSummary": {
+                                                "type": "string",
+                                                "description": "Summary of the report."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/materials/impact": {
+            "get": {
+                "summary": "Retrieve Environmental Impact of Materials",
+                "description": "Fetch environmental impact information based on specific material compositions.",
+                "parameters": [
+                    {
+                        "name": "materials",
+                        "in": "query",
+                        "required": true,
+                        "description": "Comma-separated list of materials (e.g., plastic, steel).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Environmental impact data for the specified materials.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "material": {
+                                                "type": "string",
+                                                "description": "The material name."
+                                            },
+                                            "impactScore": {
+                                                "type": "number",
+                                                "description": "The environmental impact score of the material."
+                                            },
+                                            "details": {
+                                                "type": "string",
+                                                "description": "Detailed impact analysis."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/benchmarking/compare": {
+            "post": {
+                "summary": "Compare Environmental Footprints",
+                "description": "Compare the environmental footprints of similar manufacturing processes.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "processIds": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of process IDs to compare."
+                                    }
+                                },
+                                "example": {
+                                    "processIds": [
+                                        "process123",
+                                        "process456"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Comparison results of the environmental footprints.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "comparisonDetails": {
+                                            "type": "string",
+                                            "description": "Detailed comparison results."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/facility/audit/schedule": {
+            "get": {
+                "summary": "Retrieve Facility Audit Schedule",
+                "description": "Get the details of the schedule for an environmental facility audit.",
+                "parameters": [
+                    {
+                        "name": "facilityId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The unique identifier of the facility.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The schedule of the facility audit.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "facilityId": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the facility."
+                                        },
+                                        "scheduleDetails": {
+                                            "type": "string",
+                                            "description": "Details about the audit schedule."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/facility/audit/request": {
+            "post": {
+                "summary": "Request a Facility Audit",
+                "description": "Submit a request for a new audit to evaluate a facility's environmental practices.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "facilityId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the facility to be audited."
+                                    },
+                                    "requestedDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "The preferred date for the audit."
+                                    }
+                                },
+                                "example": {
+                                    "facilityId": "facility123",
+                                    "requestedDate": "2024-03-15"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Acknowledgement of the audit request."
+                    }
+                }
+            }
+        },
+        "/certifications": {
+            "get": {
+                "summary": "List Eco-Certification Programs",
+                "description": "Retrieve a list of available eco-certification programs and their requirements.",
+                "responses": {
+                    "200": {
+                        "description": "A list of eco-certification programs.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "certificationId": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the certification program."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "The name of the eco-certification program."
+                                            },
+                                            "requirements": {
+                                                "type": "string",
+                                                "description": "The requirements to achieve the certification."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

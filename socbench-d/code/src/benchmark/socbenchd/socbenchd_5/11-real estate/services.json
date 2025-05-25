@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Property Listing API",
+            "description": "Enable real estate agencies to integrate property listings with details such as location, pricing, and features. This allows seamless updates and client-side browsing."
+        },
+        {
+            "name": "Customer Relationship Management Service",
+            "description": "Facilitate organizations to manage stakeholder communications and records, including prospective buyer interactions and historical inquiries."
+        },
+        {
+            "name": "Real-Time Pricing Analysis Tool",
+            "description": "Provide real-time property pricing insights based on market trends, comparable sales, and regional statistics to assist buyers and sellers in negotiation."
+        },
+        {
+            "name": "Rental Verification System",
+            "description": "Verify and validate rental applicant credentials and history to improve tenant selection and ensure compliance with leasing policies."
+        },
+        {
+            "name": "Investment Portfolio Management Service",
+            "description": "Support individual and institutional investors in analyzing and managing their real estate investment portfolios, offering tools for performance tracking and optimization."
+        }
+    ]
+}

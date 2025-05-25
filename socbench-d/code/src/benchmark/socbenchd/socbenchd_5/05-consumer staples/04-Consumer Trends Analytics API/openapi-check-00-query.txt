@@ -1,0 +1,470 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+OpenAPI:
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Consumer Behavior Insights API",
+        "version": "1.0.0",
+        "description": "This API provides manufacturers and distributors insights into consumer behavior trends concerning consumer staples. By analyzing purchase patterns, demographic data, and seasonal tendencies, organizations can improve production and marketing strategies. Access requires authenticated API keys."
+    },
+    "servers": [
+        {
+            "url": "https://api.consumerstaplesinsights.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/consumer-trends/overview": {
+            "get": {
+                "summary": "Retrieve consumer behavior trends overview",
+                "description": "Fetch a summary of current consumer behavior trends segmented by region and product category.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": false,
+                        "description": "Region to filter trends (e.g., North America, Europe).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "required": false,
+                        "description": "Product category to filter trends (e.g., beverages, personal products).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved trends overview",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "region": {
+                                            "type": "string"
+                                        },
+                                        "category": {
+                                            "type": "string"
+                                        },
+                                        "trends": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "trendName": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/market-analysis/region": {
+            "post": {
+                "summary": "Analyze market performance by region",
+                "description": "Submit a request to analyze market performance and purchasing patterns for a specified region.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "region": {
+                                        "type": "string",
+                                        "description": "The region to analyze (e.g., North America, Asia-Pacific)."
+                                    },
+                                    "timePeriod": {
+                                        "type": "string",
+                                        "description": "The time period for analysis (e.g., last 30 days)."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Market analysis report generated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "region": {
+                                            "type": "string"
+                                        },
+                                        "analysis": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/product-categories/top": {
+            "get": {
+                "summary": "Get top product categories",
+                "description": "Retrieve a list of product categories currently experiencing the highest demand.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved top product categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "type": "string"
+                                            },
+                                            "demandScore": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/seasonal-trends/predictions": {
+            "post": {
+                "summary": "Get seasonal trends predictions",
+                "description": "Calculate and return predictions on seasonal consumer behavior changes for selected items.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "itemIds": {
+                                        "type": "array",
+                                        "description": "Array of item identifiers to analyze.",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "season": {
+                                        "type": "string",
+                                        "description": "The season for analysis (e.g., Summer, Winter)."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Seasonal trends predictions generated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "itemPredictions": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/demographics/preferences": {
+            "get": {
+                "summary": "Get demographic preferences",
+                "description": "Retrieve statistical data on product preferences segmented by demographic groups.",
+                "parameters": [
+                    {
+                        "name": "ageGroup",
+                        "in": "query",
+                        "required": false,
+                        "description": "Age group to filter results (e.g., 18-24, 25-34).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "required": false,
+                        "description": "Location to restrict results.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved demographic preferences",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "ageGroup": {
+                                                "type": "string"
+                                            },
+                                            "preferences": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/historical-data/trends": {
+            "get": {
+                "summary": "Fetch historical consumer trends",
+                "description": "Retrieve historical consumer behavior trends for strategic analysis.",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start date for historical data (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": true,
+                        "description": "End date for historical data (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historical trends data fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/campaign-analysis/effectiveness": {
+            "post": {
+                "summary": "Analyze marketing campaign effectiveness",
+                "description": "Submit details of a marketing campaign to analyze its success and impact on product sales.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "campaignId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the marketing campaign."
+                                    },
+                                    "timePeriod": {
+                                        "type": "string",
+                                        "description": "Time period of the campaign's analysis."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Campaign analysis conducted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "successMetrics": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/demand-forecast": {
+            "get": {
+                "summary": "Get demand forecasts for inventory",
+                "description": "Provide demand forecasts to help organizations align inventory with market needs.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": false,
+                        "description": "Region to fetch demand forecast for.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Demand forecast retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback/consumer": {
+            "post": {
+                "summary": "Submit consumer feedback",
+                "description": "Submit aggregated consumer feedback data to identify areas for improvement.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "feedbackData": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback submitted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/insights/competitor-comparison": {
+            "get": {
+                "summary": "Retrieve competitor comparison insights",
+                "description": "Get analytics comparing the client\u2019s performance to competitors.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": false,
+                        "description": "Region for performance comparison.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comparison analytics retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "name": "api_key",
+                "in": "header"
+            }
+        }
+    },
+    "security": [
+        {
+            "ApiKeyAuth": []
+        }
+    ]
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

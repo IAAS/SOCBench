@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /networks",
+            "description": "Retrieve an overview of all water distribution networks."
+        },
+        {
+            "endpoint": "POST /networks",
+            "description": "Create a new water distribution network configuration."
+        },
+        {
+            "endpoint": "GET /networks/{id}",
+            "description": "Retrieve details of a specific water distribution network by its ID."
+        },
+        {
+            "endpoint": "PUT /networks/{id}",
+            "description": "Update an existing water distribution network configuration by its ID."
+        },
+        {
+            "endpoint": "DELETE /networks/{id}",
+            "description": "Delete a specified water distribution network configuration by its ID."
+        },
+        {
+            "endpoint": "GET /networks/{id}/analytics",
+            "description": "Retrieve analytics data for a specific water distribution network by its ID, including resource usage and efficiency metrics."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Create a notification alert based on specified conditions for water distribution metrics."
+        },
+        {
+            "endpoint": "GET /sensors/{id}/data",
+            "description": "Retrieve data collected by a specific sensor identified by its ID over a given timeframe."
+        },
+        {
+            "endpoint": "PUT /maintenance/{id}",
+            "description": "Update the maintenance schedule or status for a specific component identified by its ID within the water distribution network."
+        },
+        {
+            "endpoint": "GET /reports",
+            "description": "Generate comprehensive reports summarizing water usage and distribution efficiency across networks."
+        }
+    ]
+}

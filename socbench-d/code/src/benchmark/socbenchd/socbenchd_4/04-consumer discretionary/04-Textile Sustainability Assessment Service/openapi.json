@@ -1,0 +1,424 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Apparel Manufacturing Sustainability API",
+        "description": "An API designed to assist apparel manufacturers in evaluating and reducing the environmental impact of their production processes.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/materials/environmental-impact": {
+            "get": {
+                "summary": "Retrieve Environmental Impact Data",
+                "description": "Fetch environmental impact data for all registered materials used in apparel manufacturing.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved environmental impact data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "materialId": {
+                                                "type": "string",
+                                                "description": "The unique identifier for the material."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "The name of the material."
+                                            },
+                                            "waterUsage": {
+                                                "type": "number",
+                                                "description": "Amount of water consumed in producing the material (in liters)."
+                                            },
+                                            "emissions": {
+                                                "type": "number",
+                                                "description": "Greenhouse gas emissions associated with the material's production (in Kg CO2)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/materials/assess": {
+            "post": {
+                "summary": "Submit Production Details for Assessment",
+                "description": "Submit production details, including materials used, water usage, and emissions, to assess environmental impact and receive recommendations.",
+                "requestBody": {
+                    "description": "Production details for assessment.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "materials": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "description": "List of material IDs used in production."
+                                        }
+                                    },
+                                    "waterUsage": {
+                                        "type": "number",
+                                        "description": "Total water usage during production (in liters)."
+                                    },
+                                    "emissions": {
+                                        "type": "number",
+                                        "description": "Total greenhouse gas emissions (in Kg CO2)."
+                                    }
+                                },
+                                "required": [
+                                    "materials",
+                                    "waterUsage",
+                                    "emissions"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully assessed the production details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "recommendations": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "description": "Steps suggested for improvement."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/recommendations/sustainability": {
+            "get": {
+                "summary": "Retrieve Industry Sustainability Practices",
+                "description": "Access a list of standard industry practices for reducing the environmental impact of apparel production.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved the list of practices.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "description": "A sustainable practice recommendation."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/insights/water-usage": {
+            "get": {
+                "summary": "Retrieve Water Usage Insights",
+                "description": "Fetch aggregated insights and thresholds on water usage in apparel manufacturing.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved water usage insights.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "averageWaterUsage": {
+                                            "type": "number",
+                                            "description": "The average amount of water used during production (in liters)."
+                                        },
+                                        "thresholds": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "category": {
+                                                        "type": "string",
+                                                        "description": "Category of production process."
+                                                    },
+                                                    "threshold": {
+                                                        "type": "number",
+                                                        "description": "Recommended maximum water usage (in liters)."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/manufacturers/register": {
+            "post": {
+                "summary": "Register Manufacturer",
+                "description": "Register a new apparel manufacturer client into the system.",
+                "requestBody": {
+                    "description": "Details of the manufacturer to register.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The name of the manufacturer."
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "description": "The geographical location of the manufacturer."
+                                    },
+                                    "contactInfo": {
+                                        "type": "object",
+                                        "properties": {
+                                            "email": {
+                                                "type": "string",
+                                                "description": "Contact email for the manufacturer."
+                                            },
+                                            "phone": {
+                                                "type": "string",
+                                                "description": "Contact phone number."
+                                            }
+                                        },
+                                        "required": [
+                                            "email"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "location",
+                                    "contactInfo"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully registered the manufacturer.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "manufacturerId": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the manufacturer."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/emissions": {
+            "get": {
+                "summary": "Retrieve Emissions Analytics",
+                "description": "Fetch analytics on emissions based on submitted manufacturing process data.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved emissions analytics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "totalEmissions": {
+                                            "type": "number",
+                                            "description": "Total greenhouse gas emissions recorded (in Kg CO2)."
+                                        },
+                                        "averageEmissions": {
+                                            "type": "number",
+                                            "description": "Average emissions per process (in Kg CO2)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/materials/{id}": {
+            "delete": {
+                "summary": "Delete Material Data",
+                "description": "Remove material data using its unique identifier to allow for updates or corrections.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique ID of the material to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successfully deleted the material data."
+                    }
+                }
+            }
+        },
+        "/recommendations/customize/{id}": {
+            "put": {
+                "summary": "Customize Sustainability Recommendations",
+                "description": "Update the sustainability recommendations for a specific material or process to better suit the client's requirements.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the recommendations to be updated.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated recommendations configuration.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "recommendations": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "description": "Adjusted recommendation step."
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "recommendations"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated the recommendations."
+                    }
+                }
+            }
+        },
+        "/insights/environmental-compliance": {
+            "get": {
+                "summary": "Fetch Compliance Insights",
+                "description": "Retrieve details on compliance standards for environmental regulations applicable to apparel manufacturing.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved compliance details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "regulation": {
+                                                "type": "string",
+                                                "description": "Name of the environmental regulation."
+                                            },
+                                            "complianceDetails": {
+                                                "type": "string",
+                                                "description": "Details and requirements to meet compliance."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/report/environmental-impact": {
+            "post": {
+                "summary": "Generate Environmental Impact Report",
+                "description": "Create a detailed report on the environmental impact of a specific production process.",
+                "requestBody": {
+                    "description": "Details of the production process for which the report is to be generated.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "materials": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "description": "List of material IDs involved in the production process."
+                                        }
+                                    },
+                                    "waterUsage": {
+                                        "type": "number",
+                                        "description": "Total water usage during production (in liters)."
+                                    },
+                                    "emissions": {
+                                        "type": "number",
+                                        "description": "Total greenhouse gas emissions (in Kg CO2)."
+                                    }
+                                },
+                                "required": [
+                                    "materials",
+                                    "waterUsage",
+                                    "emissions"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Report successfully generated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reportId": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the generated report."
+                                        },
+                                        "reportLink": {
+                                            "type": "string",
+                                            "description": "URL to access the generated report."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

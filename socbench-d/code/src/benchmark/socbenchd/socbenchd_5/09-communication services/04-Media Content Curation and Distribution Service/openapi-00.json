@@ -1,0 +1,256 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Media Management and Broadcasting Service API",
+    "description": "This API supports content creators and distributors by providing tools to efficiently organize, schedule, and broadcast media across various channels. It enables metadata management, scheduling, audience targeting, and workflow optimization for media broadcasting.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/media": {
+      "get": {
+        "summary": "Retrieve all media items",
+        "description": "Fetch a list of all media items managed within the service. Each media item includes content, metadata, and tags.",
+        "responses": {
+          "200": {
+            "description": "List of media items retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string", "description": "Unique identifier for the media item." },
+                      "name": { "type": "string", "description": "The name of the media item." },
+                      "tags": { "type": "array", "items": { "type": "string" }, "description": "List of associated tags for categorization." },
+                      "metadata": { "type": "object", "description": "Additional metadata related to the media item." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new media item",
+        "description": "Add a new media item, including its content, metadata, and tags.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "description": "Name or title of the media item." },
+                  "content": { "type": "string", "description": "Content or URL of the media item." },
+                  "tags": { "type": "array", "items": { "type": "string" }, "description": "Tags for categorizing this media item." },
+                  "metadata": { "type": "object", "description": "Metadata related to the media, e.g., description, author." }
+                },
+                "required": [ "name", "content" ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Media item created successfully." }
+        }
+      }
+    },
+    "/media/{mediaId}": {
+      "patch": {
+        "summary": "Update media item",
+        "description": "Modify details or metadata of an existing media item using its unique identifier.",
+        "parameters": [
+          {
+            "name": "mediaId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the media item to update.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "description": "Updated name or title." },
+                  "content": { "type": "string", "description": "Updated content or URL." },
+                  "tags": { "type": "array", "items": { "type": "string" }, "description": "Updated tags." },
+                  "metadata": { "type": "object", "description": "Updated metadata related to the media." }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Media item updated successfully." }
+        }
+      },
+      "delete": {
+        "summary": "Delete media item",
+        "description": "Remove a specific media item from the management system using its unique identifier.",
+        "parameters": [
+          {
+            "name": "mediaId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the media item to delete.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Media item deleted successfully." }
+        }
+      }
+    },
+    "/channels": {
+      "get": {
+        "summary": "Retrieve all broadcast channels",
+        "description": "Fetch a list of all configured broadcast channels.",
+        "responses": {
+          "200": {
+            "description": "List of broadcast channels retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string", "description": "Unique identifier for the channel." },
+                      "name": { "type": "string", "description": "Name of the broadcast channel." },
+                      "settings": { "type": "object", "description": "Configuration settings for the channel." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new broadcast channel",
+        "description": "Create a new broadcast channel with a specified name and configuration settings.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "description": "Name of the channel." },
+                  "settings": { "type": "object", "description": "Configuration settings for the channel." }
+                },
+                "required": [ "name" ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Channel created successfully." }
+        }
+      }
+    },
+    "/channels/{channelId}": {
+      "patch": {
+        "summary": "Update broadcast channel",
+        "description": "Modify the configuration settings or scheduling of an existing broadcast channel.",
+        "parameters": [
+          {
+            "name": "channelId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the channel to update.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "description": "Updated name of the channel." },
+                  "settings": { "type": "object", "description": "Updated configuration settings." }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Broadcast channel updated successfully." }
+        }
+      },
+      "delete": {
+        "summary": "Delete broadcast channel",
+        "description": "Remove an existing channel from the platform using its unique identifier.",
+        "parameters": [
+          {
+            "name": "channelId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the channel to delete.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Broadcast channel deleted successfully." }
+        }
+      }
+    },
+    "/schedule": {
+      "post": {
+        "summary": "Add a new broadcast schedule",
+        "description": "Create scheduled records to link media items with specific broadcast times and channels.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mediaId": { "type": "string", "description": "Unique identifier of the media item." },
+                  "channelId": { "type": "string", "description": "Unique identifier of the broadcast channel." },
+                  "broadcastTime": { "type": "string", "format": "date-time", "description": "Timestamp for when the media will be broadcast." }
+                },
+                "required": [ "mediaId", "channelId", "broadcastTime" ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Schedule entry created successfully." }
+        }
+      },
+      "get": {
+        "summary": "Retrieve broadcast schedule",
+        "description": "Fetch the complete schedule of broadcasts for all channels.",
+        "responses": {
+          "200": {
+            "description": "Schedule retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "mediaId": { "type": "string", "description": "Unique identifier of the media item." },
+                      "channelId": { "type": "string", "description": "Unique identifier of the broadcast channel." },
+                      "broadcastTime": { "type": "string", "format": "date-time", "description": "Scheduled broadcast time." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

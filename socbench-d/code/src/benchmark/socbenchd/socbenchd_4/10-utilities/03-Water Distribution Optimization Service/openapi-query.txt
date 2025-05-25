@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+This service optimizes management and oversight of water distribution systems by monitoring consumption, identifying leaks, and proposing adjustments to ensure sustainable resource allocation and reduced wastage.
+
+Endpoints:
+GET /water-consumption: Retrieve detailed water consumption statistics for all monitored locations.
+POST /leak-detection: Submit new data to initiate analysis for potential leaks in specified areas.
+GET /usage-trends: Obtain usage trends over time for better forecast and planning.
+PUT /system-settings: Modify configuration settings of the water distribution monitoring system.
+GET /alerts: Fetch all alerts generated for unusual system behavior or anomalies detected.
+DELETE /alert/{id}: Remove a resolved or erroneous alert from the system.
+POST /usage-reports: Generate and retrieve detailed usage and efficiency reports.
+GET /sensor-health: Check the operational status of all water consumption sensors.
+GET /distribution-metrics: Access distribution performance metrics for water systems.
+GET /optimization-suggestions: Fetch suggested actions for optimizing water resource allocation to reduce wastage.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

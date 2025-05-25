@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /deploy",
+            "description": "Initiate the deployment process for a specified software application."
+        },
+        {
+            "endpoint": "GET /status",
+            "description": "Retrieve the current operational status and deployed configurations."
+        },
+        {
+            "endpoint": "PUT /integration",
+            "description": "Update integration settings for external systems."
+        },
+        {
+            "endpoint": "GET /logs",
+            "description": "Fetch detailed logs associated with deployment activities."
+        },
+        {
+            "endpoint": "DELETE /rollback",
+            "description": "Rollback a deployment to its previous version."
+        },
+        {
+            "endpoint": "POST /validate",
+            "description": "Validate the configuration before initiating deployment."
+        },
+        {
+            "endpoint": "PATCH /update-config",
+            "description": "Apply partial updates to an existing configuration."
+        },
+        {
+            "endpoint": "GET /settings",
+            "description": "List current settings for deployment services."
+        },
+        {
+            "endpoint": "POST /trigger-hook",
+            "description": "Trigger a specific hook action during the deployment process."
+        },
+        {
+            "endpoint": "GET /reports",
+            "description": "Obtain deployment and integration activity reports."
+        }
+    ]
+}

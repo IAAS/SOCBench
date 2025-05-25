@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /hotels",
+            "description": "Retrieve a list of hotels based on specified filters such as location and ratings."
+        },
+        {
+            "endpoint": "GET /rooms",
+            "description": "Fetch the available rooms in a specified hotel for a certain date range."
+        },
+        {
+            "endpoint": "POST /reservations",
+            "description": "Create a new reservation for a hotel room including guest details."
+        },
+        {
+            "endpoint": "GET /reservations/{id}",
+            "description": "Fetch the details of an existing reservation by reservation ID."
+        },
+        {
+            "endpoint": "PUT /reservations/{id}",
+            "description": "Update the details of an existing reservation identified by reservation ID."
+        },
+        {
+            "endpoint": "DELETE /reservations/{id}",
+            "description": "Cancel an existing reservation by its unique identifier."
+        },
+        {
+            "endpoint": "GET /amenities",
+            "description": "Retrieve a list of amenities available at a specific hotel or room."
+        },
+        {
+            "endpoint": "POST /reviews",
+            "description": "Submit a review for a hotel or service by a guest."
+        },
+        {
+            "endpoint": "GET /reviews/{hotelId}",
+            "description": "Fetch all reviews for a specified hotel by its unique ID."
+        },
+        {
+            "endpoint": "GET /booking-history/{userId}",
+            "description": "Retrieve the booking history for a specific user identified by their unique ID."
+        }
+    ]
+}

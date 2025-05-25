@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /market-trends",
+            "description": "Retrieve current and historical market trends in the real estate sector."
+        },
+        {
+            "endpoint": "GET /property-estimation",
+            "description": "Fetch an accurate market value estimation for a specified property."
+        },
+        {
+            "endpoint": "GET /demographics",
+            "description": "Access demographic information for a selected geographic area."
+        },
+        {
+            "endpoint": "POST /custom-reports",
+            "description": "Generate a tailored report based on provided criteria and analysis preferences."
+        },
+        {
+            "endpoint": "GET /real-estate-investments",
+            "description": "List top-performing real estate investment opportunities."
+        },
+        {
+            "endpoint": "GET /reits-data",
+            "description": "Review data and performance metrics for Equity Real Estate Investment Trusts (REITs)."
+        },
+        {
+            "endpoint": "GET /neighborhood-analysis",
+            "description": "Obtain comprehensive details about a specific neighborhood's characteristics."
+        },
+        {
+            "endpoint": "POST /user-preferences",
+            "description": "Save user preferences for personalized data recommendations."
+        },
+        {
+            "endpoint": "GET /recent-property-sales",
+            "description": "Retrieve records of recent property sales in a particular area."
+        },
+        {
+            "endpoint": "PATCH /property-notifications",
+            "description": "Subscribe to updates about specific properties or market changes."
+        }
+    ]
+}

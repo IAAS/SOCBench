@@ -1,0 +1,366 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Financial Analytics API",
+        "description": "This API delivers in-depth analytics on capital markets, including stock prices, exchange rates, and derivative insights. Tailored for trading and investment firms, it offers access to a comprehensive database of historical and real-time financial data, along with advanced features like customizable alerts.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.financialanalytics.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/stocks/historical": {
+            "get": {
+                "summary": "Fetch Historical Stock Data",
+                "description": "Retrieve historical stock data for a specific ticker within a designated date range.",
+                "parameters": [
+                    {
+                        "name": "ticker",
+                        "in": "query",
+                        "required": true,
+                        "description": "The stock ticker symbol (e.g., AAPL for Apple Inc.).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The start date for the historical data in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The end date for the historical data in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historical stock data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "data": [
+                                        {
+                                            "date": "2023-01-01",
+                                            "open": 200.5,
+                                            "close": 210.3,
+                                            "high": 215.0,
+                                            "low": 198.5,
+                                            "volume": 3500000
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/stocks/realtime": {
+            "get": {
+                "summary": "Retrieve Real-Time Stock Data",
+                "description": "Access real-time stock prices and related market data for a specific ticker.",
+                "parameters": [
+                    {
+                        "name": "ticker",
+                        "in": "query",
+                        "required": true,
+                        "description": "The stock ticker symbol (e.g., AAPL for Apple Inc.).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Real-time stock data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "ticker": "AAPL",
+                                    "price": 192.5,
+                                    "change": -1.2,
+                                    "percent_change": "-0.62%",
+                                    "timestamp": "2023-10-12T10:15:00Z"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/forex/historical": {
+            "get": {
+                "summary": "Get Historical Forex Rates",
+                "description": "Obtain historical foreign exchange rates for specified currency pairs within a specific date range.",
+                "parameters": [
+                    {
+                        "name": "currency_pair",
+                        "in": "query",
+                        "required": true,
+                        "description": "The currency pair in the format BASE/QUOTE (e.g., USD/EUR).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The start date for the required forex data in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The end date for the required forex data in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historical forex data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "currency_pair": "USD/EUR",
+                                    "rates": [
+                                        {
+                                            "date": "2023-01-01",
+                                            "rate": 0.8534
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/forex/realtime": {
+            "get": {
+                "summary": "Access Real-Time Forex Data",
+                "description": "Retrieve real-time foreign exchange rates for the specified currency pairs.",
+                "parameters": [
+                    {
+                        "name": "currency_pair",
+                        "in": "query",
+                        "required": true,
+                        "description": "The currency pair in the format BASE/QUOTE (e.g., USD/EUR).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Real-time forex data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "currency_pair": "USD/EUR",
+                                    "rate": 0.8523,
+                                    "timestamp": "2023-10-12T10:30:00Z"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/derivatives/data": {
+            "get": {
+                "summary": "Retrieve Derivatives Data",
+                "description": "Fetch analytical data on derivatives, including details on options and futures trading.",
+                "parameters": [
+                    {
+                        "name": "contract_type",
+                        "in": "query",
+                        "required": true,
+                        "description": "The type of derivative contract, such as 'option' or 'future'.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "symbol",
+                        "in": "query",
+                        "required": true,
+                        "description": "The symbol corresponding to the derivative (e.g., FUT_AAPL or OPT_SP500).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Derivatives data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "contract_type": "option",
+                                    "symbol": "OPT_SP500",
+                                    "data": {
+                                        "price": 1200.5,
+                                        "volume": 25000
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/configure": {
+            "post": {
+                "summary": "Create or Update Alert Configuration",
+                "description": "Create or modify market movement alerts for personalized monitoring of financial activities.",
+                "requestBody": {
+                    "description": "JSON object containing alert settings.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "description": "The market type to monitor, such as 'stocks', 'forex', or 'derivatives'."
+                                    },
+                                    "threshold": {
+                                        "type": "number",
+                                        "description": "The percentage change threshold to trigger the alert."
+                                    },
+                                    "symbol": {
+                                        "type": "string",
+                                        "description": "The stock/forex/derivative symbol for which to configure the alert."
+                                    }
+                                }
+                            },
+                            "example": {
+                                "type": "stocks",
+                                "threshold": 5.0,
+                                "symbol": "AAPL"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Alert configured successfully."
+                    }
+                }
+            }
+        },
+        "/alerts/remove": {
+            "delete": {
+                "summary": "Delete Alert Configuration",
+                "description": "Remove an existing market alert configuration.",
+                "parameters": [
+                    {
+                        "name": "alert_id",
+                        "in": "query",
+                        "required": true,
+                        "description": "The ID of the alert to be deleted.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Alert removed successfully."
+                    }
+                }
+            }
+        },
+        "/markets/overview": {
+            "get": {
+                "summary": "Get Global Market Overview",
+                "description": "Retrieve a summary of the current global market status, segmented by financial categories.",
+                "responses": {
+                    "200": {
+                        "description": "Market overview retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "stocks": {
+                                        "performance": "up",
+                                        "change_percent": "1.3%"
+                                    },
+                                    "forex": {
+                                        "major_pairs": {
+                                            "USD/EUR": 0.85,
+                                            "GBP/USD": 1.36
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/daily": {
+            "get": {
+                "summary": "Download Daily Financial Reports",
+                "description": "Fetch daily report summaries that cover financial sectors, trends, and performance metrics.",
+                "responses": {
+                    "200": {
+                        "description": "Daily financial report retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/trends/analysis": {
+            "get": {
+                "summary": "Analyze Financial Trends",
+                "description": "Analyze and display significant financial trends based on pre-configured conditions.",
+                "responses": {
+                    "200": {
+                        "description": "Trend analysis data retrieved successfully."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

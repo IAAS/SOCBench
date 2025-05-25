@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /carbon-emissions",
+            "description": "Retrieve a detailed report of carbon emissions for the specified production and supply chain processes."
+        },
+        {
+            "endpoint": "POST /carbon-emissions",
+            "description": "Submit new carbon emission data for a specific operation or time period."
+        },
+        {
+            "endpoint": "GET /emission-factors",
+            "description": "Retrieve the set of emission factors used for calculations in specific contexts and industries."
+        },
+        {
+            "endpoint": "POST /emission-factors",
+            "description": "Add or update emission factors for specific operational activities."
+        },
+        {
+            "endpoint": "GET /compliance-status",
+            "description": "Check the compliance status of reported emissions against environmental regulations."
+        },
+        {
+            "endpoint": "POST /supply-chain-data",
+            "description": "Submit detailed supply chain data to integrate into the emissions reporting process."
+        },
+        {
+            "endpoint": "GET /environmental-guidelines",
+            "description": "Fetch a list of applicable environmental guidelines and standards for the organization's activities."
+        },
+        {
+            "endpoint": "GET /reduction-opportunities",
+            "description": "Recommend opportunities for reducing carbon emissions based on the provided data."
+        },
+        {
+            "endpoint": "GET /audit-reports",
+            "description": "Retrieve historical audit reports for compliance and reporting purposes."
+        },
+        {
+            "endpoint": "DELETE /supply-chain-data",
+            "description": "Remove a previously submitted supply chain data entry from the system."
+        }
+    ]
+}

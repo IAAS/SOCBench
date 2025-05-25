@@ -1,0 +1,450 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Energy Consumption Analysis API",
+        "description": "This API focuses on analyzing customers' energy use patterns, providing insights into consumption trends, peak usage hours, and energy-saving opportunities. It supports utilities in promoting sustainable practices and creating customized service plans.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.utilities.example.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/usage-patterns": {
+            "get": {
+                "summary": "Retrieve historical energy usage patterns",
+                "description": "Fetch an analysis of the customer's historical energy usage patterns, including daily, weekly, and monthly trends.",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the customer."
+                    },
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "The start date for fetching usage data (YYYY-MM-DD)."
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "The end date for fetching usage data (YYYY-MM-DD)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with usage pattern data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "customerId": {
+                                            "type": "string"
+                                        },
+                                        "patterns": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "usage": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sustainability-advice": {
+            "post": {
+                "summary": "Submit data for sustainability advice",
+                "description": "Calculate and retrieve energy-saving advice based on submitted energy data.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "customerId": {
+                                        "type": "string"
+                                    },
+                                    "usageData": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "date": {
+                                                    "type": "string",
+                                                    "format": "date"
+                                                },
+                                                "usage": {
+                                                    "type": "number"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response with energy-saving advice.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "advice": {
+                                            "type": "string"
+                                        },
+                                        "estimatedSavings": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/consumption/summary": {
+            "get": {
+                "summary": "Fetch energy consumption summary",
+                "description": "Retrieve summarized energy consumption statistics for a specified time period.",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the customer."
+                    },
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "The starting date for the summary (YYYY-MM-DD)."
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "The ending date for the summary (YYYY-MM-DD)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with summarized consumption data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "totalConsumption": {
+                                            "type": "number"
+                                        },
+                                        "averageUsage": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tariff-analysis": {
+            "get": {
+                "summary": "Analyze current energy tariffs",
+                "description": "Request an analysis of current energy tariffs to identify potential savings opportunities.",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the customer."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with tariff analysis data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "currentTariff": {
+                                            "type": "string"
+                                        },
+                                        "recommendedTariff": {
+                                            "type": "string"
+                                        },
+                                        "savings": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/peak-alert": {
+            "post": {
+                "summary": "Set up notifications for peak usage",
+                "description": "Configure customer notifications for approaching peak energy usage times.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "customerId": {
+                                        "type": "string"
+                                    },
+                                    "threshold": {
+                                        "type": "number"
+                                    },
+                                    "notificationMethod": {
+                                        "type": "string",
+                                        "enum": [
+                                            "email",
+                                            "sms",
+                                            "push"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Peak alert successfully configured."
+                    }
+                }
+            }
+        },
+        "/solar-availability": {
+            "get": {
+                "summary": "Check solar energy availability",
+                "description": "Retrieve information about localized availability and efficiency of solar energy options.",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The customer's location (coordinates or postal code)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with solar availability data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "availability": {
+                                            "type": "boolean"
+                                        },
+                                        "efficiencyRating": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/setting/threshold": {
+            "put": {
+                "summary": "Modify energy usage threshold",
+                "description": "Change the user's energy usage threshold for monitoring purposes.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "customerId": {
+                                        "type": "string"
+                                    },
+                                    "newThreshold": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Threshold updated successfully."
+                    }
+                }
+            }
+        },
+        "/reports/monthly": {
+            "get": {
+                "summary": "Retrieve monthly energy usage report",
+                "description": "Fetch a comprehensive monthly energy usage report for a customer.",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the customer."
+                    },
+                    {
+                        "name": "month",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The month for the report (YYYY-MM)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with the monthly energy report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reportId": {
+                                            "type": "string"
+                                        },
+                                        "usageDetails": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "usage": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alert-settings/{alertId}": {
+            "delete": {
+                "summary": "Remove an alert setting",
+                "description": "Delete an existing alert setting by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "alertId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the alert setting to be removed."
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Alert setting deleted successfully."
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "summary": "Submit user feedback",
+                "description": "Send feedback about energy consumption or service experience.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "customerId": {
+                                        "type": "string"
+                                    },
+                                    "feedback": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Feedback submitted successfully."
+                    }
+                }
+            }
+        }
+    }
+}

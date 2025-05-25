@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+This API service aids users in discovering content distribution channels based on region, language, and genre preferences, enabling informed decision-making. By integrating this service, virtual libraries and streaming platforms can customize recommendations for a targeted audience. Secure endpoints ensure a seamless and private interaction process.
+
+Endpoints:
+GET /content-distribution: Retrieve a list of available content distribution channels based on specified criteria such as region, language, and genre.
+POST /recommendations/preferences: Submit user preferences to generate personalized content distribution recommendations.
+GET /recommendations: Obtain recommended content distribution channels tailored to the provided user profile.
+GET /languages/available: Fetch the list of languages supported by the service for content recommendations.
+POST /user/preferences: Save user-specific preferences for optimized content suggestions.
+GET /content/genres: Retrieve an overview of content genres available for discovery.
+GET /regions/supported: List the regions currently supported by the content distribution service.
+DELETE /user/preferences: Remove previously saved user preferences from the service.
+PATCH /recommendations/preferences: Update existing preferences to refine the recommendation criteria.
+GET /platform-statistics: Access analysis and insights about user engagement with the content distribution platforms.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+This calculated-based service enables potential buyers to assess affordability by providing RESTful endpoints to calculate mortgage payments, interest rates, and custom loan plans. Advanced options include analysis of down payments, tenure periods, and interest fluctuations.
+
+Endpoints:
+POST /calculate-payment: Submit loan details to compute the estimated monthly payment amount.
+GET /interest-rates: Retrieve current and historical interest rates for comparison and analysis.
+POST /compare-loans: Compare different loan options using their terms for a better understanding.
+GET /property-value-estimate: Fetch estimates of property values based on provided location and details.
+POST /evaluate-affordability: Analyze user's financial data to assess property affordability.
+GET /down-payment-summary: Retrieve a breakdown of down payment options and associated costs.
+POST /loan-plan-builder: Create a custom loan repayment plan tailored to user's conditions.
+GET /amortization-schedule: Provide detailed breakdown of principal and interest payments over time.
+GET /tenure-variation-impact: Analyze the impact of different loan tenures on payment size and interest.
+POST /rate-sensitivity-analysis: Simulate changes in interest rates to understand sensitivity on loan terms.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

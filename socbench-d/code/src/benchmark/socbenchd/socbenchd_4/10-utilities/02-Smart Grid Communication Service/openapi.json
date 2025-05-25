@@ -1,0 +1,353 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Smart Grid Integration Service",
+        "description": "This service is designed to enable seamless integration between smart grid devices by providing secure, real-time exchange of information about power quality, load balancing, and fault detection. It enhances operational responses within the utilities network.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.smartgridutilities.com/v1",
+            "description": "Production server for the Smart Grid Integration Service"
+        }
+    ],
+    "paths": {
+        "/devices": {
+            "get": {
+                "summary": "Retrieve list of all connected smart grid devices",
+                "description": "Fetches a list of all devices currently connected to the smart grid network.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response, returns a list of connected devices.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "device_id": {
+                                                "type": "string",
+                                                "description": "The unique identifier for the smart grid device."
+                                            },
+                                            "device_name": {
+                                                "type": "string",
+                                                "description": "The name of the connected device."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "The operational status of the device (e.g., active, inactive)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "post": {
+                "summary": "Send customized notifications to specific smart grid devices",
+                "description": "Allows sending alerts or notifications to one or more specific devices within the grid.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "device_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "An array of device IDs to send the alerts to."
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "description": "The content of the alert message."
+                                    },
+                                    "priority": {
+                                        "type": "string",
+                                        "description": "The priority level of the alert (e.g., high, medium, low)."
+                                    }
+                                },
+                                "required": [
+                                    "device_ids",
+                                    "message"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Notification sent successfully."
+                    }
+                }
+            }
+        },
+        "/power-quality": {
+            "get": {
+                "summary": "Access real-time power quality parameters",
+                "description": "Retrieve real-time data regarding the power quality parameters of the smart grid network.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response, returns real-time power quality data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "voltage": {
+                                            "type": "number",
+                                            "description": "Current voltage level in the grid."
+                                        },
+                                        "frequency": {
+                                            "type": "number",
+                                            "description": "Current frequency level in the grid (in Hz)."
+                                        },
+                                        "harmonics": {
+                                            "type": "number",
+                                            "description": "Level of electrical harmonics present in the system."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/control/commands": {
+            "post": {
+                "summary": "Send operational commands to smart grid devices",
+                "description": "Send specific operational commands to manage and control connected smart grid devices remotely.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "device_id": {
+                                        "type": "string",
+                                        "description": "The ID of the device to which the command will be sent."
+                                    },
+                                    "command": {
+                                        "type": "string",
+                                        "description": "The operational command to execute (e.g., restart, shutdown, enable)."
+                                    }
+                                },
+                                "required": [
+                                    "device_id",
+                                    "command"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Command executed successfully."
+                    }
+                }
+            }
+        },
+        "/faults": {
+            "get": {
+                "summary": "Retrieve current and historical grid fault data",
+                "description": "Fetches a comprehensive list of current and past fault information within the grid network.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of fault data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "fault_id": {
+                                                "type": "string",
+                                                "description": "The unique ID associated with the fault."
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "The time when the fault occurred."
+                                            },
+                                            "severity": {
+                                                "type": "string",
+                                                "description": "The severity of the fault."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "A description of the fault."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/load-balancing/settings": {
+            "put": {
+                "summary": "Update load balancing settings",
+                "description": "Modify the configured load balancing parameters for optimizing operational power distribution.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "parameter": {
+                                        "type": "string",
+                                        "description": "The name of the load balancing parameter to update."
+                                    },
+                                    "value": {
+                                        "type": "number",
+                                        "description": "The value to set for the specified parameter."
+                                    }
+                                },
+                                "required": [
+                                    "parameter",
+                                    "value"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Load balancing settings updated successfully."
+                    }
+                }
+            }
+        },
+        "/usage-statistics": {
+            "get": {
+                "summary": "Access usage statistics for analysis",
+                "description": "Retrieve both historical and real-time statistics related to the power usage within the grid network.",
+                "responses": {
+                    "200": {
+                        "description": "Returns usage statistics in JSON format.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "timestamp": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "The timestamp of the data point."
+                                        },
+                                        "consumption": {
+                                            "type": "number",
+                                            "description": "Power consumption in kWh."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/{device_id}": {
+            "delete": {
+                "summary": "Remove a specific smart grid device",
+                "description": "Remove a device from the network using its unique device identifier.",
+                "parameters": [
+                    {
+                        "name": "device_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the device to be removed."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Device removed successfully."
+                    }
+                }
+            }
+        },
+        "/grid-performance": {
+            "get": {
+                "summary": "Access overall grid performance metrics",
+                "description": "Fetch metrics that provide an overview of the grid's performance, including uptime, efficiency, and failures.",
+                "responses": {
+                    "200": {
+                        "description": "Returns performance metrics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "uptime": {
+                                            "type": "number",
+                                            "description": "Percentage of time the grid has been operational."
+                                        },
+                                        "efficiency": {
+                                            "type": "number",
+                                            "description": "Overall efficiency of the grid operations."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/maintenance/schedule": {
+            "patch": {
+                "summary": "Update maintenance schedules",
+                "description": "Modify the planned maintenance schedules for specified grid devices or areas.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "device_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of device IDs to update maintenance for."
+                                    },
+                                    "schedule": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "The updated maintenance schedule time."
+                                    }
+                                },
+                                "required": [
+                                    "device_ids",
+                                    "schedule"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Maintenance schedule updated successfully."
+                    }
+                }
+            }
+        }
+    }
+}

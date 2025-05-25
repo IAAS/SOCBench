@@ -1,0 +1,427 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Property Maintenance Management API",
+        "description": "APIs for property owners and tenants to manage maintenance tasks, payments, schedules, and integrate with third-party applications.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.realestate.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/maintenance/request": {
+            "post": {
+                "summary": "Submit a new maintenance request",
+                "description": "Allows users to submit a new request for property maintenance.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "propertyId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the property requiring maintenance."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Details about the maintenance issue."
+                                    },
+                                    "priority": {
+                                        "type": "string",
+                                        "enum": [
+                                            "low",
+                                            "medium",
+                                            "high"
+                                        ],
+                                        "description": "Priority of the maintenance request."
+                                    }
+                                },
+                                "required": [
+                                    "propertyId",
+                                    "description"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Maintenance request created successfully."
+                    },
+                    "400": {
+                        "description": "Invalid request payload."
+                    }
+                }
+            }
+        },
+        "/maintenance/history/{propertyId}": {
+            "get": {
+                "summary": "Retrieve property maintenance history",
+                "description": "Fetch the maintenance history for a specific property using the property ID.",
+                "parameters": [
+                    {
+                        "name": "propertyId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the property."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Maintenance history retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "requestId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the maintenance request."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Description of the maintenance performed."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current status of the request."
+                                            },
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Date the maintenance was scheduled or completed."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Property not found."
+                    }
+                }
+            }
+        },
+        "/maintenance/update/{requestId}": {
+            "put": {
+                "summary": "Update maintenance request",
+                "description": "Update the details or status of a maintenance request by its ID.",
+                "parameters": [
+                    {
+                        "name": "requestId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the maintenance request."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "description": "Updated status of the maintenance request."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Updated description of the maintenance request."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Maintenance request updated successfully."
+                    },
+                    "404": {
+                        "description": "Maintenance request not found."
+                    }
+                }
+            }
+        },
+        "/maintenance/cancel/{requestId}": {
+            "delete": {
+                "summary": "Cancel a maintenance request",
+                "description": "Cancel an existing maintenance request by its ID.",
+                "parameters": [
+                    {
+                        "name": "requestId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the maintenance request."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Maintenance request canceled successfully."
+                    },
+                    "404": {
+                        "description": "Maintenance request not found."
+                    }
+                }
+            }
+        },
+        "/tenant/register": {
+            "post": {
+                "summary": "Register a new tenant",
+                "description": "Add a tenant to the system for a specific property.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "tenantId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the tenant."
+                                    },
+                                    "propertyId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the property."
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the tenant."
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "Email address of the tenant."
+                                    }
+                                },
+                                "required": [
+                                    "tenantId",
+                                    "propertyId",
+                                    "name",
+                                    "email"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tenant registered successfully."
+                    },
+                    "400": {
+                        "description": "Invalid request payload."
+                    }
+                }
+            }
+        },
+        "/payments/outstanding/{tenantId}": {
+            "get": {
+                "summary": "Check outstanding payments",
+                "description": "Retrieve the list of outstanding payments for a specific tenant ID.",
+                "parameters": [
+                    {
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the tenant."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Outstanding payments retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "invoiceId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the payment invoice."
+                                            },
+                                            "amount": {
+                                                "type": "number",
+                                                "description": "Outstanding payment amount."
+                                            },
+                                            "dueDate": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Due date for the payment."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tenant not found."
+                    }
+                }
+            }
+        },
+        "/payments/make": {
+            "post": {
+                "summary": "Make an outstanding payment",
+                "description": "Submit a payment toward an outstanding invoice for a tenant.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "tenantId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the tenant."
+                                    },
+                                    "invoiceId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the invoice being paid."
+                                    },
+                                    "paymentAmount": {
+                                        "type": "number",
+                                        "description": "Amount paid toward the invoice."
+                                    }
+                                },
+                                "required": [
+                                    "tenantId",
+                                    "invoiceId",
+                                    "paymentAmount"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Payment submitted successfully."
+                    },
+                    "400": {
+                        "description": "Invalid request payload."
+                    }
+                }
+            }
+        },
+        "/vendors/list": {
+            "get": {
+                "summary": "Retrieve approved vendors",
+                "description": "Get a list of approved vendors available for maintenance services.",
+                "responses": {
+                    "200": {
+                        "description": "Vendors retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "vendorId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the vendor."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the vendor."
+                                            },
+                                            "contact": {
+                                                "type": "string",
+                                                "description": "Contact information for the vendor."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/scheduling/availability": {
+            "get": {
+                "summary": "Check scheduling availability",
+                "description": "Retrieve available time slots for scheduling maintenance tasks.",
+                "responses": {
+                    "200": {
+                        "description": "Available time slots retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "description": "Available time slots in ISO 8601 format."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/scheduling/confirm": {
+            "post": {
+                "summary": "Confirm a maintenance schedule",
+                "description": "Confirm and book a time slot for a maintenance task.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "propertyId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the property."
+                                    },
+                                    "timeSlot": {
+                                        "type": "string",
+                                        "description": "Selected time slot in ISO 8601 format."
+                                    },
+                                    "vendorId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the vendor assigned to the task."
+                                    }
+                                },
+                                "required": [
+                                    "propertyId",
+                                    "timeSlot"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Maintenance schedule confirmed successfully."
+                    },
+                    "400": {
+                        "description": "Invalid request payload."
+                    }
+                }
+            }
+        }
+    }
+}

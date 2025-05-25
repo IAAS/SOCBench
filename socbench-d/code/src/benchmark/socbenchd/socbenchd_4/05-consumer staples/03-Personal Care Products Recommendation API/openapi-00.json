@@ -1,0 +1,437 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Personal Care Product Recommendation API",
+    "description": "API designed to assist users in finding suitable personal care products based on their preferences and sensitivities, such as skin type, allergies, and desired features.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.personalcare.com/v1",
+      "description": "Main server"
+    }
+  ],
+  "paths": {
+    "/product/recommendations": {
+      "get": {
+        "summary": "Retrieve Product Recommendations",
+        "description": "Returns a list of recommended personal care products based on input parameters such as skin type, allergies, and desired features.",
+        "parameters": [
+          {
+            "name": "skinType",
+            "in": "query",
+            "required": false,
+            "description": "The user's skin type (e.g., oily, dry, combination).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "allergies",
+            "in": "query",
+            "required": false,
+            "description": "A list of ingredients the user is allergic to.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "features",
+            "in": "query",
+            "required": false,
+            "description": "Desired product features such as organic ingredients, cruelty-free, etc.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of recommended personal care products.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/preferences": {
+      "post": {
+        "summary": "Submit User Preferences",
+        "description": "Allows users to submit preferences like skin type, allergies, and desired features to tailor product recommendations.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserPreferences"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Preferences have been successfully saved."
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "summary": "Retrieve Product Details",
+        "description": "Fetch detailed information about a specific product, including ingredients and suitability analysis.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the product.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detailed information about the specified product.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories": {
+      "get": {
+        "summary": "Retrieve Product Categories",
+        "description": "Returns a list of all available product categories.",
+        "responses": {
+          "200": {
+            "description": "A list of product categories.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/{id}/products": {
+      "get": {
+        "summary": "Retrieve Products by Category",
+        "description": "Fetch a list of products that belong to a specific category.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the category.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of products within the specified category.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ingredients": {
+      "get": {
+        "summary": "Retrieve Ingredients",
+        "description": "Provides a list of all ingredients used in products, along with detailed properties.",
+        "responses": {
+          "200": {
+            "description": "A list of ingredients with their properties.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ingredient"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ingredients/{id}": {
+      "get": {
+        "summary": "Retrieve Ingredient Details",
+        "description": "Fetch specific details about an individual ingredient.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the ingredient.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details about the specified ingredient.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ingredient"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reviews": {
+      "post": {
+        "summary": "Submit a Product Review",
+        "description": "Allows users to submit a review for a specific product, including feedback and a rating score.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Review"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Review successfully submitted."
+          }
+        }
+      }
+    },
+    "/reviews/{id}": {
+      "get": {
+        "summary": "Retrieve Product Reviews",
+        "description": "Fetch reviews for a specific product, including feedback and ratings.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the product.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product reviews retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trends": {
+      "get": {
+        "summary": "Retrieve Trending Products and Categories",
+        "description": "Provides information about trending products and popular categories based on current user interactions and preferences.",
+        "responses": {
+          "200": {
+            "description": "Details of trending products and categories.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "trendingProducts": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Product"
+                      }
+                    },
+                    "popularCategories": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Category"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the product."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the product."
+          },
+          "category": {
+            "type": "string",
+            "description": "Category to which the product belongs."
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Key features of the product."
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "description": "Price of the product."
+          }
+        }
+      },
+      "ProductDetails": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Product"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "ingredients": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Ingredient"
+                },
+                "description": "List of ingredients in the product."
+              },
+              "suitabilityAnalysis": {
+                "type": "string",
+                "description": "Analysis of the product's suitability based on user preferences."
+              }
+            }
+          }
+        ]
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the category."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the category."
+          }
+        }
+      },
+      "Ingredient": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the ingredient."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the ingredient."
+          },
+          "properties": {
+            "type": "string",
+            "description": "Detailed description of the ingredient's properties."
+          }
+        }
+      },
+      "UserPreferences": {
+        "type": "object",
+        "properties": {
+          "skinType": {
+            "type": "string",
+            "description": "The user's skin type (e.g., oily, dry, combination)."
+          },
+          "allergies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A list of ingredients the user is allergic to."
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Desired features such as organic ingredients or cruelty-free."
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "Unique identifier for the reviewed product."
+          },
+          "rating": {
+            "type": "number",
+            "format": "float",
+            "description": "Rating score for the product."
+          },
+          "feedback": {
+            "type": "string",
+            "description": "User feedback on the product."
+          }
+        }
+      }
+    }
+  }
+}

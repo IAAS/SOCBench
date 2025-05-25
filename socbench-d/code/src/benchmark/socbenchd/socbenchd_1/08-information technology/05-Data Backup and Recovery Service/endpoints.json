@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /data/backups",
+            "description": "Retrieve a list of all backups stored within the system."
+        },
+        {
+            "endpoint": "POST /data/backup",
+            "description": "Initiate and create a new data backup for the organization."
+        },
+        {
+            "endpoint": "DELETE /data/backup/{backupId}",
+            "description": "Remove a specific backup identified by its ID from the storage."
+        },
+        {
+            "endpoint": "POST /data/restore",
+            "description": "Request the restoration process for a specific backup."
+        },
+        {
+            "endpoint": "GET /data/status",
+            "description": "Get the current health and operational status of the storage system."
+        },
+        {
+            "endpoint": "PATCH /data/backup/{backupId}",
+            "description": "Update metadata or settings associated with a specific backup."
+        },
+        {
+            "endpoint": "GET /data/auditlogs",
+            "description": "Retrieve a list of audit logs to track actions performed on the backups."
+        },
+        {
+            "endpoint": "POST /data/configure",
+            "description": "Update the configuration settings for backup operations."
+        },
+        {
+            "endpoint": "GET /data/analytics",
+            "description": "Obtain summarized analytics regarding storage usage and trends."
+        },
+        {
+            "endpoint": "POST /data/validate",
+            "description": "Perform validation checks on a specific backup to ensure data integrity."
+        }
+    ]
+}

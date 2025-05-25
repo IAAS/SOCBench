@@ -1,0 +1,425 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Material Supply Chain Optimization Service API",
+    "description": "This API enables companies within the materials sector to efficiently manage and optimize their supply chain operations through advanced analytics, machine learning, and actionable insights.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.material-optimization.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/inventory-overview": {
+      "get": {
+        "summary": "Retrieve Inventory Overview",
+        "description": "Retrieve a snapshot of the current inventory levels categorized by material type.",
+        "responses": {
+          "200": {
+            "description": "A list of inventory levels categorized by material type.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "materialType": {
+                        "type": "string",
+                        "description": "Type of the material."
+                      },
+                      "currentLevel": {
+                        "type": "number",
+                        "description": "Current level of the inventory."
+                      },
+                      "unit": {
+                        "type": "string",
+                        "description": "Unit of measurement for the material quantity."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/supplier-feedback": {
+      "post": {
+        "summary": "Submit Supplier Feedback",
+        "description": "Submit performance feedback for a specific supplier based on recent transactions.",
+        "requestBody": {
+          "description": "Feedback details for the supplier.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "supplierId": {
+                    "type": "string",
+                    "description": "Unique identifier for the supplier."
+                  },
+                  "feedbackScore": {
+                    "type": "number",
+                    "description": "Feedback score for the supplier (e.g., 1-5 scale)."
+                  },
+                  "comments": {
+                    "type": "string",
+                    "description": "Additional comments or details about the feedback."
+                  }
+                },
+                "required": ["supplierId", "feedbackScore"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Feedback submitted successfully."
+          },
+          "400": {
+            "description": "Bad request. Missing or invalid inputs."
+          }
+        }
+      }
+    },
+    "/transport-routes": {
+      "get": {
+        "summary": "Recommended Transport Routes",
+        "description": "Obtain recommended logistics routes based on current transportation data and constraints.",
+        "responses": {
+          "200": {
+            "description": "A list of recommended transport routes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "routeId": {
+                        "type": "string",
+                        "description": "Unique identifier for the transport route."
+                      },
+                      "origin": {
+                        "type": "string",
+                        "description": "Origin location of the route."
+                      },
+                      "destination": {
+                        "type": "string",
+                        "description": "Destination location of the route."
+                      },
+                      "estimatedTime": {
+                        "type": "string",
+                        "format": "duration",
+                        "description": "Estimated time to complete the route."
+                      },
+                      "cost": {
+                        "type": "number",
+                        "description": "Estimated cost for the route."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reorder-schedule": {
+      "post": {
+        "summary": "Upload Reorder Schedule",
+        "description": "Upload intended reordering schedules for materials to align with predictive demand planning.",
+        "requestBody": {
+          "description": "Details of the reorder schedule.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "materialType": {
+                      "type": "string",
+                      "description": "Type of material to reorder."
+                    },
+                    "quantity": {
+                      "type": "number",
+                      "description": "Quantity to reorder."
+                    },
+                    "expectedDate": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "Expected delivery date for the reordered material."
+                    }
+                  },
+                  "required": ["materialType", "quantity"]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reorder schedule uploaded successfully."
+          },
+          "400": {
+            "description": "Bad request. Missing or invalid inputs."
+          }
+        }
+      }
+    },
+    "/raw-material-sources": {
+      "get": {
+        "summary": "List of Raw Material Sources",
+        "description": "Access a list of available raw material sources with quality and cost evaluations.",
+        "responses": {
+          "200": {
+            "description": "List of raw material sources.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "sourceId": {
+                        "type": "string",
+                        "description": "Unique identifier for the raw material source."
+                      },
+                      "sourceName": {
+                        "type": "string",
+                        "description": "Name of the raw material source."
+                      },
+                      "qualityRating": {
+                        "type": "number",
+                        "description": "Quality rating of the source (e.g., 1-5 scale)."
+                      },
+                      "cost": {
+                        "type": "number",
+                        "description": "Cost associated with procurement from this source."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transportation-tracking": {
+      "post": {
+        "summary": "Manage Transportation Data",
+        "description": "Submit and manage data related to in-transit shipments for improved monitoring.",
+        "requestBody": {
+          "description": "Details of the transportation data.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "shipmentId": {
+                    "type": "string",
+                    "description": "Unique identifier for the shipment."
+                  },
+                  "currentLocation": {
+                    "type": "string",
+                    "description": "Current location of the shipment."
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Current status of the shipment (e.g., 'in-transit', 'delivered')."
+                  },
+                  "estimatedArrival": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Estimated arrival time of the shipment."
+                  }
+                },
+                "required": ["shipmentId", "currentLocation", "status"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transportation data submitted successfully."
+          },
+          "400": {
+            "description": "Bad request. Missing or invalid inputs."
+          }
+        }
+      }
+    },
+    "/inventory-forecast": {
+      "get": {
+        "summary": "Predict Inventory Levels",
+        "description": "Analyze trends and receive predictive insights on inventory levels based on historical data.",
+        "responses": {
+          "200": {
+            "description": "Predictive insights on inventory levels.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "materialType": {
+                        "type": "string",
+                        "description": "Type of material."
+                      },
+                      "predictedLevel": {
+                        "type": "number",
+                        "description": "Predicted inventory level for the material."
+                      },
+                      "date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Date for the predicted inventory level."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cost-analysis": {
+      "post": {
+        "summary": "Perform Cost Analysis",
+        "description": "Perform cost breakdown studies concerning procurement and logistics expenditures.",
+        "requestBody": {
+          "description": "Details for the cost analysis.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Start date for the cost analysis period."
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "End date for the cost analysis period."
+                  },
+                  "criteria": {
+                    "type": "string",
+                    "description": "Specific criteria for the cost analysis (e.g., material type, supplier, etc.)."
+                  }
+                },
+                "required": ["startDate", "endDate"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cost analysis completed successfully."
+          },
+          "400": {
+            "description": "Bad request. Missing or invalid inputs."
+          }
+        }
+      }
+    },
+    "/supply-chain-health": {
+      "get": {
+        "summary": "Supply Chain Status Report",
+        "description": "Retrieve a comprehensive status report of the supply chain's operational efficiency.",
+        "responses": {
+          "200": {
+            "description": "Supply chain health status report.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "overallStatus": {
+                      "type": "string",
+                      "description": "Overall status of the supply chain (e.g., 'healthy', 'at risk')."
+                    },
+                    "keyMetrics": {
+                      "type": "object",
+                      "description": "Key performance metrics for the supply chain.",
+                      "properties": {
+                        "onTimeDeliveryRate": {
+                          "type": "number",
+                          "description": "Percentage of on-time deliveries."
+                        },
+                        "inventoryTurnover": {
+                          "type": "number",
+                          "description": "Rate of inventory turnover."
+                        },
+                        "averageLeadTime": {
+                          "type": "string",
+                          "description": "Average lead time for orders."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/strategic-suggestions": {
+      "post": {
+        "summary": "Retrieve Optimization Suggestions",
+        "description": "Input considerations and retrieve optimization recommendations tailored for supply chain strategies.",
+        "requestBody": {
+          "description": "Details for the strategic considerations.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "goal": {
+                    "type": "string",
+                    "description": "Primary goal for optimization (e.g., cost reduction, delivery speed)."
+                  },
+                  "constraints": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "List of constraints (e.g., budget limits, supplier preferences)."
+                  }
+                },
+                "required": ["goal"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Optimization suggestions generated successfully."
+          },
+          "400": {
+            "description": "Bad request. Missing or invalid inputs."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  }
+}

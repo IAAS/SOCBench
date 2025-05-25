@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+Providing utilities customers with an interactive dashboard through this service, users can view their consumption history, set usage goals, make payments, and receive energy-saving tips tailored to their usage patterns.
+
+Endpoints:
+GET /dashboard/overview: Retrieve a summary overview of the user's utilities usage and account status.
+GET /usage-history: Request detailed consumption history data for the user's utility services.
+POST /usage-goals: Set or update the user's consumption goals for better resource management.
+GET /bills/recent: Access a list of the latest billing statements and payment statuses.
+POST /bills/pay: Submit a payment for an outstanding utility bill.
+GET /energy-tips: Retrieve personalized energy-saving advice based on the user's usage patterns.
+PUT /profile/settings: Update user preferences and notification settings for the service.
+GET /announcements: Access announcements and messages from utilities providers.
+DELETE /usage-goals: Remove previously set consumption goals for the user's account.
+GET /outage-info: Request information on current or upcoming utility outages in the user's area.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

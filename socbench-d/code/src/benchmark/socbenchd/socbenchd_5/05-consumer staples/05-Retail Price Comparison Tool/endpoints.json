@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /products/{product_id}",
+            "description": "Retrieve details for a specific product, including its name, category, and description."
+        },
+        {
+            "endpoint": "GET /products/{product_id}/prices",
+            "description": "Fetch the pricing information for the specified product across different retailers and locations."
+        },
+        {
+            "endpoint": "POST /compare",
+            "description": "Receive a comparative analysis of selected products across retailers to identify the most cost-effective options."
+        },
+        {
+            "endpoint": "GET /retailers",
+            "description": "List all available retailers providing data within the service."
+        },
+        {
+            "endpoint": "GET /retailers/{retailer_id}/products",
+            "description": "Retrieve the list of products available from a specified retailer."
+        },
+        {
+            "endpoint": "POST /search",
+            "description": "Search for products matching the input criteria (e.g., name, category, brand) and obtain results."
+        },
+        {
+            "endpoint": "GET /categories",
+            "description": "Fetch the catalog of all product categories available in the service."
+        },
+        {
+            "endpoint": "GET /locations",
+            "description": "Retrieve information about supported geographical locations for this service."
+        },
+        {
+            "endpoint": "POST /request_update",
+            "description": "Suggest a price update for a product to enhance the accuracy of data."
+        },
+        {
+            "endpoint": "GET /offers",
+            "description": "View ongoing offers and promotions for multiple products across retailers."
+        }
+    ]
+}

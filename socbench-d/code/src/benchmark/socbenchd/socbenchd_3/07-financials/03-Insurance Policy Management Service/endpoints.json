@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /policies",
+            "description": "Create a new insurance policy with details such as customer information, coverage options, and premium calculation."
+        },
+        {
+            "endpoint": "GET /policies/{policyId}",
+            "description": "Retrieve the specific insurance policy details using its unique policy identifier."
+        },
+        {
+            "endpoint": "PUT /policies/{policyId}",
+            "description": "Update an existing insurance policy's information using its unique policy identifier."
+        },
+        {
+            "endpoint": "DELETE /policies/{policyId}",
+            "description": "Remove a specified insurance policy from the system using its unique policy identifier."
+        },
+        {
+            "endpoint": "POST /claims",
+            "description": "Submit a new claim for processing based on an existing insurance policy."
+        },
+        {
+            "endpoint": "GET /claims/{claimId}",
+            "description": "Retrieve the details of a specific claim using its unique claim identifier."
+        },
+        {
+            "endpoint": "PATCH /claims/{claimId}",
+            "description": "Update the current status or information of an existing claim based on its unique claim identifier."
+        },
+        {
+            "endpoint": "GET /customers/{customerId}/policies",
+            "description": "Retrieve all policies associated with a specific customer using their unique customer identifier."
+        },
+        {
+            "endpoint": "GET /customers/{customerId}/claims",
+            "description": "Retrieve all claims associated with a specific customer using their unique customer identifier."
+        },
+        {
+            "endpoint": "POST /policies/{policyId}/renew",
+            "description": "Renew an existing policy for another coverage period based on its unique identifier."
+        }
+    ]
+}

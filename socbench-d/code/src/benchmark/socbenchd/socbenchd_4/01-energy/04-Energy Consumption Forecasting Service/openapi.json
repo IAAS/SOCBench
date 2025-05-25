@@ -1,0 +1,442 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Energy Demand Prediction API",
+        "description": "This API predicts future energy demand using advanced machine learning models, facilitates energy resource planning, and provides access to related tools and data.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/predict-demand": {
+            "post": {
+                "summary": "Predict Future Energy Demand",
+                "description": "Submit data to predict future energy demand based on the provided parameters and contextual data.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "historical_data": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "timestamp": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "demand": {
+                                                    "type": "number",
+                                                    "description": "The recorded energy demand value."
+                                                }
+                                            }
+                                        },
+                                        "description": "Array of historical energy demand data points used for training the prediction model."
+                                    },
+                                    "environmental_data": {
+                                        "type": "object",
+                                        "description": "Environmental factors influencing energy demand (e.g., weather, population).",
+                                        "properties": {
+                                            "temperature": {
+                                                "type": "number",
+                                                "description": "Current or forecasted temperature in the region."
+                                            },
+                                            "population_density": {
+                                                "type": "number",
+                                                "description": "Population density of the area."
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "historical_data",
+                                    "environmental_data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Future energy demand predictions based on submitted data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "predictions": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "timestamp": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "predicted_demand": {
+                                                        "type": "number",
+                                                        "description": "Predicted energy demand value for the given timestamp."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/model-info": {
+            "get": {
+                "summary": "Retrieve Machine Learning Model Information",
+                "description": "Get details about the machine learning models used, including versions and features.",
+                "responses": {
+                    "200": {
+                        "description": "Model information retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "model_version": {
+                                            "type": "string",
+                                            "description": "The version of the prediction model."
+                                        },
+                                        "features_used": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "description": "List of features used by the prediction models."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/update-environment-data": {
+            "put": {
+                "summary": "Update Environmental Data",
+                "description": "Upload updated or new environmental data to improve the predictions of the machine learning model.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "environmental_data": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "timestamp": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Environmental data updated successfully."
+                    }
+                }
+            }
+        },
+        "/historical-demand": {
+            "get": {
+                "summary": "Retrieve Historical Energy Demand",
+                "description": "Access past energy demand records for review and analysis.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "Start date for filtering historical data."
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "End date for filtering historical data."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historical energy demand data retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "historical_demand_data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "timestamp": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "demand": {
+                                                        "type": "number",
+                                                        "description": "Historical energy demand value."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/clear-dataset": {
+            "delete": {
+                "summary": "Clear Unnecessary Datasets",
+                "description": "Remove outdated or unnecessary datasets from the service database.",
+                "responses": {
+                    "200": {
+                        "description": "Datasets cleared successfully."
+                    }
+                }
+            }
+        },
+        "/resource-planning-guides": {
+            "get": {
+                "summary": "Get Resource Planning Guides",
+                "description": "Obtain insights and resources for efficient energy resource planning.",
+                "responses": {
+                    "200": {
+                        "description": "Resource planning guides retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "title": {
+                                                "type": "string",
+                                                "description": "Title of the guide."
+                                            },
+                                            "content": {
+                                                "type": "string",
+                                                "description": "Details about the resource planning guide."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/forecast-validation": {
+            "post": {
+                "summary": "Validate Forecast Results",
+                "description": "Submit validation comments or mark forecast results to improve the prediction model.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "forecast_id": {
+                                        "type": "string",
+                                        "description": "The identifier of the forecast being validated."
+                                    },
+                                    "comments": {
+                                        "type": "string",
+                                        "description": "Reviewer comments on the forecast prediction."
+                                    },
+                                    "validation_status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "approved",
+                                            "rejected",
+                                            "needs review"
+                                        ],
+                                        "description": "Status of the validation process."
+                                    }
+                                },
+                                "required": [
+                                    "forecast_id",
+                                    "validation_status"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Forecast validation submitted successfully."
+                    }
+                }
+            }
+        },
+        "/usage-statistics": {
+            "get": {
+                "summary": "Retrieve Service Usage Statistics",
+                "description": "Access metrics and statistics related to the usage of the prediction service.",
+                "responses": {
+                    "200": {
+                        "description": "Usage statistics retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "total_requests": {
+                                            "type": "integer",
+                                            "description": "Total requests made to the service."
+                                        },
+                                        "average_response_time_ms": {
+                                            "type": "number",
+                                            "description": "Average response time in milliseconds."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/update-demand-profile": {
+            "patch": {
+                "summary": "Update Demand Profile",
+                "description": "Modify existing characteristics of demand profiles used by prediction models.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "profile_id": {
+                                        "type": "string",
+                                        "description": "The ID of the demand profile to be updated."
+                                    },
+                                    "properties": {
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        },
+                                        "description": "Key-value pairs of the profile properties to be updated."
+                                    }
+                                },
+                                "required": [
+                                    "profile_id",
+                                    "properties"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Demand profile updated successfully."
+                    }
+                }
+            }
+        },
+        "/regional-demand-trends": {
+            "get": {
+                "summary": "Analyze Regional Energy Demand Trends",
+                "description": "Analyze energy demand patterns across various regions.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Region for the energy demand analysis."
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "Start date for the analysis."
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "End date for the analysis."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Regional energy demand trends retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "trend_data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "region": {
+                                                        "type": "string",
+                                                        "description": "Geographical area of the trend data."
+                                                    },
+                                                    "trend": {
+                                                        "type": "string",
+                                                        "description": "Description of the demand trend."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

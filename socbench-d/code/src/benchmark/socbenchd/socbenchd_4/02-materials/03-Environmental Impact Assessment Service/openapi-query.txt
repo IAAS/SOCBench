@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+Service:
+The Environmental Impact Assessment Service enables businesses to evaluate the environmental consequences of their production activities. By analyzing parameters like resource usage, emissions, waste generation, and energy consumption, the service calculates impact scores and provides tailored recommendations for mitigation. Data can be submitted via API endpoints, allowing users to integrate continuous assessment metrics in their operations, striving for sustainability objectives.
+
+Endpoints:
+POST /impact-assessment: Submit operational data for an environmental impact assessment.
+GET /impact-scores/{assessmentId}: Retrieve the environmental impact scores for a specific assessment.
+PUT /impact-assessment/{assessmentId}: Update the operational data for an existing environmental impact assessment.
+DELETE /impact-assessment/{assessmentId}: Delete a previously submitted environmental impact assessment.
+POST /impact-scenarios: Submit hypothetical operational data to estimate potential environmental impacts.
+GET /mitigation-recommendations/{assessmentId}: Retrieve tailored mitigation recommendations based on an assessment.
+GET /resource-tracking: Access data on resource usage across different operational activities.
+GET /emission-reports/{assessmentId}: Obtain detailed emission reports related to a specific assessment.
+GET /assessment-history: View the history of all assessments performed by the user.
+PATCH /impact-assessment/{assessmentId}/status: Modify the review status of a specific assessment.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

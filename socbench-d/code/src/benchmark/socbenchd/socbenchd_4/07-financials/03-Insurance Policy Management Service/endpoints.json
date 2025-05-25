@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /claims",
+            "description": "Submit a new insurance claim."
+        },
+        {
+            "endpoint": "GET /claims/{claim_id}",
+            "description": "Retrieve the details of a specific insurance claim by ID."
+        },
+        {
+            "endpoint": "PUT /claims/{claim_id}",
+            "description": "Update an existing insurance claim's information."
+        },
+        {
+            "endpoint": "GET /policies",
+            "description": "Fetch the list of all active insurance policies under the user."
+        },
+        {
+            "endpoint": "GET /policies/{policy_id}",
+            "description": "Retrieve details of a specific insurance policy."
+        },
+        {
+            "endpoint": "POST /policies/renewals",
+            "description": "Submit a request to renew an existing insurance policy."
+        },
+        {
+            "endpoint": "GET /payments",
+            "description": "List all payment transactions related to policies and claims."
+        },
+        {
+            "endpoint": "POST /payments",
+            "description": "Initiate a new payment for policy renewal or claim settlement."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit feedback regarding the insurance service."
+        },
+        {
+            "endpoint": "GET /notifications",
+            "description": "Retrieve a list of notifications related to policy activities and claims."
+        }
+    ]
+}

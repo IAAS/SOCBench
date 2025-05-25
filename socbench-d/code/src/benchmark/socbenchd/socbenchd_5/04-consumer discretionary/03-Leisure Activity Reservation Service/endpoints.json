@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /venues",
+            "description": "Retrieve a list of available entertainment venues with essential details."
+        },
+        {
+            "endpoint": "GET /venues/{id}",
+            "description": "Get detailed information about a specific venue using its unique identifier."
+        },
+        {
+            "endpoint": "POST /bookings",
+            "description": "Create a new booking for a selected venue and date."
+        },
+        {
+            "endpoint": "GET /bookings",
+            "description": "List all bookings associated with the requesting user."
+        },
+        {
+            "endpoint": "DELETE /bookings/{id}",
+            "description": "Cancel an existing booking using its unique identifier."
+        },
+        {
+            "endpoint": "GET /availability",
+            "description": "Check ticket availability for a specific venue and date."
+        },
+        {
+            "endpoint": "GET /notifications",
+            "description": "Retrieve all user-subscribed notifications regarding ticket availability."
+        },
+        {
+            "endpoint": "POST /compare-prices",
+            "description": "Submit a request to compare ticket prices among multiple venues."
+        },
+        {
+            "endpoint": "PUT /preferences",
+            "description": "Update user preferences related to venue features and notifications."
+        },
+        {
+            "endpoint": "GET /recommendations",
+            "description": "Receive recommendations for venues based on user preferences and booking history."
+        }
+    ]
+}

@@ -1,0 +1,491 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Health Metrics Tracking API",
+        "description": "This API allows for the real-time tracking and recording of patient health metrics such as blood pressure, glucose levels, and heart rate. Medical professionals can access this data for ongoing assessments, enabling proactive interventions and personalized treatment plans.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/patients": {
+            "post": {
+                "summary": "Create a new patient profile",
+                "description": "Allows the creation of a new patient profile. This profile is required to associate health metrics with specific patients.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Full name of the patient"
+                                    },
+                                    "date_of_birth": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "The patient's date of birth in YYYY-MM-DD format"
+                                    },
+                                    "gender": {
+                                        "type": "string",
+                                        "description": "The gender of the patient"
+                                    },
+                                    "contact_info": {
+                                        "type": "string",
+                                        "description": "Contact information for the patient"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "date_of_birth"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Patient profile created successfully"
+                    },
+                    "400": {
+                        "description": "Invalid request payload"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve a list of registered patients",
+                "description": "Fetches a list of all patients currently registered in the system.",
+                "responses": {
+                    "200": {
+                        "description": "List of registered patients",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the patient"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Full name of the patient"
+                                            },
+                                            "date_of_birth": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "The patient's date of birth"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/patients/{id}": {
+            "get": {
+                "summary": "Get details of a specific patient",
+                "description": "Retrieves detailed information about a specific patient using their unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the patient",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detailed patient information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the patient"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "description": "Full name of the patient"
+                                        },
+                                        "date_of_birth": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "description": "The patient's date of birth"
+                                        },
+                                        "gender": {
+                                            "type": "string",
+                                            "description": "Gender of the patient"
+                                        },
+                                        "contact_info": {
+                                            "type": "string",
+                                            "description": "Contact information for the patient"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Patient not found"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a patient's profile",
+                "description": "Updates information related to a specific patient profile.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the patient",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Updated full name of the patient"
+                                    },
+                                    "contact_info": {
+                                        "type": "string",
+                                        "description": "Updated contact information"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Patient profile updated successfully"
+                    },
+                    "400": {
+                        "description": "Invalid request payload"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove a patient profile",
+                "description": "Deletes a patient's profile and all associated data from the system.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the patient",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Patient profile deleted successfully"
+                    },
+                    "404": {
+                        "description": "Patient not found"
+                    }
+                }
+            }
+        },
+        "/readings": {
+            "post": {
+                "summary": "Submit health metric readings",
+                "description": "Allows the submission of health metric readings such as blood pressure, glucose levels, or heart rate.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "patient_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the patient"
+                                    },
+                                    "metric_type": {
+                                        "type": "string",
+                                        "description": "Type of health metric (e.g., blood pressure, glucose levels, heart rate)"
+                                    },
+                                    "value": {
+                                        "type": "number",
+                                        "description": "Reading value"
+                                    },
+                                    "timestamp": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Date and time of the reading"
+                                    }
+                                },
+                                "required": [
+                                    "patient_id",
+                                    "metric_type",
+                                    "value",
+                                    "timestamp"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Health metric reading submitted successfully"
+                    },
+                    "400": {
+                        "description": "Invalid request payload"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve health metric readings",
+                "description": "Fetches all recorded health metric readings within a specified time frame.",
+                "parameters": [
+                    {
+                        "name": "start_time",
+                        "in": "query",
+                        "required": false,
+                        "description": "Start of the time frame in ISO 8601 format",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "end_time",
+                        "in": "query",
+                        "required": false,
+                        "description": "End of the time frame in ISO 8601 format",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of health metric readings",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "reading_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the reading"
+                                            },
+                                            "patient_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the patient"
+                                            },
+                                            "metric_type": {
+                                                "type": "string",
+                                                "description": "Type of health metric"
+                                            },
+                                            "value": {
+                                                "type": "number",
+                                                "description": "Reading value"
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Date and time of the reading"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/readings/{patient_id}": {
+            "get": {
+                "summary": "Retrieve readings by patient ID",
+                "description": "Fetches all health metric readings for a specific patient by their unique ID.",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the patient",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of health metric readings for the patient",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "reading_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the reading"
+                                            },
+                                            "metric_type": {
+                                                "type": "string",
+                                                "description": "Type of health metric"
+                                            },
+                                            "value": {
+                                                "type": "number",
+                                                "description": "Reading value"
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Date and time of the reading"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Patient not found"
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "post": {
+                "summary": "Create a health alert",
+                "description": "Allows the creation of an alert based on predefined thresholds for specific health metrics.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "patient_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the patient"
+                                    },
+                                    "metric_type": {
+                                        "type": "string",
+                                        "description": "Metric type triggering the alert"
+                                    },
+                                    "threshold": {
+                                        "type": "number",
+                                        "description": "Threshold value for the metric"
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "description": "Details of the alert"
+                                    }
+                                },
+                                "required": [
+                                    "patient_id",
+                                    "metric_type",
+                                    "threshold",
+                                    "message"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert created successfully"
+                    },
+                    "400": {
+                        "description": "Invalid request payload"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve active alerts",
+                "description": "Fetches the list of active alerts based on predefined health metric thresholds.",
+                "responses": {
+                    "200": {
+                        "description": "List of active alerts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "alert_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the alert"
+                                            },
+                                            "patient_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the patient"
+                                            },
+                                            "metric_type": {
+                                                "type": "string",
+                                                "description": "Health metric triggering the alert"
+                                            },
+                                            "threshold": {
+                                                "type": "number",
+                                                "description": "Threshold value for the metric"
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "description": "Details of the alert"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Date and time when the alert was created"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

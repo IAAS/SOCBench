@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+Service:
+This service provides tools for tracking, managing, and optimizing IT assets within an organization, ensuring cost-effectiveness and operational efficiency. Users can register devices, perform inventory checks, and predict lifecycle stages.
+
+Endpoints:
+GET /devices: Retrieve a list of all registered devices within the organization.
+POST /devices: Register a new device to the organization's asset database.
+GET /devices/{deviceId}: Fetch detailed information for a specific device using its unique identifier.
+PUT /devices/{deviceId}: Update the information linked to a specific device.
+DELETE /devices/{deviceId}: Remove a device from the organization's asset database.
+GET /inventory: Obtain a comprehensive inventory report of all IT assets.
+POST /inventory/audit: Initiate an inventory check and obtain discrepancies, if any, with the current records.
+GET /lifecycles: Retrieve predictive lifecycle statuses for all assets based on usage patterns.
+GET /lifecycles/{deviceId}: Retrieve and analyze the lifecycle status for a specific device.
+POST /optimization/report: Generate a report suggesting optimization recommendations based on current IT asset usage.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

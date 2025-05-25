@@ -1,0 +1,338 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "System Monitoring and Diagnostics API",
+        "description": "This API enables organizations to monitor system health, receive notifications of emerging issues, and access tools for diagnosing root causes of failures, enhancing overall uptime and reliability.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.system-monitoring.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/system/health": {
+            "get": {
+                "summary": "Retrieve System Health Status",
+                "description": "Fetches the overall health status of the monitored system, providing a quick overview of its current state.",
+                "responses": {
+                    "200": {
+                        "description": "Health status retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "healthy",
+                                                "degraded",
+                                                "unhealthy"
+                                            ],
+                                            "description": "Overall system health."
+                                        },
+                                        "details": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "string"
+                                            },
+                                            "description": "Additional details about subsystem health metrics."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications/subscription": {
+            "post": {
+                "summary": "Create Notification Subscription",
+                "description": "Allows users to create a subscription to receive notifications for emerging issues within the system.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "description": "Type of notification to subscribe to (e.g., 'critical', 'warning')."
+                                    },
+                                    "callbackUrl": {
+                                        "type": "string",
+                                        "format": "uri",
+                                        "description": "URL to send notifications when the specified conditions are met."
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "callbackUrl"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Subscription created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "subscriptionId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the created subscription."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications/subscription/{id}": {
+            "delete": {
+                "summary": "Remove Notification Subscription",
+                "description": "Removes a specific notification subscription identified by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the subscription to be removed.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Subscription removed successfully."
+                    },
+                    "404": {
+                        "description": "Subscription not found."
+                    }
+                }
+            }
+        },
+        "/diagnostics/logs": {
+            "get": {
+                "summary": "Fetch Diagnostic Logs",
+                "description": "Fetches diagnostic logs to assist in identifying root causes of system failures.",
+                "responses": {
+                    "200": {
+                        "description": "Logs retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Time of the log entry."
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "description": "Log message content."
+                                            },
+                                            "level": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "INFO",
+                                                    "WARNING",
+                                                    "ERROR"
+                                                ],
+                                                "description": "Log severity level."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/diagnostics/analysis": {
+            "post": {
+                "summary": "Initiate Diagnostics Analysis",
+                "description": "Starts a deep analysis process to diagnose a specified issue within the system.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "issueId": {
+                                        "type": "string",
+                                        "description": "ID of the issue to analyze."
+                                    }
+                                },
+                                "required": [
+                                    "issueId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Analysis initiated successfully."
+                    }
+                }
+            }
+        },
+        "/reliability/metrics": {
+            "get": {
+                "summary": "Access System Reliability Metrics",
+                "description": "Retrieves various reliability metrics to assess and improve system uptime and performance.",
+                "responses": {
+                    "200": {
+                        "description": "Metrics retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "uptimePercentage": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "description": "Percentage of system uptime."
+                                        },
+                                        "failureRate": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "description": "Rate of failures within the system."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/system/optimization": {
+            "post": {
+                "summary": "Request System Optimization",
+                "description": "Requests optimization procedures to enhance overall system uptime and reliability.",
+                "responses": {
+                    "200": {
+                        "description": "System optimization requested successfully."
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "get": {
+                "summary": "Retrieve Active Alerts",
+                "description": "Fetches a list of active alerts and warnings currently affecting the system.",
+                "responses": {
+                    "200": {
+                        "description": "Alerts retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the alert."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "active",
+                                                    "acknowledged"
+                                                ],
+                                                "description": "Current status of the alert."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Details about the alert."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/{id}/acknowledge": {
+            "put": {
+                "summary": "Acknowledge Alert",
+                "description": "Acknowledges a specific alert, changing its status and indicating it has been noted.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the alert to acknowledge.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Alert acknowledged successfully."
+                    },
+                    "404": {
+                        "description": "Alert not found."
+                    }
+                }
+            }
+        },
+        "/trends/failure-patterns": {
+            "get": {
+                "summary": "Analyze Failure Patterns",
+                "description": "Analyzes past failures to identify recurring patterns for proactive issue resolutions.",
+                "responses": {
+                    "200": {
+                        "description": "Failure patterns analyzed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "patterns": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "pattern": {
+                                                        "type": "string",
+                                                        "description": "Description of the identified failure pattern."
+                                                    },
+                                                    "frequency": {
+                                                        "type": "integer",
+                                                        "description": "Number of occurrences of the pattern."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

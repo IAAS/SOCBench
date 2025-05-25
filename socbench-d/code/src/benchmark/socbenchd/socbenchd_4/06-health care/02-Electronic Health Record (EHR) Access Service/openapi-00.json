@@ -1,0 +1,348 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "EHR Access Service API",
+        "description": "The EHR Access Service provides authorized medical professionals with seamless and secure access to patient health records. This API ensures streamlined retrieval, viewing, and updating of pertinent data while complying with healthcare privacy regulations.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.ehraccess.com/v1",
+            "description": "Primary API server"
+        }
+    ],
+    "paths": {
+        "/patients/{patientID}/records": {
+            "get": {
+                "summary": "Retrieve patient records",
+                "description": "Fetch the complete health records of the specified patient. Requires proper authorization.",
+                "parameters": [
+                    {
+                        "name": "patientID",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the patient whose records are fetched",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Patient records retrieved successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized access"
+                    },
+                    "404": {
+                        "description": "Patient not found"
+                    }
+                }
+            }
+        },
+        "/patients/{patientID}/records/update": {
+            "post": {
+                "summary": "Update patient health records",
+                "description": "Submit updates to the health record information of the specified patient. Requires authorization.",
+                "parameters": [
+                    {
+                        "name": "patientID",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the patient whose records are being updated",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated health record information",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "notes": {
+                                        "type": "string",
+                                        "description": "Clinical notes or updates"
+                                    },
+                                    "prescriptions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of updated prescriptions"
+                                    },
+                                    "testResults": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        },
+                                        "description": "New or updated test results"
+                                    }
+                                },
+                                "required": [
+                                    "notes"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Patient health records updated successfully"
+                    },
+                    "400": {
+                        "description": "Invalid data provided"
+                    },
+                    "401": {
+                        "description": "Unauthorized access"
+                    },
+                    "404": {
+                        "description": "Patient not found"
+                    }
+                }
+            }
+        },
+        "/patients": {
+            "get": {
+                "summary": "Retrieve patient list",
+                "description": "Access a list of patients based on the logged-in user's authorization level.",
+                "responses": {
+                    "200": {
+                        "description": "List of patients accessible to the user"
+                    },
+                    "401": {
+                        "description": "Unauthorized access"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new patient",
+                "description": "Register a new patient in the system by providing necessary details.",
+                "requestBody": {
+                    "description": "Details of the new patient to be added",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Full name of the patient"
+                                    },
+                                    "dateOfBirth": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Patient's date of birth"
+                                    },
+                                    "gender": {
+                                        "type": "string",
+                                        "description": "Patient's gender"
+                                    },
+                                    "contactInfo": {
+                                        "type": "object",
+                                        "properties": {
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "phone": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "description": "Patient's contact information"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "dateOfBirth",
+                                    "gender"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Patient added successfully"
+                    },
+                    "400": {
+                        "description": "Invalid patient data provided"
+                    },
+                    "401": {
+                        "description": "Unauthorized access"
+                    }
+                }
+            }
+        },
+        "/patients/{patientID}": {
+            "delete": {
+                "summary": "Delete patient records",
+                "description": "Permanently remove the health records of a specific patient. Adheres to compliance requirements.",
+                "parameters": [
+                    {
+                        "name": "patientID",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the patient whose records are to be deleted",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Patient records deleted successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized access"
+                    },
+                    "404": {
+                        "description": "Patient not found"
+                    }
+                }
+            }
+        },
+        "/healthcare-providers": {
+            "get": {
+                "summary": "List healthcare providers",
+                "description": "Retrieve a list of all healthcare providers using the service.",
+                "responses": {
+                    "200": {
+                        "description": "List of healthcare providers retrieved successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized access"
+                    }
+                }
+            }
+        },
+        "/metrics/utilization": {
+            "get": {
+                "summary": "Retrieve utilization metrics",
+                "description": "Obtain metrics regarding the usage of the EHR system.",
+                "responses": {
+                    "200": {
+                        "description": "Utilization metrics retrieved successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized access"
+                    }
+                }
+            }
+        },
+        "/patients/{patientID}/share": {
+            "post": {
+                "summary": "Share patient records",
+                "description": "Share a patient's health records with another authorized entity.",
+                "parameters": [
+                    {
+                        "name": "patientID",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the patient whose records are being shared",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Details of the recipient entity",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "recipientID": {
+                                        "type": "string",
+                                        "description": "Identifier of the recipient entity"
+                                    },
+                                    "purpose": {
+                                        "type": "string",
+                                        "description": "Purpose of the record sharing"
+                                    }
+                                },
+                                "required": [
+                                    "recipientID",
+                                    "purpose"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Patient records shared successfully"
+                    },
+                    "400": {
+                        "description": "Invalid sharing data"
+                    },
+                    "401": {
+                        "description": "Unauthorized access"
+                    },
+                    "404": {
+                        "description": "Patient or recipient entity not found"
+                    }
+                }
+            }
+        },
+        "/configuration/settings": {
+            "put": {
+                "summary": "Update configuration settings",
+                "description": "Update secure access settings and configurations for record management.",
+                "requestBody": {
+                    "description": "New configuration settings",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "encryptionLevel": {
+                                        "type": "string",
+                                        "description": "Encryption level to be applied"
+                                    },
+                                    "accessThreshold": {
+                                        "type": "integer",
+                                        "description": "Access threshold in milliseconds"
+                                    }
+                                },
+                                "required": [
+                                    "encryptionLevel"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Settings updated successfully"
+                    },
+                    "400": {
+                        "description": "Invalid configuration data"
+                    },
+                    "401": {
+                        "description": "Unauthorized access"
+                    }
+                }
+            }
+        },
+        "/logs/audit": {
+            "get": {
+                "summary": "Retrieve audit logs",
+                "description": "Fetch the audit trail of all access and modifications to patient records.",
+                "responses": {
+                    "200": {
+                        "description": "Audit logs retrieved successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized access"
+                    }
+                }
+            }
+        }
+    }
+}

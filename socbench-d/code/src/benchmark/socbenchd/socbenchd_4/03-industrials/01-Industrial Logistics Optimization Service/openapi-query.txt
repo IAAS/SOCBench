@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+The Industrial Logistics Optimization Service offers an API for efficiently managing transportation and distribution networks within the industrial sector. This service enables companies to monitor shipment statuses, predict delivery schedules, and optimize routing. Utilizing real-time traffic data, geo-location tracking, and an algorithmic route planner, the service enhances operational efficiency and minimizes costs associated with transportation. Users authenticate via secure keys to access features such as updated shipment tracking and detailed predictive reports based on past delivery patterns. For instance, a warehouse manager can receive live updates on an incoming shipment, detecting delays and adjusting schedules accordingly.
+
+Endpoints:
+POST /routes/optimization: Submit routing data and constraints to generate an optimized transportation path for efficient delivery.
+GET /shipments/status: Retrieve the current status of all active shipments in the network.
+GET /analytics/historical-reports: Access predictive delivery reports based on historical shipment data and patterns.
+PATCH /shipments/{shipment_id}/update: Modify specific details of an ongoing shipment, such as delivery time or route.
+PUT /alerts/notifications: Configure alert settings for delays or deviations in tracked shipments.
+GET /traffic/conditions: Retrieve current traffic conditions relevant to planned shipment routes.
+GET /geo/locations/{location_id}: Fetch detailed information about a specific logistics location based on its identifier.
+POST /feedback/report-issue: Allow users to report transportation issues to improve service quality.
+DELETE /shipments/{shipment_id}: Permit the deletion of specific shipment records from the system if needed.
+GET /metrics/effectiveness: Provide insights into the transportation network's efficiency and performance metrics.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

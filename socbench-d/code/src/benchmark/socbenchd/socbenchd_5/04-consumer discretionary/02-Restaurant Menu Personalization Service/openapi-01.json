@@ -1,0 +1,345 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Consumer Discretionary Sector API",
+        "description": "An API supporting various business activities within the Consumer Discretionary Sector. This includes services for restaurants and hospitality, manufacturing processes for household and leisure goods, and retail operations.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/menu/template": {
+            "post": {
+                "summary": "Create a menu template",
+                "description": "Allows restaurants to create a structured menu template based on various sections and offerings.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The name of the menu template."
+                                    },
+                                    "sections": {
+                                        "type": "array",
+                                        "description": "List of menu sections, such as appetizers or main courses.",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "description": "Name of the section."
+                                                },
+                                                "items": {
+                                                    "type": "array",
+                                                    "description": "List of items within this section.",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "description": "Item ID or name."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "sections"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Menu template successfully created."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/manufacturing/products": {
+            "get": {
+                "summary": "Get available manufacturing products",
+                "description": "Retrieve a list of all manufactured items, such as textiles, household goods, and leisure products, under the Consumer Discretionary Sector. Businesses can integrate this to gain visibility into available inventory and manufacturing lines.",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Specify a category of manufacturing products to filter the results (e.g., 'textiles', 'leisure products').",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of manufacturing products retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "products": {
+                                            "type": "array",
+                                            "description": "Array of manufacturing products.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "productId": {
+                                                        "type": "string",
+                                                        "description": "ID of the product."
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "description": "Name of the product."
+                                                    },
+                                                    "category": {
+                                                        "type": "string",
+                                                        "description": "Category of the product (e.g., 'textiles', 'leisure products')."
+                                                    },
+                                                    "availability": {
+                                                        "type": "integer",
+                                                        "description": "Current units available for purchase or delivery."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid category filter."
+                    }
+                }
+            }
+        },
+        "/retail/products": {
+            "get": {
+                "summary": "Retrieve retail products",
+                "description": "Retrieve a categorized list of products available within retail stores, ranging from apparel to automobiles. Useful for distributors looking to integrate with retail inventories.",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Filter the product list by category (e.g., 'automobiles', 'apparel').",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "storeLocation",
+                        "in": "query",
+                        "description": "Filter products based on a specific store location.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved retail products.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "products": {
+                                            "type": "array",
+                                            "description": "List of retail products.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "productId": {
+                                                        "type": "string",
+                                                        "description": "Unique identifier for the product."
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "description": "Product name."
+                                                    },
+                                                    "category": {
+                                                        "type": "string",
+                                                        "description": "Product category."
+                                                    },
+                                                    "stockAvailability": {
+                                                        "type": "integer",
+                                                        "description": "Number of units in stock at the specified location."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid category or location filter."
+                    }
+                }
+            }
+        },
+        "/hotel/booking": {
+            "post": {
+                "summary": "Create a hotel booking",
+                "description": "Allow users or third-party services to book accommodations in partner hotels.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "customerId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the customer making the booking."
+                                    },
+                                    "roomType": {
+                                        "type": "string",
+                                        "description": "Type of room being booked (e.g., 'single', 'double', 'suite')."
+                                    },
+                                    "checkInDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Desired check-in date."
+                                    },
+                                    "checkOutDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Desired check-out date."
+                                    },
+                                    "specialRequests": {
+                                        "type": "string",
+                                        "description": "Additional requests or notes for the booking."
+                                    }
+                                },
+                                "required": [
+                                    "customerId",
+                                    "roomType",
+                                    "checkInDate",
+                                    "checkOutDate"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Hotel booking successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "bookingId": {
+                                            "type": "string",
+                                            "description": "Unique ID of the booking."
+                                        },
+                                        "hotelDetails": {
+                                            "type": "object",
+                                            "description": "Details of the booked hotel."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid booking data."
+                    }
+                }
+            }
+        },
+        "/automobile/models": {
+            "get": {
+                "summary": "Search automobile models",
+                "description": "Retrieve a list of automobile models available within the Consumer Discretionary Sector. Filters are available for make, price range, and model year.",
+                "parameters": [
+                    {
+                        "name": "make",
+                        "in": "query",
+                        "description": "Filter by car manufacturer (e.g., 'Toyota', 'Ford').",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "priceRange",
+                        "in": "query",
+                        "description": "Specify a price range for models, in the format 'min-max' (e.g., '20000-40000').",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "Filter by a specific model year.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Automobile models retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "models": {
+                                            "type": "array",
+                                            "description": "List of automobile models.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "modelId": {
+                                                        "type": "string",
+                                                        "description": "Unique identifier for the automobile model."
+                                                    },
+                                                    "make": {
+                                                        "type": "string",
+                                                        "description": "Manufacturer of the automobile."
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "description": "Model name."
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "description": "Price of the automobile."
+                                                    },
+                                                    "year": {
+                                                        "type": "integer",
+                                                        "description": "Year of the model."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query parameters."
+                    }
+                }
+            }
+        }
+    }
+}

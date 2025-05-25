@@ -1,0 +1,382 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Mining Resource Recovery and Operational Efficiency API",
+        "description": "This API helps mining companies maximize resource recovery and operational efficiency by providing real-time insights into ore grades, extraction rates, and equipment utilization for data-driven decision-making.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.mining-efficiency.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/auth/token": {
+            "get": {
+                "summary": "Retrieve Authorization Token",
+                "description": "Request and retrieve an authorization token required for accessing all API services. Ensures secure data access and integrity.",
+                "responses": {
+                    "200": {
+                        "description": "Authorization token retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "description": "A secure token used to authorize API calls."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ore-grades/{mining-lot-id}": {
+            "get": {
+                "summary": "Fetch Ore Grade Information",
+                "description": "Fetch real-time ore grade information for a specified mining lot to guide material quality assessment and extraction strategies.",
+                "parameters": [
+                    {
+                        "name": "mining-lot-id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier for the mining lot.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ore grade information retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "oreGrade": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "description": "Current ore grade of the specified mining lot."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/extraction-rates": {
+            "get": {
+                "summary": "Obtain Extraction Rates",
+                "description": "Retrieve current and historical extraction rate data across various mining lots to analyze trends and adjust operations.",
+                "responses": {
+                    "200": {
+                        "description": "Extraction rates data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "lots": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "lotId": {
+                                                        "type": "string",
+                                                        "description": "Identifier for the mining lot."
+                                                    },
+                                                    "historicalRates": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "number",
+                                                            "format": "float"
+                                                        },
+                                                        "description": "Historical extraction rates."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/equipment/utilization": {
+            "get": {
+                "summary": "Retrieve Equipment Utilization Data",
+                "description": "Access detailed data on equipment usage, including operational time and idle periods, to evaluate efficiency and optimize resource allocation.",
+                "responses": {
+                    "200": {
+                        "description": "Equipment utilization data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "equipment": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "equipmentId": {
+                                                        "type": "string",
+                                                        "description": "Identifier for the equipment."
+                                                    },
+                                                    "utilization": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "operationalTime": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "description": "Total operational time."
+                                                            },
+                                                            "idleTime": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "description": "Total idle time."
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/equipment-maintenance": {
+            "post": {
+                "summary": "Create Maintenance Alerts",
+                "description": "Establish automated alert systems for preventive equipment maintenance based on historical wear-and-tear data.",
+                "requestBody": {
+                    "description": "Data required to create a maintenance alert.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "equipmentId": {
+                                        "type": "string",
+                                        "description": "Identifier for the equipment requiring monitoring."
+                                    },
+                                    "thresholds": {
+                                        "type": "object",
+                                        "description": "Parameters for alert thresholds.",
+                                        "properties": {
+                                            "wearLevel": {
+                                                "type": "number",
+                                                "description": "Wear and tear level threshold to trigger alerts."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Maintenance alert created successfully."
+                    }
+                }
+            }
+        },
+        "/mining-areas/high-potential": {
+            "get": {
+                "summary": "Identify High-Potential Mining Areas",
+                "description": "List areas with the highest potential based on current and predicted ore grades to aid in resource planning.",
+                "responses": {
+                    "200": {
+                        "description": "High-potential mining areas identified successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "areas": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "areaId": {
+                                                        "type": "string",
+                                                        "description": "Identifier for the mining area."
+                                                    },
+                                                    "potentialScore": {
+                                                        "type": "number",
+                                                        "description": "Score indicating the potential of the area."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/resource-yield": {
+            "get": {
+                "summary": "Generate Resource Yield Reports",
+                "description": "Produce comprehensive reports detailing current resource yield and compare it against historical performance data.",
+                "responses": {
+                    "200": {
+                        "description": "Resource yield report generated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "yieldData": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "timePeriod": {
+                                                        "type": "string",
+                                                        "description": "Time period of the yield data."
+                                                    },
+                                                    "currentYield": {
+                                                        "type": "number",
+                                                        "description": "The current yield metric."
+                                                    },
+                                                    "historicalComparison": {
+                                                        "type": "number",
+                                                        "description": "Comparison against historical data."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensors/register": {
+            "post": {
+                "summary": "Register New On-Site Monitoring Sensor",
+                "description": "Register a new sensor with the system to allow streaming of real-time data for enhanced monitoring.",
+                "requestBody": {
+                    "description": "Information about the sensor being registered.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "sensorId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the sensor."
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "description": "Physical location where the sensor is deployed."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sensor registered successfully."
+                    }
+                }
+            }
+        },
+        "/analytics/predictive-trends": {
+            "get": {
+                "summary": "Access Predictive Analytics Reports",
+                "description": "Retrieve advanced analytics reports that predict future trends in resource extraction, equipment usage, and ore grades.",
+                "responses": {
+                    "200": {
+                        "description": "Predictive trends report generated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "trends": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "trendId": {
+                                                        "type": "string",
+                                                        "description": "Unique identifier for the trend."
+                                                    },
+                                                    "prediction": {
+                                                        "type": "string",
+                                                        "description": "Predicted outcome based on current analytics."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/{alert-id}": {
+            "delete": {
+                "summary": "Remove Existing Maintenance Alert",
+                "description": "Remove an existing maintenance alert to ensure control over active alerts and maintain relevancy.",
+                "parameters": [
+                    {
+                        "name": "alert-id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier for the alert to be deleted.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Maintenance alert removed successfully."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization",
+                "description": "API key for authorizing requests."
+            }
+        }
+    },
+    "security": [
+        {
+            "ApiKeyAuth": []
+        }
+    ]
+}

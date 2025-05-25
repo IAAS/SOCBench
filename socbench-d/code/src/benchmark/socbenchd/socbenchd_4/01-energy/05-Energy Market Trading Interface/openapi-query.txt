@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+Enables seamless trading of energy commodities between producers, distributors, and consumers through a secure and transparent API-based marketplace.
+
+Endpoints:
+GET /commodities: Retrieve the list of available energy commodities for trading.
+POST /transactions/new: Create a new trade transaction for a specific energy commodity.
+GET /transactions/{transaction_id}: Fetch details of a specific trade transaction by its ID.
+PUT /transactions/{transaction_id}/update: Modify the details of an existing trade transaction.
+DELETE /transactions/{transaction_id}: Cancel an existing trade transaction.
+GET /market-prices: Obtain the latest market prices for listed energy commodities.
+POST /marketpricerequests: Submit a request to analyze market price fluctuations for a specific commodity.
+GET /market-analytics: Retrieve analytics and insights based on active trade data.
+GET /tradehistory: View the trading history for a specific producer or consumer.
+GET /distributors: List registered distributors participating in trading activities.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

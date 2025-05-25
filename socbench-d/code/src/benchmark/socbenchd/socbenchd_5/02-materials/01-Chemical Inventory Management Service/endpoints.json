@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /chemicals",
+            "description": "Retrieve a complete list of all chemicals currently managed in the inventory."
+        },
+        {
+            "endpoint": "GET /chemicals/{id}",
+            "description": "Retrieve detailed information about a specific chemical by its unique identifier."
+        },
+        {
+            "endpoint": "POST /chemicals",
+            "description": "Add a new chemical to the inventory with its relevant details."
+        },
+        {
+            "endpoint": "PUT /chemicals/{id}",
+            "description": "Update the details of an existing chemical in the inventory."
+        },
+        {
+            "endpoint": "DELETE /chemicals/{id}",
+            "description": "Remove a specific chemical from the inventory based on its unique identifier."
+        },
+        {
+            "endpoint": "GET /inventory/expiring",
+            "description": "List all inventory items nearing their expiration dates."
+        },
+        {
+            "endpoint": "GET /inventory/compliance",
+            "description": "Compile a report on compliance adherence for storage regulations of all chemicals."
+        },
+        {
+            "endpoint": "POST /inventory/replenish",
+            "description": "Request automatic replenishment for specific chemicals with low stock levels."
+        },
+        {
+            "endpoint": "GET /report/summary",
+            "description": "Generate and retrieve a summary report of the inventory status."
+        },
+        {
+            "endpoint": "PUT /settings/storage",
+            "description": "Update the settings and requirements for chemical storage conditions."
+        }
+    ]
+}

@@ -1,0 +1,447 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Billing and Service Usage Monitoring API",
+        "description": "This API provides a seamless interface for customers to monitor their billing and service usage, offering capabilities such as detailed billing history access, real-time usage statistics, and payment management through secure transactions.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.communication-services.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/billing/history": {
+            "get": {
+                "summary": "Retrieve Billing History",
+                "description": "Retrieve the complete billing history for the authenticated user. This includes all prior transactions and invoices.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of billing history.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BillingRecord"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    },
+                    "500": {
+                        "description": "Server error."
+                    }
+                }
+            }
+        },
+        "/usage/statistics": {
+            "get": {
+                "summary": "Fetch Real-Time Usage Statistics",
+                "description": "Fetch real-time statistics of the user's service usage, including data, voice, and SMS usage where applicable.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of usage statistics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UsageStatistics"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    },
+                    "500": {
+                        "description": "Server error."
+                    }
+                }
+            }
+        },
+        "/payments": {
+            "post": {
+                "summary": "Initiate Payment",
+                "description": "Initiate a secure transaction for paying a service billing invoice. The request body should contain the payment details.",
+                "requestBody": {
+                    "description": "Payment details including amount and invoice ID.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaymentRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Payment successfully initiated."
+                    },
+                    "400": {
+                        "description": "Invalid payment request."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    },
+                    "500": {
+                        "description": "Server error."
+                    }
+                }
+            }
+        },
+        "/notifications": {
+            "get": {
+                "summary": "Retrieve Notifications",
+                "description": "List all notifications related to billing and usage alerts for the user.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of notifications.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Notification"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    },
+                    "500": {
+                        "description": "Server error."
+                    }
+                }
+            }
+        },
+        "/communication/queries": {
+            "post": {
+                "summary": "Submit a Query",
+                "description": "Submit a query or issue related to the communication service. The request body should contain details about the issue.",
+                "requestBody": {
+                    "description": "Query details including subject and description.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Query"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Query successfully submitted."
+                    },
+                    "400": {
+                        "description": "Invalid query details."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    },
+                    "500": {
+                        "description": "Server error."
+                    }
+                }
+            }
+        },
+        "/overview": {
+            "get": {
+                "summary": "Account Overview",
+                "description": "Provide a summary of the user's account, including billing and usage summary.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved account overview.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AccountOverview"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    },
+                    "500": {
+                        "description": "Server error."
+                    }
+                }
+            }
+        },
+        "/alerts/settings": {
+            "put": {
+                "summary": "Update Alert Settings",
+                "description": "Update the settings for real-time usage and billing alerts for the user.",
+                "requestBody": {
+                    "description": "Alert settings to be updated.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AlertSettings"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated alert settings."
+                    },
+                    "400": {
+                        "description": "Invalid alert settings provided."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    },
+                    "500": {
+                        "description": "Server error."
+                    }
+                }
+            }
+        },
+        "/support/contacts": {
+            "get": {
+                "summary": "Get Support Contacts",
+                "description": "Retrieve contact information for customer support related to the service.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved support contacts.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SupportContact"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    },
+                    "500": {
+                        "description": "Server error."
+                    }
+                }
+            }
+        },
+        "/account/data": {
+            "delete": {
+                "summary": "Request Data Deletion",
+                "description": "Request deletion of the user's personal data and associated service history.",
+                "responses": {
+                    "200": {
+                        "description": "Data deletion request successfully submitted."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    },
+                    "500": {
+                        "description": "Server error."
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "summary": "Submit Feedback",
+                "description": "Submit user feedback about the billing and service monitoring interface.",
+                "requestBody": {
+                    "description": "Feedback details including the user experience.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Feedback"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback successfully submitted."
+                    },
+                    "400": {
+                        "description": "Invalid feedback details."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    },
+                    "500": {
+                        "description": "Server error."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "BillingRecord": {
+                "type": "object",
+                "properties": {
+                    "invoiceId": {
+                        "type": "string"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "PAID",
+                            "UNPAID"
+                        ]
+                    }
+                }
+            },
+            "UsageStatistics": {
+                "type": "object",
+                "properties": {
+                    "dataUsage": {
+                        "type": "number",
+                        "format": "double",
+                        "description": "Data usage in MB."
+                    },
+                    "voiceUsage": {
+                        "type": "number",
+                        "format": "double",
+                        "description": "Voice usage in minutes."
+                    },
+                    "smsUsage": {
+                        "type": "number",
+                        "description": "SMS sent count."
+                    }
+                }
+            },
+            "PaymentRequest": {
+                "type": "object",
+                "properties": {
+                    "invoiceId": {
+                        "type": "string",
+                        "description": "The ID of the invoice to be paid."
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "double",
+                        "description": "Payment amount."
+                    },
+                    "paymentMethod": {
+                        "type": "string",
+                        "description": "Payment method to use for the transaction."
+                    }
+                }
+            },
+            "Notification": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "Query": {
+                "type": "object",
+                "properties": {
+                    "subject": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AccountOverview": {
+                "type": "object",
+                "properties": {
+                    "totalBalance": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "currentUsage": {
+                        "$ref": "#/components/schemas/UsageStatistics"
+                    }
+                }
+            },
+            "AlertSettings": {
+                "type": "object",
+                "properties": {
+                    "billingAlerts": {
+                        "type": "boolean"
+                    },
+                    "usageAlerts": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "SupportContact": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Feedback": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string"
+                    },
+                    "comments": {
+                        "type": "string"
+                    },
+                    "rating": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 5
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

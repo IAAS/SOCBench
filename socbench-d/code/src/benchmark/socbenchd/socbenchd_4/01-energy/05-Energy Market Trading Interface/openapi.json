@@ -1,0 +1,484 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Energy Commodities Trading API",
+        "description": "API-based marketplace enabling seamless, secure, and transparent trading of energy commodities such as oil, gas, and coal between producers, distributors, and consumers.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.energytradingplatform.com",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/commodities": {
+            "get": {
+                "summary": "List available energy commodities",
+                "description": "Retrieve a list of energy commodities that are available for trading on the platform.",
+                "responses": {
+                    "200": {
+                        "description": "A list of available energy commodities.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "The unique identifier for the commodity."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "The name of the energy commodity."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "A brief description of the commodity."
+                                            },
+                                            "unit": {
+                                                "type": "string",
+                                                "description": "The trading unit for the commodity, e.g., 'barrels', or 'tons'."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/new": {
+            "post": {
+                "summary": "Create a new trade transaction",
+                "description": "Create a new trade transaction for a specific energy commodity by providing necessary trade details such as the commodity ID, quantity, price, and participants.",
+                "requestBody": {
+                    "description": "Details of the new trade transaction.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "commodity_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the commodity being traded."
+                                    },
+                                    "quantity": {
+                                        "type": "number",
+                                        "description": "The quantity of the commodity to be traded."
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "description": "The price per unit of the commodity."
+                                    },
+                                    "buyer_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the buyer."
+                                    },
+                                    "seller_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the seller."
+                                    }
+                                },
+                                "required": [
+                                    "commodity_id",
+                                    "quantity",
+                                    "price",
+                                    "buyer_id",
+                                    "seller_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The trade transaction was successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "transaction_id": {
+                                            "type": "string",
+                                            "description": "The unique identifier for the newly created transaction."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "The status of the transaction (e.g., 'Pending', 'Completed')."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/{transaction_id}": {
+            "get": {
+                "summary": "Fetch transaction details",
+                "description": "Retrieve the details of a specific trade transaction by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "transaction_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the trade transaction.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the specified transaction.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "transaction_id": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the transaction."
+                                        },
+                                        "commodity_id": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the commodity being traded."
+                                        },
+                                        "quantity": {
+                                            "type": "number",
+                                            "description": "The quantity of the commodity being traded."
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "description": "The price per unit of the commodity."
+                                        },
+                                        "buyer_id": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the buyer."
+                                        },
+                                        "seller_id": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the seller."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "The status of the transaction (e.g., 'Pending', 'Completed')."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Cancel a trade transaction",
+                "description": "Cancel an existing trade transaction using its unique ID.",
+                "parameters": [
+                    {
+                        "name": "transaction_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the transaction to be canceled.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The transaction was successfully canceled.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Confirmation message indicating successful cancellation."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/{transaction_id}/update": {
+            "put": {
+                "summary": "Update transaction details",
+                "description": "Modify the details of an existing trade transaction using its unique ID.",
+                "parameters": [
+                    {
+                        "name": "transaction_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the transaction to be updated.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated details of the transaction.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "quantity": {
+                                        "type": "number",
+                                        "description": "The updated quantity of the commodity being traded."
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "description": "The updated price per unit of the commodity."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The transaction was successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "transaction_id": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the transaction."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "The updated status of the transaction."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/market-prices": {
+            "get": {
+                "summary": "Retrieve market prices",
+                "description": "Obtain the latest market prices for energy commodities currently listed on the platform.",
+                "responses": {
+                    "200": {
+                        "description": "The latest market prices for listed commodities.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "commodity_id": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the commodity."
+                                            },
+                                            "current_price": {
+                                                "type": "number",
+                                                "description": "The current market price of the commodity."
+                                            },
+                                            "currency": {
+                                                "type": "string",
+                                                "description": "The currency for the market price."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/marketpricerequests": {
+            "post": {
+                "summary": "Request market price analysis",
+                "description": "Submit a request to analyze market price fluctuations for a given commodity.",
+                "requestBody": {
+                    "description": "Details of the commodity for market analysis.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "commodity_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the commodity."
+                                    },
+                                    "time_period": {
+                                        "type": "string",
+                                        "description": "The time period for analyzing price fluctuations (e.g., '7d', '30d')."
+                                    }
+                                },
+                                "required": [
+                                    "commodity_id",
+                                    "time_period"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Market price analysis request has been received successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "request_id": {
+                                            "type": "string",
+                                            "description": "The unique identifier for the submitted request."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "The status of the request."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/market-analytics": {
+            "get": {
+                "summary": "Get market analytics",
+                "description": "Retrieve detailed analytics and insights based on active trade data over a specified time period.",
+                "responses": {
+                    "200": {
+                        "description": "Analytics data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "metric": {
+                                                "type": "string",
+                                                "description": "The name of the analyzed metric (e.g., 'Total Volume', 'Average Price')."
+                                            },
+                                            "value": {
+                                                "type": "string",
+                                                "description": "The value of the analyzed metric."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tradehistory": {
+            "get": {
+                "summary": "View trading history",
+                "description": "Retrieve the trading history for a specific producer or consumer, including details of their executed transactions.",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true,
+                        "description": "The unique identifier of the user (producer or consumer) whose trade history is being requested.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The trading history of the specified user.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "transaction_id": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the trade transaction."
+                                            },
+                                            "commodity_id": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the commodity traded."
+                                            },
+                                            "quantity": {
+                                                "type": "number",
+                                                "description": "The quantity of the commodity traded."
+                                            },
+                                            "price": {
+                                                "type": "number",
+                                                "description": "The price per unit of the commodity."
+                                            },
+                                            "transaction_date": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "The timestamp of the transaction."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/distributors": {
+            "get": {
+                "summary": "List registered distributors",
+                "description": "Retrieve a list of distributors currently registered and participating in trading activities on the platform.",
+                "responses": {
+                    "200": {
+                        "description": "A list of registered distributors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "distributor_id": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the distributor."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "The name of the distributor."
+                                            },
+                                            "contact_info": {
+                                                "type": "string",
+                                                "description": "Contact information for the distributor."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+Providing automobile owners with reminders, appointment scheduling, and maintenance record updates, this API promotes efficient and timely servicing of vehicles, enhancing longevity and user satisfaction while reducing manual tracking efforts.
+
+Endpoints:
+GET /vehicles: Retrieve a list of all registered vehicles associated with the user.
+GET /vehicle/{id}/maintenancerecords: Retrieve all maintenance records for a specific vehicle by its identifier.
+POST /vehicle/{id}/schedule: Create a new maintenance schedule for a specific vehicle by its identifier.
+PATCH /vehicle/{id}/details: Update details of a specific vehicle, such as make, model, and year.
+GET /notifications: Retrieve a list of maintenance reminders and notifications for the user.
+DELETE /notification/{id}: Delete a specific maintenance notification by its identifier.
+GET /history: Retrieve a user's activity history regarding their vehicle maintenance interactions.
+POST /user/suggestions: Submit user feedback or suggestions to improve the service.
+GET /vehicle/{id}/recommendations: Retrieve recommended maintenance services based on vehicle type and usage.
+PUT /maintenancecenter/{id}/details: Update the service center’s details, such as opening hours and contact information.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

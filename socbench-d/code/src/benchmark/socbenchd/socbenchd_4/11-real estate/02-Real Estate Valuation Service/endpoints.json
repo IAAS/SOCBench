@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /property/value-estimate",
+            "description": "Submit property attributes to calculate and retrieve an estimated market value."
+        },
+        {
+            "endpoint": "GET /market/trends",
+            "description": "Access insights into current market trends for a specified region."
+        },
+        {
+            "endpoint": "GET /locations/desirability",
+            "description": "Retrieve a list of locations with desirability ratings."
+        },
+        {
+            "endpoint": "GET /property/{id}",
+            "description": "Fetch detailed information for a specific property by ID."
+        },
+        {
+            "endpoint": "POST /comparison/multi-properties",
+            "description": "Compare valuation details across multiple supplied properties."
+        },
+        {
+            "endpoint": "GET /property/features/{id}",
+            "description": "Retrieve feature details of a property by its unique identifier."
+        },
+        {
+            "endpoint": "POST /valuation/history",
+            "description": "Request the historical valuation data for a supplied property ID over time."
+        },
+        {
+            "endpoint": "GET /property/recommendations",
+            "description": "Receive property recommendations based on defined criteria."
+        },
+        {
+            "endpoint": "POST /investment/reports",
+            "description": "Generate a detailed investment report for selected properties."
+        },
+        {
+            "endpoint": "GET /area/valuation-statistics",
+            "description": "Retrieve statistical valuation data aggregated for a given area."
+        }
+    ]
+}

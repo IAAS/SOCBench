@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+Service:
+This service offers operations teams tools for automated provisioning, scaling, and management of cloud ecosystem resources via an extensive REST API.
+
+Endpoints:
+POST /provision: Create and configure a new resource within the cloud ecosystem.
+GET /resources: Retrieve a list of all active resources, including their current states and configurations.
+PUT /resources/{resource_id}: Update the configuration settings of a specific resource with the given identifier.
+DELETE /resources/{resource_id}: Remove the specified resource from the system, ceasing its functionalities.
+GET /resources/{resource_id}/metrics: Fetch performance metrics and utilization statistics for a specific resource.
+POST /scaling/{resource_id}/up: Increase the capacity of a specific resource to manage greater workloads.
+POST /scaling/{resource_id}/down: Decrease the capacity of a specific resource to conserve operational costs.
+GET /alerts: List all alerts or notifications related to resource thresholds and system statuses.
+POST /actions/{resource_id}/restart: Reinitialize the specified resource to ensure consistent operation following modifications.
+GET /healthcheck: Verify the overall operational status and health of the service infrastructure.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

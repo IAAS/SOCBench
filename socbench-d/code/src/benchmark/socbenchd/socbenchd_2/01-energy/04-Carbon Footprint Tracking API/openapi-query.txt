@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+Designed for businesses and individuals, this API quantifies the carbon emissions resulting from energy usage. By analyzing input parameters such as energy source type and consumption levels, the service computes real-time carbon footprints. Application developers can embed this service in sustainability dashboards, thus fostering accountability and sustainable practices.
+
+Endpoints:
+GET /emissions/calculate: Calculate the carbon emissions for the provided energy input details.
+POST /emissions/history: Submit historical energy usage data to analyze trends in carbon emissions.
+GET /emissions/sources: Retrieve a list of supported energy sources with emission factors.
+POST /emissions/compare: Compare carbon emissions of different energy source combinations.
+GET /dashboard/summary: Fetch a summarized dashboard of the organization's carbon footprint.
+PUT /emissions/preferences: Update user preferences for energy usage analysis and emission reports.
+GET /recommendations/strategies: Retrieve strategies for reducing energy consumption and carbon emissions.
+POST /emissions/scenarios: Analyze potential carbon emissions for hypothetical or forecasted scenarios.
+DELETE /data/usage: Remove previously submitted energy usage data from the system.
+GET /analytics/trends: View analytics and trends in energy usage and emission patterns over time.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

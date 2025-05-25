@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+Supports leisure facilities in managing event schedules and attendee registrations through an intuitive RESTful API. Enables facilities to publish events, handle ticketing, and communicate updates to potential attendees seamlessly, enhancing user engagement.
+
+Endpoints:
+GET /events: Retrieve the list of all scheduled events.
+POST /events: Create a new event with details such as title, date, and description.
+GET /events/{event_id}: Retrieve detailed information about a specific event using its unique ID.
+PUT /events/{event_id}: Update information regarding a specific event.
+DELETE /events/{event_id}: Remove a specific event from the schedule.
+GET /attendees/{event_id}: Retrieve a list of all attendees registered for a specific event.
+POST /attendees: Allow a new attendee to register for an event.
+DELETE /attendees/{attendee_id}: Remove an attendee from the registration list using their unique ID.
+POST /notifications: Send notifications or updates to all attendees of a specific event.
+GET /statistics: Retrieve attendance and participation statistics for a specified period.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

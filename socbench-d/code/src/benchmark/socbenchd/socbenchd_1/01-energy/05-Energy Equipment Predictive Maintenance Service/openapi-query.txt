@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+Employ predictive analytics to ensure timely maintenance of energy infrastructure, mitigating unplanned downtimes.
+
+Endpoints:
+GET /maintenance-schedule: Retrieve the complete maintenance schedule for the facilities.
+POST /incident-report: Submit a detailed report for any observed incidents or issues.
+GET /prediction-summary: Retrieve summaries of predictive maintenance algorithms and findings.
+POST /sensor-data: Upload new data collected from sensors for analysis.
+GET /failure-likelihood: Get the probability of potential failures in the system components.
+PUT /maintenance-schedule/{id}: Update an existing maintenance schedule entry by ID.
+DELETE /incident-report/{id}: Remove a specific incident report by ID.
+GET /equipment-status: Retrieve the current status and performance metrics of equipment.
+GET /alerts: Access active alerts and warnings related to system performance.
+POST /custom-query: Execute a custom analytics query on existing datasets.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

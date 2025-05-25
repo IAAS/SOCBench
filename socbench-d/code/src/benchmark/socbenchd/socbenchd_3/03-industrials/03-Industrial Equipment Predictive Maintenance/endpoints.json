@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /machinery/status",
+            "description": "Retrieve the current status and health metrics of all monitored machinery."
+        },
+        {
+            "endpoint": "POST /maintenance/schedule",
+            "description": "Schedule a maintenance task for a specific machinery unit based on predictive analysis."
+        },
+        {
+            "endpoint": "GET /reports/failures",
+            "description": "Retrieve detailed reports of past machinery failures and their causes."
+        },
+        {
+            "endpoint": "POST /alerts/notifications",
+            "description": "Set up custom notifications for specific maintenance thresholds."
+        },
+        {
+            "endpoint": "DELETE /sensors/{sensorId}",
+            "description": "Remove a sensor from monitoring."
+        },
+        {
+            "endpoint": "PUT /settings/thresholds",
+            "description": "Update the warning and critical thresholds for machinery parameters."
+        },
+        {
+            "endpoint": "GET /predictive-analysis",
+            "description": "Retrieve a predictive analysis for potential machinery failures within a specified time frame."
+        },
+        {
+            "endpoint": "POST /feedback/issues",
+            "description": "Submit and track issues identified by operators for review."
+        },
+        {
+            "endpoint": "GET /history/alerts",
+            "description": "Retrieve the history of sent alerts and their acknowledgments."
+        },
+        {
+            "endpoint": "PATCH /machinery/metadata",
+            "description": "Update the descriptive metadata associated with machinery units."
+        }
+    ]
+}

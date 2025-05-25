@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+Facilitate industries to monitor their carbon footprint and implement measures to comply with environmental regulations.
+
+Endpoints:
+GET /carbon-emissions: Retrieve measured and calculated carbon emissions data for the specified industry.
+POST /carbon-reduction-plan: Submit a carbon reduction plan for the industry, specifying targets and timetables.
+GET /regulatory-compliance: Obtain the current compliance status and recommendations to meet environmental regulations.
+POST /offset-projects: Register a project intended to offset carbon emissions for review and analysis.
+GET /energy-usage: Access detailed insights into the energy usage of industry operations.
+POST /equipment-efficiency-check: Enable the submission of equipment details to evaluate its efficiency and propose upgrades.
+GET /best-practices: Discover recommended best practices based on the industry type and location.
+POST /team-training: Enroll organizational staff in training programs about sustainable energy practices.
+GET /financial-incentives: List available financial incentives for adopting sustainable operations.
+POST /report-feedback: Submit feedback or flag inaccuracies in generated environmental reports or data.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

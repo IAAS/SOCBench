@@ -1,0 +1,418 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Financial Data API",
+        "description": "Provides real-time and historical financial data, including stock prices, indices, and market news, for brokers and investors.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.financialdata.com/v1",
+            "description": "Main API Server"
+        }
+    ],
+    "paths": {
+        "/stock-prices": {
+            "get": {
+                "summary": "Retrieve real-time stock prices",
+                "description": "Fetch current stock prices for specified companies.",
+                "parameters": [
+                    {
+                        "name": "symbols",
+                        "in": "query",
+                        "required": true,
+                        "description": "Comma-separated list of stock symbols (e.g., AAPL, MSFT).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with real-time stock prices.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "data": [
+                                        {
+                                            "symbol": "AAPL",
+                                            "price": 150.25,
+                                            "currency": "USD"
+                                        },
+                                        {
+                                            "symbol": "MSFT",
+                                            "price": 297.18,
+                                            "currency": "USD"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, missing parameters."
+                    }
+                }
+            }
+        },
+        "/historical-data": {
+            "get": {
+                "summary": "Obtain historical financial data",
+                "description": "Retrieve historical data, including trends and prices for specified stocks or indices.",
+                "parameters": [
+                    {
+                        "name": "symbol",
+                        "in": "query",
+                        "required": true,
+                        "description": "Stock symbol or index name (e.g., AAPL, S&P500).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start date for historical data in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "End date for historical data in YYYY-MM-DD format. Defaults to the current date.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with historical financial data.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "symbol": "AAPL",
+                                    "data": [
+                                        {
+                                            "date": "2023-10-15",
+                                            "price": 150.25
+                                        },
+                                        {
+                                            "date": "2023-10-14",
+                                            "price": 148.9
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, missing or incorrect parameters."
+                    }
+                }
+            }
+        },
+        "/indices": {
+            "get": {
+                "summary": "Retrieve market indices",
+                "description": "Access information about major market indices and their current values.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with market indices data.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "indices": [
+                                        {
+                                            "index": "S&P 500",
+                                            "value": 4260.89,
+                                            "percentage_change": 0.55
+                                        },
+                                        {
+                                            "index": "NASDAQ",
+                                            "value": 13578.56,
+                                            "percentage_change": -0.12
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/market-news": {
+            "get": {
+                "summary": "Fetch financial market news",
+                "description": "Retrieve the latest news and updates related to financial markets.",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "required": false,
+                        "description": "Filter news by category (e.g., stocks, economy, commodities).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "description": "Limit the number of news articles returned. Defaults to 10.",
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with market news.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "articles": [
+                                        {
+                                            "title": "Market Update: S&P 500 Gains Momentum",
+                                            "published_at": "2023-10-15T10:00:00Z"
+                                        },
+                                        {
+                                            "title": "FED Announces New Interest Rate Policy",
+                                            "published_at": "2023-10-14T15:30:00Z"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/securities/details": {
+            "get": {
+                "summary": "Retrieve details of a security",
+                "description": "Get detailed financial and trading data for a specific security.",
+                "parameters": [
+                    {
+                        "name": "symbol",
+                        "in": "query",
+                        "required": true,
+                        "description": "The symbol for the security (e.g., AAPL).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with security details.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "symbol": "AAPL",
+                                    "company_name": "Apple Inc.",
+                                    "price": 150.25,
+                                    "high": 152.0,
+                                    "low": 147.5
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/subscribe": {
+            "post": {
+                "summary": "Subscribe to stock alerts",
+                "description": "Set up real-time alerts based on predefined triggers such as stock price changes.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "symbol": {
+                                        "type": "string",
+                                        "description": "Stock symbol for the alert."
+                                    },
+                                    "threshold": {
+                                        "type": "number",
+                                        "description": "Threshold value to trigger the alert."
+                                    },
+                                    "direction": {
+                                        "type": "string",
+                                        "enum": [
+                                            "above",
+                                            "below"
+                                        ],
+                                        "description": "Specify whether the alert triggers when the stock surpasses or falls below the threshold."
+                                    }
+                                },
+                                "required": [
+                                    "symbol",
+                                    "threshold",
+                                    "direction"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Subscription successful.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Alert subscription created successfully."
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request."
+                    }
+                }
+            }
+        },
+        "/exchange-rates": {
+            "get": {
+                "summary": "Retrieve exchange rates",
+                "description": "Provide current foreign exchange rates for major currency pairs.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with exchange rate data.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "base_currency": "USD",
+                                    "rates": {
+                                        "EUR": 0.85,
+                                        "GBP": 0.75
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/commodities-prices": {
+            "get": {
+                "summary": "Get current commodity prices",
+                "description": "Retrieve prices of major commodities traded in the market, including precious metals and oil.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with commodity price data.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "commodities": [
+                                        {
+                                            "name": "Gold",
+                                            "price": 1925.5
+                                        },
+                                        {
+                                            "name": "Crude Oil",
+                                            "price": 83.75
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/portfolio/analyze": {
+            "post": {
+                "summary": "Analyze portfolio",
+                "description": "Provide insights and analysis on a portfolio's performance and comparison to market trends.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "portfolio": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "symbol": {
+                                                    "type": "string",
+                                                    "description": "Stock symbol in the portfolio."
+                                                },
+                                                "quantity": {
+                                                    "type": "number",
+                                                    "description": "Number of shares held."
+                                                }
+                                            },
+                                            "required": [
+                                                "symbol",
+                                                "quantity"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "portfolio"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Portfolio analysis result.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "performance": {
+                                        "total_value": 15000.5,
+                                        "returns": 0.12
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/financial-calendar": {
+            "get": {
+                "summary": "Retrieve financial calendar",
+                "description": "Access important upcoming financial dates and events.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with financial calendar data.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "events": [
+                                        {
+                                            "name": "Earnings Report",
+                                            "date": "2023-11-15"
+                                        },
+                                        {
+                                            "name": "FED Meeting",
+                                            "date": "2023-11-20"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {}
+}

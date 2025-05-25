@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+An API providing tools to analyze and enhance live and on-demand video streaming quality. Supports bandwidth optimization, adaptive streaming protocols, and integration with third-party video platforms.
+
+Endpoints:
+GET /videos: Retrieve a list of videos available for streaming, along with metadata such as title and duration.
+POST /videos/analyze: Analyze a specific video for potential quality enhancements based on provided criteria.
+GET /streams/status: Retrieve the current status and analytics of ongoing live video streams.
+POST /streams/optimize: Optimize the bandwidth and quality of an ongoing live video stream.
+GET /protocols/adaptive: List the adaptive streaming protocols supported by the service.
+POST /settings/video: Update video quality settings to improve compatibility and performance.
+PUT /platforms/integrations: Configure the service for integration with a third-party video platform.
+GET /analytics/reports: Generate and retrieve detailed reports on the performance of video streams.
+DELETE /streams/{id}: Terminate a specified live video stream by its identifier.
+POST /videos/enhance: Enhance the visual and transmission quality of a submitted video for better viewing.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

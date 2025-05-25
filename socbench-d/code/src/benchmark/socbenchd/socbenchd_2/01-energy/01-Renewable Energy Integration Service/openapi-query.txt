@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+The Renewable Energy Integration Service provides utilities with data and automation capabilities to seamlessly incorporate renewable energy sources like wind and solar into existing energy grids. Features include real-time energy production monitoring, integration with existing grid systems, and predictive models for balancing supply with demand. Users can authenticate using API tokens and query endpoints for detailed production metrics and grid interface status. This service aids in enhancing renewable energy usage, reducing dependence on non-renewable sources.
+
+Endpoints:
+POST /integration/grid: Enable and configure the integration of a renewable energy source into the existing energy grid.
+GET /production/real-time: Retrieve real-time production metrics of renewable energy sources.
+GET /grid/status: Fetch the current status and performance metrics of the energy grid interface.
+POST /alerts/settings: Set up notifications for certain grid or production events.
+GET /forecast/demand: Obtain predictive analytics for energy demand based on historical and modeling data.
+GET /supply/overview: View a summary of energy supply from renewable sources.
+POST /data/upload: Allow utilities to upload external data for modeling and integration.
+PUT /grid/control: Update configurations for grid energy distribution settings.
+DELETE /resource/remove: Remove obsolete or inactive renewable resources from the system.
+GET /reports/summary: Generate and download custom reports about renewable energy integration and performance.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

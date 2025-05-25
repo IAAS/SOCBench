@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+Support individual and institutional investors in analyzing and managing their real estate investment portfolios, offering tools for performance tracking and optimization.
+
+Endpoints:
+GET /investment-portfolio: Retrieve a summary of the investor's real estate investment portfolio.
+POST /investment-portfolio: Create a new investor portfolio entry for real estate investments.
+GET /investment-portfolio/{portfolioId}: Fetch detailed information about a specific investment portfolio.
+PUT /investment-portfolio/{portfolioId}: Update the specified investment portfolio details.
+DELETE /investment-portfolio/{portfolioId}: Remove a specific investment portfolio from the system.
+GET /market-insights: Access market insights and trends for the real estate industry.
+POST /real-estate-analyzer: Submit properties for analysis and valuation within the context of the investor's portfolio.
+GET /real-estate-trends: Retrieve current trends and forecasts for specified real estate markets.
+GET /performance-reports/{portfolioId}: Generate and download performance reports for a specific portfolio.
+POST /transaction-history: Log a new transaction or activity within a designated investment portfolio.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

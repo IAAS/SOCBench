@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+Service:
+Enables retailers to optimize inventory levels by analyzing purchase and restock patterns, improving efficiency and reducing waste.
+
+Endpoints:
+GET /inventory/status: Retrieve the current inventory status, including quantities and locations of items.
+POST /inventory/restock: Submit a request to restock specific items based on demand predictions.
+GET /analytics/patterns: Analyze and report purchasing trends and seasonal patterns.
+POST /analytics/forecast: Provide forecast data for inventory requirements based on historical data.
+GET /waste/reports: Retrieve detailed waste reports to identify inefficiencies.
+PUT /inventory/adjust: Adjust inventory levels manually after verification by staff.
+GET /suppliers/list: List all suppliers and their associated products.
+POST /orders/new: Create a new order for inventory replenishment.
+DELETE /inventory/remove: Remove specific items from inventory upon confirmation.
+GET /performance/metrics: Retrieve KPIs and other metrics related to inventory optimization.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

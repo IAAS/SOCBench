@@ -1,0 +1,356 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Insurance Claims Processing API",
+        "version": "1.0.0",
+        "description": "This API enables automated processing, validation, and tracking of insurance claims to expedite resolution and enhance customer satisfaction."
+    },
+    "servers": [
+        {
+            "url": "https://api.insurance-claims.example.com",
+            "description": "Production server"
+        },
+        {
+            "url": "https://sandbox.api.insurance-claims.example.com",
+            "description": "Sandbox server"
+        }
+    ],
+    "paths": {
+        "/claims/submit": {
+            "post": {
+                "summary": "Submit a new insurance claim",
+                "description": "Submit a new insurance claim for processing. This endpoint allows users to provide details of the insurance claim, such as policy information and claim reason.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "policyId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the insurance policy associated with the claim."
+                                    },
+                                    "claimType": {
+                                        "type": "string",
+                                        "description": "The type of claim being submitted (e.g., 'accident', 'theft', 'fire')."
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "description": "The estimated claim amount."
+                                    },
+                                    "incidentDetails": {
+                                        "type": "string",
+                                        "description": "Detailed description of the incident leading to the claim."
+                                    },
+                                    "claimantInfo": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the claimant."
+                                            },
+                                            "contact": {
+                                                "type": "string",
+                                                "description": "Contact information of the claimant."
+                                            }
+                                        },
+                                        "description": "Information about the person making the claim."
+                                    }
+                                },
+                                "required": [
+                                    "policyId",
+                                    "claimType",
+                                    "amount",
+                                    "incidentDetails"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Claim submitted successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/claims/status": {
+            "get": {
+                "summary": "Get claim status",
+                "description": "Retrieve the current status of an existing insurance claim by providing the claim ID.",
+                "parameters": [
+                    {
+                        "name": "claimId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the insurance claim."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved claim status."
+                    },
+                    "404": {
+                        "description": "Claim not found."
+                    }
+                }
+            }
+        },
+        "/claims/update": {
+            "put": {
+                "summary": "Update insurance claim",
+                "description": "Update the details of an existing insurance claim. The claim ID must be provided.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "claimId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the insurance claim."
+                                    },
+                                    "updatedDetails": {
+                                        "type": "object",
+                                        "description": "Updated details of the claim (e.g., amount, incident details)."
+                                    }
+                                },
+                                "required": [
+                                    "claimId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Claim updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid request data."
+                    },
+                    "404": {
+                        "description": "Claim not found."
+                    }
+                }
+            }
+        },
+        "/claims/delete": {
+            "delete": {
+                "summary": "Delete insurance claim",
+                "description": "Remove an insurance claim from the system using the claim ID.",
+                "parameters": [
+                    {
+                        "name": "claimId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the insurance claim."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Claim successfully deleted."
+                    },
+                    "404": {
+                        "description": "Claim not found."
+                    }
+                }
+            }
+        },
+        "/documents/upload": {
+            "post": {
+                "summary": "Upload claim documents",
+                "description": "Upload required documents for a specific insurance claim.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "claimId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the insurance claim."
+                                    },
+                                    "document": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Document file to be uploaded."
+                                    }
+                                },
+                                "required": [
+                                    "claimId",
+                                    "document"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Document uploaded successfully."
+                    },
+                    "400": {
+                        "description": "Invalid file or request format."
+                    },
+                    "404": {
+                        "description": "Claim not found."
+                    }
+                }
+            }
+        },
+        "/policies": {
+            "get": {
+                "summary": "Get available policies",
+                "description": "Retrieve a list of available insurance policies.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved list of policies."
+                    }
+                }
+            }
+        },
+        "/claim/history": {
+            "get": {
+                "summary": "Get claim history",
+                "description": "Access the processing history of a specific claim by providing its claim ID.",
+                "parameters": [
+                    {
+                        "name": "claimId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the insurance claim."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved claim history."
+                    },
+                    "404": {
+                        "description": "Claim not found."
+                    }
+                }
+            }
+        },
+        "/claims/validate": {
+            "post": {
+                "summary": "Validate claim information",
+                "description": "Validate the provided claim information for accuracy before submission.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "policyId": {
+                                        "type": "string",
+                                        "description": "The insurance policy ID to be validated."
+                                    },
+                                    "claimDetails": {
+                                        "type": "object",
+                                        "description": "Details of the claim for validation."
+                                    }
+                                },
+                                "required": [
+                                    "policyId",
+                                    "claimDetails"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Validation successful."
+                    },
+                    "400": {
+                        "description": "Invalid data provided."
+                    }
+                }
+            }
+        },
+        "/analytics/reports": {
+            "get": {
+                "summary": "Generate analytics reports",
+                "description": "Generate reports on claim processing trends and metrics.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully generated analytics report."
+                    }
+                }
+            }
+        },
+        "/customer/feedback": {
+            "post": {
+                "summary": "Submit customer feedback",
+                "description": "Submit feedback related to the insurance claim process.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "claimId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the related claim."
+                                    },
+                                    "feedback": {
+                                        "type": "string",
+                                        "description": "Customer feedback information."
+                                    }
+                                },
+                                "required": [
+                                    "claimId",
+                                    "feedback"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback submitted successfully."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

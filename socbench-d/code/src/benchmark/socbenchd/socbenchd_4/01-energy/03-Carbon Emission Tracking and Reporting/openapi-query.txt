@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+Facilitates the recording, monitoring, and accurate reporting of carbon emissions for compliance with governmental and environmental standards.
+
+Endpoints:
+GET /emission-records: Retrieve the list of all recorded carbon emissions.
+POST /emission-records: Submit a new carbon emission record for monitoring.
+PUT /emission-records/{record_id}: Update an existing carbon emission record.
+DELETE /emission-records/{record_id}: Remove a specific carbon emission record by its ID.
+GET /emission-reports: Generate and retrieve detailed emission compliance reports.
+POST /sensors-data: Upload data collected from emission monitoring sensors.
+PUT /thresholds: Update threshold levels for emission compliance control.
+GET /alerts: Retrieve alerts triggered by emission levels exceeding thresholds.
+POST /aggregation: Perform aggregation of emission data for analysis and reporting.
+GET /audit-trails: Access recorded audit trails for emission records and modifications.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

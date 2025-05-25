@@ -1,0 +1,322 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Household Electronics Rental Service API",
+    "description": "API for renting household electronics, managing rental periods, returns, and fostering eco-friendly usage.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/devices": {
+      "get": {
+        "summary": "Retrieve rentable household electronics",
+        "description": "Fetch a list of all available household electronic devices that users can rent.",
+        "responses": {
+          "200": {
+            "description": "List of rentable household electronics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {"type": "string", "description": "Unique identifier for the device."},
+                      "name": {"type": "string", "description": "Name of the electronic device."},
+                      "category": {"type": "string", "description": "Category of the electronic (e.g., kitchen, entertainment)."},
+                      "features": {"type": "array", "items": {"type": "string"}, "description": "Features of the device."},
+                      "pricePerDay": {"type": "number", "format": "float", "description": "Rental price per day."}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rentals": {
+      "post": {
+        "summary": "Initiate a rental",
+        "description": "Start a rental period for a specific household electronic by providing device ID and the rental duration in days.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "deviceId": {"type": "string", "description": "Unique identifier of the device to be rented."},
+                  "duration": {"type": "integer", "description": "Rental duration in days."}
+                },
+                "required": ["deviceId", "duration"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Rental successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rentalId": {"type": "string", "description": "Unique identifier of the rental."},
+                    "totalCost": {"type": "number", "format": "float", "description": "Total cost of the rental."},
+                    "startDate": {"type": "string", "format": "date", "description": "Start date of the rental."},
+                    "endDate": {"type": "string", "format": "date", "description": "End date of the rental."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rentals/{rentalId}": {
+      "get": {
+        "summary": "Get rental information",
+        "description": "Retrieve specific details about an active or past rental using its rental ID.",
+        "parameters": [
+          {
+            "name": "rentalId",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "The unique ID of the rental."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rental information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rentalId": {"type": "string", "description": "Unique identifier of the rental."},
+                    "deviceId": {"type": "string", "description": "ID of the rented device."},
+                    "startDate": {"type": "string", "format": "date", "description": "Start date of the rental."},
+                    "endDate": {"type": "string", "format": "date", "description": "End date of the rental."},
+                    "totalCost": {"type": "number", "format": "float", "description": "Total cost of the rental."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rentals/{rentalId}/extend": {
+      "put": {
+        "summary": "Extend rental period",
+        "description": "Extend the rental period of an active rental by providing its ID and an additional number of days.",
+        "parameters": [
+          {
+            "name": "rentalId",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "The unique ID of the rental."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "additionalDays": {"type": "integer", "description": "Number of additional days to extend."}
+                },
+                "required": ["additionalDays"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Rental period successfully extended.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "newEndDate": {"type": "string", "format": "date", "description": "Updated end date after extension."},
+                    "additionalCost": {"type": "number", "format": "float", "description": "Additional cost incurred due to extension."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/returns/{rentalId}": {
+      "post": {
+        "summary": "Coordinate device return",
+        "description": "Initiate the return process for a rented device by providing its rental ID.",
+        "parameters": [
+          {
+            "name": "rentalId",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "The unique ID of the rental to be returned."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Device return successfully coordinated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rentalId": {"type": "string", "description": "ID of the rental being returned."},
+                    "status": {"type": "string", "description": "Status of the return process."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/devices/{deviceId}/availability": {
+      "get": {
+        "summary": "Check device availability",
+        "description": "Check the availability status of a specific device using its device ID.",
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "The unique ID of the device."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Availability status of the device.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "deviceId": {"type": "string", "description": "ID of the device."},
+                    "available": {"type": "boolean", "description": "True if the device is available for rental, false otherwise."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rental-history": {
+      "get": {
+        "summary": "Retrieve rental history",
+        "description": "Fetch the complete rental history, including past and active rentals, for the authenticated user.",
+        "responses": {
+          "200": {
+            "description": "User's rental history.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "rentalId": {"type": "string", "description": "ID of the rental."},
+                      "deviceId": {"type": "string", "description": "ID of the rented device."},
+                      "startDate": {"type": "string", "format": "date", "description": "Start date of the rental."},
+                      "endDate": {"type": "string", "format": "date", "description": "End date of the rental."},
+                      "totalCost": {"type": "number", "format": "float", "description": "Total cost of the rental."}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recycling-options": {
+      "get": {
+        "summary": "Retrieve recycling options",
+        "description": "Provide users with available recycling options for used household electronics.",
+        "responses": {
+          "200": {
+            "description": "List of recycling options.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "location": {"type": "string", "description": "Recycling center location."},
+                      "contact": {"type": "string", "description": "Contact information for the recycling center."},
+                      "details": {"type": "string", "description": "Additional details about the recycling option."}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reviews": {
+      "post": {
+        "summary": "Submit a review",
+        "description": "Submit a review for a previously rented device, providing feedback and ratings.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "deviceId": {"type": "string", "description": "ID of the rented device."},
+                  "rating": {"type": "integer", "description": "Rating out of 5 stars."},
+                  "comment": {"type": "string", "description": "Feedback or comments about the device."}
+                },
+                "required": ["deviceId", "rating"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Review recorded successfully."
+          }
+        }
+      }
+    },
+    "/support/contact": {
+      "get": {
+        "summary": "Get support contact information",
+        "description": "Retrieve contact details for support related to rentals or device issues.",
+        "responses": {
+          "200": {
+            "description": "Support contact details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {"type": "string", "description": "Support email address."},
+                    "phone": {"type": "string", "description": "Support phone number."},
+                    "hours": {"type": "string", "description": "Working hours of the support team."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

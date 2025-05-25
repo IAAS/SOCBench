@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /employees",
+            "description": "Register a new employee and initiate the onboarding process."
+        },
+        {
+            "endpoint": "GET /employees/{id}",
+            "description": "Retrieve detailed information about a specific employee."
+        },
+        {
+            "endpoint": "PUT /employees/{id}/documents",
+            "description": "Update the submitted documents for the specified employee."
+        },
+        {
+            "endpoint": "POST /onboarding/trainings",
+            "description": "Assign predefined training modules to new hires during onboarding."
+        },
+        {
+            "endpoint": "GET /onboarding/tasks",
+            "description": "List all pending tasks within the onboarding workflow."
+        },
+        {
+            "endpoint": "POST /tasks/completion",
+            "description": "Mark a specified task as completed for an employee."
+        },
+        {
+            "endpoint": "GET /reports/onboarding-status",
+            "description": "Generate a report of the onboarding status segmented by departmental units."
+        },
+        {
+            "endpoint": "DELETE /employees/{id}",
+            "description": "Remove an existing employee's onboarding profile."
+        },
+        {
+            "endpoint": "GET /trainings/modules",
+            "description": "Retrieve all available training modules for employees."
+        },
+        {
+            "endpoint": "PUT /trainings/modules/{id}/status",
+            "description": "Update the completion status of a training module for a specific employee."
+        }
+    ]
+}

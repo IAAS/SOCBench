@@ -1,0 +1,484 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Real Estate Connect API",
+        "description": "This API facilitates interaction between property seekers/sellers and real estate professionals, enabling efficient property-related transactions.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.realestateconnect.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/agents": {
+            "get": {
+                "summary": "Retrieve Real Estate Agents",
+                "description": "Retrieve the list of real estate agents based on optional filters such as location and specialization.",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "Filter agents by their location.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "specialization",
+                        "in": "query",
+                        "description": "Filter agents by their area of specialization (e.g., residential, commercial, rental).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of real estate agents matching the specified filters.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Agent"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a New Real Estate Agent Profile",
+                "description": "Create a new real estate agent profile by providing relevant details.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AgentCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Agent profile created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Agent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/properties": {
+            "get": {
+                "summary": "Fetch Properties",
+                "description": "Retrieve the list of available properties for sale or rent.",
+                "responses": {
+                    "200": {
+                        "description": "List of available properties.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Property"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add New Property Listing",
+                "description": "Add a new property listing to the service with details like location, price, type, and description.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PropertyCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Property listing created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Property"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/recommendations": {
+            "get": {
+                "summary": "Get Recommended Agents",
+                "description": "Retrieve recommended agents for a specific property based on user preferences and performance metrics.",
+                "parameters": [
+                    {
+                        "name": "propertyId",
+                        "in": "query",
+                        "description": "ID of the property for which recommendations are requested.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of recommended agents.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Agent"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reviews": {
+            "post": {
+                "summary": "Submit a Review for an Agent",
+                "description": "Submit a review and rating for a real estate agent.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ReviewCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Review submitted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Review"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reviews/{agentId}": {
+            "get": {
+                "summary": "Retrieve Reviews for an Agent",
+                "description": "Retrieve all reviews and ratings for a specific real estate agent.",
+                "parameters": [
+                    {
+                        "name": "agentId",
+                        "in": "path",
+                        "description": "The ID of the agent whose reviews are requested.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of reviews for the specified agent.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Review"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/agents/{agentId}": {
+            "put": {
+                "summary": "Update Agent Information",
+                "description": "Update details of a specific real estate agent.",
+                "parameters": [
+                    {
+                        "name": "agentId",
+                        "in": "path",
+                        "description": "The ID of the agent to update.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AgentUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Agent information updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Agent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/properties/{propertyId}": {
+            "delete": {
+                "summary": "Remove Property Listing",
+                "description": "Remove a property listing from the service by its ID.",
+                "parameters": [
+                    {
+                        "name": "propertyId",
+                        "in": "path",
+                        "description": "The ID of the property to be removed.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Property listing removed successfully."
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "summary": "Submit Service Feedback",
+                "description": "Submit user feedback regarding the overall service.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Feedback"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Feedback submitted successfully."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Agent": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the agent."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the real estate agent."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Location where the agent operates."
+                    },
+                    "specialization": {
+                        "type": "string",
+                        "description": "Area of specialization for the agent."
+                    },
+                    "ratings": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Average rating of the agent."
+                    }
+                }
+            },
+            "AgentCreate": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the real estate agent."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Location where the agent operates."
+                    },
+                    "specialization": {
+                        "type": "string",
+                        "description": "Area of specialization for the agent."
+                    }
+                },
+                "required": [
+                    "name",
+                    "location",
+                    "specialization"
+                ]
+            },
+            "AgentUpdate": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the real estate agent."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Updated location where the agent operates."
+                    },
+                    "specialization": {
+                        "type": "string",
+                        "description": "Updated specialization area of the agent."
+                    }
+                }
+            },
+            "Property": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the property."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Location of the property."
+                    },
+                    "price": {
+                        "type": "number",
+                        "description": "Price of the property."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Type of property (e.g., residential, commercial)."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Detailed description of the property."
+                    }
+                }
+            },
+            "PropertyCreate": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string",
+                        "description": "Location of the property."
+                    },
+                    "price": {
+                        "type": "number",
+                        "description": "Price of the property."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Type of property (e.g., residential, commercial)."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Detailed description of the property."
+                    }
+                },
+                "required": [
+                    "location",
+                    "price",
+                    "type"
+                ]
+            },
+            "Review": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the review."
+                    },
+                    "agentId": {
+                        "type": "string",
+                        "description": "ID of the reviewed agent."
+                    },
+                    "rating": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Rating given to the agent."
+                    },
+                    "comment": {
+                        "type": "string",
+                        "description": "User comment about the agent."
+                    }
+                }
+            },
+            "ReviewCreate": {
+                "type": "object",
+                "properties": {
+                    "agentId": {
+                        "type": "string",
+                        "description": "ID of the agent being reviewed."
+                    },
+                    "rating": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Rating given to the agent."
+                    },
+                    "comment": {
+                        "type": "string",
+                        "description": "User's comment about the agent."
+                    }
+                },
+                "required": [
+                    "agentId",
+                    "rating"
+                ]
+            },
+            "Feedback": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "Feedback message from the user."
+                    },
+                    "userId": {
+                        "type": "string",
+                        "description": "Unique identifier of the user providing feedback."
+                    }
+                },
+                "required": [
+                    "message"
+                ]
+            }
+        }
+    }
+}

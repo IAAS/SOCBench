@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /verify-age",
+            "description": "Submit a customer's age information for eligibility verification based on legal requirements."
+        },
+        {
+            "endpoint": "GET /status/{transaction_id}",
+            "description": "Retrieve the status and decision of a previously submitted age verification transaction."
+        },
+        {
+            "endpoint": "POST /upload-id",
+            "description": "Upload an image of the customer's identification for detailed scrutiny and validation."
+        },
+        {
+            "endpoint": "GET /supported-countries",
+            "description": "Fetch a list of countries wherein the age verification service is compliant and operational."
+        },
+        {
+            "endpoint": "POST /verify-dob",
+            "description": "Check the eligibility using the customer's date of birth."
+        },
+        {
+            "endpoint": "GET /transaction-log",
+            "description": "Retrieve a comprehensive log of past verification transactions for audit and reporting."
+        },
+        {
+            "endpoint": "DELETE /transaction/{transaction_id}",
+            "description": "Erase a specific verification transaction from records, ensuring data privacy."
+        },
+        {
+            "endpoint": "GET /service-policies",
+            "description": "Access the terms, policies, and operational guidelines of the age verification service."
+        },
+        {
+            "endpoint": "PUT /update-settings",
+            "description": "Modify the account-specific settings and preferences for service customization."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "List all notifications and alerts related to verification activities and system statuses."
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /register",
+            "description": "Register a new user securely using provided credentials."
+        },
+        {
+            "endpoint": "POST /login",
+            "description": "Authenticate a user and provide a session token."
+        },
+        {
+            "endpoint": "GET /profile",
+            "description": "Retrieve the authenticated user's profile information."
+        },
+        {
+            "endpoint": "PUT /profile",
+            "description": "Update the authenticated user's profile with new details."
+        },
+        {
+            "endpoint": "POST /password/change",
+            "description": "Change the current password of the authenticated user."
+        },
+        {
+            "endpoint": "POST /access-control",
+            "description": "Configure access control policies for secure applications."
+        },
+        {
+            "endpoint": "GET /access-control",
+            "description": "Retrieve current access control settings and permissions."
+        },
+        {
+            "endpoint": "POST /application/register",
+            "description": "Register a new application for access management."
+        },
+        {
+            "endpoint": "GET /application/{id}/details",
+            "description": "Retrieve detailed information about a specific application."
+        },
+        {
+            "endpoint": "DELETE /application/{id}",
+            "description": "Remove an application from the access management system."
+        }
+    ]
+}

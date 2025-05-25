@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /licenses",
+            "description": "Create a new licensing agreement for digital content."
+        },
+        {
+            "endpoint": "GET /licenses/{licenseId}",
+            "description": "Retrieve detailed information about a specific licensing agreement."
+        },
+        {
+            "endpoint": "PUT /licenses/{licenseId}",
+            "description": "Update details of an existing licensing agreement."
+        },
+        {
+            "endpoint": "DELETE /licenses/{licenseId}",
+            "description": "Delete an expired or invalid licensing agreement."
+        },
+        {
+            "endpoint": "GET /content",
+            "description": "Retrieve a list of managed digital content."
+        },
+        {
+            "endpoint": "GET /content/{contentId}",
+            "description": "Fetch details about a specific piece of digital content."
+        },
+        {
+            "endpoint": "POST /content/{contentId}/allocate",
+            "description": "Allocate specified digital content to a distribution channel."
+        },
+        {
+            "endpoint": "GET /reports/usage",
+            "description": "Generate a report on digital content usage statistics."
+        },
+        {
+            "endpoint": "GET /reports/royalties",
+            "description": "Generate a detailed royalty distribution report per licensing agreement."
+        },
+        {
+            "endpoint": "GET /health",
+            "description": "Check the operational status of the service API."
+        }
+    ]
+}

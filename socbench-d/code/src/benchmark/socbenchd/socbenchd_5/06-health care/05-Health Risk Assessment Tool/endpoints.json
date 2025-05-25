@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /evaluation",
+            "description": "Retrieve a summary of evaluation methods and criteria utilized by the service."
+        },
+        {
+            "endpoint": "POST /assessment",
+            "description": "Provide patient details and obtain an initial health risk assessment."
+        },
+        {
+            "endpoint": "GET /lifestyle-tips",
+            "description": "Fetch personalized lifestyle recommendations based on evaluation results."
+        },
+        {
+            "endpoint": "GET /conditions",
+            "description": "Access categorized information about potential health conditions the service evaluates."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit feedback on the received recommendations to improve future evaluations."
+        },
+        {
+            "endpoint": "GET /history",
+            "description": "Review the history of previous assessments conducted for a patient."
+        },
+        {
+            "endpoint": "DELETE /history/{assessmentId}",
+            "description": "Delete a specific assessment record by its unique identifier."
+        },
+        {
+            "endpoint": "GET /analytics",
+            "description": "Generate statistical reports based on anonymized aggregated assessment data."
+        },
+        {
+            "endpoint": "POST /notifications",
+            "description": "Configure and manage health care notifications and reminders for the patient."
+        },
+        {
+            "endpoint": "GET /updates",
+            "description": "Discover the latest updates regarding health care guidelines and preventive measures."
+        }
+    ]
+}

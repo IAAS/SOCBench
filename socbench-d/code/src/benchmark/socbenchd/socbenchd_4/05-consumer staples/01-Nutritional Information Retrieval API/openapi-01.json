@@ -1,0 +1,359 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Food Nutritional Content Service API",
+    "description": "This API provides detailed nutritional content of various food items, enabling users to plan diets and maintain healthy lifestyles. Users can query by food category, brand, or ingredients. The service supports calorie tracking, allergen information, portion size customization, and dietary recommendations.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/foods": {
+      "get": {
+        "summary": "Retrieve a list of all available food items",
+        "description": "Fetch a comprehensive list of all food items available in the database, including detailed nutritional information.",
+        "responses": {
+          "200": {
+            "description": "A list of food items with detailed nutritional details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FoodItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories": {
+      "get": {
+        "summary": "Fetch all food categories",
+        "description": "Retrieve a list of food categories to help users narrow down their selections.",
+        "responses": {
+          "200": {
+            "description": "A list of food categories.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Fruits, Vegetables, Beverages"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/brands": {
+      "get": {
+        "summary": "Access food brand directory",
+        "description": "Retrieve a list of food brands available in the service database.",
+        "responses": {
+          "200": {
+            "description": "A list of food brands.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Brand A, Brand B"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "post": {
+        "summary": "Search for food items",
+        "description": "Find food items by searching for keywords, ingredients, or other parameters.",
+        "requestBody": {
+          "description": "Search parameters to filter food items.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keywords": {
+                    "type": "string",
+                    "description": "Query keywords for the search.",
+                    "example": "apple, bread"
+                  },
+                  "ingredients": {
+                    "type": "array",
+                    "description": "Filter food items based on ingredients.",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "Filter by food category.",
+                    "example": "Fruits"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A list of search results matching the query.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FoodItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/food/{id}": {
+      "get": {
+        "summary": "Retrieve detailed food information",
+        "description": "Fetch detailed nutritional information for a specific food item by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique ID of the food item.",
+            "schema": {
+              "type": "string",
+              "example": "123"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the specified food item.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FoodItem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Food item not found."
+          }
+        }
+      }
+    },
+    "/allergens": {
+      "get": {
+        "summary": "Display a list of common allergens",
+        "description": "Retrieve a list of allergens to help users filter food items for allergen-free options.",
+        "responses": {
+          "200": {
+            "description": "List of allergens.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Peanuts, Gluten, Dairy"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/caloriestracker": {
+      "post": {
+        "summary": "Log and track calorie intake",
+        "description": "Submit selected food items and their consumption details to log daily calorie intake.",
+        "requestBody": {
+          "description": "Details of food items consumed for calorie tracking.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "foodId": {
+                      "type": "string",
+                      "description": "ID of the food item consumed.",
+                      "example": "123"
+                    },
+                    "portionSize": {
+                      "type": "string",
+                      "description": "Consumed portion size.",
+                      "example": "100g"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Entry successfully added to calorie tracker."
+          }
+        }
+      }
+    },
+    "/caloriestracker/{entryId}": {
+      "delete": {
+        "summary": "Remove logged calorie entry",
+        "description": "Remove a previously logged entry from the calorie tracker by its entry ID.",
+        "parameters": [
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the calorie log entry to remove.",
+            "schema": {
+              "type": "string",
+              "example": "789"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Entry successfully deleted from calorie tracker."
+          },
+          "404": {
+            "description": "Entry not found."
+          }
+        }
+      }
+    },
+    "/portion/{id}": {
+      "put": {
+        "summary": "Customize portion size",
+        "description": "Update the portion size of a specific food item and recalculate its nutritional values.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the food item.",
+            "schema": {
+              "type": "string",
+              "example": "123"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated portion size details.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "portionSize": {
+                    "type": "string",
+                    "description": "New portion size for the food item.",
+                    "example": "150g"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Portion size updated successfully."
+          }
+        }
+      }
+    },
+    "/recommendations": {
+      "get": {
+        "summary": "Get personalized food recommendations",
+        "description": "Retrieve personalized food or meal suggestions based on user dietary preferences.",
+        "responses": {
+          "200": {
+            "description": "A list of recommended foods or meals.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FoodItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FoodItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique ID for the food item.",
+            "example": "123"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the food item.",
+            "example": "Apple"
+          },
+          "nutrition": {
+            "type": "object",
+            "description": "Nutritional details of the food item.",
+            "properties": {
+              "calories": {
+                "type": "integer",
+                "description": "Calorie content per portion.",
+                "example": 95
+              },
+              "protein": {
+                "type": "integer",
+                "description": "Protein content per portion in grams.",
+                "example": 1
+              },
+              "fat": {
+                "type": "integer",
+                "description": "Fat content per portion in grams.",
+                "example": 0
+              },
+              "carbohydrates": {
+                "type": "integer",
+                "description": "Carbohydrate content per portion in grams.",
+                "example": 25
+              }
+            }
+          },
+          "allergens": {
+            "type": "array",
+            "description": "List of allergens present in the food item.",
+            "items": {
+              "type": "string",
+              "example": "Peanuts"
+            }
+          }
+        }
+      }
+    }
+  }
+}

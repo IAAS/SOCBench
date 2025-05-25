@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /inventory",
+            "description": "Retrieve the current state of pharmacy inventory including stock levels and expiry dates."
+        },
+        {
+            "endpoint": "POST /inventory",
+            "description": "Add new pharmaceutical items and records to the inventory database."
+        },
+        {
+            "endpoint": "PUT /inventory/{item_id}",
+            "description": "Update details of a specific inventory item such as quantity or expiration date."
+        },
+        {
+            "endpoint": "DELETE /inventory/{item_id}",
+            "description": "Remove a specific item record from the inventory database."
+        },
+        {
+            "endpoint": "GET /inventory/insights",
+            "description": "Generate and retrieve insights and trends on inventory turnover and waste."
+        },
+        {
+            "endpoint": "POST /thresholds",
+            "description": "Set or update dynamic thresholds for inventory levels based on predicted demand."
+        },
+        {
+            "endpoint": "GET /thresholds",
+            "description": "Retrieve current thresholds configured for inventory management."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Retrieve a list of active alerts including low stock and expiration warnings."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Manually create or trigger alerts related to inventory issues."
+        },
+        {
+            "endpoint": "PUT /alerts/{alert_id}",
+            "description": "Resolve or update the status of a specific inventory alert."
+        }
+    ]
+}

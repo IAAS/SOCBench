@@ -1,0 +1,507 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Materials Recycling and Waste Management API",
+        "description": "This API facilitates the coordination of recycling processes and waste management for materials, thereby promoting eco-friendly practices in the materials domain.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/recycling-centers": {
+            "post": {
+                "summary": "Add a new recycling center",
+                "description": "Add a new recycling center to the database, including its location, capacity, and contact details.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the recycling center"
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "description": "Address or geographic location of the recycling center"
+                                    },
+                                    "capacity": {
+                                        "type": "integer",
+                                        "description": "Maximum capacity of materials (in tons) that the recycling center can handle"
+                                    },
+                                    "contact": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the contact person"
+                                            },
+                                            "phone": {
+                                                "type": "string",
+                                                "description": "Phone number of the contact person"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "description": "Email address of the contact person"
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "location",
+                                    "capacity",
+                                    "contact"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Recycling center successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecyclingCenter"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input or missing required fields"
+                    }
+                }
+            }
+        },
+        "/recycling-centers/{id}": {
+            "get": {
+                "summary": "Retrieve a recycling center by ID",
+                "description": "Retrieve detailed information about a specific recycling center using its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique ID of the recycling center"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Recycling center details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecyclingCenter"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Recycling center not found"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a recycling center's details",
+                "description": "Update the information of an existing recycling center by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique ID of the recycling center"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the recycling center"
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "description": "Address or geographic location of the recycling center"
+                                    },
+                                    "capacity": {
+                                        "type": "integer",
+                                        "description": "Maximum capacity of materials (in tons) that the recycling center can handle"
+                                    },
+                                    "contact": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the contact person"
+                                            },
+                                            "phone": {
+                                                "type": "string",
+                                                "description": "Phone number of the contact person"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "description": "Email address of the contact person"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Recycling center successfully updated"
+                    },
+                    "404": {
+                        "description": "Recycling center not found"
+                    },
+                    "400": {
+                        "description": "Invalid input or missing required fields"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a recycling center",
+                "description": "Remove a recycling center record by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique ID of the recycling center"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Recycling center successfully deleted"
+                    },
+                    "404": {
+                        "description": "Recycling center not found"
+                    }
+                }
+            }
+        },
+        "/waste-materials": {
+            "post": {
+                "summary": "Add a new waste material",
+                "description": "Add a new type of waste material to the database, including its composition and properties.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the waste material"
+                                    },
+                                    "composition": {
+                                        "type": "string",
+                                        "description": "Detailed composition of the waste material"
+                                    },
+                                    "properties": {
+                                        "type": "string",
+                                        "description": "Key properties or features of the waste material"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "composition",
+                                    "properties"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Waste material successfully added"
+                    },
+                    "400": {
+                        "description": "Invalid input or missing required fields"
+                    }
+                }
+            },
+            "get": {
+                "summary": "List all waste materials",
+                "description": "Retrieve a list of all waste materials available in the database.",
+                "responses": {
+                    "200": {
+                        "description": "List of waste materials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/WasteMaterial"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/recycling-requests": {
+            "post": {
+                "summary": "Create a recycling request",
+                "description": "Create a request for recycling a specific material from a source location to a recycling center.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "materialId": {
+                                        "type": "string",
+                                        "description": "ID of the waste material to be recycled"
+                                    },
+                                    "sourceLocation": {
+                                        "type": "string",
+                                        "description": "Location where the waste material is currently located"
+                                    },
+                                    "recyclingCenterId": {
+                                        "type": "string",
+                                        "description": "ID of the recycling center to process the waste material"
+                                    }
+                                },
+                                "required": [
+                                    "materialId",
+                                    "sourceLocation",
+                                    "recyclingCenterId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Recycling request successfully created"
+                    },
+                    "400": {
+                        "description": "Invalid input or missing required fields"
+                    }
+                }
+            }
+        },
+        "/recycling-status": {
+            "get": {
+                "summary": "Get recycling request status",
+                "description": "Check the current status of all pending or processed recycling requests.",
+                "responses": {
+                    "200": {
+                        "description": "List of recycling requests and their status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RecyclingRequestStatus"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sustainability-reports": {
+            "post": {
+                "summary": "Upload a sustainability report",
+                "description": "Upload a report regarding sustainability metrics and recycling efficiency.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "description": "Title of the report"
+                                    },
+                                    "content": {
+                                        "type": "string",
+                                        "description": "Detailed content of the report"
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Date the report was created or published"
+                                    }
+                                },
+                                "required": [
+                                    "title",
+                                    "content",
+                                    "date"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sustainability report successfully uploaded"
+                    },
+                    "400": {
+                        "description": "Invalid input or missing required fields"
+                    }
+                }
+            }
+        },
+        "/analytics/recycling-trends": {
+            "get": {
+                "summary": "Retrieve recycling trends analytics",
+                "description": "Fetch analytics and insights into trends and performance in recycling over time.",
+                "responses": {
+                    "200": {
+                        "description": "Recycling trends and analytics data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "trendData": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "period": {
+                                                        "type": "string"
+                                                    },
+                                                    "volumeRecycled": {
+                                                        "type": "integer"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "RecyclingCenter": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier of the recycling center"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the recycling center"
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Address or geographic location of the recycling center"
+                    },
+                    "capacity": {
+                        "type": "integer",
+                        "description": "Maximum processing capacity (in tons) of the recycling center"
+                    },
+                    "contact": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Name of the contact person"
+                            },
+                            "phone": {
+                                "type": "string",
+                                "description": "Contact phone number"
+                            },
+                            "email": {
+                                "type": "string",
+                                "description": "Contact email address"
+                            }
+                        }
+                    }
+                }
+            },
+            "WasteMaterial": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier of the waste material"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the waste material"
+                    },
+                    "composition": {
+                        "type": "string",
+                        "description": "Detailed composition of the waste material"
+                    },
+                    "properties": {
+                        "type": "string",
+                        "description": "Key properties or features of the waste material"
+                    }
+                }
+            },
+            "RecyclingRequestStatus": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique ID of the recycling request"
+                    },
+                    "materialId": {
+                        "type": "string",
+                        "description": "Unique identifier of the waste material"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Current status of the recycling request, e.g. 'Pending', 'Processing', or 'Completed'"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Last update time for the recycling request"
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+Service:
+Offers APIs for integrating questionnaires and assessment tools into healthcare platforms. Enables tailored evaluations ensuring efficient patient initial screening and monitoring. Provides structured responses and automatic analysis for efficient diagnostic support.
+
+Endpoints:
+POST /questionnaires: Create and define a new healthcare questionnaire for assessments.
+GET /questionnaires: Retrieve a list of available questionnaires and their details.
+GET /questionnaires/{id}: Retrieve specific questionnaire details by its unique identifier.
+PUT /questionnaires/{id}: Update the structure or content of an existing questionnaire.
+DELETE /questionnaires/{id}: Remove an existing questionnaire from the system.
+POST /responses: Submit responses to a specific questionnaire for analysis.
+GET /responses/{id}: View analysis and results of submitted questionnaire responses by identifier.
+GET /analytics: Retrieve aggregated insights and trends based on questionnaire data.
+POST /monitoring: Initiate monitoring for a patient based on tailored assessments.
+GET /monitoring/{id}: Retrieve data from ongoing monitoring of a specific patient for evaluations.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

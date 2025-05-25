@@ -1,0 +1,17 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+{domain}
+
+Service:
+{service}
+
+Endpoints:
+{endpoints}
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

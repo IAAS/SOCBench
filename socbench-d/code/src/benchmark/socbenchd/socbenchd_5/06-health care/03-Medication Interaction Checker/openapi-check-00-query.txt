@@ -1,0 +1,465 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Medication Interaction and Prescription Analysis API",
+        "description": "This API enables healthcare professionals to analyze potential medication interactions, retrieve information on prescribed medications, and manage prescriptions effectively. It provides actionable alerts for safe prescribing and includes functionalities for guidelines management and inventory lookup.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.healthcare.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/medications": {
+            "get": {
+                "summary": "Retrieve Medications List",
+                "description": "Fetch a list of all medications available in the database along with their details such as names, manufacturers, uses, and side effects.",
+                "responses": {
+                    "200": {
+                        "description": "A list of medications",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique medication identifier"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the medication"
+                                            },
+                                            "manufacturer": {
+                                                "type": "string",
+                                                "description": "Medication manufacturer"
+                                            },
+                                            "uses": {
+                                                "type": "string",
+                                                "description": "Primary uses or purpose of this medication"
+                                            },
+                                            "side_effects": {
+                                                "type": "string",
+                                                "description": "Known side effects of the medication"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medication-interaction-check": {
+            "post": {
+                "summary": "Analyze Medication Interactions",
+                "description": "Analyze a set of medications to detect potential interactions and provide alerts to healthcare providers.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "medications": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "description": "Unique identifiers of medications to analyze"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "medications"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Interaction analysis results",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "potential_interactions": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "severity": {
+                                                        "type": "string",
+                                                        "description": "Severity of the interaction (e.g., low, moderate, high)"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "description": "Details about the interaction"
+                                                    },
+                                                    "medications_involved": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "description": "Medication IDs involved in the interaction"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alert/{alert_id}": {
+            "get": {
+                "summary": "Get Interaction Alert Details",
+                "description": "Retrieve full details about a specific interaction alert using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "alert_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the interaction alert"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Alert details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "alert_id": {
+                                            "type": "string",
+                                            "description": "Identifier of the alert"
+                                        },
+                                        "severity": {
+                                            "type": "string",
+                                            "description": "Severity level of the alert"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "description": "Full description of the interaction issue"
+                                        },
+                                        "suggestions": {
+                                            "type": "string",
+                                            "description": "Suggested actions or adjustments"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Dismiss Interaction Alert",
+                "description": "Remove a specific interaction alert from the system using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "alert_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the interaction alert"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Alert successfully dismissed"
+                    }
+                }
+            }
+        },
+        "/patient/{patient_id}/prescription": {
+            "post": {
+                "summary": "Assign Prescription Record",
+                "description": "Assign a new prescription to the specified patient.",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the patient"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "medication_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the prescribed medication"
+                                    },
+                                    "dosage": {
+                                        "type": "string",
+                                        "description": "Dosage information for the prescription"
+                                    },
+                                    "frequency": {
+                                        "type": "string",
+                                        "description": "Frequency of administering the medication"
+                                    }
+                                },
+                                "required": [
+                                    "medication_id",
+                                    "dosage",
+                                    "frequency"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Prescription added successfully"
+                    }
+                }
+            }
+        },
+        "/patient/{patient_id}/interactions": {
+            "get": {
+                "summary": "Retrieve Patient Medication Interactions",
+                "description": "Retrieve a list of possible medication interactions for a specific patient based on their current prescriptions.",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the patient"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Patient interaction list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "patient_id": {
+                                            "type": "string",
+                                            "description": "Identifier of the patient"
+                                        },
+                                        "interactions": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "severity": {
+                                                        "type": "string",
+                                                        "description": "Severity level of the interaction"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "description": "Details of the interaction issue"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "get": {
+                "summary": "Retrieve Recent Interaction Alerts",
+                "description": "Retrieve a list of recent alerts generated by the system for potential medication interactions.",
+                "responses": {
+                    "200": {
+                        "description": "List of recent alerts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "alert_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the alert"
+                                            },
+                                            "severity": {
+                                                "type": "string",
+                                                "description": "Severity of the interaction"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Brief description of the interaction issue"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/pharmacy/{pharmacy_id}/inventory": {
+            "get": {
+                "summary": "Retrieve Pharmacy Inventory",
+                "description": "Retrieve the inventory of medications available at a specific pharmacy using its identifier.",
+                "parameters": [
+                    {
+                        "name": "pharmacy_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the pharmacy"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pharmacy inventory data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "pharmacy_id": {
+                                            "type": "string",
+                                            "description": "Identifier of the pharmacy"
+                                        },
+                                        "medications": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "description": "Unique identifier of the medication"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "description": "Name of the medication"
+                                                    },
+                                                    "quantity": {
+                                                        "type": "integer",
+                                                        "description": "Quantity available in stock"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/interaction-guidelines": {
+            "post": {
+                "summary": "Submit or Update Guidelines",
+                "description": "Submit new or updated guidelines for handling medication interactions and ensuring patient safety.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "guidelines": {
+                                        "type": "string",
+                                        "description": "Guidelines content in structured text"
+                                    },
+                                    "version": {
+                                        "type": "string",
+                                        "description": "Version number of the guideline"
+                                    }
+                                },
+                                "required": [
+                                    "guidelines",
+                                    "version"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Guidelines submitted successfully"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve Guidelines",
+                "description": "Retrieve the current guidelines for analyzing and managing medication interactions.",
+                "responses": {
+                    "200": {
+                        "description": "Current guidelines",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "guidelines": {
+                                            "type": "string",
+                                            "description": "Guideline text"
+                                        },
+                                        "version": {
+                                            "type": "string",
+                                            "description": "Version number of the guideline"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

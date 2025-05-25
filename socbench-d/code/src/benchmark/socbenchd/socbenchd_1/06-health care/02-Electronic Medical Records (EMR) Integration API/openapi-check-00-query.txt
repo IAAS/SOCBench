@@ -1,0 +1,479 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Health Records Consolidation Service",
+        "description": "A service designed to consolidate and standardize electronic health records from various providers, ensuring seamless data sharing and retrieval while maintaining compliance with data protection regulations.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.healthrecords.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/patients": {
+            "get": {
+                "summary": "Retrieve all registered patients",
+                "description": "Fetches a list of all patients in the system along with summary details such as name, ID, and basic information.",
+                "responses": {
+                    "200": {
+                        "description": "A list of registered patients",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PatientSummary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new patient's information",
+                "description": "Creates a new entry in the patient database with the provided details.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewPatient"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The newly added patient's ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "The unique identifier for the new patient"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/patients/{id}": {
+            "put": {
+                "summary": "Update patient details",
+                "description": "Updates the details of a specific patient using their unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique ID of the patient to update",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdatePatient"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Confirmation of the update",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Patient details updated successfully."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove a patient from the system",
+                "description": "Deletes a patient's details from the database using their unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique ID of the patient to delete",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content, operation successfully completed"
+                    }
+                }
+            }
+        },
+        "/patients/{id}/records": {
+            "get": {
+                "summary": "Fetch patient health records",
+                "description": "Fetches the complete and consolidated health records for a patient using their unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique ID of the patient",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Patient health records",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PatientRecords"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/providers": {
+            "get": {
+                "summary": "Retrieve healthcare providers",
+                "description": "Fetches a list of all associated healthcare providers and their details.",
+                "responses": {
+                    "200": {
+                        "description": "A list of healthcare providers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Provider"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/providers/{id}": {
+            "get": {
+                "summary": "Fetch healthcare provider details",
+                "description": "Fetches details for a specific healthcare provider given their unique ID, including services offered.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the healthcare provider",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the healthcare provider",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProviderDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/records/{patient_id}": {
+            "post": {
+                "summary": "Add a new health record",
+                "description": "Adds new health data/records for a designated patient, identified by their unique ID.",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique ID of the patient",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewRecord"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "New health record successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Health record added successfully."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/overview": {
+            "get": {
+                "summary": "Generate a system activity report",
+                "description": "Generates a summary report of recent system activities and health statistics.",
+                "responses": {
+                    "200": {
+                        "description": "System overview report",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Report"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/compliance/status": {
+            "get": {
+                "summary": "Check compliance status",
+                "description": "Returns the system's compliance status with relevant data protection and privacy regulations.",
+                "responses": {
+                    "200": {
+                        "description": "The current compliance status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ComplianceStatus"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PatientSummary": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier for the patient"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The full name of the patient"
+                    },
+                    "date_of_birth": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The date of birth of the patient"
+                    }
+                }
+            },
+            "NewPatient": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The full name of the patient"
+                    },
+                    "date_of_birth": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The date of birth of the patient"
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "The residential address of the patient"
+                    }
+                },
+                "required": [
+                    "name",
+                    "date_of_birth"
+                ]
+            },
+            "UpdatePatient": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The updated full name of the patient"
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "The updated residential address"
+                    }
+                }
+            },
+            "PatientRecords": {
+                "type": "object",
+                "properties": {
+                    "records": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Record"
+                        }
+                    }
+                }
+            },
+            "Provider": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique ID of the provider"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the healthcare provider"
+                    }
+                }
+            },
+            "ProviderDetails": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique ID of the provider"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the healthcare provider"
+                    },
+                    "services": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of services offered by the provider"
+                    }
+                }
+            },
+            "NewRecord": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "description": "The type of health record (e.g., allergy, medication, diagnosis)"
+                    },
+                    "details": {
+                        "type": "string",
+                        "description": "A detailed description of the record"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The date the record was created"
+                    }
+                }
+            },
+            "Report": {
+                "type": "object",
+                "properties": {
+                    "activity": {
+                        "type": "string",
+                        "description": "A description of recent activity in the system"
+                    },
+                    "statistics": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "number"
+                        },
+                        "description": "Various health-related statistics"
+                    }
+                }
+            },
+            "ComplianceStatus": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "The compliance status (e.g., compliant, non-compliant)"
+                    },
+                    "last_audit_date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The date of the last compliance audit"
+                    }
+                }
+            },
+            "Record": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "description": "The type of record, e.g., diagnostic, medication"
+                    },
+                    "details": {
+                        "type": "string",
+                        "description": "Details about the health record"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The date the record was created"
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

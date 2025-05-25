@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+Service:
+This service allows mining companies to monitor their operations in real-time, ensuring safety, efficiency, and productivity. By integrating with equipment sensors and IoT devices, it collects and processes data related to machinery health, resource extraction efficiency, and worker safety. An intuitive dashboard is accessible through the API, displaying key metrics and alerts. APIs enable companies to automate responses to detected anomalies, ensuring rapid issue resolution.
+
+Endpoints:
+GET /alerts: Retrieve active alerts for safety and operational anomalies.
+GET /dashboard: Access the intuitive dashboard presenting aggregated key metrics.
+POST /settings/thresholds: Update safety and efficiency thresholds for monitoring parameters.
+GET /operations/current: Fetch the current state of ongoing mining operations in all accessible locations.
+DELETE /anomalies/{id}: Dismiss a previously reported anomaly by its unique identifier.
+GET /analytics/performance: Request historical performance analytics for machinery and operations.
+POST /responses/automated: Configure automated incident response actions based on detected anomalies.
+GET /resources/extraction: Detail resource extraction rates at specific mines or facilities.
+PATCH /worker/devices/{deviceId}: Update configurations of a specific worker's safety device.
+GET /reports/monthly: Generate a comprehensive monthly report of mining activities and outcomes.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

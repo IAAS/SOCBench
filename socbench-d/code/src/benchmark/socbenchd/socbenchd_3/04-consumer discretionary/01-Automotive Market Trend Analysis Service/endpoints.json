@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /trends/regions",
+            "description": "Retrieve summarized market trends categorized by major global regions."
+        },
+        {
+            "endpoint": "GET /analytics/sales",
+            "description": "Access analytics of automobile sales including growth trends and comparison metrics."
+        },
+        {
+            "endpoint": "POST /preferences/update",
+            "description": "Submit new data regarding consumer automobile preferences for analysis and storage."
+        },
+        {
+            "endpoint": "GET /technologies/upcoming",
+            "description": "Obtain a list of emerging technologies influencing the automotive sector."
+        },
+        {
+            "endpoint": "GET /regions/economic-indicators",
+            "description": "View regional economic indicators related to automobile market shifts."
+        },
+        {
+            "endpoint": "GET /historical-data/sales",
+            "description": "Retrieve historical sales data for specific automobile categories or regions."
+        },
+        {
+            "endpoint": "POST /forecasts/sales-request",
+            "description": "Request predictive analytics on future automobile sales based on provided parameters."
+        },
+        {
+            "endpoint": "GET /segments/market-share",
+            "description": "Access detailed market share metrics for different automobile segments."
+        },
+        {
+            "endpoint": "GET /distributors/top",
+            "description": "List the top automobile distribution networks sorted by sales figures."
+        },
+        {
+            "endpoint": "GET /preferences/trends",
+            "description": "Explore trends in consumer behavior and preferences towards automotive purchases."
+        }
+    ]
+}

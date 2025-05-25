@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /user-engagement",
+            "description": "Retrieve user engagement metrics including total active users and interaction rates."
+        },
+        {
+            "endpoint": "GET /session-duration",
+            "description": "Obtain detailed session duration data categorized by user segments."
+        },
+        {
+            "endpoint": "GET /in-game-purchases",
+            "description": "Access analytics on in-game purchase behaviors and preferences."
+        },
+        {
+            "endpoint": "GET /player-retention",
+            "description": "Retrieve metrics related to player retention over specific time periods."
+        },
+        {
+            "endpoint": "POST /custom-insights",
+            "description": "Submit custom query parameters to generate specific insights."
+        },
+        {
+            "endpoint": "GET /game-performance",
+            "description": "Get an overview of the game performance metrics including latency and error rates."
+        },
+        {
+            "endpoint": "GET /demographic-stats",
+            "description": "Access demographic statistics of players engaged with the platform."
+        },
+        {
+            "endpoint": "POST /event-upload",
+            "description": "Submit raw event data for analysis and storage."
+        },
+        {
+            "endpoint": "GET /trend-analysis",
+            "description": "Retrieve trend analysis data to observe changes over time."
+        },
+        {
+            "endpoint": "DELETE /event-data",
+            "description": "Request deletion of specific event data from the dataset."
+        }
+    ]
+}

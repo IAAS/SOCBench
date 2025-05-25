@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /delivery-vehicles",
+            "description": "Provides a list of all registered vehicles assigned for material transport."
+        },
+        {
+            "endpoint": "POST /delivery-vehicles",
+            "description": "Registers a new vehicle in the transport monitoring system."
+        },
+        {
+            "endpoint": "GET /deliveries",
+            "description": "Retrieves a log of all scheduled and completed material deliveries."
+        },
+        {
+            "endpoint": "POST /deliveries",
+            "description": "Schedules a new material delivery arrangement."
+        },
+        {
+            "endpoint": "GET /deliveries/{id}",
+            "description": "Fetches detailed information about a specific delivery using its ID."
+        },
+        {
+            "endpoint": "PATCH /deliveries/{id}",
+            "description": "Updates the details of an existing delivery."
+        },
+        {
+            "endpoint": "DELETE /deliveries/{id}",
+            "description": "Cancels and removes a scheduled delivery by ID."
+        },
+        {
+            "endpoint": "GET /supply-status",
+            "description": "Retrieves the current supply chain status and detect delays."
+        },
+        {
+            "endpoint": "POST /supply-alerts",
+            "description": "Sets up an alert mechanism for specific supply chain events."
+        },
+        {
+            "endpoint": "GET /routes/optimization",
+            "description": "Offers optimized routing suggestions for material deliveries to minimize delays and costs."
+        }
+    ]
+}

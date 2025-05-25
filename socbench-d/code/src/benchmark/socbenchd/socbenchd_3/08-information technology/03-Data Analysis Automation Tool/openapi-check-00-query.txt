@@ -1,0 +1,465 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+OpenAPI:
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Data Integration and Analysis Service API",
+        "description": "This service enables businesses to integrate and analyze data sets, generate actionable insights, and export results in preferred formats. It offers functionalities for uploading datasets, processing data, generating reports/insights, synchronizing with third-party platforms, and creating visualizations.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/data/upload": {
+            "post": {
+                "summary": "Upload data sets for integration and analysis",
+                "description": "Allows users to upload their data sets to the system for integration and further analysis.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "The file containing the dataset to upload."
+                                    },
+                                    "datasetName": {
+                                        "type": "string",
+                                        "description": "A user-defined name for the uploaded dataset."
+                                    }
+                                },
+                                "required": [
+                                    "file"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Dataset uploaded successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "datasetId": {
+                                            "type": "string",
+                                            "description": "The unique identifier for the uploaded dataset."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A confirmation message indicating successful upload."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/data/schemas": {
+            "get": {
+                "summary": "Retrieve available data schemas",
+                "description": "Fetch a list of predefined schemas for mapping and organizing uploaded datasets.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved list of schemas.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "schemaId": {
+                                                "type": "string",
+                                                "description": "The unique identifier for the schema."
+                                            },
+                                            "schemaName": {
+                                                "type": "string",
+                                                "description": "The name of the data schema."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/data/process": {
+            "post": {
+                "summary": "Initiate data processing",
+                "description": "Start processing uploaded datasets to prepare them for analysis and insight generation.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "datasetId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the dataset to process."
+                                    },
+                                    "schemaId": {
+                                        "type": "string",
+                                        "description": "The ID of the schema to use for mapping data."
+                                    }
+                                },
+                                "required": [
+                                    "datasetId",
+                                    "schemaId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data processing initiated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "processId": {
+                                            "type": "string",
+                                            "description": "The unique process ID assigned to the processing task."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Confirmation message."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/insights": {
+            "get": {
+                "summary": "Fetch actionable insights",
+                "description": "Retrieve actionable insights generated from processed datasets.",
+                "parameters": [
+                    {
+                        "name": "processId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier for the processed data."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved actionable insights.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "insightId": {
+                                                "type": "string",
+                                                "description": "The unique identifier for the insight."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "A brief description of the insight."
+                                            },
+                                            "value": {
+                                                "type": "string",
+                                                "description": "The core information or value derived from the insight."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/formats": {
+            "get": {
+                "summary": "Retrieve available report formats",
+                "description": "Fetch a list of available formats for exporting reports.",
+                "responses": {
+                    "200": {
+                        "description": "List of report formats retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "formatId": {
+                                                "type": "string",
+                                                "description": "The unique identifier for the format."
+                                            },
+                                            "formatName": {
+                                                "type": "string",
+                                                "description": "The name of the format (e.g., PDF, Excel, CSV)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/export": {
+            "post": {
+                "summary": "Export reports",
+                "description": "Generate and export a report in the specified format based on analyzed data.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "processId": {
+                                        "type": "string",
+                                        "description": "The unique identifier for the processed data."
+                                    },
+                                    "formatId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the desired report format."
+                                    }
+                                },
+                                "required": [
+                                    "processId",
+                                    "formatId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Report generated and export initiated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reportId": {
+                                            "type": "string",
+                                            "description": "The generated report's unique identifier."
+                                        },
+                                        "downloadUrl": {
+                                            "type": "string",
+                                            "description": "The URL to download the generated report."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/visualizations/templates": {
+            "get": {
+                "summary": "List visualization templates",
+                "description": "Retrieve a list of predefined templates for data visualization.",
+                "responses": {
+                    "200": {
+                        "description": "Templates retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "templateId": {
+                                                "type": "string",
+                                                "description": "The unique identifier for the template."
+                                            },
+                                            "templateName": {
+                                                "type": "string",
+                                                "description": "The name of the visualization template."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/visualizations/create": {
+            "post": {
+                "summary": "Create visualization",
+                "description": "Create a visualization using a specified template and processed data.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "templateId": {
+                                        "type": "string",
+                                        "description": "The ID of the visualization template."
+                                    },
+                                    "processId": {
+                                        "type": "string",
+                                        "description": "The ID of the processed data to visualize."
+                                    }
+                                },
+                                "required": [
+                                    "templateId",
+                                    "processId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Visualization created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "visualizationId": {
+                                            "type": "string",
+                                            "description": "The unique ID of the created visualization."
+                                        },
+                                        "url": {
+                                            "type": "string",
+                                            "description": "URL to access the visualization."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/integration/partners": {
+            "get": {
+                "summary": "Retrieve integration partners",
+                "description": "View all available third-party platforms and tools for data integration.",
+                "responses": {
+                    "200": {
+                        "description": "Integration partners retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "partnerId": {
+                                                "type": "string",
+                                                "description": "The unique identifier for the integration partner."
+                                            },
+                                            "partnerName": {
+                                                "type": "string",
+                                                "description": "The name of the integration partner."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Short description of the partner and its capabilities."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/integration/sync": {
+            "post": {
+                "summary": "Synchronize processed data",
+                "description": "Sync processed data with a specified third-party integration partner.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "processId": {
+                                        "type": "string",
+                                        "description": "The unique identifier for the processed data."
+                                    },
+                                    "partnerId": {
+                                        "type": "string",
+                                        "description": "The ID of the integration partner to synchronize data with."
+                                    }
+                                },
+                                "required": [
+                                    "processId",
+                                    "partnerId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data synchronized successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "syncId": {
+                                            "type": "string",
+                                            "description": "The ID of the synchronization task."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Confirmation message for successful synchronization."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

@@ -1,0 +1,315 @@
+
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Inventory Management Service",
+    "description": "This service is designed to assist retailers in managing inventory levels efficiently by offering demand forecasting, restocking alerts, and sales trends analysis.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/categories": {
+      "get": {
+        "summary": "Retrieve product categories",
+        "description": "Retrieve a list of product categories available in the system. These categories can help in grouping inventory for better management.",
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of product categories",
+            "content": {
+              "application/json": {
+                "example": [
+                  "Food & Beverages",
+                  "Household Products",
+                  "Personal Care",
+                  "Tobacco"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/forecasts": {
+      "post": {
+        "summary": "Create a new demand forecast",
+        "description": "Generate a demand forecast for a specific product based on its historical sales data.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "product_id": "12345",
+                "start_date": "2023-01-01",
+                "end_date": "2023-03-01"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Demand forecast created successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "forecast_id": "abc123",
+                  "status": "active"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/forecasts/{product_id}": {
+      "get": {
+        "summary": "Retrieve forecast data",
+        "description": "Fetch forecast data for a specific product using its unique product ID.",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the product for which the forecast is to be retrieved.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Forecast data retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "product_id": "12345",
+                  "forecast": [
+                    {
+                      "date": "2023-01-01",
+                      "projected_sales": 100
+                    },
+                    {
+                      "date": "2023-01-02",
+                      "projected_sales": 120
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/forecasts/{forecast_id}": {
+      "delete": {
+        "summary": "Delete an existing demand forecast",
+        "description": "Delete a previously created demand forecast by providing its unique forecast ID.",
+        "parameters": [
+          {
+            "name": "forecast_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the forecast to delete.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Forecast deleted successfully"
+          }
+        }
+      }
+    },
+    "/alerts": {
+      "get": {
+        "summary": "List active restocking alerts",
+        "description": "Retrieve a list of all active restocking alerts tailored to current inventory requirements.",
+        "responses": {
+          "200": {
+            "description": "List of active restocking alerts",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "alert_id": "alert123",
+                    "product_id": "12345",
+                    "threshold": 50,
+                    "current_stock": 30
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new restocking alert",
+        "description": "Define a new restocking alert by specifying parameters like product ID and stock level threshold.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "product_id": "12345",
+                "threshold": 50
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Restocking alert created successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "alert_id": "new-alert123",
+                  "status": "active"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts/{alert_id}": {
+      "put": {
+        "summary": "Update an existing restocking alert",
+        "description": "Modify the parameters of an alert by providing its ID and updated details.",
+        "parameters": [
+          {
+            "name": "alert_id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the alert to update.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "threshold": 40
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Alert updated successfully"
+          }
+        }
+      }
+    },
+    "/trends": {
+      "get": {
+        "summary": "Retrieve sales trends",
+        "description": "Fetch sales trend analysis data for a specified time period.",
+        "parameters": [
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": true,
+            "description": "The start date for the trend analysis in YYYY-MM-DD format.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": true,
+            "description": "The end date for the trend analysis in YYYY-MM-DD format.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trends data retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "start_date": "2023-01-01",
+                  "end_date": "2023-03-01",
+                  "sales_trends": [
+                    { "date": "2023-01-01", "total_sales": 500 },
+                    { "date": "2023-01-02", "total_sales": 620 }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trends/source": {
+      "post": {
+        "summary": "Upload additional sales or inventory data",
+        "description": "Provide additional data to enhance trend analysis for more accurate predictions.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "data_type": "sales_data",
+                "data": [
+                  { "date": "2023-02-01", "product_id": "12345", "sales": 100 },
+                  { "date": "2023-02-02", "product_id": "12346", "sales": 150 }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Additional data uploaded successfully"
+          }
+        }
+      }
+    },
+    "/products/{product_id}/details": {
+      "get": {
+        "summary": "Retrieve product details",
+        "description": "Fetch detailed information about a specific product, including its sales and inventory attributes.",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the product to retrieve details for.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product details retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "product_id": "12345",
+                  "name": "Product A",
+                  "current_stock": 100,
+                  "sales": [
+                    { "date": "2023-01-01", "quantity": 20 },
+                    { "date": "2023-01-02", "quantity": 30 }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  }
+}

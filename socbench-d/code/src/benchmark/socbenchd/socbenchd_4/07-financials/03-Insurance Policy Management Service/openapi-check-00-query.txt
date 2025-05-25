@@ -1,0 +1,499 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Insurance Management Service API",
+        "description": "A RESTful system for managing insurance policies, claims, and payments. Users can securely submit claims, renew policies, and handle payments.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.insurance-service.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/claims": {
+            "post": {
+                "summary": "Submit a New Insurance Claim",
+                "description": "This endpoint allows users to submit a new insurance claim. The claim data should include details about the policy, incident, and any supporting documentation.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "policy_id": {
+                                        "type": "string",
+                                        "description": "The ID of the policy related to the insurance claim."
+                                    },
+                                    "incident_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "The date the incident occurred."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "A detailed description of the incident."
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "description": "The claimed amount."
+                                    },
+                                    "attachments": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary",
+                                            "description": "Supporting documents for the claim."
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "policy_id",
+                                    "incident_date",
+                                    "description"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Claim successfully submitted.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "claim_id": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the generated claim."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "The current status of the submitted claim."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request or missing required fields."
+                    }
+                }
+            }
+        },
+        "/claims/{claim_id}": {
+            "get": {
+                "summary": "Retrieve Insurance Claim Details",
+                "description": "Fetch details of a specific insurance claim by providing its unique ID.",
+                "parameters": [
+                    {
+                        "name": "claim_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the claim."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Claim details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "claim_id": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the claim."
+                                        },
+                                        "policy_id": {
+                                            "type": "string",
+                                            "description": "The related policy ID."
+                                        },
+                                        "incident_date": {
+                                            "type": "string",
+                                            "description": "Date of the incident."
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "description": "Details of the incident."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the claim (e.g., pending, approved)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Claim not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update Insurance Claim Details",
+                "description": "Modify information of an existing insurance claim using its unique ID.",
+                "parameters": [
+                    {
+                        "name": "claim_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the claim."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Updated details for the incident."
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "description": "Updated claimed amount."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Claim updated successfully."
+                    },
+                    "404": {
+                        "description": "Claim not found."
+                    },
+                    "400": {
+                        "description": "Invalid update request."
+                    }
+                }
+            }
+        },
+        "/policies": {
+            "get": {
+                "summary": "Fetch Active Policies",
+                "description": "Retrieve the list of all active insurance policies associated with the authenticated user.",
+                "responses": {
+                    "200": {
+                        "description": "List of active policies fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "policy_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the policy."
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "description": "Type or category of the policy."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current status of the policy."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/policies/{policy_id}": {
+            "get": {
+                "summary": "Get Policy Details",
+                "description": "Retrieve detailed information about a specific insurance policy.",
+                "parameters": [
+                    {
+                        "name": "policy_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the insurance policy."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Policy details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "policy_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the policy."
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "description": "Type or category of the policy."
+                                        },
+                                        "effective_date": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "description": "The date when the policy became active."
+                                        },
+                                        "expiry_date": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "description": "The date when the policy is set to expire."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the policy."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Policy not found."
+                    }
+                }
+            }
+        },
+        "/policies/renewals": {
+            "post": {
+                "summary": "Renew an Insurance Policy",
+                "description": "Submit a renewal request for an existing insurance policy.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "policy_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the policy to be renewed."
+                                    }
+                                },
+                                "required": [
+                                    "policy_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Renewal request submitted successfully."
+                    },
+                    "404": {
+                        "description": "Policy not found."
+                    },
+                    "400": {
+                        "description": "Invalid renewal request."
+                    }
+                }
+            }
+        },
+        "/payments": {
+            "get": {
+                "summary": "List Payment Transactions",
+                "description": "Retrieve a list of all payment transactions related to policies and claims for the authenticated user.",
+                "responses": {
+                    "200": {
+                        "description": "Payments retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "payment_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the payment."
+                                            },
+                                            "amount": {
+                                                "type": "number",
+                                                "format": "double",
+                                                "description": "Transaction amount."
+                                            },
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Date of the payment."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current status of the payment."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Initiate a New Payment",
+                "description": "Submit a new payment for policy renewal or claim settlement.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "policy_id": {
+                                        "type": "string",
+                                        "description": "Identifier of the policy related to the payment."
+                                    },
+                                    "claim_id": {
+                                        "type": "string",
+                                        "description": "Identifier of the claim related to the payment."
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "description": "Payment amount."
+                                    }
+                                },
+                                "required": [
+                                    "amount"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Payment initiated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid payment request."
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "summary": "Submit Feedback",
+                "description": "Submit feedback related to the insurance services provided.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "message": {
+                                        "type": "string",
+                                        "description": "Feedback message describing user experience."
+                                    },
+                                    "rating": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "minimum": 1,
+                                        "maximum": 5,
+                                        "description": "Rating score between 1 (worst) and 5 (best)."
+                                    }
+                                },
+                                "required": [
+                                    "message",
+                                    "rating"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback submitted successfully."
+                    },
+                    "400": {
+                        "description": "Invalid feedback submission."
+                    }
+                }
+            }
+        },
+        "/notifications": {
+            "get": {
+                "summary": "Retrieve Notifications",
+                "description": "Fetch notifications related to policy and claim activities for the authenticated user.",
+                "responses": {
+                    "200": {
+                        "description": "Notifications retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "notification_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the notification."
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "description": "Type of the notification (e.g., policy update, claim status)."
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "description": "Notification message."
+                                            },
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Date and time of the notification."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {}
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

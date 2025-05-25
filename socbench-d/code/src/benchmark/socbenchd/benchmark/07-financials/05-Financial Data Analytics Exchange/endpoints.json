@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /stocks/historical",
+            "description": "Retrieve historical stock price data for specified companies over a defined time range. This endpoint supports various filters to refine data output for an analyst's specific needs."
+        },
+        {
+            "endpoint": "GET /stocks/realtime",
+            "description": "Access real-time stock market prices and updates, enabling instant data retrieval for timely investment decisions."
+        },
+        {
+            "endpoint": "POST /analytics/models",
+            "description": "Submit machine learning models for execution on financial data sets. This allows users to perform predictive analytics using advanced algorithms."
+        },
+        {
+            "endpoint": "GET /user/dashboard/customize",
+            "description": "Fetch and modify customizable dashboards where users can visualize and interpret financial data using various tools and visual elements provided by the service."
+        },
+        {
+            "endpoint": "POST /subscriptions/packages",
+            "description": "Subscribe to specific data packages based on the user's requirement. This endpoint also supports API key validation and active subscription tracking."
+        },
+        {
+            "endpoint": "GET /analytics/reports",
+            "description": "Generate comprehensive reports based on analyzed financial data. This endpoint aids users in reporting financial performance and insights gleaned from data analysis."
+        },
+        {
+            "endpoint": "POST /transactions/execute",
+            "description": "Initiate and process financial transactions securely. Enables integration with banking services for executing trades or other financial operations."
+        },
+        {
+            "endpoint": "GET /market/news",
+            "description": "Access the latest financial news and updates affecting capital markets. This endpoint aggregates news pieces to keep users informed about trends and events."
+        },
+        {
+            "endpoint": "GET /market/indices",
+            "description": "Retrieve current and historical data on major financial indices, helping analysts to evaluate market conditions and derive insights for decision-making."
+        },
+        {
+            "endpoint": "GET /alerts/set",
+            "description": "Configure and manage real-time alerts for specific financial data points, aiding users in maintaining vigilance over key market shifts and opportunities."
+        }
+    ]
+}

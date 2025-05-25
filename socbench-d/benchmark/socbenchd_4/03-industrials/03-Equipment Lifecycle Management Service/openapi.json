@@ -1,0 +1,390 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Industrial Machinery Lifecycle Management API",
+        "description": "This API-based service helps track and optimize the lifecycle of industrial machinery. By monitoring maintenance schedules, performance metrics, and operational history, it aims to reduce downtime and extend equipment lifespans. Features include alert systems for upcoming maintenance and analytics for cost and benefit assessments.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/machines": {
+            "get": {
+                "summary": "Retrieve a list of monitored machines",
+                "description": "Fetch a list of all monitored industrial machines along with their current status. This includes basic information like machine identifiers, operational statuses, and types.",
+                "responses": {
+                    "200": {
+                        "description": "List of monitored machines retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "example1": {
+                                        "value": [
+                                            {
+                                                "id": "123",
+                                                "name": "Machine A",
+                                                "status": "Operational"
+                                            },
+                                            {
+                                                "id": "124",
+                                                "name": "Machine B",
+                                                "status": "Scheduled for Maintenance"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/machines/{id}/details": {
+            "get": {
+                "summary": "Fetch machine details",
+                "description": "Retrieve detailed information for a specific machine, including its specifications, operational history, and any associated metadata.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier for the machine",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Machine details retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "example1": {
+                                        "value": {
+                                            "id": "123",
+                                            "name": "Machine A",
+                                            "type": "Hydraulic Press",
+                                            "specifications": {
+                                                "manufacturer": "Company X",
+                                                "capacity": "10 Tons",
+                                                "installation_date": "2022-01-01"
+                                            },
+                                            "operational_history": [
+                                                {
+                                                    "date": "2023-01-01",
+                                                    "status": "Maintenance Completed"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/maintenance/schedule": {
+            "post": {
+                "summary": "Submit a maintenance schedule entry",
+                "description": "Plan future service activities by submitting maintenance schedules for specific machines.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "machine_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the machine"
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "The scheduled date for maintenance"
+                                    },
+                                    "details": {
+                                        "type": "string",
+                                        "description": "Details or notes related to the maintenance activity"
+                                    }
+                                },
+                                "required": [
+                                    "machine_id",
+                                    "date"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Maintenance schedule created successfully"
+                    }
+                }
+            }
+        },
+        "/maintenance/reminders": {
+            "get": {
+                "summary": "Retrieve upcoming maintenance reminders",
+                "description": "Fetch a list of upcoming maintenance reminders, categorized by urgency and machine.",
+                "responses": {
+                    "200": {
+                        "description": "Upcoming maintenance reminders retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "example1": {
+                                        "value": [
+                                            {
+                                                "machine_id": "123",
+                                                "reminder_date": "2023-11-01",
+                                                "urgency": "High"
+                                            },
+                                            {
+                                                "machine_id": "124",
+                                                "reminder_date": "2023-11-10",
+                                                "urgency": "Medium"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/performance": {
+            "get": {
+                "summary": "Obtain performance analytics",
+                "description": "Retrieve detailed performance analytics for machines over a chosen timeframe. Parameters include the selected date range and machine identifiers.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The start date of the timeframe",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The end date of the timeframe",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Performance analytics retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "example1": {
+                                        "value": {
+                                            "machine_id": "123",
+                                            "performance": {
+                                                "average_operational_hours": 8,
+                                                "downtime": 1,
+                                                "efficiency": "90%"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/configure": {
+            "post": {
+                "summary": "Configure alert parameters",
+                "description": "Set parameters for alerts, such as temperature thresholds, operational hours, or other key conditions.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "machine_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the machine"
+                                    },
+                                    "condition": {
+                                        "type": "string",
+                                        "description": "The alert condition, e.g., 'Temperature > 80\u00b0C'"
+                                    },
+                                    "threshold": {
+                                        "type": "number",
+                                        "description": "The value triggering the alert"
+                                    }
+                                },
+                                "required": [
+                                    "machine_id",
+                                    "condition"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Alert configuration saved successfully"
+                    }
+                }
+            }
+        },
+        "/alerts/log": {
+            "get": {
+                "summary": "Access alert logs",
+                "description": "Retrieve logs of all generated alerts, including timestamps, machine IDs, and significance levels.",
+                "responses": {
+                    "200": {
+                        "description": "List of alert logs retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "example1": {
+                                        "value": [
+                                            {
+                                                "timestamp": "2023-10-10T10:00:00Z",
+                                                "machine_id": "123",
+                                                "condition": "Temperature > 80\u00b0C",
+                                                "significance": "High"
+                                            },
+                                            {
+                                                "timestamp": "2023-10-15T14:30:00Z",
+                                                "machine_id": "124",
+                                                "condition": "Downtime > 2 hours",
+                                                "significance": "Medium"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/machines/register": {
+            "post": {
+                "summary": "Register a new machine",
+                "description": "Add a new industrial machine into the monitoring system by providing its specifications and details.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The machine's name"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "The type of machine, e.g., 'Hydraulic Press'"
+                                    },
+                                    "specifications": {
+                                        "type": "object",
+                                        "description": "Specifications of the machine",
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "type"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Machine registered successfully"
+                    }
+                }
+            }
+        },
+        "/machines/{id}": {
+            "delete": {
+                "summary": "Remove a machine",
+                "description": "Delete a specific machine from the monitoring database using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the machine to be deleted",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Machine deleted successfully"
+                    }
+                }
+            }
+        },
+        "/report/summary": {
+            "get": {
+                "summary": "Generate a summary report",
+                "description": "Generate a comprehensive summary report for all managed machines over a chosen period.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The start date for the report period",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The end date for the report period",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Summary report generated successfully",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "example1": {
+                                        "value": {
+                                            "total_machines": 10,
+                                            "machines_operational": 8,
+                                            "machines_under_maintenance": 2,
+                                            "key_metrics": {
+                                                "average_efficiency": "92%"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

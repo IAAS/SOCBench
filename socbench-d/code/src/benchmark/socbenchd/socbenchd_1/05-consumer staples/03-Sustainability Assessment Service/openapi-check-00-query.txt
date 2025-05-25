@@ -1,0 +1,401 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+OpenAPI:
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Consumer Staples Sustainability Metrics API",
+        "description": "This service allows manufacturers in the consumer staples sector to assess and monitor the sustainability metrics of their product supply chain. It supports operations including product registration, supply chain analysis, supplier management, and report generation.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.sustainability-metrics.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/product/metrics": {
+            "get": {
+                "summary": "Retrieve sustainability metrics for a specific product",
+                "description": "Fetches the detailed sustainability metrics for a specific product based on its ID.",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "query",
+                        "required": true,
+                        "description": "Unique identifier of the product",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with the sustainability metrics of the product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "metrics": {
+                                            "type": "object",
+                                            "description": "Sustainability metrics of the product"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                }
+            }
+        },
+        "/product/register": {
+            "post": {
+                "summary": "Register a new product",
+                "description": "Adds a new product to the monitoring system with its basic information.",
+                "requestBody": {
+                    "description": "Details of the product to register",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the product"
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "description": "Category of the product"
+                                    },
+                                    "manufacturer": {
+                                        "type": "string",
+                                        "description": "Manufacturer of the product"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "category",
+                                    "manufacturer"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product successfully registered"
+                    }
+                }
+            }
+        },
+        "/product/update": {
+            "put": {
+                "summary": "Update product details",
+                "description": "Updates the details of an existing product in the monitoring system.",
+                "requestBody": {
+                    "description": "Product details to update",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "productId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the product"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Updated name of the product"
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "description": "Updated category of the product"
+                                    },
+                                    "manufacturer": {
+                                        "type": "string",
+                                        "description": "Updated manufacturer of the product"
+                                    }
+                                },
+                                "required": [
+                                    "productId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Product successfully updated"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                }
+            }
+        },
+        "/supplychain/overview": {
+            "get": {
+                "summary": "Retrieve supply chain overview",
+                "description": "Provides an overview of the entire supply chain for all registered products.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with supply chain overview",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "description": "Supply chain segment",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Segment unique ID"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Overview of the segment"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/supplychain/{id}/metrics": {
+            "get": {
+                "summary": "Retrieve supply chain segment metrics",
+                "description": "Fetch detailed sustainability analysis for a specific supply chain segment.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the supply chain segment",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with segment metrics",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "description": "Sustainability metrics for the segment",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "analysis": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Segment not found"
+                    }
+                }
+            }
+        },
+        "/supplier/add": {
+            "post": {
+                "summary": "Register a new supplier",
+                "description": "Registers a new supplier along with their initial sustainability data.",
+                "requestBody": {
+                    "description": "Details of the supplier to add",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "contact": {
+                                        "type": "string"
+                                    },
+                                    "sustainabilityRating": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "contact",
+                                    "sustainabilityRating"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Supplier successfully registered"
+                    }
+                }
+            }
+        },
+        "/suppliers": {
+            "get": {
+                "summary": "List suppliers",
+                "description": "Fetches a list of all registered suppliers associated with the service.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with a list of suppliers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "contact": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/supplier/{id}/update": {
+            "put": {
+                "summary": "Update supplier details",
+                "description": "Updates sustainability data or other relevant information of a specific supplier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the supplier",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated details of the supplier",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "contact": {
+                                        "type": "string"
+                                    },
+                                    "sustainabilityRating": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Supplier updated successfully"
+                    },
+                    "404": {
+                        "description": "Supplier not found"
+                    }
+                }
+            }
+        },
+        "/report/daily": {
+            "get": {
+                "summary": "Generate daily sustainability report",
+                "description": "Generates a daily sustainability compliance report for all registered products.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with the daily report",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reportDate": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "complianceSummary": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/product/{id}": {
+            "delete": {
+                "summary": "Remove a product",
+                "description": "Deletes a product and its associated data from the monitoring system.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the product to delete",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Product successfully deleted"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

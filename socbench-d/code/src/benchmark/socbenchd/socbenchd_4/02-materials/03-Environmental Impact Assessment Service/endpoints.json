@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /impact-assessment",
+            "description": "Submit operational data for an environmental impact assessment."
+        },
+        {
+            "endpoint": "GET /impact-scores/{assessmentId}",
+            "description": "Retrieve the environmental impact scores for a specific assessment."
+        },
+        {
+            "endpoint": "PUT /impact-assessment/{assessmentId}",
+            "description": "Update the operational data for an existing environmental impact assessment."
+        },
+        {
+            "endpoint": "DELETE /impact-assessment/{assessmentId}",
+            "description": "Delete a previously submitted environmental impact assessment."
+        },
+        {
+            "endpoint": "POST /impact-scenarios",
+            "description": "Submit hypothetical operational data to estimate potential environmental impacts."
+        },
+        {
+            "endpoint": "GET /mitigation-recommendations/{assessmentId}",
+            "description": "Retrieve tailored mitigation recommendations based on an assessment."
+        },
+        {
+            "endpoint": "GET /resource-tracking",
+            "description": "Access data on resource usage across different operational activities."
+        },
+        {
+            "endpoint": "GET /emission-reports/{assessmentId}",
+            "description": "Obtain detailed emission reports related to a specific assessment."
+        },
+        {
+            "endpoint": "GET /assessment-history",
+            "description": "View the history of all assessments performed by the user."
+        },
+        {
+            "endpoint": "PATCH /impact-assessment/{assessmentId}/status",
+            "description": "Modify the review status of a specific assessment."
+        }
+    ]
+}

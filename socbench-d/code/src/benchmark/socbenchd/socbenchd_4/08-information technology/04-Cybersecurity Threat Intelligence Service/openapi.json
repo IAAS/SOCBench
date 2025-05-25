@@ -1,0 +1,377 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "IT Threat Management Service",
+        "description": "The service provides specialized tools and datasets enabling security specialists to identify, track, and mitigate potential security threats within IT landscapes.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.example.com",
+            "description": "Main API server"
+        }
+    ],
+    "paths": {
+        "/threats": {
+            "get": {
+                "summary": "Retrieve List of Identified Threats",
+                "description": "Fetch the current list of all identified threats for monitoring purposes. This allows security specialists to stay updated on active threats.",
+                "responses": {
+                    "200": {
+                        "description": "List of identified threats retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the threat."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name or description of the identified threat."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current status of the threat (e.g., active, resolved)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/threats/identify": {
+            "post": {
+                "summary": "Identify New Threats",
+                "description": "Submit new data to the system to identify potential threats.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "data": {
+                                        "type": "string",
+                                        "description": "Relevant data to analyze and identify threats."
+                                    }
+                                },
+                                "required": [
+                                    "data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Threat identification request submitted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "type": "string",
+                                            "description": "Result of the threat identification process."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/threats/{id}": {
+            "get": {
+                "summary": "Get Threat Details",
+                "description": "Retrieve detailed information about a specific threat by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the threat."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detailed information about the specific threat.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the threat."
+                                        },
+                                        "details": {
+                                            "type": "string",
+                                            "description": "Detailed description of the threat."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Threat not found."
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update Threat Information",
+                "description": "Update the status or properties of an identified threat.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the threat."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "description": "New status of the threat (e.g., active, resolved)."
+                                    },
+                                    "details": {
+                                        "type": "string",
+                                        "description": "Additional details or updates regarding the threat."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Threat information updated successfully."
+                    },
+                    "404": {
+                        "description": "Threat not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove a Threat",
+                "description": "Delete a resolved or irrelevant threat from the system.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the threat to be removed."
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Threat deleted successfully."
+                    },
+                    "404": {
+                        "description": "Threat not found."
+                    }
+                }
+            }
+        },
+        "/data/upload": {
+            "post": {
+                "summary": "Upload Data for Threat Analysis",
+                "description": "Upload datasets vital for threat analysis to integrate them into the system.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "dataset": {
+                                        "type": "string",
+                                        "description": "Dataset contents or references for integrating threat analysis."
+                                    }
+                                },
+                                "required": [
+                                    "dataset"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Dataset uploaded successfully."
+                    }
+                }
+            }
+        },
+        "/datasets": {
+            "get": {
+                "summary": "List Accessible Datasets",
+                "description": "Retrieve a list of all datasets available for threat analysis.",
+                "responses": {
+                    "200": {
+                        "description": "List of datasets retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the dataset."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name or description of the dataset."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/report": {
+            "get": {
+                "summary": "Generate Security Report",
+                "description": "Retrieve a comprehensive security analysis report based on the current data and threats.",
+                "responses": {
+                    "200": {
+                        "description": "Security report generated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "report": {
+                                            "type": "string",
+                                            "description": "Generated security report content."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tools/execution": {
+            "post": {
+                "summary": "Execute a Security Tool",
+                "description": "Run a specific security tool available on the platform to perform threat analysis or mitigation tasks.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "tool_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the tool to be executed."
+                                    },
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Execution parameters for the tool.",
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "tool_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tool executed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "execution_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the execution instance."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tools/{tool_id}/status": {
+            "get": {
+                "summary": "Check Tool Execution Status",
+                "description": "Retrieve the current status or outcomes of a deployed security tool by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "tool_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the tool whose status is queried."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tool execution status retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the tool execution."
+                                        },
+                                        "result": {
+                                            "type": "string",
+                                            "description": "Outcome or result of the tool execution, if completed."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tool execution not found."
+                    }
+                }
+            }
+        }
+    }
+}

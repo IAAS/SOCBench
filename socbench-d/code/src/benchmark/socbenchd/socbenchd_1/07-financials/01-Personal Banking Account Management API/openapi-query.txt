@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Service:
+Enables users to securely manage banking accounts via features such as balance inquiries, transaction history, fund transfers, and statement downloads.
+
+Endpoints:
+GET /account/balance: Fetch the current available balance for a user's bank account.
+GET /account/transactions: Retrieve the transaction history of a user for a specified period.
+POST /account/transfer: Initiate a fund transfer between user-specified accounts.
+GET /account/statements: Download electronic statements of a user's account in a selected time range.
+GET /account/details: Access detailed information regarding the user's linked accounts.
+POST /account/register: Register a new banking account in the service.
+PUT /account/update: Update existing account details such as contact information.
+DELETE /account/remove: Delete or deactivate a specified bank account.
+GET /exchange/rates: Retrieve the latest foreign exchange rates for supported currencies.
+POST /savings/deposit: Deposit a specified amount into the user's savings account.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,421 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Cloud Infrastructure Management Service API",
+        "description": "This API allows organizations to efficiently manage their cloud-based infrastructure, ensuring optimal performance and security. The features include resource allocation, monitoring, scaling, performance analysis, and security review.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.cloudmanagementservice.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/infrastructure/resources": {
+            "get": {
+                "summary": "Retrieve all infrastructure resources",
+                "description": "Retrieve a list of all managed cloud infrastructure resources. This endpoint is useful for organizing and monitoring the current resources in use.",
+                "responses": {
+                    "200": {
+                        "description": "A list of all infrastructure resources",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Resource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new infrastructure resource",
+                "description": "Add a new resource to the cloud infrastructure for monitoring and management purposes.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewResource"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The newly added resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Resource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/infrastructure/resources/{resource_id}": {
+            "patch": {
+                "summary": "Update a resource configuration",
+                "description": "Update a specific resource's configuration or properties in the cloud infrastructure.",
+                "parameters": [
+                    {
+                        "name": "resource_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the resource to update"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateResource"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The updated resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Resource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a resource",
+                "description": "Remove a specific resource from the managed cloud infrastructure.",
+                "parameters": [
+                    {
+                        "name": "resource_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the resource to delete"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Resource successfully deleted"
+                    }
+                }
+            }
+        },
+        "/performance/metrics": {
+            "get": {
+                "summary": "Retrieve performance metrics",
+                "description": "Retrieve key performance metrics for analyzing and ensuring the overall efficiency of the managed cloud infrastructure.",
+                "responses": {
+                    "200": {
+                        "description": "A list of performance metrics",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PerformanceMetrics"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/security/events": {
+            "get": {
+                "summary": "Retrieve security events",
+                "description": "Retrieve a list of recent security events occurring in the managed infrastructure. Useful for reviewing and taking necessary actions.",
+                "responses": {
+                    "200": {
+                        "description": "A list of recent security events",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SecurityEvent"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/scaling/policies": {
+            "post": {
+                "summary": "Define a scaling policy",
+                "description": "Create a new scaling policy to enable automatic adjustment of the cloud infrastructure based on the defined conditions.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewScalingPolicy"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The newly created scaling policy",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ScalingPolicy"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/scaling/policies/{policy_id}": {
+            "patch": {
+                "summary": "Update a scaling policy",
+                "description": "Modify an existing scaling policy by adjusting its parameters or conditions.",
+                "parameters": [
+                    {
+                        "name": "policy_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the scaling policy to modify"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateScalingPolicy"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The updated scaling policy",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ScalingPolicy"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a scaling policy",
+                "description": "Remove a specific scaling policy from the cloud infrastructure system.",
+                "parameters": [
+                    {
+                        "name": "policy_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the scaling policy to delete"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Scaling policy successfully deleted"
+                    }
+                }
+            }
+        },
+        "/health/status": {
+            "get": {
+                "summary": "Retrieve health status",
+                "description": "Retrieve the overall health status of the entire managed cloud infrastructure.",
+                "responses": {
+                    "200": {
+                        "description": "The overall health status of the infrastructure",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HealthStatus"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Resource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "A unique identifier for the resource"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the resource"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of the resource"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The current status of the resource (e.g., active, inactive)"
+                    }
+                }
+            },
+            "NewResource": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the new resource"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type/category of the new resource"
+                    }
+                }
+            },
+            "UpdateResource": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The updated name of the resource"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The updated status of the resource"
+                    }
+                }
+            },
+            "PerformanceMetrics": {
+                "type": "object",
+                "properties": {
+                    "metric": {
+                        "type": "string",
+                        "description": "The name of the metric"
+                    },
+                    "value": {
+                        "type": "number",
+                        "description": "The value of the metric"
+                    }
+                }
+            },
+            "SecurityEvent": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the security event"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "description": "The time the event occurred"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "A description of the security event"
+                    }
+                }
+            },
+            "NewScalingPolicy": {
+                "type": "object",
+                "properties": {
+                    "policy_name": {
+                        "type": "string",
+                        "description": "The name of the scaling policy"
+                    },
+                    "conditions": {
+                        "type": "string",
+                        "description": "The conditions under which the scaling occurs"
+                    }
+                }
+            },
+            "UpdateScalingPolicy": {
+                "type": "object",
+                "properties": {
+                    "policy_name": {
+                        "type": "string",
+                        "description": "The updated name of the scaling policy"
+                    },
+                    "conditions": {
+                        "type": "string",
+                        "description": "The updated conditions for scaling"
+                    }
+                }
+            },
+            "ScalingPolicy": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the scaling policy"
+                    },
+                    "policy_name": {
+                        "type": "string",
+                        "description": "The name of the scaling policy"
+                    },
+                    "conditions": {
+                        "type": "string",
+                        "description": "The conditions for scaling"
+                    }
+                }
+            },
+            "HealthStatus": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "The overall health status (e.g., healthy, degraded, unhealthy)"
+                    },
+                    "details": {
+                        "type": "string",
+                        "description": "Additional information about the health status"
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

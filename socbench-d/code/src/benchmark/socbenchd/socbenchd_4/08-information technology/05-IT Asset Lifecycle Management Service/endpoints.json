@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /assets/register",
+            "description": "Register a new asset in the organization, providing details such as unique identification, category, and location."
+        },
+        {
+            "endpoint": "GET /assets/{assetId}",
+            "description": "Retrieve detailed information about a specific asset by its unique ID."
+        },
+        {
+            "endpoint": "PUT /assets/{assetId}",
+            "description": "Update information of an existing asset, including attributes like usage status or assigned department."
+        },
+        {
+            "endpoint": "DELETE /assets/{assetId}",
+            "description": "Remove the record of a specified asset that has been decommissioned or disposed of."
+        },
+        {
+            "endpoint": "GET /assets/audit",
+            "description": "Retrieve a comprehensive report of asset audits, highlighting any discrepancies and current conditions."
+        },
+        {
+            "endpoint": "PATCH /assets/{assetId}/assign",
+            "description": "Assign an asset to a specific user or department, recording the allocation details."
+        },
+        {
+            "endpoint": "GET /assets/categories",
+            "description": "Fetch a list of all available asset categories and their descriptions maintained in the service."
+        },
+        {
+            "endpoint": "POST /assets/maintenance/{assetId}",
+            "description": "Schedule and record a maintenance activity for a specific asset."
+        },
+        {
+            "endpoint": "GET /assets/maintenance/history",
+            "description": "Retrieve the maintenance history of all or specific assets, detailing the performed activities."
+        },
+        {
+            "endpoint": "GET /assets/overview",
+            "description": "Obtain a summary overview of the organizational assets, categorized by status and location."
+        }
+    ]
+}

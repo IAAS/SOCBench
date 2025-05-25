@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /repositories",
+            "description": "Retrieve a list of all repositories available within the service."
+        },
+        {
+            "endpoint": "POST /repositories",
+            "description": "Create a new repository to manage version-controlled content."
+        },
+        {
+            "endpoint": "GET /repositories/{id}",
+            "description": "Fetch details of a specific repository by its unique identifier."
+        },
+        {
+            "endpoint": "PUT /repositories/{id}",
+            "description": "Update configuration or metadata of the specified repository."
+        },
+        {
+            "endpoint": "DELETE /repositories/{id}",
+            "description": "Remove a repository permanently from the service."
+        },
+        {
+            "endpoint": "GET /repositories/{id}/branches",
+            "description": "List all branches associated with a particular repository."
+        },
+        {
+            "endpoint": "POST /repositories/{id}/branches",
+            "description": "Create a new branch within a specified repository."
+        },
+        {
+            "endpoint": "GET /repositories/{id}/commits",
+            "description": "Retrieve commit history for a repository."
+        },
+        {
+            "endpoint": "POST /repositories/{id}/merge",
+            "description": "Merge changes from one branch to another within a repository."
+        },
+        {
+            "endpoint": "POST /repositories/{id}/permissions",
+            "description": "Set or modify user permissions for accessing a specific repository."
+        }
+    ]
+}

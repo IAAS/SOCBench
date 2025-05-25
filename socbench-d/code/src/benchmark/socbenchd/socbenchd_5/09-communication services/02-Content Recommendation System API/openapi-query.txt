@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+A robust solution for media platforms to deliver personalized content suggestions based on user behavior, preferences, and machine learning algorithms, aimed at enhancing user engagement and satisfaction.
+
+Endpoints:
+GET /recommendations: Fetch personalized content recommendations for a user based on their preferences and behavior.
+POST /user/preferences: Submit or update a user's content preferences for tailored suggestions.
+GET /content/popular: Retrieve a list of currently trending or popular content items on the platform.
+POST /user/behavior: Log specific user interactions or behaviors with content to improve recommendation models.
+GET /content/similar/{id}: Find and return content items similar to a specified item using advanced similarity algorithms.
+GET /genres: List all available content genres to support the user in exploring options within thematic categories.
+PUT /notifications/settings: Modify notification preferences for tailored updates regarding new content releases.
+GET /analytics/{user_id}: Provide an overview of a user's historical interaction metrics.
+POST /admin/training: Initiate retraining of machine learning models with updated datasets.
+GET /platform/status: Check the operational status and uptime information of the platform infrastructure.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

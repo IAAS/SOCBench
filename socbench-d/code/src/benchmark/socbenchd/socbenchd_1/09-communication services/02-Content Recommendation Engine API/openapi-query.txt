@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+Designed for media companies, this RESTful API suggests personalized content to users based on their preferences, viewing history, and trending patterns by employing sophisticated machine learning algorithms.
+
+Endpoints:
+GET /content/recommendations: Retrieve a list of personalized content recommendations for a user based on preferences and viewing history.
+POST /content/feedback: Submit user feedback on recommended content to improve the personalization model.
+GET /content/trending: Fetch a list of currently trending content globally or by region.
+GET /user/preferences: Retrieve a user's content preferences and settings for personalized recommendations.
+PUT /user/preferences: Update a user's content preferences to refine recommendations.
+POST /history/view: Add a record of content viewed by the user to update their viewing history.
+GET /genres/popular: Obtain a list of popular genres or categories in the service.
+GET /content/similar/{id}: Fetch content similar to a specific title based on its characteristics.
+GET /analytics/engagement: Retrieve engagement metrics and insights for content recommendations.
+POST /manual/recommendation: Manually submit a recommendation for a user to assist in testing the service.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

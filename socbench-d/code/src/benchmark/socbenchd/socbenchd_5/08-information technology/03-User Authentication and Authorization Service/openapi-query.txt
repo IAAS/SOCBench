@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+Service:
+This service handles user authentication and role-based access control seamlessly for web and mobile applications, offering integration support and ensuring secure and efficient management.
+
+Endpoints:
+POST /users/register: Create a new user account with specified credentials and profile information.
+POST /users/authenticate: Authenticate a user, returning a session token upon success.
+GET /users/{userId}/roles: Retrieve a list of roles assigned to a specific user.
+POST /roles: Create a new role with specific permissions to be assigned to users.
+DELETE /roles/{roleId}: Remove a specified role from the system.
+POST /users/{userId}/roles: Assign a specific role to a user.
+GET /resources/{resourceId}/permissions: Obtain a list of permissions associated with a particular resource.
+POST /permissions: Define a new permission that can be assigned to roles.
+PUT /roles/{roleId}/permissions: Update the list of permissions associated with a specific role.
+POST /tokens/verify: Verify the validity and permissions of a provided session token.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

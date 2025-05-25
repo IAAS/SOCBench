@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /energy/pricing",
+            "description": "Fetch current and historical energy pricing data for all supported energy types."
+        },
+        {
+            "endpoint": "GET /energy/supply-levels",
+            "description": "Retrieve data on current supply levels for various energy resources."
+        },
+        {
+            "endpoint": "GET /energy/geopolitical-impact",
+            "description": "Analyze effects of geopolitical changes on the energy market."
+        },
+        {
+            "endpoint": "POST /analysis/request",
+            "description": "Submit a request for custom analysis of energy market data based on specified parameters."
+        },
+        {
+            "endpoint": "GET /energy/trade-flows",
+            "description": "Obtain data on international energy trade flows and transactions."
+        },
+        {
+            "endpoint": "GET /energy/statistics/annual",
+            "description": "Access annual statistics for production, consumption, and pricing of energy types."
+        },
+        {
+            "endpoint": "GET /analytics/price-prediction",
+            "description": "Access predictive analytics on future pricing trends for energy commodities."
+        },
+        {
+            "endpoint": "GET /renewables/trends",
+            "description": "Retrieve trends and updates on the renewable energy sector."
+        },
+        {
+            "endpoint": "GET /environmental/impact",
+            "description": "Evaluate the environmental impact data related to energy sourcing and usage."
+        },
+        {
+            "endpoint": "GET /energy/alerts",
+            "description": "Receive alerts about sudden changes in metrics such as price or supply."
+        }
+    ]
+}

@@ -1,0 +1,607 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Renewable Energy Prediction Service",
+        "description": "This API provides predictive analysis for energy production from renewable sources (solar, wind, hydroelectric). It processes historical weather data along with current meteorological patterns using advanced machine learning models to forecast energy yields.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.renewableenergy.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/energy/forecast/solar": {
+            "get": {
+                "summary": "Retrieve Solar Energy Forecast",
+                "description": "Get predicted solar energy production values for a specified date range. This endpoint uses historical weather data and current meteorological patterns to provide accurate forecasts.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The start date for the forecast (format: YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The end date for the forecast (format: YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response containing solar energy forecast.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "forecast": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "description": "The date of the forecast."
+                                                    },
+                                                    "predicted_energy": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "description": "Predicted energy production in kWh."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/energy/forecast/wind": {
+            "get": {
+                "summary": "Retrieve Wind Energy Forecast",
+                "description": "Get predicted wind energy production values for a specified date range. This endpoint uses historical weather data and current meteorological patterns to provide accurate forecasts.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The start date for the forecast (format: YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The end date for the forecast (format: YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response containing wind energy forecast.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "forecast": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "description": "The date of the forecast."
+                                                    },
+                                                    "predicted_energy": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "description": "Predicted energy production in kWh."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/energy/forecast/hydro": {
+            "get": {
+                "summary": "Retrieve Hydroelectric Energy Forecast",
+                "description": "Get predicted hydroelectric energy production values for a specified date range. This endpoint uses historical weather data and current meteorological patterns to provide accurate forecasts.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The start date for the forecast (format: YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The end date for the forecast (format: YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response containing hydroelectric energy forecast.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "forecast": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "description": "The date of the forecast."
+                                                    },
+                                                    "predicted_energy": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "description": "Predicted energy production in kWh."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/energy/history/solar": {
+            "get": {
+                "summary": "Retrieve Historical Solar Energy Data",
+                "description": "Access historical data for solar energy production. This can be used to analyze performance trends over a specified date range.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The start date for the historical data (format: YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The end date for the historical data (format: YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response containing historical solar energy data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "description": "The date of the historical record."
+                                                    },
+                                                    "recorded_energy": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "description": "Recorded energy production in kWh."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/energy/history/wind": {
+            "get": {
+                "summary": "Retrieve Historical Wind Energy Data",
+                "description": "Access historical data for wind energy production. This can be used to analyze performance trends over a specified date range.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The start date for the historical data (format: YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The end date for the historical data (format: YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response containing historical wind energy data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "description": "The date of the historical record."
+                                                    },
+                                                    "recorded_energy": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "description": "Recorded energy production in kWh."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/energy/history/hydro": {
+            "get": {
+                "summary": "Retrieve Historical Hydroelectric Energy Data",
+                "description": "Access historical data for hydroelectric energy production. This can be used to analyze performance trends over a specified date range.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The start date for the historical data (format: YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The end date for the historical data (format: YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response containing historical hydroelectric energy data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "description": "The date of the historical record."
+                                                    },
+                                                    "recorded_energy": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "description": "Recorded energy production in kWh."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/energy/forecast/request": {
+            "post": {
+                "summary": "Request Custom Forecasts",
+                "description": "Submit a request for custom energy production forecasts by providing specific requirements.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "energy_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "solar",
+                                            "wind",
+                                            "hydro"
+                                        ],
+                                        "description": "The type of energy for the forecast."
+                                    },
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Custom parameters for the forecast (e.g., regions, time intervals, etc.).",
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "energy_type",
+                                    "parameters"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully submitted a custom request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "The status of the request."
+                                        },
+                                        "request_id": {
+                                            "type": "string",
+                                            "description": "A unique ID for tracking the custom request."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/settings/alert": {
+            "put": {
+                "summary": "Modify Notification Settings",
+                "description": "Update notification preferences for receiving energy forecast updates or alerts.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "notifications": {
+                                        "type": "boolean",
+                                        "description": "Turn notifications on (true) or off (false)."
+                                    },
+                                    "frequency": {
+                                        "type": "string",
+                                        "enum": [
+                                            "daily",
+                                            "weekly",
+                                            "monthly"
+                                        ],
+                                        "description": "The frequency of the notifications."
+                                    }
+                                },
+                                "required": [
+                                    "notifications"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated notification settings.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "The status of the notification update request."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/weather/current": {
+            "get": {
+                "summary": "Retrieve Current Weather Data",
+                "description": "Get current meteorological data influencing renewable energy production rates.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response containing current weather data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "temperature": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "description": "Current temperature in Celsius."
+                                        },
+                                        "wind_speed": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "description": "Current wind speed in m/s."
+                                        },
+                                        "precipitation": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "description": "Current precipitation level in mm."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/weather/projection": {
+            "get": {
+                "summary": "Retrieve Weather Projection",
+                "description": "Get projected meteorological patterns for an extended timeframe.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The start date for the projection (format: YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The end date for the projection (format: YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response containing weather projections.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "The date of the projection."
+                                            },
+                                            "temperature": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Projected temperature in Celsius."
+                                            },
+                                            "wind_speed": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Projected wind speed in m/s."
+                                            },
+                                            "precipitation": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Projected precipitation level in mm."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

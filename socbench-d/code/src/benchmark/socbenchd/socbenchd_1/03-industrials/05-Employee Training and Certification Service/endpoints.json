@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /skill-assessments",
+            "description": "Retrieve a list of available workforce skill assessment modules."
+        },
+        {
+            "endpoint": "POST /skill-assessments/{assessmentId}/complete",
+            "description": "Submit the completion status of a specific skill assessment for a user."
+        },
+        {
+            "endpoint": "GET /training-modules",
+            "description": "Fetch the catalog of currently available training modules."
+        },
+        {
+            "endpoint": "POST /training-modules/{moduleId}/enroll",
+            "description": "Enroll a user into a specific training module."
+        },
+        {
+            "endpoint": "GET /certifications",
+            "description": "List all certifications offered by the platform along with details."
+        },
+        {
+            "endpoint": "POST /certifications/{certId}/apply",
+            "description": "Apply for a certification exam associated with an identifier."
+        },
+        {
+            "endpoint": "GET /users/{userId}/progress",
+            "description": "Retrieve the training progress and skill assessment status of a specific user."
+        },
+        {
+            "endpoint": "PUT /users/{userId}/profile",
+            "description": "Update the profile details of a specific user."
+        },
+        {
+            "endpoint": "GET /analytics/completion-rates",
+            "description": "Obtain analytics data on the completion rates of assessments and training modules."
+        },
+        {
+            "endpoint": "POST /support/tickets",
+            "description": "Submit a new support ticket for platform-related inquiries or issues."
+        }
+    ]
+}

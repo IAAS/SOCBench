@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /projects",
+            "description": "Submit a new industrial project for environmental analysis and assessment."
+        },
+        {
+            "endpoint": "GET /projects/{id}",
+            "description": "Retrieve the detailed analysis and compliance report of a specific industrial project."
+        },
+        {
+            "endpoint": "PUT /projects/{id}",
+            "description": "Update the site-specific data of an existing project to reflect current metrics."
+        },
+        {
+            "endpoint": "DELETE /projects/{id}",
+            "description": "Remove an existing industrial project from the system."
+        },
+        {
+            "endpoint": "GET /compliance-standards",
+            "description": "Obtain a list of all supported environmental compliance standards and regulations."
+        },
+        {
+            "endpoint": "GET /projects/{id}/recommendations",
+            "description": "Retrieve tailored mitigation strategies to improve environmental compliance for a project."
+        },
+        {
+            "endpoint": "POST /projects/{id}/metrics",
+            "description": "Submit new monitoring data (e.g., emissions and usage) for an ongoing project."
+        },
+        {
+            "endpoint": "GET /projects",
+            "description": "List all submitted projects along with their assessment statuses."
+        },
+        {
+            "endpoint": "GET /project-stats",
+            "description": "Retrieve aggregated statistics and trends across analyzed projects."
+        },
+        {
+            "endpoint": "GET /projects/{id}/alerts",
+            "description": "View alerts for critical environmental compliance breaches in a project."
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /alert",
+            "description": "Create a new alert to notify the teams of a detected issue."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Retrieve a list of all active alerts."
+        },
+        {
+            "endpoint": "GET /alert/{alertId}",
+            "description": "Fetch detailed information about a specific alert using its ID."
+        },
+        {
+            "endpoint": "PUT /alert/{alertId}",
+            "description": "Update properties of an existing alert via its ID."
+        },
+        {
+            "endpoint": "DELETE /alert/{alertId}",
+            "description": "Remove an alert specified by its ID from the system."
+        },
+        {
+            "endpoint": "POST /incident",
+            "description": "Initiate a new incident workflow for managing system downtime."
+        },
+        {
+            "endpoint": "GET /incidents",
+            "description": "List all currently tracked incidents within the system."
+        },
+        {
+            "endpoint": "PATCH /incident/{incidentId}",
+            "description": "Modify the status or details of an incident by its ID."
+        },
+        {
+            "endpoint": "POST /integration/test",
+            "description": "Test a configured integration with a monitoring or alerting system."
+        },
+        {
+            "endpoint": "GET /settings/workflows",
+            "description": "Retrieve current configurations for automated remediation workflows."
+        }
+    ]
+}

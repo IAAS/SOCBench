@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /test-results/available",
+            "description": "Retrieve a list of available diagnostic test results with their corresponding statuses."
+        },
+        {
+            "endpoint": "POST /test-results/notify",
+            "description": "Send a notification to a healthcare professional or patient regarding an available test result."
+        },
+        {
+            "endpoint": "GET /test-results/{id}",
+            "description": "Fetch the detailed information of a specific diagnostic test result by its unique identifier."
+        },
+        {
+            "endpoint": "PATCH /test-results/{id}/status",
+            "description": "Update the status of the specific test result to indicate acknowledgment."
+        },
+        {
+            "endpoint": "GET /healthcare-providers",
+            "description": "Retrieve a list of healthcare providers within the system."
+        },
+        {
+            "endpoint": "GET /notifications/history",
+            "description": "Access the history of notifications sent within a specified timeframe."
+        },
+        {
+            "endpoint": "POST /notifications/resend",
+            "description": "Resend a previously issued notification to its intended recipient."
+        },
+        {
+            "endpoint": "GET /patients/{id}/test-results",
+            "description": "List all test results associated with a specific patient."
+        },
+        {
+            "endpoint": "POST /test-results",
+            "description": "Submit new diagnostic test results into the system for processing and notification."
+        },
+        {
+            "endpoint": "DELETE /notifications/{id}",
+            "description": "Remove a notification from the notification history by its identifier."
+        }
+    ]
+}

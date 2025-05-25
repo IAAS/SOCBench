@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /forest-products/status",
+            "description": "Retrieve the current status of all monitored forest product batches."
+        },
+        {
+            "endpoint": "POST /production/report",
+            "description": "Submit a report on a newly initiated production batch."
+        },
+        {
+            "endpoint": "GET /transportation/routes",
+            "description": "Fetch optimized transportation routes for delivery of forest products."
+        },
+        {
+            "endpoint": "PATCH /product/{id}/delivery",
+            "description": "Update the delivery schedule for a specific product."
+        },
+        {
+            "endpoint": "POST /sustainability/audit",
+            "description": "Initiate a sustainability compliance audit for a given product batch."
+        },
+        {
+            "endpoint": "GET /logs/transportation",
+            "description": "View transportation logs for specific product deliveries."
+        },
+        {
+            "endpoint": "PUT /product/{id}/status",
+            "description": "Modify the monitoring operational status of an individual product batch."
+        },
+        {
+            "endpoint": "DELETE /report/{id}",
+            "description": "Remove a previously submitted report by ID."
+        },
+        {
+            "endpoint": "GET /analytics/production",
+            "description": "Generate analytics reports on overall production statistics and insights."
+        },
+        {
+            "endpoint": "POST /feedback/logistics",
+            "description": "Submit feedback regarding the logistics and tracking processes."
+        }
+    ]
+}

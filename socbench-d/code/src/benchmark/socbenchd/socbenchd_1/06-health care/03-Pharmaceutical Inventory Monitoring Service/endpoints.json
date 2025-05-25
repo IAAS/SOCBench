@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /inventory",
+            "description": "Retrieve the current inventory levels of all tracked medications and supplies."
+        },
+        {
+            "endpoint": "POST /inventory/update",
+            "description": "Update the inventory count for specific medications or supplies."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Fetch a list of active restocking alerts."
+        },
+        {
+            "endpoint": "POST /alerts/dismiss",
+            "description": "Mark specific restocking alerts as resolved."
+        },
+        {
+            "endpoint": "GET /transactions",
+            "description": "Retrieve a log of transactional activities involving medications and supplies."
+        },
+        {
+            "endpoint": "POST /transactions/add",
+            "description": "Add a record of a new transaction for specific items."
+        },
+        {
+            "endpoint": "GET /analytics/trends",
+            "description": "Analyze and fetch trends in medication and supply utilization over time."
+        },
+        {
+            "endpoint": "POST /analytics/custom",
+            "description": "Submit parameters to receive customized analytic reports."
+        },
+        {
+            "endpoint": "GET /settings",
+            "description": "Fetch the current configuration settings for the service."
+        },
+        {
+            "endpoint": "PUT /settings/update",
+            "description": "Update service configuration settings for specific functionalities."
+        }
+    ]
+}

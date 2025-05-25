@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+Service:
+Designed specifically for consumer staples retailers, this API enables dynamic tracking and management of inventory levels across multiple locations. Retailers can ensure optimal stock levels for high-demand products, reduce excess inventory, and minimize out-of-stock occurrences. Clients authenticate requests using secure tokens and retrieve detailed inventory data through RESTful endpoints.
+
+Endpoints:
+GET /inventory-levels: Retrieve the current inventory levels for all products across all locations.
+POST /inventory-check: Trigger a manual check for inventory accuracy at specified locations.
+GET /locations: Fetch a list of all store locations managed by the retailer.
+PUT /update-stock: Update the inventory stock level for a specific product at a specific location.
+DELETE /remove-location: Remove a store location from the inventory management system.
+GET /restock-status: Retrieve the current status of restocking processes for specific products.
+POST /forecast-demand: Submit data for demand forecast analysis and receive predictive insights.
+PATCH /set-low-stock-alert: Configure alert thresholds for low stock levels per product.
+GET /inventory-tracking: Obtain tracking information for inventory shipments in transit.
+POST /export-data: Export the inventory and sales data for external processing.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

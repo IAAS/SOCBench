@@ -1,0 +1,354 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "User Access Control API",
+        "description": "This API provides secure user authentication, authorization, and account management capabilities. It allows application developers to integrate role-based permissions and multifactor authentication (MFA) to enhance security in their systems.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.example.com/v1",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/users": {
+            "get": {
+                "summary": "Retrieve all users",
+                "description": "Fetch a list of all users in the system, including their associated roles and permissions.",
+                "responses": {
+                    "200": {
+                        "description": "A list of users.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "userId": "123",
+                                        "username": "john_doe",
+                                        "email": "john@example.com",
+                                        "roles": [
+                                            "admin"
+                                        ]
+                                    },
+                                    {
+                                        "userId": "124",
+                                        "username": "jane_smith",
+                                        "email": "jane@example.com",
+                                        "roles": [
+                                            "user"
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new user",
+                "description": "Add a new user to the system by providing their username, email, and an initial role assignment.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "description": "The username of the new user."
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "The email address of the new user."
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "description": "The initial role assigned to the user."
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "email",
+                                    "role"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created successfully."
+                    }
+                }
+            }
+        },
+        "/users/{userId}": {
+            "get": {
+                "summary": "Retrieve specific user",
+                "description": "Fetch detailed information about a specific user by their unique identifier.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the user."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the user.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "userId": "123",
+                                    "username": "john_doe",
+                                    "email": "john@example.com",
+                                    "roles": [
+                                        "admin"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update user account",
+                "description": "Modify the account details of a specific user, such as updating roles or permissions.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the user."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "description": "Updated username for the user."
+                                    },
+                                    "roles": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of updated roles assigned to the user."
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "roles"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User updated successfully."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete user",
+                "description": "Remove a specific user account from the system.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the user."
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "User deleted successfully."
+                    }
+                }
+            }
+        },
+        "/auth/mfa": {
+            "post": {
+                "summary": "Setup multifactor authentication",
+                "description": "Initiate MFA setup for a user, adding an extra layer of security to their account.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "The unique ID of the user."
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "description": "The phone number for sending MFA codes."
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "phone"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "MFA setup initiated successfully."
+                    }
+                }
+            }
+        },
+        "/roles": {
+            "get": {
+                "summary": "Retrieve all roles",
+                "description": "Get a list of all defined roles and their associated permissions.",
+                "responses": {
+                    "200": {
+                        "description": "A list of roles.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "roleId": "1",
+                                        "name": "admin",
+                                        "permissions": [
+                                            "*"
+                                        ]
+                                    },
+                                    {
+                                        "roleId": "2",
+                                        "name": "user",
+                                        "permissions": [
+                                            "view_profile"
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new role",
+                "description": "Define a new role with specified permissions for assignment to users.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The name of the role."
+                                    },
+                                    "permissions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of permissions the role will grant."
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "permissions"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Role created successfully."
+                    }
+                }
+            }
+        },
+        "/roles/{roleId}": {
+            "put": {
+                "summary": "Update role",
+                "description": "Modify details of an existing role, such as its permissions.",
+                "parameters": [
+                    {
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the role."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "permissions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "Updated list of permissions for the role."
+                                    }
+                                },
+                                "required": [
+                                    "permissions"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Role updated successfully."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete role",
+                "description": "Remove a specific role from the system, ensuring no dependencies exist.",
+                "parameters": [
+                    {
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the role."
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Role deleted successfully."
+                    }
+                }
+            }
+        }
+    }
+}

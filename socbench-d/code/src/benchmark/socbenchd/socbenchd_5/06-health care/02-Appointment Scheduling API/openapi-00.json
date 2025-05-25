@@ -1,0 +1,356 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Healthcare Appointment Management API",
+    "description": "This API allows patients to manage their appointments with healthcare professionals, check availability, send notifications, and manage patient and professional data.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.healthcare-example.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/appointments": {
+      "get": {
+        "summary": "Retrieve all appointments",
+        "description": "Returns a list of all scheduled appointments including details such as date, time, patient information, and assigned healthcare professional.",
+        "responses": {
+          "200": {
+            "description": "List of all appointments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Appointment"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Book a new appointment",
+        "description": "Schedule a new appointment with a healthcare professional. This endpoint requires patient details, appointment time, and professional information.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewAppointment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Appointment successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Appointment"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/appointments/{id}": {
+      "put": {
+        "summary": "Update an appointment",
+        "description": "Updates the details of an appointment using its unique ID. Details such as date, time, or assigned professional can be modified.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the appointment to update",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAppointment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Appointment successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Appointment"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Cancel an appointment",
+        "description": "Deletes an existing appointment based on its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the appointment to cancel",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Appointment successfully canceled"
+          }
+        }
+      }
+    },
+    "/availability/{professionalId}": {
+      "get": {
+        "summary": "Check availability of a healthcare professional",
+        "description": "Returns the available time slots for a specified healthcare professional based on their unique ID.",
+        "parameters": [
+          {
+            "name": "professionalId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the healthcare professional",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Availability details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Availability"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/professionals": {
+      "get": {
+        "summary": "Retrieve all professionals",
+        "description": "Returns a list of all registered healthcare professionals, including their names, specialties, and contact details.",
+        "responses": {
+          "200": {
+            "description": "List of professionals",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Professional"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/patients/{id}": {
+      "get": {
+        "summary": "Retrieve patient details",
+        "description": "Fetches detailed information about a specific patient using their unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the patient",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Patient details retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Patient"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update patient details",
+        "description": "Updates the record of a specific patient based on their unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the patient",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatient"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Patient details updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Patient"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications": {
+      "post": {
+        "summary": "Send a notification",
+        "description": "Sends a notification to a patient regarding their scheduled appointment. Requires patient contact details and notification content.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Notification"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Notification sent successfully"
+          }
+        }
+      }
+    },
+    "/facilities": {
+      "get": {
+        "summary": "Retrieve all facilities",
+        "description": "Returns a list of all healthcare facilities, including their names, addresses, and contact details.",
+        "responses": {
+          "200": {
+            "description": "List of healthcare facilities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Facility"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Appointment": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "patientId": { "type": "string" },
+          "professionalId": { "type": "string" },
+          "dateTime": { "type": "string", "format": "date-time" }
+        }
+      },
+      "NewAppointment": {
+        "type": "object",
+        "required": ["patientId", "professionalId", "dateTime"],
+        "properties": {
+          "patientId": { "type": "string" },
+          "professionalId": { "type": "string" },
+          "dateTime": { "type": "string", "format": "date-time" }
+        }
+      },
+      "UpdateAppointment": {
+        "type": "object",
+        "properties": {
+          "dateTime": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Availability": {
+        "type": "object",
+        "properties": {
+          "timeSlot": { "type": "string", "format": "date-time" },
+          "isAvailable": { "type": "boolean" }
+        }
+      },
+      "Professional": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "specialty": { "type": "string" }
+        }
+      },
+      "Patient": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "contact": { "type": "string" }
+        }
+      },
+      "UpdatePatient": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "contact": { "type": "string" }
+        }
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "patientId": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      },
+      "Facility": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "address": { "type": "string" },
+          "contact": { "type": "string" }
+        }
+      }
+    }
+  }
+}

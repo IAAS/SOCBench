@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+Service:
+This RESTful service allows health care providers to manage and schedule patient appointments efficiently. Users can view available time slots, book new appointments, update existing ones, and send automated reminders to patients to reduce no-shows and enhance accessibility.
+
+Endpoints:
+GET /appointments: Retrieve a list of all scheduled appointments.
+POST /appointments: Schedule a new patient appointment.
+GET /appointments/{id}: Retrieve the details of a specific appointment by its ID.
+PUT /appointments/{id}: Update the details of an existing appointment.
+DELETE /appointments/{id}: Cancel/Remove a specific appointment by its ID.
+GET /availability: Retrieve available time slots for scheduling appointments.
+POST /reminders: Send an automated reminder for an upcoming appointment.
+GET /patients/{id}/history: Retrieve a patient's appointment history.
+PUT /patients/{id}/preferences: Update a patient's scheduling preferences.
+GET /providers/{id}/schedule: Retrieve a health care provider's appointment schedule.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

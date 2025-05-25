@@ -1,0 +1,449 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Consumer Staples Inventory Management API",
+        "description": "An API designed for consumer staples retailers, focused on dynamic tracking and management of inventory levels across multiple locations. Optimize stock levels, minimize out-of-stock occurrences, and forecast demand with secure and reliable RESTful endpoints.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.consumerstaplesinventory.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/inventory-levels": {
+            "get": {
+                "summary": "Retrieve the current inventory levels for all products across all locations.",
+                "description": "Fetch detailed information about the stock levels of all products managed by the retailer. Useful for getting a snapshot of inventory availability.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved inventory levels.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "product_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the product."
+                                            },
+                                            "location_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the store location."
+                                            },
+                                            "stock_level": {
+                                                "type": "integer",
+                                                "description": "Current amount of stock available."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/inventory-check": {
+            "post": {
+                "summary": "Trigger a manual check for inventory accuracy at specified locations.",
+                "description": "Initiates a manual verification process to ensure inventory data accuracy at the designated store locations.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "location_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of location IDs where the inventory check will be performed."
+                                    }
+                                },
+                                "required": [
+                                    "location_ids"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inventory check triggered successfully."
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/locations": {
+            "get": {
+                "summary": "Fetch a list of all store locations managed by the retailer.",
+                "description": "Retrieve information about all store locations, including their IDs and metadata, for better management and tracking.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully fetched store locations.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "location_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the store location."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the store location."
+                                            },
+                                            "address": {
+                                                "type": "string",
+                                                "description": "Address of the store location."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/update-stock": {
+            "put": {
+                "summary": "Update the inventory stock level for a specific product at a specific location.",
+                "description": "Allows updates to stock quantities for selected products within a specified store location.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "product_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the product."
+                                    },
+                                    "location_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the store location."
+                                    },
+                                    "new_stock_level": {
+                                        "type": "integer",
+                                        "description": "Updated stock quantity for the product."
+                                    }
+                                },
+                                "required": [
+                                    "product_id",
+                                    "location_id",
+                                    "new_stock_level"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated stock level."
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/remove-location": {
+            "delete": {
+                "summary": "Remove a store location from the inventory management system.",
+                "description": "Deletes location data from the system, ensuring that no further inventory tracking occurs for the removed store.",
+                "parameters": [
+                    {
+                        "name": "location_id",
+                        "in": "query",
+                        "required": true,
+                        "description": "Unique identifier of the store location to remove.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully removed the location."
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/restock-status": {
+            "get": {
+                "summary": "Retrieve the current status of restocking processes for specific products.",
+                "description": "Provides information about ongoing or completed restocking processes for specific products.",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "query",
+                        "required": false,
+                        "description": "Optional filter to get restocking details for a specific product.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved restock status data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "product_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the product."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current restocking status (e.g., in-progress, completed)."
+                                            },
+                                            "expected_completion_date": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Estimated date of restocking completion."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/forecast-demand": {
+            "post": {
+                "summary": "Submit data for demand forecast analysis and receive predictive insights.",
+                "description": "Upload sales and inventory data to receive tailored demand forecasts for better planning.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "product_id": {
+                                                    "type": "string",
+                                                    "description": "Unique identifier for the product."
+                                                },
+                                                "sales_data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "date": {
+                                                                "type": "string",
+                                                                "format": "date",
+                                                                "description": "Date of sales data."
+                                                            },
+                                                            "sold_units": {
+                                                                "type": "integer",
+                                                                "description": "Units sold on the corresponding date."
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Demand forecasts generated successfully."
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/set-low-stock-alert": {
+            "patch": {
+                "summary": "Configure alert thresholds for low stock levels per product.",
+                "description": "Set up thresholds to trigger alerts when stock levels for specific products fall below a certain point.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "product_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the product."
+                                    },
+                                    "threshold": {
+                                        "type": "integer",
+                                        "description": "Stock level threshold for triggering a low stock alert."
+                                    }
+                                },
+                                "required": [
+                                    "product_id",
+                                    "threshold"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Low stock alert configuration successfully updated."
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/inventory-tracking": {
+            "get": {
+                "summary": "Obtain tracking information for inventory shipments in transit.",
+                "description": "Retrieve data about inventory shipments currently in transit, including their status and estimated delivery times.",
+                "parameters": [
+                    {
+                        "name": "shipment_id",
+                        "in": "query",
+                        "required": false,
+                        "description": "Optional parameter to fetch tracking details for a specific shipment.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved shipment tracking data."
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/export-data": {
+            "post": {
+                "summary": "Export the inventory and sales data for external processing.",
+                "description": "Generate and download detailed inventory and sales data, enabling external analysis and reporting.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "format": {
+                                        "type": "string",
+                                        "enum": [
+                                            "csv",
+                                            "json",
+                                            "xml"
+                                        ],
+                                        "description": "Format of the exported data."
+                                    },
+                                    "date_range": {
+                                        "type": "object",
+                                        "properties": {
+                                            "start_date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Start date for the export range."
+                                            },
+                                            "end_date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "End date for the export range."
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "format",
+                                    "date_range"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data export successfully initiated."
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

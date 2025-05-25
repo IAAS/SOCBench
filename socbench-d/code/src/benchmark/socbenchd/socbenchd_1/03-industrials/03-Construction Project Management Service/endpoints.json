@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /projects",
+            "description": "Create a new project by defining its name, start date, expected end date, and initial budget details."
+        },
+        {
+            "endpoint": "GET /projects/{projectId}",
+            "description": "Retrieve detailed information about a specific project, including its tasks, resources, and financial metrics."
+        },
+        {
+            "endpoint": "POST /tasks",
+            "description": "Add a new task within a project, specifying its title, description, duration, and associated resources."
+        },
+        {
+            "endpoint": "PUT /tasks/{taskId}",
+            "description": "Update the details of an existing task, such as its timeline, assigned personnel, or dependencies."
+        },
+        {
+            "endpoint": "GET /resources",
+            "description": "List all available resources for allocation, including their current status, availability, and associated costs."
+        },
+        {
+            "endpoint": "POST /allocation",
+            "description": "Allocate specific resources to a task or project, ensuring their availability and adjusting schedules as needed."
+        },
+        {
+            "endpoint": "GET /reports",
+            "description": "Generate and retrieve customized reports on project progress, resource utilization, and financial expenditures."
+        },
+        {
+            "endpoint": "DELETE /projects/{projectId}",
+            "description": "Remove a project and its associated tasks and allocations, freeing up all related resources."
+        },
+        {
+            "endpoint": "PUT /budgets/{projectId}",
+            "description": "Adjust the budget allocations for a project, including category-specific updates and fund reallocations."
+        },
+        {
+            "endpoint": "GET /forecast",
+            "description": "Simulate future project resource needs and budget requirements based on current trends and historical data."
+        }
+    ]
+}

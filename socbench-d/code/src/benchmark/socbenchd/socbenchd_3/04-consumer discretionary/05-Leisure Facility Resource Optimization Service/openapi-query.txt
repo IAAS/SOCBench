@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+The Leisure Facility Resource Optimization Service provides facility managers with tools to optimize resource allocation based on customer behavior and seasonal demands. This ensures improved customer satisfaction and operational efficiency.
+
+Endpoints:
+GET /resource-allocation: Retrieve current status of allocated resources across leisure facilities.
+POST /resource-allocation: Submit resource allocation updates for leisure facilities.
+GET /customer-behavior: Fetch aggregated data of customer behavior for analysis.
+GET /seasonal-demands: Obtain predictions for seasonal demand shifts in facility usage.
+GET /facilities: Retrieve the list and details of all managed leisure facilities.
+PUT /facilities/{id}: Update specific configurations for a leisure facility by ID.
+GET /optimization-reports: Access historical optimization reports to assess past performance.
+POST /feedback: Submit feedback to refine resource optimization models.
+GET /dashboard: View summarized key metrics for operation management in a dashboard.
+DELETE /cache: Clear cached predictive data to initialize recalculation.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

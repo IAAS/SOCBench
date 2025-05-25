@@ -1,0 +1,387 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Health Insurance Claim Processing API",
+        "description": "This API facilitates seamless submission and processing of insurance claims associated with medical treatments. Patients and providers can submit claim details while insurance companies can review and approve claims efficiently, streamlining the reimbursement process.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.healthcareclaims.com/v1",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/claims": {
+            "get": {
+                "summary": "Retrieve submitted insurance claims",
+                "description": "Retrieve a list of all insurance claims that have been submitted for processing.",
+                "responses": {
+                    "200": {
+                        "description": "A list of insurance claims.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Claim"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Submit a new insurance claim",
+                "description": "Submit a new insurance claim to be processed.",
+                "requestBody": {
+                    "description": "The claim details to be submitted.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Claim"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The insurance claim was successfully submitted.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Claim"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/claims/{claimId}": {
+            "get": {
+                "summary": "Retrieve details of a specific claim",
+                "description": "Retrieve detailed information about a specific insurance claim using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "claimId",
+                        "in": "path",
+                        "description": "The unique identifier for the insurance claim.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the insurance claim.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Claim"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update the details or status of a specific claim",
+                "description": "Update information or status of a specific insurance claim using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "claimId",
+                        "in": "path",
+                        "description": "The unique identifier for the insurance claim.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated claim details.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Claim"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Insurance claim successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Claim"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a specific claim",
+                "description": "Remove a specific insurance claim from the system using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "claimId",
+                        "in": "path",
+                        "description": "The unique identifier for the insurance claim.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Insurance claim successfully deleted."
+                    }
+                }
+            }
+        },
+        "/policies": {
+            "get": {
+                "summary": "Retrieve information about insurance policies",
+                "description": "Retrieve information about insurance policies associated with healthcare providers.",
+                "responses": {
+                    "200": {
+                        "description": "A list of insurance policies.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Policy"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/providers": {
+            "post": {
+                "summary": "Register a new health care provider",
+                "description": "Add a new health care provider by submitting their associated details.",
+                "requestBody": {
+                    "description": "Details of the health care provider to be registered.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Provider"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The health care provider was successfully registered.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Provider"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/patients/{patientId}/history": {
+            "get": {
+                "summary": "Retrieve a patient's claim history",
+                "description": "Retrieve the insurance claim history for a specific patient using their unique identifier.",
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "description": "The unique identifier for the patient.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A patient's claim history.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Claim"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/claims/{claimId}/approval": {
+            "post": {
+                "summary": "Submit approval for a specific claim",
+                "description": "Submit an approval for a specific claim after reviewing its details.",
+                "parameters": [
+                    {
+                        "name": "claimId",
+                        "in": "path",
+                        "description": "The unique identifier for the insurance claim.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Approval details for the claim.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "approved",
+                                            "rejected"
+                                        ]
+                                    },
+                                    "reviewNotes": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "status"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The claim approval was successfully submitted."
+                    }
+                }
+            }
+        },
+        "/analytics/reports": {
+            "get": {
+                "summary": "Generate analytics reports",
+                "description": "Access analytical reports related to claim submissions and processing times.",
+                "responses": {
+                    "200": {
+                        "description": "An analytical report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reports": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "metric": {
+                                                        "type": "string"
+                                                    },
+                                                    "value": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Claim": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the claim."
+                    },
+                    "patientId": {
+                        "type": "string",
+                        "description": "Unique identifier for the patient associated with the claim."
+                    },
+                    "providerId": {
+                        "type": "string",
+                        "description": "Unique identifier for the provider associated with the claim."
+                    },
+                    "policyId": {
+                        "type": "string",
+                        "description": "Unique identifier for the insurance policy associated with the claim."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The current status of the insurance claim."
+                    },
+                    "amount": {
+                        "type": "number",
+                        "description": "The amount claimed for reimbursement."
+                    },
+                    "submissionDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The date and time when the claim was submitted."
+                    }
+                }
+            },
+            "Policy": {
+                "type": "object",
+                "properties": {
+                    "policyId": {
+                        "type": "string",
+                        "description": "Unique identifier for the insurance policy."
+                    },
+                    "providerId": {
+                        "type": "string",
+                        "description": "Unique identifier for the associated provider."
+                    },
+                    "coverageDetails": {
+                        "type": "string",
+                        "description": "Details about what the policy covers."
+                    }
+                }
+            },
+            "Provider": {
+                "type": "object",
+                "properties": {
+                    "providerId": {
+                        "type": "string",
+                        "description": "Unique identifier for the provider."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the provider."
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "Address of the provider."
+                    }
+                }
+            }
+        }
+    }
+}

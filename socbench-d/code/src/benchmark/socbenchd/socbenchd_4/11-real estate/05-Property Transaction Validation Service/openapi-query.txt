@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+Authenticates and verifies records of property transactions and ownership. Integrates with government or regional legal systems to ensure seamless compliance and accurate property legal status checks.
+
+Endpoints:
+GET /properties: Retrieve a comprehensive list of all registered properties.
+POST /property: Submit a new property record for verification and registration.
+GET /property/{id}: Fetch detailed information of a specific property using its unique identifier.
+PUT /property/{id}: Update details related to a registered property.
+DELETE /property/{id}: Remove a specific property's record from the database.
+GET /ownership-history/{id}: Retrieve the ownership history of a specified property.
+GET /legal-compliance-check/{id}: Check and verify the legal compliance status of a property.
+GET /region/{region_id}/properties: Fetch all properties located within a specific region.
+GET /property/compliance-status: Obtain a report on compliance checks performed on a property.
+POST /ownership-transfer: Facilitate the transfer of ownership from one entity to another with proper validation.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

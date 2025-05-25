@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+Service:
+Enables companies to monitor the transport and delivery of construction materials, ensuring timely deliveries, minimizing delays, and improving supply chain management.
+
+Endpoints:
+GET /delivery-vehicles: Provides a list of all registered vehicles assigned for material transport.
+POST /delivery-vehicles: Registers a new vehicle in the transport monitoring system.
+GET /deliveries: Retrieves a log of all scheduled and completed material deliveries.
+POST /deliveries: Schedules a new material delivery arrangement.
+GET /deliveries/{id}: Fetches detailed information about a specific delivery using its ID.
+PATCH /deliveries/{id}: Updates the details of an existing delivery.
+DELETE /deliveries/{id}: Cancels and removes a scheduled delivery by ID.
+GET /supply-status: Retrieves the current supply chain status and detect delays.
+POST /supply-alerts: Sets up an alert mechanism for specific supply chain events.
+GET /routes/optimization: Offers optimized routing suggestions for material deliveries to minimize delays and costs.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

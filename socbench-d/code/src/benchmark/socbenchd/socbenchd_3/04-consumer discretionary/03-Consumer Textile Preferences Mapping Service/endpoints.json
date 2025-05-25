@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /trends",
+            "description": "Retrieve the list of current fashion trends by demographic or region."
+        },
+        {
+            "endpoint": "GET /styles",
+            "description": "Get detailed information about specific apparel styles, including popularity metrics."
+        },
+        {
+            "endpoint": "GET /fabrics",
+            "description": "Access insights into fabric preferences for different consumer groups."
+        },
+        {
+            "endpoint": "GET /colors",
+            "description": "Fetch data on trending color choices across various demographics."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit consumer feedback concerning apparel preferences for analysis."
+        },
+        {
+            "endpoint": "GET /demographics",
+            "description": "Retrieve categorized insights tied to specific demographic groups."
+        },
+        {
+            "endpoint": "GET /preferences",
+            "description": "Obtain aggregated consumer apparel preferences by region or season."
+        },
+        {
+            "endpoint": "GET /patterns",
+            "description": "Explore trends in textile patterns and designs."
+        },
+        {
+            "endpoint": "POST /customreports",
+            "description": "Request detailed and customized reports enriched with consumer apparel insights."
+        },
+        {
+            "endpoint": "GET /historicaltrends",
+            "description": "Analyze past trends for predicting future fashion tendencies."
+        }
+    ]
+}

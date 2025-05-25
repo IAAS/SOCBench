@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /emissions/calculate",
+            "description": "Calculate the carbon emissions for the provided energy input details."
+        },
+        {
+            "endpoint": "POST /emissions/history",
+            "description": "Submit historical energy usage data to analyze trends in carbon emissions."
+        },
+        {
+            "endpoint": "GET /emissions/sources",
+            "description": "Retrieve a list of supported energy sources with emission factors."
+        },
+        {
+            "endpoint": "POST /emissions/compare",
+            "description": "Compare carbon emissions of different energy source combinations."
+        },
+        {
+            "endpoint": "GET /dashboard/summary",
+            "description": "Fetch a summarized dashboard of the organization's carbon footprint."
+        },
+        {
+            "endpoint": "PUT /emissions/preferences",
+            "description": "Update user preferences for energy usage analysis and emission reports."
+        },
+        {
+            "endpoint": "GET /recommendations/strategies",
+            "description": "Retrieve strategies for reducing energy consumption and carbon emissions."
+        },
+        {
+            "endpoint": "POST /emissions/scenarios",
+            "description": "Analyze potential carbon emissions for hypothetical or forecasted scenarios."
+        },
+        {
+            "endpoint": "DELETE /data/usage",
+            "description": "Remove previously submitted energy usage data from the system."
+        },
+        {
+            "endpoint": "GET /analytics/trends",
+            "description": "View analytics and trends in energy usage and emission patterns over time."
+        }
+    ]
+}

@@ -1,0 +1,554 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Healthcare Questionnaire and Assessment Integration API",
+        "description": "APIs for integrating questionnaires and assessment tools into healthcare platforms. These tools enable tailored evaluations for initial patient screening and monitoring, providing diagnostic support with structured responses and automatic analysis.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.healthcare-integrations.com",
+            "description": "Production server"
+        },
+        {
+            "url": "https://staging.api.healthcare-integrations.com",
+            "description": "Staging server"
+        }
+    ],
+    "paths": {
+        "/questionnaires": {
+            "post": {
+                "summary": "Create a new healthcare questionnaire",
+                "description": "Define a new healthcare questionnaire to be used for assessments.",
+                "operationId": "createQuestionnaire",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The name of the questionnaire."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "A detailed description of the questionnaire purpose."
+                                    },
+                                    "questions": {
+                                        "type": "array",
+                                        "description": "List of questions included in the questionnaire.",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "questionText": {
+                                                    "type": "string",
+                                                    "description": "The text of the question."
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "description": "The type of the question (e.g., multiple-choice, text, numerical)."
+                                                },
+                                                "options": {
+                                                    "type": "array",
+                                                    "description": "Possible answer options (if applicable).",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "required": [
+                                                "questionText",
+                                                "type"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "questions"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Questionnaire successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the created questionnaire."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve list of questionnaires",
+                "description": "Fetch a list of available healthcare questionnaires with their details.",
+                "operationId": "getQuestionnaires",
+                "responses": {
+                    "200": {
+                        "description": "List of questionnaires retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the questionnaire."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "The name of the questionnaire."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Description of the questionnaire."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/questionnaires/{id}": {
+            "get": {
+                "summary": "Retrieve specific questionnaire details",
+                "description": "Fetch detailed information about a specific questionnaire using its unique identifier.",
+                "operationId": "getQuestionnaireById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the questionnaire."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the requested questionnaire retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the questionnaire."
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "description": "The name of the questionnaire."
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "description": "Description of the questionnaire."
+                                        },
+                                        "questions": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "questionText": {
+                                                        "type": "string",
+                                                        "description": "Text of the question."
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "description": "Type of the question."
+                                                    },
+                                                    "options": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Questionnaire not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a specific questionnaire",
+                "description": "Update the structure or content of an existing questionnaire using its unique identifier.",
+                "operationId": "updateQuestionnaire",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the questionnaire to update."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The new or updated name of the questionnaire."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Updated description of the questionnaire."
+                                    },
+                                    "questions": {
+                                        "type": "array",
+                                        "description": "Updated list of questions.",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "questionText": {
+                                                    "type": "string"
+                                                },
+                                                "type": {
+                                                    "type": "string"
+                                                },
+                                                "options": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Questionnaire updated successfully."
+                    },
+                    "404": {
+                        "description": "Questionnaire not found."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a specific questionnaire",
+                "description": "Remove an existing questionnaire from the system by its unique identifier.",
+                "operationId": "deleteQuestionnaire",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the questionnaire to delete."
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Questionnaire successfully deleted."
+                    },
+                    "404": {
+                        "description": "Questionnaire not found."
+                    }
+                }
+            }
+        },
+        "/responses": {
+            "post": {
+                "summary": "Submit responses to a questionnaire",
+                "description": "Submit patient responses to a specific questionnaire for analysis.",
+                "operationId": "submitResponses",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "questionnaireId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the questionnaire."
+                                    },
+                                    "responses": {
+                                        "type": "array",
+                                        "description": "Patient responses to the questionnaire questions.",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "questionId": {
+                                                    "type": "string",
+                                                    "description": "The ID of the question being answered."
+                                                },
+                                                "answer": {
+                                                    "type": "string",
+                                                    "description": "The patient's response to the question."
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "questionnaireId",
+                                    "responses"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Responses submitted and analysis initiated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "responseId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the submitted responses."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/responses/{id}": {
+            "get": {
+                "summary": "Retrieve analysis of questionnaire responses",
+                "description": "View the analysis and results of submitted responses identified by their unique response ID.",
+                "operationId": "getResponseAnalysis",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the submitted responses."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Analysis of the submitted responses retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "responseId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the responses."
+                                        },
+                                        "analysis": {
+                                            "type": "string",
+                                            "description": "Analysis and results of the responses."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Responses not found."
+                    }
+                }
+            }
+        },
+        "/analytics": {
+            "get": {
+                "summary": "Retrieve aggregated insights",
+                "description": "Fetch aggregated insights and trends based on the questionnaire data.",
+                "operationId": "getAnalytics",
+                "responses": {
+                    "200": {
+                        "description": "Aggregated insights retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "insights": {
+                                            "type": "array",
+                                            "description": "List of aggregated insights and trends.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "metric": {
+                                                        "type": "string",
+                                                        "description": "Description of the metric being tracked."
+                                                    },
+                                                    "value": {
+                                                        "type": "number",
+                                                        "description": "Value of the metric."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/monitoring": {
+            "post": {
+                "summary": "Initiate patient monitoring",
+                "description": "Start monitoring a patient based on tailored assessments.",
+                "operationId": "initiateMonitoring",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "patientId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the patient."
+                                    },
+                                    "assessmentPlan": {
+                                        "type": "object",
+                                        "description": "Details of the assessment and monitoring plan.",
+                                        "properties": {
+                                            "questionnaireId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the questionnaire used for monitoring."
+                                            },
+                                            "frequency": {
+                                                "type": "string",
+                                                "description": "Frequency of assessments (e.g., daily, weekly)."
+                                            }
+                                        },
+                                        "required": [
+                                            "questionnaireId",
+                                            "frequency"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "patientId",
+                                    "assessmentPlan"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Monitoring successfully initiated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "monitoringId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the monitoring session."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/monitoring/{id}": {
+            "get": {
+                "summary": "Retrieve ongoing patient monitoring data",
+                "description": "Fetch data from the ongoing monitoring of a specific patient using a monitoring ID.",
+                "operationId": "getMonitoringData",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the monitoring session."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Monitoring data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "monitoringId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the monitoring session."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "description": "Data collected during the monitoring session.",
+                                            "additionalProperties": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Monitoring data not found."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    }
+}

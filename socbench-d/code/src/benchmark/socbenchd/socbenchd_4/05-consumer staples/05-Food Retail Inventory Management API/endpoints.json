@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /inventory",
+            "description": "Retrieve the current inventory levels of all listed consumer staples products."
+        },
+        {
+            "endpoint": "POST /inventory/update",
+            "description": "Update the inventory levels with new data provided by the retailer."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Retrieve a list of stock level alerts based on predefined thresholds."
+        },
+        {
+            "endpoint": "POST /alerts/configure",
+            "description": "Set up or modify stock level alert parameters for specific products."
+        },
+        {
+            "endpoint": "GET /forecast/demand",
+            "description": "Access demand forecasting data for future sales of consumer staples."
+        },
+        {
+            "endpoint": "GET /erp/integrations",
+            "description": "List active integrations with ERP systems."
+        },
+        {
+            "endpoint": "POST /erp/integrations/add",
+            "description": "Add a new integration setup with an ERP system."
+        },
+        {
+            "endpoint": "GET /orders",
+            "description": "Retrieve recent and pending orders related to consumer staples inventory."
+        },
+        {
+            "endpoint": "POST /orders/new",
+            "description": "Place a new restock order for specified items."
+        },
+        {
+            "endpoint": "DELETE /inventory/remove",
+            "description": "Remove a product from the inventory tracking system."
+        }
+    ]
+}

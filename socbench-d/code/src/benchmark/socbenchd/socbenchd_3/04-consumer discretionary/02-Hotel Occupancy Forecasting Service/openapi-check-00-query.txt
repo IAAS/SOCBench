@@ -1,0 +1,420 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Hotel Occupancy Forecasting Service API",
+        "version": "1.0.0",
+        "description": "The Hotel Occupancy Forecasting Service provides reliable predictions of hotel room occupancy rates based on historical data, seasonal trends, and regional events. It offers tools for resource planning, pricing strategies, and marketing campaign optimization."
+    },
+    "paths": {
+        "/occupancy/forecast": {
+            "get": {
+                "summary": "Retrieve occupancy forecasts",
+                "description": "Retrieve forecasted hotel room occupancy rates for specified regions and date ranges based on historical data. This endpoint helps in planning and decision-making.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": true,
+                        "description": "The region for which occupancy forecasts are requested.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The starting date for the forecast period in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The ending date for the forecast period in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with occupancy forecasts.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "region": "New York",
+                                    "forecasts": [
+                                        {
+                                            "date": "2023-11-01",
+                                            "occupancy_rate": 0.85
+                                        },
+                                        {
+                                            "date": "2023-11-02",
+                                            "occupancy_rate": 0.78
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/historical/upload": {
+            "post": {
+                "summary": "Upload historical data",
+                "description": "Upload historical occupancy data to improve forecast accuracy. Use this to provide past data on room occupancy rates.",
+                "requestBody": {
+                    "description": "Historical occupancy data in JSON format.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "region": "New York",
+                                "historical_data": [
+                                    {
+                                        "date": "2023-09-01",
+                                        "occupancy_rate": 0.65
+                                    },
+                                    {
+                                        "date": "2023-09-02",
+                                        "occupancy_rate": 0.72
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Historical data uploaded successfully."
+                    }
+                }
+            }
+        },
+        "/seasonal/templates": {
+            "get": {
+                "summary": "Fetch seasonal trend templates",
+                "description": "Retrieve predefined templates for seasonal trends, which are applied to the forecasting process for better accuracy.",
+                "responses": {
+                    "200": {
+                        "description": "List of seasonal trend templates.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "templates": [
+                                        {
+                                            "name": "Summer Peaks",
+                                            "description": "Trend pattern for high summer tourist seasons."
+                                        },
+                                        {
+                                            "name": "Winter Lows",
+                                            "description": "Trend pattern for typical winter declines in occupancy."
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/regional/events": {
+            "post": {
+                "summary": "Submit regional event information",
+                "description": "Submit data on regional events such as festivals, conferences, or holidays that may influence occupancy rates.",
+                "requestBody": {
+                    "description": "Information about regional events influencing booking trends.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "region": "New York",
+                                "events": [
+                                    {
+                                        "event_name": "NYC Marathon",
+                                        "start_date": "2023-11-05",
+                                        "end_date": "2023-11-05"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Event data submitted successfully."
+                    }
+                }
+            }
+        },
+        "/resource/plan": {
+            "get": {
+                "summary": "Retrieve resource planning advice",
+                "description": "Get recommendations for resource allocation (e.g., staff scheduling) based on forecasted occupancy rates.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": true,
+                        "description": "The region for which resource planning advice is requested.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The starting date for the resource planning period in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The ending date for the resource planning period in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resource planning recommendations retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "region": "New York",
+                                    "recommendations": [
+                                        {
+                                            "date": "2023-11-01",
+                                            "occupancy_rate": 0.85,
+                                            "staff_needed": 25
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/pricing/strategy": {
+            "get": {
+                "summary": "Retrieve pricing strategies",
+                "description": "Get optimal pricing strategies for maximizing revenue, based on forecasted demand trends.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": true,
+                        "description": "The region for which pricing strategies are requested.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The starting date for the pricing strategy period in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The ending date for the pricing strategy period in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Optimal pricing strategies retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "region": "New York",
+                                    "strategies": [
+                                        {
+                                            "date": "2023-11-01",
+                                            "optimal_price": 180
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback/correction": {
+            "post": {
+                "summary": "Submit forecast feedback",
+                "description": "Submit feedback or corrections to improve the forecasting model's accuracy.",
+                "requestBody": {
+                    "description": "Feedback data including forecast performance and corrections.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "region": "New York",
+                                "feedback": [
+                                    {
+                                        "date": "2023-11-01",
+                                        "actual_occupancy_rate": 0.9,
+                                        "predicted_occupancy_rate": 0.85
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Feedback submitted successfully."
+                    }
+                }
+            }
+        },
+        "/marketing/campaign": {
+            "get": {
+                "summary": "Get marketing campaign suggestions",
+                "description": "Access suggested marketing campaigns targeting forecasted peak occupancy periods.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": true,
+                        "description": "The region for which campaign suggestions are requested.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Marketing campaign suggestions retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "region": "New York",
+                                    "campaigns": [
+                                        {
+                                            "name": "Holiday Special",
+                                            "start_date": "2023-12-01",
+                                            "end_date": "2023-12-31",
+                                            "discount": "20%"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/historical/data": {
+            "delete": {
+                "summary": "Delete historical data",
+                "description": "Delete outdated or incorrect historical data to maintain prediction accuracy.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": true,
+                        "description": "The region for which historical data will be deleted.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The start date for the data period to delete, in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The end date for the data period to delete, in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Historical data deleted successfully."
+                    }
+                }
+            }
+        },
+        "/forecast/config": {
+            "patch": {
+                "summary": "Update forecasting configuration",
+                "description": "Update configuration settings such as forecasting parameters and algorithms.",
+                "requestBody": {
+                    "description": "Configuration updates in JSON format.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "region": "New York",
+                                "parameters": {
+                                    "model_type": "ARIMA",
+                                    "seasonal_components": true
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Forecast configuration updated successfully."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

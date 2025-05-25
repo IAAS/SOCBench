@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+Using advanced modeling, this service assists gas utility companies in accurately forecasting consumption patterns, balancing supply accordingly, and ensuring efficient distribution to their customer base.
+
+Endpoints:
+GET /forecast: Retrieve the predicted gas consumption patterns for specified time intervals.
+POST /forecast: Submit parameters for generating a custom consumption pattern forecast.
+GET /supply/balance: Fetch the current supply-demand balance metrics for a specified region.
+PUT /supply/balance: Update the supply allocation plan based on forecast adjustments.
+GET /distribution/status: Retrieve the live gas distribution status across the network.
+POST /distribution/manipulate: Trigger adjustments in the gas distribution network settings.
+GET /efficiency/metrics: Retrieve efficiency analysis metrics based on current operations.
+POST /efficiency/metrics: Submit parameters for a detailed efficiency analysis request.
+GET /regions/config: Retrieve configuration details for monitored regions.
+PUT /regions/config: Update configuration settings for a specific monitored region.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,556 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Energy Trading Platform Service API",
+        "description": "API for enabling utility companies and independent power producers to efficiently trade energy, manage contracts, and ensure compliance within the utilities sector.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.energytradingplatform.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/registerParticipant": {
+            "post": {
+                "summary": "Register a new participant for the energy trading platform.",
+                "description": "Allows new participants to register by providing necessary details for authentication and compliance verification.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "companyName": {
+                                        "type": "string",
+                                        "description": "Name of the company registering for the platform."
+                                    },
+                                    "contactEmail": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "description": "Email of the contact person for platform communication."
+                                    },
+                                    "legalComplianceDoc": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Document proving compliance with regional energy trading laws."
+                                    }
+                                },
+                                "required": [
+                                    "companyName",
+                                    "contactEmail",
+                                    "legalComplianceDoc"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful registration",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "participantId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the registered participant."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/authenticate": {
+            "get": {
+                "summary": "Authenticate a participant.",
+                "description": "Secure endpoint for participants to authenticate and access the trading platform services after registration.",
+                "parameters": [
+                    {
+                        "name": "participantId",
+                        "in": "query",
+                        "required": true,
+                        "description": "Unique identifier of the participant.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "apiKey",
+                        "in": "query",
+                        "required": true,
+                        "description": "API Key issued to the participant upon registration.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful authentication",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "description": "Session token for accessing platform services."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/marketData": {
+            "get": {
+                "summary": "Fetch real-time market data.",
+                "description": "Retrieves live data of spot and forward market prices essential for informed trading decisions.",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "required": true,
+                        "description": "Session token for accessing platform services.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of market data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "spotPrices": {
+                                            "type": "array",
+                                            "description": "Current spot market prices.",
+                                            "items": {
+                                                "type": "number",
+                                                "format": "float"
+                                            }
+                                        },
+                                        "forwardPrices": {
+                                            "type": "array",
+                                            "description": "Current forward market prices.",
+                                            "items": {
+                                                "type": "number",
+                                                "format": "float"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/initiateTrade": {
+            "post": {
+                "summary": "Initiate a trade.",
+                "description": "Facilitates the execution of a trade by submitting a detailed trade request.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "participantId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the participant initiating the trade."
+                                    },
+                                    "tradeDetails": {
+                                        "type": "object",
+                                        "description": "Details of the trade including type, volume, and price.",
+                                        "properties": {
+                                            "type": {
+                                                "type": "string",
+                                                "description": "Type of trade (e.g., buy/sell)."
+                                            },
+                                            "volume": {
+                                                "type": "number",
+                                                "description": "Volume of electricity being traded.",
+                                                "format": "float"
+                                            },
+                                            "price": {
+                                                "type": "number",
+                                                "description": "Price at which the trade is agreed.",
+                                                "format": "float"
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "participantId",
+                                    "tradeDetails"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Trade initiated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "tradeId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the initiated trade."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tradeStatus": {
+            "get": {
+                "summary": "Get trade status.",
+                "description": "Returns the current status and history of trades executed by the participant.",
+                "parameters": [
+                    {
+                        "name": "participantId",
+                        "in": "query",
+                        "required": true,
+                        "description": "Unique identifier of the participant.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "required": true,
+                        "description": "Session token for accessing platform services.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of trade status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "trades": {
+                                            "type": "array",
+                                            "description": "List of trade statuses and histories.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "tradeId": {
+                                                        "type": "string",
+                                                        "description": "Identifier of the trade."
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "description": "Current status of the trade."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/manageContract": {
+            "post": {
+                "summary": "Manage trading contracts.",
+                "description": "Allows participants to create, amend, or settle contracts digitally.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "contractId": {
+                                        "type": "string",
+                                        "description": "Identifier of the contract being managed."
+                                    },
+                                    "action": {
+                                        "type": "string",
+                                        "description": "Action to perform: create, amend, settle."
+                                    },
+                                    "details": {
+                                        "type": "object",
+                                        "description": "Detailed contract information or amendments if applicable."
+                                    }
+                                },
+                                "required": [
+                                    "contractId",
+                                    "action"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contract managed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "confirmation": {
+                                            "type": "string",
+                                            "description": "Confirmation of contract management action success."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/riskAssessment": {
+            "get": {
+                "summary": "Access risk assessment tools.",
+                "description": "Provides access to advanced risk assessment tools to evaluate potential exposures.",
+                "parameters": [
+                    {
+                        "name": "participantId",
+                        "in": "query",
+                        "required": true,
+                        "description": "Unique identifier of the participant.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "required": true,
+                        "description": "Session token for accessing platform services.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful assessment of risks",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "risks": {
+                                            "type": "array",
+                                            "description": "List of identified risks with severity and mitigation strategies.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "riskId": {
+                                                        "type": "string",
+                                                        "description": "Identifier for the risk."
+                                                    },
+                                                    "severity": {
+                                                        "type": "string",
+                                                        "description": "Severity level of the risk."
+                                                    },
+                                                    "mitigation": {
+                                                        "type": "string",
+                                                        "description": "Recommended actions to mitigate the risk."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactionLog": {
+            "get": {
+                "summary": "Retrieve transaction log.",
+                "description": "Retrieves a detailed audit trail of all past transactions.",
+                "parameters": [
+                    {
+                        "name": "participantId",
+                        "in": "query",
+                        "required": true,
+                        "description": "Unique identifier of the participant.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "required": true,
+                        "description": "Session token for accessing platform services.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of transaction log",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "transactions": {
+                                            "type": "array",
+                                            "description": "List of all past transactions along with details.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "transactionId": {
+                                                        "type": "string",
+                                                        "description": "Identifier for the transaction."
+                                                    },
+                                                    "details": {
+                                                        "type": "string",
+                                                        "description": "Description and details of the transaction."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/updateSettings": {
+            "post": {
+                "summary": "Update trading preferences and settings.",
+                "description": "Enables participants to update their trading preferences, including notification preferences and risk thresholds.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "participantId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the participant."
+                                    },
+                                    "settings": {
+                                        "type": "object",
+                                        "description": "Settings to be updated such as notification preferences, risk thresholds.",
+                                        "properties": {
+                                            "notifications": {
+                                                "type": "boolean",
+                                                "description": "Whether to receive notifications."
+                                            },
+                                            "riskThreshold": {
+                                                "type": "number",
+                                                "description": "Set a new risk threshold level.",
+                                                "format": "float"
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "participantId",
+                                    "settings"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Settings updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "confirmation": {
+                                            "type": "string",
+                                            "description": "Confirmation of settings update success."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/complianceReport": {
+            "get": {
+                "summary": "Generate a compliance report.",
+                "description": "Generates comprehensive compliance reports tailored for regional energy trading standards.",
+                "parameters": [
+                    {
+                        "name": "participantId",
+                        "in": "query",
+                        "required": true,
+                        "description": "Unique identifier of the participant.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "required": true,
+                        "description": "Session token for accessing platform services.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful generation of compliance report",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "report": {
+                                            "type": "string",
+                                            "description": "Link to download the generated compliance report."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

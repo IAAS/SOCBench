@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /appointments",
+            "description": "Retrieve a list of all scheduled appointments."
+        },
+        {
+            "endpoint": "POST /appointments",
+            "description": "Schedule a new patient appointment."
+        },
+        {
+            "endpoint": "GET /appointments/{id}",
+            "description": "Retrieve the details of a specific appointment by its ID."
+        },
+        {
+            "endpoint": "PUT /appointments/{id}",
+            "description": "Update the details of an existing appointment."
+        },
+        {
+            "endpoint": "DELETE /appointments/{id}",
+            "description": "Cancel/Remove a specific appointment by its ID."
+        },
+        {
+            "endpoint": "GET /availability",
+            "description": "Retrieve available time slots for scheduling appointments."
+        },
+        {
+            "endpoint": "POST /reminders",
+            "description": "Send an automated reminder for an upcoming appointment."
+        },
+        {
+            "endpoint": "GET /patients/{id}/history",
+            "description": "Retrieve a patient's appointment history."
+        },
+        {
+            "endpoint": "PUT /patients/{id}/preferences",
+            "description": "Update a patient's scheduling preferences."
+        },
+        {
+            "endpoint": "GET /providers/{id}/schedule",
+            "description": "Retrieve a health care provider's appointment schedule."
+        }
+    ]
+}

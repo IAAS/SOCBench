@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+This service provides utility providers with the capability to dynamically allocate power resources based on real-time demands, ensuring grid stability and efficiency. By analyzing current and forecasted electricity usage patterns, the service enables swift adjustments to distribution plans.
+
+Endpoints:
+GET /realtime-demand: Retrieve real-time electricity demand data from all zones.
+POST /allocate-resources: Submit a request for dynamic allocation of power resources based on specified parameters.
+GET /forecast-patterns: Access updated electricity usage forecast models for various regions.
+PUT /adjust-distribution: Modify current electricity distribution strategies in response to new requirements.
+GET /zones-status: Fetch the operational status and power metrics for all distribution zones.
+DELETE /override-settings: Remove any manual override settings and restore automated operations.
+GET /renewables-status: View the production metrics of electricity generated from renewable sources.
+PATCH /update-thresholds: Update thresholds for demand surges and allocate necessary reserves.
+GET /efficiency-reports: Retrieve reports on grid efficiency and optimization performances.
+POST /incident-response: Report incidents affecting grid stability and request remediation actions.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

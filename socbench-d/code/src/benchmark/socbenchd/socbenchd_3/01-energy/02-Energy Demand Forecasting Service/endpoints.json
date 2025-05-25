@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /data/upload",
+            "description": "Upload historical energy consumption data for analysis and forecasting."
+        },
+        {
+            "endpoint": "GET /forecast/daily",
+            "description": "Retrieve daily energy demand predictions based on provided datasets and market conditions."
+        },
+        {
+            "endpoint": "GET /forecast/monthly",
+            "description": "Fetch monthly aggregated energy demand forecasts for more extensive planning."
+        },
+        {
+            "endpoint": "POST /environment/factors",
+            "description": "Submit environmental variables to adjust the energy demand model dynamically."
+        },
+        {
+            "endpoint": "GET /market/trends",
+            "description": "Access current market trends affecting energy consumption patterns."
+        },
+        {
+            "endpoint": "POST /grid/parameters",
+            "description": "Provide specific grid parameters to tailor the forecasting model outputs."
+        },
+        {
+            "endpoint": "GET /grid/optimization",
+            "description": "Retrieve recommendations for optimal grid operation based on forecasted demands."
+        },
+        {
+            "endpoint": "DELETE /data/reset",
+            "description": "Clear all previously uploaded data sets and initiate new forecasting cycles."
+        },
+        {
+            "endpoint": "GET /analysis/reports",
+            "description": "Generate detailed reports of energy consumption analysis and trends."
+        },
+        {
+            "endpoint": "GET /status",
+            "description": "Check the operational status and most recent activity log of the forecasting service."
+        }
+    ]
+}

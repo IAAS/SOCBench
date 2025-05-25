@@ -1,0 +1,524 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Multi-Channel Communication API",
+        "description": "A versatile API enabling seamless multi-channel communication with customers via SMS, email, and messaging applications. It supports personalized content delivery, real-time engagement tracking, and enhances customer interaction experiences.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.communication-services.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/messages/send": {
+            "post": {
+                "summary": "Send a message",
+                "description": "Send a message to a customer via a specified channel (SMS, email, or messaging applications).",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "channel": {
+                                        "type": "string",
+                                        "description": "Channel to send the message (e.g., 'sms', 'email', 'messaging_app').",
+                                        "example": "sms"
+                                    },
+                                    "recipient": {
+                                        "type": "string",
+                                        "description": "Recipient's contact information such as phone number or email address.",
+                                        "example": "+1234567890"
+                                    },
+                                    "message_content": {
+                                        "type": "string",
+                                        "description": "The content of the message to be sent.",
+                                        "example": "Hello, this is a test message."
+                                    },
+                                    "template_id": {
+                                        "type": "string",
+                                        "description": "Optional. ID of a predefined message template to use for the content.",
+                                        "example": "template_12345"
+                                    }
+                                },
+                                "required": [
+                                    "channel",
+                                    "recipient",
+                                    "message_content"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Message successfully sent.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the message sent.",
+                                            "example": "msg_001"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the message transmission.",
+                                            "example": "sent"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/messages/status": {
+            "get": {
+                "summary": "Retrieve message status",
+                "description": "Retrieve the delivery and engagement status of a previously sent message using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "message_id",
+                        "in": "query",
+                        "required": true,
+                        "description": "Unique identifier of the message to check the status.",
+                        "schema": {
+                            "type": "string",
+                            "example": "msg_001"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delivery and engagement status retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the message.",
+                                            "example": "msg_001"
+                                        },
+                                        "delivery_status": {
+                                            "type": "string",
+                                            "description": "Delivery status of the message.",
+                                            "example": "delivered"
+                                        },
+                                        "engagement_metrics": {
+                                            "type": "object",
+                                            "description": "Engagement data related to the message.",
+                                            "properties": {
+                                                "opened": {
+                                                    "type": "boolean",
+                                                    "description": "Indicates if the message was opened by the recipient.",
+                                                    "example": true
+                                                },
+                                                "clicked": {
+                                                    "type": "boolean",
+                                                    "description": "Indicates if a link within the message was clicked.",
+                                                    "example": false
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/templates/create": {
+            "post": {
+                "summary": "Create message template",
+                "description": "Create a new content template for personalized message delivery.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "template_name": {
+                                        "type": "string",
+                                        "description": "The name of the template being created.",
+                                        "example": "Welcome Template"
+                                    },
+                                    "template_content": {
+                                        "type": "string",
+                                        "description": "The content of the template.",
+                                        "example": "Hello {name}, welcome to our service!"
+                                    }
+                                },
+                                "required": [
+                                    "template_name",
+                                    "template_content"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Template created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "template_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the created template.",
+                                            "example": "template_12345"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status indicating the success of the operation.",
+                                            "example": "created"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/templates": {
+            "get": {
+                "summary": "Fetch templates list",
+                "description": "Retrieve a list of all existing message templates.",
+                "responses": {
+                    "200": {
+                        "description": "Templates fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "template_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the template.",
+                                                "example": "template_12345"
+                                            },
+                                            "template_name": {
+                                                "type": "string",
+                                                "description": "Name of the template.",
+                                                "example": "Welcome Template"
+                                            },
+                                            "template_content": {
+                                                "type": "string",
+                                                "description": "Content of the template.",
+                                                "example": "Hello {name}, thank you for joining us!"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/contacts/import": {
+            "post": {
+                "summary": "Import contacts",
+                "description": "Bulk upload customer contact information for targeted communication.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "description": "Name of the customer.",
+                                            "example": "John Doe"
+                                        },
+                                        "contact": {
+                                            "type": "string",
+                                            "description": "Contact details of the customer (phone or email).",
+                                            "example": "+1234567890"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contacts imported successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "imported_count": {
+                                            "type": "integer",
+                                            "description": "Number of contacts successfully imported.",
+                                            "example": 100
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/contacts": {
+            "get": {
+                "summary": "Retrieve contacts",
+                "description": "Retrieve the list of all stored customer contact profiles.",
+                "responses": {
+                    "200": {
+                        "description": "Contacts retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the customer.",
+                                                "example": "John Doe"
+                                            },
+                                            "contact": {
+                                                "type": "string",
+                                                "description": "Contact information of the customer.",
+                                                "example": "+1234567890"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/events": {
+            "post": {
+                "summary": "Track engagement events",
+                "description": "Send and store engagement tracking events for messages sent via the service.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "message_id": {
+                                        "type": "string",
+                                        "description": "Unique ID of the message being tracked.",
+                                        "example": "msg_001"
+                                    },
+                                    "event_type": {
+                                        "type": "string",
+                                        "description": "Type of engagement event (e.g., 'opened', 'clicked').",
+                                        "example": "opened"
+                                    },
+                                    "details": {
+                                        "type": "object",
+                                        "description": "Additional details about the event.",
+                                        "example": {
+                                            "timestamp": "2023-10-20T12:34:56Z"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "message_id",
+                                    "event_type"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Engagement event tracked successfully."
+                    }
+                }
+            }
+        },
+        "/analytics/report": {
+            "get": {
+                "summary": "Generate analytics report",
+                "description": "Generate a detailed report of customer interactions for a defined time period.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start date for the report in ISO format (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2023-01-01"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "End date for the report in ISO format (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2023-01-31"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Analytics report generated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "start_date": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "description": "Start date of the report.",
+                                            "example": "2023-01-01"
+                                        },
+                                        "end_date": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "description": "End date of the report.",
+                                            "example": "2023-01-31"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "message_id": {
+                                                        "type": "string",
+                                                        "description": "Message ID associated with the engagement.",
+                                                        "example": "msg_001"
+                                                    },
+                                                    "engagement": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "opened": {
+                                                                "type": "integer",
+                                                                "description": "Number of times the message was opened.",
+                                                                "example": 5
+                                                            },
+                                                            "clicked": {
+                                                                "type": "integer",
+                                                                "description": "Number of times links in the message were clicked.",
+                                                                "example": 2
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/settings/notification-config": {
+            "put": {
+                "summary": "Update notification settings",
+                "description": "Update notification configurations for real-time engagement tracking events.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "notifications_enabled": {
+                                        "type": "boolean",
+                                        "description": "Enable or disable real-time engagement notifications.",
+                                        "example": true
+                                    },
+                                    "callback_url": {
+                                        "type": "string",
+                                        "description": "URL for receiving real-time notifications.",
+                                        "example": "https://webhook.site/example"
+                                    }
+                                },
+                                "required": [
+                                    "notifications_enabled",
+                                    "callback_url"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Notification configuration updated successfully."
+                    }
+                }
+            }
+        },
+        "/messages/{messageID}": {
+            "delete": {
+                "summary": "Delete a message",
+                "description": "Remove a previously sent message record from the system using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "messageID",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the message to delete.",
+                        "schema": {
+                            "type": "string",
+                            "example": "msg_001"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Message deleted successfully."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

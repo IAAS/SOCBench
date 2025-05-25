@@ -1,0 +1,303 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Construction Material Delivery Monitoring and Management API",
+    "description": "This API provides tools for monitoring, scheduling, and optimizing the transport and delivery of construction materials. It enables companies to ensure timely deliveries, minimize delays, and improve supply chain efficiency.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.material-delivery.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/delivery-vehicles": {
+      "get": {
+        "summary": "Retrieve all registered delivery vehicles",
+        "description": "Provides a list of all delivery vehicles registered in the transport monitoring system.",
+        "responses": {
+          "200": {
+            "description": "A list of registered delivery vehicles.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "vehicleId": { "type": "string", "description": "Unique identifier of the delivery vehicle." },
+                      "licensePlate": { "type": "string", "description": "License plate or identifier of the vehicle." },
+                      "model": { "type": "string", "description": "Vehicle model or make." },
+                      "capacity": { "type": "integer", "description": "Vehicle load capacity in kilograms." }
+                    },
+                    "required": ["vehicleId", "licensePlate", "model", "capacity"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Register a new delivery vehicle",
+        "description": "Adds a new vehicle to the delivery monitoring system.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "licensePlate": { "type": "string", "description": "License plate or identifier of the vehicle." },
+                  "model": { "type": "string", "description": "Vehicle model or make." },
+                  "capacity": { "type": "integer", "description": "Vehicle load capacity in kilograms." }
+                },
+                "required": ["licensePlate", "model", "capacity"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Vehicle successfully registered."
+          }
+        }
+      }
+    },
+    "/deliveries": {
+      "get": {
+        "summary": "Retrieve all deliveries",
+        "description": "Fetches a list of all scheduled and completed deliveries with their status.",
+        "responses": {
+          "200": {
+            "description": "A log of all deliveries.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "deliveryId": { "type": "string", "description": "Unique identifier for the delivery." },
+                      "status": { "type": "string", "description": "The current status of the delivery (e.g., 'scheduled', 'in-progress', 'completed')." },
+                      "deliveryDate": { "type": "string", "format": "date", "description": "Scheduled delivery date." },
+                      "materials": { "type": "array", "items": { "type": "string" }, "description": "List of materials in the delivery." }
+                    },
+                    "required": ["deliveryId", "status", "deliveryDate", "materials"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Schedule a new delivery",
+        "description": "Creates a new delivery entry with specified materials, destination, and schedule.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "destination": { "type": "string", "description": "Delivery destination or location." },
+                  "deliveryDate": { "type": "string", "format": "date", "description": "Scheduled delivery date." },
+                  "materials": { "type": "array", "items": { "type": "string" }, "description": "List of materials to deliver." },
+                  "vehicleId": { "type": "string", "description": "Identifier of the assigned vehicle." }
+                },
+                "required": ["destination", "deliveryDate", "materials", "vehicleId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Delivery successfully scheduled."
+          }
+        }
+      }
+    },
+    "/deliveries/{id}": {
+      "get": {
+        "summary": "Fetch delivery details",
+        "description": "Retrieves detailed information about a specific delivery using its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the delivery.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details about the specified delivery.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "deliveryId": { "type": "string", "description": "Unique identifier for the delivery." },
+                    "status": { "type": "string", "description": "Current status of the delivery." },
+                    "deliveryDate": { "type": "string", "format": "date", "description": "Scheduled delivery date." },
+                    "materials": { "type": "array", "items": { "type": "string" }, "description": "List of materials in the delivery." },
+                    "vehicleId": { "type": "string", "description": "Assigned vehicle's unique ID." }
+                  },
+                  "required": ["deliveryId", "status", "deliveryDate", "materials", "vehicleId"]
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update delivery details",
+        "description": "Modifies the details of an existing delivery, such as delivery date or materials.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the delivery to update.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "deliveryDate": { "type": "string", "format": "date", "description": "New delivery date." },
+                  "materials": { "type": "array", "items": { "type": "string" }, "description": "Updated list of materials." }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Delivery details successfully updated."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Cancel a delivery",
+        "description": "Removes a scheduled delivery using its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the delivery to cancel.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Delivery successfully canceled and deleted."
+          }
+        }
+      }
+    },
+    "/supply-status": {
+      "get": {
+        "summary": "Retrieve supply chain status",
+        "description": "Fetches the current status of the supply chain and detects potential delays.",
+        "responses": {
+          "200": {
+            "description": "Supply chain status information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "description": "Current overall status of the supply chain." },
+                    "delays": { "type": "boolean", "description": "Indicates whether delays are detected." },
+                    "affectedDeliveries": { "type": "array", "items": { "type": "string" }, "description": "List of delivery IDs affected by delays." }
+                  },
+                  "required": ["status", "delays", "affectedDeliveries"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/supply-alerts": {
+      "post": {
+        "summary": "Set up supply chain alerts",
+        "description": "Configures alerts for specified supply chain events, such as delays or stock shortages.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "alertType": { "type": "string", "description": "Type of alert (e.g., 'delay', 'shortage')." },
+                  "threshold": { "type": "integer", "description": "Threshold for the alert, if applicable." },
+                  "recipients": { "type": "array", "items": { "type": "string" }, "description": "List of email addresses or phone numbers to receive the alert." }
+                },
+                "required": ["alertType", "recipients"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Alerts successfully configured."
+          }
+        }
+      }
+    },
+    "/routes/optimization": {
+      "get": {
+        "summary": "Get optimized delivery routes",
+        "description": "Provides optimized routing suggestions for material deliveries to minimize delays and transportation costs.",
+        "parameters": [
+          {
+            "name": "origin",
+            "in": "query",
+            "required": true,
+            "description": "Origin location for the routes.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "destinations",
+            "in": "query",
+            "required": true,
+            "description": "Comma-separated list of destination locations.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Optimized routing suggestions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "route": { "type": "string", "description": "Optimized route description." },
+                      "duration": { "type": "integer", "description": "Estimated duration of the route in minutes." },
+                      "cost": { "type": "number", "description": "Estimated transportation cost." }
+                    },
+                    "required": ["route", "duration", "cost"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

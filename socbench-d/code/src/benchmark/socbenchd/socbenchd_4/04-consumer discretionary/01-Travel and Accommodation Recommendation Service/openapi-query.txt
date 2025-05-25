@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+Provides customized travel and accommodation suggestions based on user preferences. Users create a profile detailing their budget, preferences, and desired destinations. Utilizing machine learning algorithms, the service offers personalized hotel, restaurant, and leisure activity recommendations, enriching the user's travel experience.
+
+Endpoints:
+POST /user/preferences: Submit and update user travel preferences and profiles for personalized recommendations.
+GET /recommendations/hotels: Retrieve a list of hotel recommendations based on the user's preferences and destination selection.
+GET /recommendations/restaurants: Retrieve a list of restaurant suggestions based on the user's preferences and travel itinerary.
+GET /recommendations/leisure: Access personalized leisure activity suggestions tailored to the user's interests and destination.
+POST /itinerary/plan: Submit desired destinations and receive a complete travel itinerary.
+PUT /itinerary/modify: Adjust and update the existing travel itinerary with new preferences or constraints.
+DELETE /itinerary/remove: Remove an individual element or the entire itinerary from the user's plan.
+GET /locations/info: Retrieve detailed information about a specific location, including attractions and historical data.
+POST /feedback/submit: Allow the user to submit feedback regarding recommendations or the overall travel experience provided.
+GET /user/history: Access previous travel history and recommendations for reference or repeat visits.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

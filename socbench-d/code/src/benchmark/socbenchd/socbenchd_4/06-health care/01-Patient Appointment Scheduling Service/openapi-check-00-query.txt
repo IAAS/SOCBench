@@ -1,0 +1,440 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Health Care Appointment Management API",
+        "description": "A RESTful API for managing and scheduling patient appointments in the health care sector. This API allows health care providers to view, book, update, and cancel appointments, as well as manage reminders and preferences to enhance efficiency and accessibility.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.healthcare-appointments.com/v1",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/appointments": {
+            "get": {
+                "summary": "Retrieve all scheduled appointments",
+                "description": "Returns a list of all scheduled appointments. The response includes details such as appointment ID, patient ID, provider ID, date, time, and status.",
+                "responses": {
+                    "200": {
+                        "description": "A list of scheduled appointments",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Appointment"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Schedule a new patient appointment",
+                "description": "Allows users to schedule a new appointment by providing patient and provider details, along with the date and time.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewAppointment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Appointment created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Appointment"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/appointments/{id}": {
+            "get": {
+                "summary": "Retrieve specific appointment details",
+                "description": "Fetches details of a specific appointment using its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the appointment",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the specific appointment",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Appointment"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update specific appointment details",
+                "description": "Updates the details of a specific appointment using its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the appointment",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateAppointment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Appointment updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Appointment"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a specific appointment",
+                "description": "Deletes a specific appointment identified by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the appointment",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Appointment deleted successfully"
+                    }
+                }
+            }
+        },
+        "/availability": {
+            "get": {
+                "summary": "Retrieve available time slots",
+                "description": "Returns a list of available time slots in the system for scheduling appointments.",
+                "responses": {
+                    "200": {
+                        "description": "A list of available time slots",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TimeSlot"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reminders": {
+            "post": {
+                "summary": "Send automated reminders",
+                "description": "Triggers an automated reminder for an upcoming appointment. Requires the appointment ID and reminder type.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Reminder"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Reminder sent successfully"
+                    }
+                }
+            }
+        },
+        "/patients/{id}/history": {
+            "get": {
+                "summary": "Retrieve patient's appointment history",
+                "description": "Fetches the appointment history of a specific patient identified by their ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the patient",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of past appointments for the patient",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Appointment"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/patients/{id}/preferences": {
+            "put": {
+                "summary": "Update patient scheduling preferences",
+                "description": "Updates the scheduling preferences of a specific patient identified by their ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the patient",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Preferences"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Patient preferences updated successfully"
+                    }
+                }
+            }
+        },
+        "/providers/{id}/schedule": {
+            "get": {
+                "summary": "Retrieve provider's schedule",
+                "description": "Fetches the appointment schedule of a specific health care provider identified by their ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the provider",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The schedule of the specified provider",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Appointment"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Appointment": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the appointment"
+                    },
+                    "patientId": {
+                        "type": "string",
+                        "description": "The unique identifier of the patient"
+                    },
+                    "providerId": {
+                        "type": "string",
+                        "description": "The unique identifier of the health care provider"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The date of the appointment"
+                    },
+                    "time": {
+                        "type": "string",
+                        "format": "time",
+                        "description": "The time of the appointment"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The current status of the appointment (e.g., scheduled, cancelled)"
+                    }
+                }
+            },
+            "NewAppointment": {
+                "type": "object",
+                "properties": {
+                    "patientId": {
+                        "type": "string",
+                        "description": "The unique identifier of the patient"
+                    },
+                    "providerId": {
+                        "type": "string",
+                        "description": "The unique identifier of the provider"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The date of the appointment"
+                    },
+                    "time": {
+                        "type": "string",
+                        "format": "time",
+                        "description": "The time of the appointment"
+                    }
+                },
+                "required": [
+                    "patientId",
+                    "providerId",
+                    "date",
+                    "time"
+                ]
+            },
+            "UpdateAppointment": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The new date of the appointment (if updating)"
+                    },
+                    "time": {
+                        "type": "string",
+                        "format": "time",
+                        "description": "The new time of the appointment (if updating)"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The updated status of the appointment"
+                    }
+                }
+            },
+            "TimeSlot": {
+                "type": "object",
+                "properties": {
+                    "startTime": {
+                        "type": "string",
+                        "format": "time",
+                        "description": "The start time of the available slot"
+                    },
+                    "endTime": {
+                        "type": "string",
+                        "format": "time",
+                        "description": "The end time of the available slot"
+                    }
+                }
+            },
+            "Reminder": {
+                "type": "object",
+                "properties": {
+                    "appointmentId": {
+                        "type": "string",
+                        "description": "The unique identifier of the appointment to send a reminder for"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of reminder to send (e.g., email, SMS)"
+                    }
+                },
+                "required": [
+                    "appointmentId",
+                    "type"
+                ]
+            },
+            "Preferences": {
+                "type": "object",
+                "properties": {
+                    "notificationMethod": {
+                        "type": "string",
+                        "description": "The preferred notification method (e.g., email, SMS)"
+                    },
+                    "preferredDays": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "The preferred days of the week for appointments"
+                    },
+                    "preferredTime": {
+                        "type": "string",
+                        "description": "The preferred time range for appointments"
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

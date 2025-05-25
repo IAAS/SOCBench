@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+Allows potential clients to explore properties in a virtual setting via 360-degree videos or augmented reality experiences. Realtors can integrate such tours into listings, providing engaged and immersive experiences for users.
+
+Endpoints:
+GET /properties: Retrieve a list of all available properties.
+POST /properties/new: Add a new property to the listings, including necessary details and media.
+GET /properties/{id}: Retrieve details and media for a specific property by its ID.
+PUT /properties/{id}: Update details or add media for an existing property.
+DELETE /properties/{id}: Remove a specific property from the listings.
+GET /properties/search: Search properties using specific filters, such as price range, location, and size.
+GET /tours/{id}: Retrieve the virtual tour data for a specific property.
+POST /tours/{id}/feedback: Submit user feedback about the virtual tour of a specific property.
+POST /augmentExperience: Initiate augmented reality visualizations for specified properties.
+GET /realtors: Retrieve a list of realtors associated with the properties.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

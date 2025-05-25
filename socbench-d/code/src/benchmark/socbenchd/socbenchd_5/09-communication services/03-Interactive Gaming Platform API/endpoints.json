@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /multiplayer/matchmaking",
+            "description": "Initiate matchmaking to pair users for multiplayer gaming sessions."
+        },
+        {
+            "endpoint": "GET /leaderboards/{gameId}",
+            "description": "Retrieve the leaderboard for a specified game, including player scores and rankings."
+        },
+        {
+            "endpoint": "POST /transactions/process",
+            "description": "Process transactions for in-game purchases and currency exchanges."
+        },
+        {
+            "endpoint": "GET /player/stats",
+            "description": "Retrieve statistical information about a player's performance across games."
+        },
+        {
+            "endpoint": "POST /game-session/create",
+            "description": "Create a new game session accessible by multiple participants."
+        },
+        {
+            "endpoint": "GET /game-details/{gameId}",
+            "description": "Fetch the detailed information and configuration of a specified game."
+        },
+        {
+            "endpoint": "DELETE /player/data/{playerId}",
+            "description": "Remove a player's data from the system upon request."
+        },
+        {
+            "endpoint": "POST /achievements/record",
+            "description": "Record a player's achievements during gameplay into the system."
+        },
+        {
+            "endpoint": "PUT /settings/customization",
+            "description": "Update user-specific settings and customization preferences."
+        },
+        {
+            "endpoint": "GET /help/documentation",
+            "description": "Access detailed API documentation and usage instructions."
+        }
+    ]
+}

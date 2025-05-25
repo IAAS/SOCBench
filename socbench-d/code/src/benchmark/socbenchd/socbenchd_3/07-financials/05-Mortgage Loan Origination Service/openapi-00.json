@@ -1,0 +1,331 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Mortgage Loan Application Management API",
+    "description": "This API helps mortgage providers manage loan applications from initiation to approval. It supports features such as applicant data collection, credit scoring, document validation, custom workflow creation, and compliance validation integration.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Support",
+      "url": "https://example.com/support",
+      "email": "support@example.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.financials.example.com",
+      "description": "Production server"
+    },
+    {
+      "url": "https://sandbox.api.financials.example.com",
+      "description": "Sandbox server for testing"
+    }
+  ],
+  "paths": {
+    "/applications": {
+      "post": {
+        "summary": "Submit a new loan application",
+        "description": "Submit applicant details to initiate a new loan application process.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "applicant": {
+                    "type": "object",
+                    "description": "Details of the applicant.",
+                    "properties": {
+                      "firstName": { "type": "string" },
+                      "lastName": { "type": "string" },
+                      "email": { "type": "string", "format": "email" },
+                      "phone": { "type": "string" }
+                    },
+                    "required": ["firstName", "lastName", "email"]
+                  },
+                  "loanAmount": { "type": "number", "description": "Requested loan amount in USD." },
+                  "loanPurpose": { "type": "string", "description": "Purpose of the loan (e.g., purchase, refinance)." }
+                },
+                "required": ["applicant", "loanAmount", "loanPurpose"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Loan application successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "applicationId": { "type": "string", "description": "Unique identifier for the loan application." },
+                    "status": { "type": "string", "description": "Current status of the loan application." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a loan application",
+        "description": "Cancel or delete an existing loan application from the system.",
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID of the loan application to delete."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Loan application successfully deleted."
+          },
+          "404": {
+            "description": "Loan application not found."
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update loan application details",
+        "description": "Modify existing application data during the processing stage.",
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Unique ID of the loan application to update."
+          }
+        ],
+        "requestBody": {
+          "description": "Fields to update for the application.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "applicant": {
+                    "type": "object",
+                    "description": "Updated details of the applicant.",
+                    "properties": {
+                      "email": { "type": "string", "format": "email" },
+                      "phone": { "type": "string" }
+                    }
+                  },
+                  "loanAmount": { "type": "number", "description": "Updated loan amount in USD." }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Loan application details successfully updated."
+          },
+          "404": {
+            "description": "Loan application not found."
+          }
+        }
+      }
+    },
+    "/applications/status": {
+      "get": {
+        "summary": "Retrieve application status",
+        "description": "Fetch the current status and next required steps for a specific loan application.",
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID of the loan application."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Loan application status retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "description": "Current status of the loan application." },
+                    "nextSteps": { "type": "string", "description": "Next steps required for processing." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/documents/upload": {
+      "post": {
+        "summary": "Upload documents",
+        "description": "Submit required documents for an existing loan application.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "applicationId": { "type": "string", "description": "ID of the loan application." },
+                  "document": { 
+                    "type": "string", 
+                    "format": "binary", 
+                    "description": "Document file to upload." 
+                  }
+                },
+                "required": ["applicationId", "document"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document uploaded successfully."
+          },
+          "404": {
+            "description": "Loan application not found."
+          }
+        }
+      }
+    },
+    "/credit-scores": {
+      "get": {
+        "summary": "Retrieve credit score",
+        "description": "Fetch the computed credit score for a specified applicant.",
+        "parameters": [
+          {
+            "name": "applicantId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID of the applicant."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Credit score successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "creditScore": { "type": "integer", "description": "Computed credit score for the applicant." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/compliance-status": {
+      "get": {
+        "summary": "Retrieve compliance status",
+        "description": "Fetch compliance validation results for the loan application’s current state.",
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID of the loan application."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Compliance status successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "complianceStatus": { "type": "string", "description": "Compliance result for the application." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/workflows/customize": {
+      "post": {
+        "summary": "Customize workflows",
+        "description": "Define and save custom workflows to meet operational requirements.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "workflowName": { "type": "string", "description": "Name of the workflow." },
+                  "steps": {
+                    "type": "array",
+                    "description": "List of steps in the custom workflow.",
+                    "items": { "type": "string" }
+                  }
+                },
+                "required": ["workflowName", "steps"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Workflow successfully created."
+          }
+        }
+      }
+    },
+    "/applications/log": {
+      "get": {
+        "summary": "Get application log",
+        "description": "Retrieve a detailed log of activities and changes for a specific loan application.",
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID of the loan application."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Log retrieved successfully."
+          }
+        }
+      }
+    },
+    "/services/healthcheck": {
+      "get": {
+        "summary": "Service health check",
+        "description": "Check the operational status of the service.",
+        "responses": {
+          "200": {
+            "description": "Service is operating normally.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "description": "Service status (e.g., UP or DOWN)." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

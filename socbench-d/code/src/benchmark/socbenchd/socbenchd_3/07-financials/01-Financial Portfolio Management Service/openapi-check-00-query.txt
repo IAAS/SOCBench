@@ -1,0 +1,441 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+OpenAPI:
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Investment Portfolio Management API",
+        "description": "This RESTful API service enables users to effectively manage and monitor their investment portfolios. Users can add, update, and view their asset holdings, track performance metrics, and receive tailored investment recommendations. The service integrates with brokerage accounts for seamless data synchronization and provides secure authentication.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.financials-sector.com",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/portfolios": {
+            "get": {
+                "summary": "Retrieve all investment portfolios.",
+                "description": "Returns the list of all investment portfolios linked to the authenticated user.",
+                "responses": {
+                    "200": {
+                        "description": "List of portfolios retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Portfolio"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "summary": "Create a new investment portfolio.",
+                "description": "Create a new investment portfolio by providing relevant details such as portfolio name, allocation strategy, and initial funds.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PortfolioInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Portfolio successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Portfolio"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/portfolios/{id}": {
+            "get": {
+                "summary": "Retrieve a specific investment portfolio.",
+                "description": "Retrieve detailed information about a specific investment portfolio identified by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the portfolio to retrieve.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Portfolio details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Portfolio"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update a specific investment portfolio.",
+                "description": "Update the details of an existing portfolio based on the provided ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the portfolio to be updated.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PortfolioInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Portfolio successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Portfolio"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "summary": "Delete a specific investment portfolio.",
+                "description": "Remove a portfolio and its associated data based on the provided ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the portfolio to be deleted.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Portfolio successfully deleted."
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/performance": {
+            "get": {
+                "summary": "Get portfolio performance metrics.",
+                "description": "Retrieve the performance metrics across all linked investment portfolios.",
+                "responses": {
+                    "200": {
+                        "description": "Performance metrics retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PerformanceMetrics"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/recommendations": {
+            "post": {
+                "summary": "Get tailored investment recommendations.",
+                "description": "Receive personalized investment recommendations based on the user's portfolio data and real-time market analysis.",
+                "responses": {
+                    "200": {
+                        "description": "Recommendations successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Recommendations"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/assets": {
+            "get": {
+                "summary": "Get asset details.",
+                "description": "Retrieve details about assets within a user\u2019s portfolios, including metrics like current value and performance.",
+                "responses": {
+                    "200": {
+                        "description": "Asset details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Asset"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/alerts": {
+            "post": {
+                "summary": "Set up financial alerts.",
+                "description": "Create alerts for important financial events or portfolio performance metrics.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AlertInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Alert"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/market-data": {
+            "get": {
+                "summary": "Get real-time market data.",
+                "description": "Retrieve real-time market data for analysis and comparison.",
+                "responses": {
+                    "200": {
+                        "description": "Market data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MarketData"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "apiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization"
+            }
+        },
+        "schemas": {
+            "Portfolio": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the portfolio."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the portfolio."
+                    },
+                    "allocation": {
+                        "type": "object",
+                        "description": "Details about how funds are allocated in the portfolio."
+                    }
+                }
+            },
+            "PortfolioInput": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the new portfolio."
+                    },
+                    "allocation": {
+                        "type": "object",
+                        "description": "Allocation strategy for the portfolio."
+                    }
+                }
+            },
+            "PerformanceMetrics": {
+                "type": "object",
+                "properties": {
+                    "portfolioId": {
+                        "type": "string",
+                        "description": "The ID of the portfolio."
+                    },
+                    "metrics": {
+                        "type": "object",
+                        "description": "Performance metrics for the portfolio."
+                    }
+                }
+            },
+            "Recommendations": {
+                "type": "object",
+                "properties": {
+                    "recommendations": {
+                        "type": "array",
+                        "description": "List of tailored investment recommendations.",
+                        "items": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "Asset": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the asset."
+                    },
+                    "value": {
+                        "type": "number",
+                        "description": "The current value of the asset."
+                    }
+                }
+            },
+            "AlertInput": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "description": "The type of alert to set."
+                    },
+                    "threshold": {
+                        "type": "number",
+                        "description": "The threshold value for the alert."
+                    }
+                }
+            },
+            "Alert": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The ID of the alert."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of the alert."
+                    },
+                    "threshold": {
+                        "type": "number",
+                        "description": "The threshold value of the alert."
+                    }
+                }
+            },
+            "MarketData": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "description": "Real-time market data.",
+                        "items": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

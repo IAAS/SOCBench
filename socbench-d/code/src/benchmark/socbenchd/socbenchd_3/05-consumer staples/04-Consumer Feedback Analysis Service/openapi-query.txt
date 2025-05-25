@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+Service:
+This service analyzes customer reviews and feedback from various platforms to provide manufacturers insights into product reception and areas for improvement.
+
+Endpoints:
+GET /feedback: Retrieve a list of all customer feedback and reviews aggregated from various platforms.
+POST /feedback: Submit a new piece of customer feedback for analysis.
+GET /feedback/summary: Access a summary of customer feedback analysis for aggregated insights.
+GET /products: Retrieve a list of all products being monitored for feedback analysis.
+POST /products: Add a new product to the monitoring list for feedback analysis.
+GET /insights: Retrieve detailed insights derived from the analyzed customer feedback.
+PUT /products/{id}: Update the details of a specific product being monitored.
+DELETE /products/{id}: Remove a product from the monitoring list based on its ID.
+GET /trends: Retrieve trend data based on customer feedback over specified time intervals.
+POST /alerts: Configure custom alerts based on specific feedback trends or insights.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

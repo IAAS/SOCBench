@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /market-data/price-trends",
+            "description": "Retrieve market price trends for various property types and locations."
+        },
+        {
+            "endpoint": "POST /market-data/demand-forecasts",
+            "description": "Submit parameters to generate a demand forecast report for specific areas."
+        },
+        {
+            "endpoint": "GET /investment-opportunities/hotspots",
+            "description": "Discover latest investment hotspots based on submitted filters."
+        },
+        {
+            "endpoint": "POST /reports/custom",
+            "description": "Generate custom analytics reports based on user-defined criteria."
+        },
+        {
+            "endpoint": "GET /market-data/property-types",
+            "description": "Fetch available property types and their classifications."
+        },
+        {
+            "endpoint": "PUT /preferences/user-settings",
+            "description": "Update user-specific analytics and filtering preferences."
+        },
+        {
+            "endpoint": "GET /regional-analysis/zoning-laws",
+            "description": "Access zoning law details for selected locations."
+        },
+        {
+            "endpoint": "DELETE /user-saved-reports/{report_id}",
+            "description": "Remove a previously saved custom report by report ID."
+        },
+        {
+            "endpoint": "POST /visualizations/custom-charts",
+            "description": "Create tailored data visualizations based on specific parameters."
+        },
+        {
+            "endpoint": "GET /analytics/market-comparisons",
+            "description": "Compare market analytics across selected regions for informed decision-making."
+        }
+    ]
+}

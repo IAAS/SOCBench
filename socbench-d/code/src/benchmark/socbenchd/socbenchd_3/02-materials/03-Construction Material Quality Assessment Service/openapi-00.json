@@ -1,0 +1,419 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Construction Materials Quality and Standards Compliance API",
+    "description": "This API offers tools for evaluating the quality and standards compliance of construction materials, ensuring that materials align with established norms and benchmarks.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/materials/standards": {
+      "get": {
+        "summary": "Retrieve Quality Standards",
+        "description": "Fetches a list of applicable quality and standards guidelines for construction materials.",
+        "responses": {
+          "200": {
+            "description": "A list of quality and standards guidelines.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The unique ID of the standard."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "The name of the standard."
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "A brief overview of the standard."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/materials/evaluate": {
+      "post": {
+        "summary": "Submit Material for Evaluation",
+        "description": "Sends details of a material sample for quality and standards compliance evaluation.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "materialName": {
+                    "type": "string",
+                    "description": "The name of the material being evaluated."
+                  },
+                  "sampleDetails": {
+                    "type": "string",
+                    "description": "Specific details about the material sample, including its properties."
+                  },
+                  "projectContext": {
+                    "type": "string",
+                    "description": "Optional context describing the project this material will be used for."
+                  }
+                },
+                "required": ["materialName", "sampleDetails"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Material evaluation submission success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "evaluationId": {
+                      "type": "string",
+                      "description": "The unique ID of the material evaluation request."
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Current status of the evaluation submission."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluation/{id}/status": {
+      "get": {
+        "summary": "Check Evaluation Status",
+        "description": "Retrieve the current status of a material evaluation request using its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the material evaluation.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The current status of the evaluation request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "evaluationId": {
+                      "type": "string",
+                      "description": "The unique ID of the material evaluation."
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "The current status of the evaluation (e.g., 'Pending', 'Completed', 'Failed')."
+                    },
+                    "details": {
+                      "type": "string",
+                      "description": "Additional information about the evaluation status."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/materials/recommendations": {
+      "get": {
+        "summary": "Get Material Recommendations",
+        "description": "Provides a list of recommended materials that align with specific project requirements.",
+        "parameters": [
+          {
+            "name": "projectType",
+            "in": "query",
+            "required": false,
+            "description": "The type or category of project to filter material recommendations.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of recommended construction materials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "materialId": {
+                        "type": "string",
+                        "description": "The unique ID of the recommended material."
+                      },
+                      "materialName": {
+                        "type": "string",
+                        "description": "The name of the material."
+                      },
+                      "reason": {
+                        "type": "string",
+                        "description": "A description of why this material is recommended."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/materials/categories": {
+      "get": {
+        "summary": "List Material Categories",
+        "description": "Fetches all supported categories of construction materials.",
+        "responses": {
+          "200": {
+            "description": "A list of material categories.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "Name of a material category."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/standards/{id}": {
+      "get": {
+        "summary": "Retrieve Standard Details",
+        "description": "Fetches detailed information about a specific quality standard using its unique identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the standard.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the specified quality standard.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The unique ID of the standard."
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the standard."
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "A detailed description of the standard."
+                    },
+                    "criteria": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "description": "Specific criteria outlined in the standard."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/analyze": {
+      "post": {
+        "summary": "Analyze Project Materials",
+        "description": "Analyzes the materials used in a project to ensure compliance and provide an overall quality scoring.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectDetails": {
+                    "type": "string",
+                    "description": "Details about the project being analyzed."
+                  },
+                  "materialIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "IDs of the materials used in the project."
+                    },
+                    "description": "List of material IDs used in the project."
+                  }
+                },
+                "required": ["projectDetails", "materialIds"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Project analysis submission success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "projectId": {
+                      "type": "string",
+                      "description": "The unique ID of the project analysis request."
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Current status of the project analysis."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{id}/report": {
+      "get": {
+        "summary": "Download Project Analysis Report",
+        "description": "Download a detailed analysis report for a specific project using its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the project.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The project analysis report file.",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary",
+                  "description": "The project report in PDF format."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/materials/compare": {
+      "post": {
+        "summary": "Compare Material Compliance",
+        "description": "Assesses the compliance differences between two specified materials.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "materialId1": {
+                    "type": "string",
+                    "description": "The unique ID of the first material."
+                  },
+                  "materialId2": {
+                    "type": "string",
+                    "description": "The unique ID of the second material."
+                  }
+                },
+                "required": ["materialId1", "materialId2"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Comparison result between the two materials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "differences": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "description": "Details about compliance differences."
+                      }
+                    },
+                    "recommendation": {
+                      "type": "string",
+                      "description": "A recommendation based on the comparison, if applicable."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/guidelines": {
+      "get": {
+        "summary": "Submission Guidelines",
+        "description": "Provides a synopsis of guidelines for submitting materials for evaluation and analysis.",
+        "responses": {
+          "200": {
+            "description": "Guidelines for material submission.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "guidelines": {
+                      "type": "string",
+                      "description": "A synopsis of the submission guidelines."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

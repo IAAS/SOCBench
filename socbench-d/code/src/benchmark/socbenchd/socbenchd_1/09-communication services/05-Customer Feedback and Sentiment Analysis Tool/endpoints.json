@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /feedbacks",
+            "description": "Submit customer feedback to the service for analysis."
+        },
+        {
+            "endpoint": "GET /feedbacks/{feedbackId}",
+            "description": "Retrieve details for a specific feedback submission using its unique identifier."
+        },
+        {
+            "endpoint": "GET /analysis/summary",
+            "description": "Fetch a summary of customer sentiment analysis reports."
+        },
+        {
+            "endpoint": "POST /analysis/customize",
+            "description": "Submit specific parameters to customize the analysis process."
+        },
+        {
+            "endpoint": "GET /insights/concerns",
+            "description": "Retrieve key concerns identified from the aggregated feedback data."
+        },
+        {
+            "endpoint": "GET /insights/trends",
+            "description": "Access trends and patterns evident from the customer feedback analysis."
+        },
+        {
+            "endpoint": "PUT /feedbacks/{feedbackId}",
+            "description": "Update an existing feedback entry identified by its unique identifier."
+        },
+        {
+            "endpoint": "DELETE /feedbacks/{feedbackId}",
+            "description": "Remove a feedback entry from the service utilizing its unique identifier."
+        },
+        {
+            "endpoint": "GET /export/reports",
+            "description": "Obtain a generated report of all analysis and insights in downloadable formats."
+        },
+        {
+            "endpoint": "GET /feedbacks/search",
+            "description": "Search through feedback using query parameters such as date range, sentiment, or keywords."
+        }
+    ]
+}

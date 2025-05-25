@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /submit-feedback",
+            "description": "Submit feedback regarding a specific home appliance's performance after purchase."
+        },
+        {
+            "endpoint": "GET /feedback-summary",
+            "description": "Retrieve a summary analysis of collected feedback for different product categories."
+        },
+        {
+            "endpoint": "GET /products",
+            "description": "Retrieve a list of home appliances currently supported by the service."
+        },
+        {
+            "endpoint": "POST /register-product",
+            "description": "Register a new product category or model to begin collecting feedback."
+        },
+        {
+            "endpoint": "GET /manufacturer-reports",
+            "description": "Retrieve detailed reports tailored for appliance manufacturers."
+        },
+        {
+            "endpoint": "POST /flag-feedback",
+            "description": "Report and mark specific feedback for moderation or review."
+        },
+        {
+            "endpoint": "GET /trend-analysis",
+            "description": "Retrieve analysis indicating trends in reliability data over time."
+        },
+        {
+            "endpoint": "GET /regional-insights",
+            "description": "Retrieve insights related to specific regions or geographic areas."
+        },
+        {
+            "endpoint": "GET /comparison-statistics",
+            "description": "Compare reliability feedback statistics between different products or models."
+        },
+        {
+            "endpoint": "DELETE /remove-feedback",
+            "description": "Request the removal of specific feedback entries, subject to service policies."
+        }
+    ]
+}

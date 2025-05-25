@@ -1,0 +1,347 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Personalized Content Recommendation Service",
+    "description": "A robust solution for media platforms to deliver personalized content suggestions based on user behavior, preferences, and machine learning algorithms, aimed at enhancing user engagement and satisfaction.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.mediaplatform.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/recommendations": {
+      "get": {
+        "summary": "Fetch personalized content recommendations",
+        "description": "Return a list of personalized content suggestions for a user based on behavior, preferences, and advanced recommendation algorithms.",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "description": "Unique identifier for the user requesting recommendations.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Maximum number of recommendations to return.",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of personalized content recommendations.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ContentItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/preferences": {
+      "post": {
+        "summary": "Submit or update user preferences",
+        "description": "Allow users to submit or update their content preferences, which will be used to improve the accuracy of personalized recommendations.",
+        "requestBody": {
+          "description": "Object containing the user's updated preferences.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserPreferences"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Preferences successfully updated."
+          }
+        }
+      }
+    },
+    "/content/popular": {
+      "get": {
+        "summary": "Retrieve popular content",
+        "description": "Fetch a list of currently trending or popular content items on the platform.",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Number of popular content items to return.",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of popular content items.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ContentItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/behavior": {
+      "post": {
+        "summary": "Log user behavior",
+        "description": "Log specific user interactions or behaviors with content to help improve the recommendation models.",
+        "requestBody": {
+          "description": "Details about the user's behavior and interaction with content.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserBehavior"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Behavior successfully logged."
+          }
+        }
+      }
+    },
+    "/content/similar/{id}": {
+      "get": {
+        "summary": "Get similar content items",
+        "description": "Find and return content items using similarity algorithms based on an identified content item.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the content item.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Maximum number of similar content items to return.",
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of similar content items.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ContentItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/genres": {
+      "get": {
+        "summary": "List all content genres",
+        "description": "Retrieve a list of all available content genres to help the user explore thematic options.",
+        "responses": {
+          "200": {
+            "description": "List of genres.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications/settings": {
+      "put": {
+        "summary": "Modify notification preferences",
+        "description": "Update the user's notification settings, allowing for tailored updates regarding new content releases.",
+        "requestBody": {
+          "description": "Updated notification settings.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationSettings"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Notification settings successfully updated."
+          }
+        }
+      }
+    },
+    "/analytics/{user_id}": {
+      "get": {
+        "summary": "Retrieve user interaction analytics",
+        "description": "Fetch an overview of a user's historical interaction metrics with the platform.",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the user whose analytics are being queried.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User analytics data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAnalytics"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/training": {
+      "post": {
+        "summary": "Initiate model retraining",
+        "description": "Trigger retraining of the recommendation machine learning models using new or updated datasets.",
+        "responses": {
+          "200": {
+            "description": "Model retraining successfully initiated."
+          }
+        }
+      }
+    },
+    "/platform/status": {
+      "get": {
+        "summary": "Check platform status",
+        "description": "Retrieve the operational status and uptime information for the platform infrastructure.",
+        "responses": {
+          "200": {
+            "description": "Platform status information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Operational"
+                    },
+                    "uptime": {
+                      "type": "string",
+                      "example": "99.98%"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ContentItem": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "genre": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      },
+      "UserPreferences": {
+        "type": "object",
+        "properties": {
+          "user_id": { "type": "string" },
+          "preferences": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      },
+      "UserBehavior": {
+        "type": "object",
+        "properties": {
+          "user_id": { "type": "string" },
+          "content_id": { "type": "string" },
+          "interaction_type": {
+            "type": "string",
+            "enum": ["view", "like", "share", "comment"]
+          },
+          "timestamp": { "type": "string", "format": "date-time" }
+        }
+      },
+      "NotificationSettings": {
+        "type": "object",
+        "properties": {
+          "user_id": { "type": "string" },
+          "preferences": {
+            "type": "object",
+            "properties": {
+              "new_content_notifications": { "type": "boolean" },
+              "genre_specific_notifications": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      },
+      "UserAnalytics": {
+        "type": "object",
+        "properties": {
+          "user_id": { "type": "string" },
+          "total_interactions": { "type": "integer" },
+          "favorite_genres": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /insurance-policies",
+            "description": "Retrieve a list of all available insurance policies their details and coverage options."
+        },
+        {
+            "endpoint": "GET /insurance-policies/{policy_id}/details",
+            "description": "Retrieve detailed information about a specific insurance policy using its identifier."
+        },
+        {
+            "endpoint": "GET /insurance-policies/categories",
+            "description": "Obtain a list of the various insurance policy categories offered by the service."
+        },
+        {
+            "endpoint": "POST /insurance-policies/estimate-premium",
+            "description": "Submit policy details to receive calculated premium estimates for evaluation."
+        },
+        {
+            "endpoint": "GET /insurance-policies/covered-items/{policy_id}",
+            "description": "Fetch a list of items or conditions covered under a specific insurance policy."
+        },
+        {
+            "endpoint": "POST /insurance-policies/enroll",
+            "description": "Submit the required user information to enroll in a selected insurance policy."
+        },
+        {
+            "endpoint": "DELETE /insurance-policies/subscriptions/{subscription_id}",
+            "description": "Cancel an existing subscription or enrollment in a specific insurance policy using its subscription ID."
+        },
+        {
+            "endpoint": "GET /insurance-policies/{policy_id}/providers",
+            "description": "Retrieve a list of insurance providers applicable for a specific policy."
+        },
+        {
+            "endpoint": "PUT /insurance-policies/{policy_id}/modify",
+            "description": "Update or modify details of a specific insurance policy, such as coverage or duration."
+        },
+        {
+            "endpoint": "GET /insurance-policies/claims/history",
+            "description": "View claim history and status for policies associated with a user account."
+        }
+    ]
+}

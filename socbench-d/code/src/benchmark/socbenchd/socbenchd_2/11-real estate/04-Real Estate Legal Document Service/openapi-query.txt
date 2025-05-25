@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+Offers templates and customizations for common real estate contracts and documents to streamline property transactions.
+
+Endpoints:
+GET /templates: Retrieve a list of available real estate contract templates.
+POST /templates: Upload a new real estate document template for customization and usage.
+GET /documents/customization-options: Fetch possible customization fields and settings for a specified document.
+POST /documents: Generate a customized document using the provided template and user specifications.
+PUT /documents/{document_id}: Update an existing document with new information or changes.
+GET /contracts/validation: Analyze a real estate contract for missing fields or inconsistencies.
+GET /contracts/comparison: Compare two real estate contracts and summarize their differences.
+GET /contracts/examples: Retrieve example contract sections for drafting purposes.
+DELETE /documents/{document_id}: Delete a specific document from the repository.
+PATCH /documents/{document_id}/status: Update the status of a specific document, e.g., 'draft' or 'finalized'.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

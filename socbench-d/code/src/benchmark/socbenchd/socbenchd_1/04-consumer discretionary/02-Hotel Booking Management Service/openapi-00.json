@@ -1,0 +1,349 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Hotel and Resort Reservation Coordination API",
+    "version": "1.0.0",
+    "description": "An API to facilitate seamless reservation coordination for hotels and resorts, offering capabilities such as integration with online booking platforms, real-time availability updates, and guest preference tracking."
+  },
+  "servers": [
+    {
+      "url": "https://api.hotelresorts.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/reservations": {
+      "get": {
+        "summary": "Retrieve all reservations",
+        "description": "Fetch a list of all reservations and their details, including guest information, booking dates, and room details.",
+        "responses": {
+          "200": {
+            "description": "A list of reservations.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "guestId": 101,
+                    "roomId": 301,
+                    "checkIn": "2023-11-01",
+                    "checkOut": "2023-11-05",
+                    "status": "Confirmed"
+                  },
+                  {
+                    "id": 2,
+                    "guestId": 102,
+                    "roomId": 302,
+                    "checkIn": "2023-12-01",
+                    "checkOut": "2023-12-10",
+                    "status": "Pending"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new reservation",
+        "description": "Create a new reservation for a guest based on their preferences and selected room.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "guestId": 103,
+                "roomId": 303,
+                "checkIn": "2023-11-20",
+                "checkOut": "2023-11-25",
+                "preferences": {
+                  "smoking": false,
+                  "bedType": "Queen"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The reservation was successfully created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 123,
+                  "guestId": 103,
+                  "roomId": 303,
+                  "checkIn": "2023-11-20",
+                  "checkOut": "2023-11-25",
+                  "preferences": {
+                    "smoking": false,
+                    "bedType": "Queen"
+                  },
+                  "status": "Confirmed"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reservations/{id}": {
+      "put": {
+        "summary": "Update an existing reservation",
+        "description": "Update a reservation's details, such as dates or preferences, using its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The unique ID of the reservation to update."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The reservation was successfully updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 123,
+                  "guestId": 103,
+                  "roomId": 303,
+                  "checkIn": "2023-11-21",
+                  "checkOut": "2023-11-26",
+                  "preferences": {
+                    "smoking": false,
+                    "bedType": "Queen"
+                  },
+                  "status": "Confirmed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Cancel a reservation",
+        "description": "Cancel a reservation identified by its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The unique ID of the reservation to cancel."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The reservation was successfully canceled."
+          }
+        }
+      }
+    },
+    "/rooms": {
+      "get": {
+        "summary": "List all rooms",
+        "description": "Retrieve a list of all rooms with their current availability status and details.",
+        "responses": {
+          "200": {
+            "description": "A list of rooms with their details.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 301,
+                    "type": "Deluxe",
+                    "pricePerNight": 150,
+                    "status": "Available"
+                  },
+                  {
+                    "id": 302,
+                    "type": "Suite",
+                    "pricePerNight": 250,
+                    "status": "Booked"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new room",
+        "description": "Add a new room to the system with all required details.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "type": "Standard",
+                "pricePerNight": 120,
+                "status": "Available"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The room was successfully added.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 401,
+                  "type": "Standard",
+                  "pricePerNight": 120,
+                  "status": "Available"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rooms/{id}": {
+      "get": {
+        "summary": "Get room details",
+        "description": "Fetch the full details of a specific room using its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The unique ID of the room."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The details of the room.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 301,
+                  "type": "Deluxe",
+                  "pricePerNight": 150,
+                  "status": "Available",
+                  "amenities": ["WiFi", "Air Conditioning"]
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a room's details",
+        "description": "Modify the details of an existing room, such as its price or availability.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The unique ID of the room to update."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The room details were successfully updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 301,
+                  "type": "Deluxe",
+                  "pricePerNight": 160,
+                  "status": "Available"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/guest-preferences/{id}": {
+      "get": {
+        "summary": "Retrieve guest preferences",
+        "description": "Fetch the saved preferences of a specific guest using their unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The unique ID of the guest."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The preferences of the guest.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "guestId": 103,
+                  "preferences": {
+                    "smoking": false,
+                    "bedType": "Queen"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Update guest preferences",
+        "description": "Save or update the preferences of a specific guest using their unique ID.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "preferences": {
+                  "smoking": false,
+                  "bedType": "King"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The unique ID of the guest."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The preferences were successfully updated.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "guestId": 103,
+                  "preferences": {
+                    "smoking": false,
+                    "bedType": "King"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

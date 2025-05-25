@@ -1,0 +1,375 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Chemical Inventory Management API",
+        "description": "This API provides manufacturing companies with real-time tracking and managing of their chemical inventory levels. The service facilitates compliance with safety regulations and optimized inventory control.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.chemicalinventory.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/inventory": {
+            "get": {
+                "summary": "Retrieve all chemical inventory details",
+                "description": "Fetches detailed information about all chemical stocks, including item IDs, names, quantities, storage requirements, and hazard details.",
+                "responses": {
+                    "200": {
+                        "description": "A list of chemical inventory items",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ChemicalItem"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new chemical to the inventory",
+                "description": "Allows the user to add a new chemical item to the inventory. Relevant specifications like name, initial quantity, hazard level, and storage requirements must be provided.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChemicalItem"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Chemical item successfully added"
+                    },
+                    "400": {
+                        "description": "Invalid data provided"
+                    }
+                }
+            }
+        },
+        "/inventory/{itemID}": {
+            "put": {
+                "summary": "Update a specific chemical item",
+                "description": "Updates the characteristics or storage information of a specified chemical item in the inventory.",
+                "parameters": [
+                    {
+                        "name": "itemID",
+                        "in": "path",
+                        "description": "The unique identifier of the chemical item to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChemicalItemUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Chemical item successfully updated"
+                    },
+                    "404": {
+                        "description": "Chemical item not found"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove a specific chemical item",
+                "description": "Deletes a specific chemical item from the inventory using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "itemID",
+                        "in": "path",
+                        "description": "The unique identifier of the chemical item to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Chemical item successfully removed"
+                    },
+                    "404": {
+                        "description": "Chemical item not found"
+                    }
+                }
+            }
+        },
+        "/regulations": {
+            "get": {
+                "summary": "Fetch safety regulations",
+                "description": "Retrieves the list of safety regulations and compliance rules related to stored chemicals.",
+                "responses": {
+                    "200": {
+                        "description": "A list of safety regulations",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Regulation"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "post": {
+                "summary": "Create low stock alerts",
+                "description": "Creates a notification or reminder for specific chemicals that are nearing their minimum stock levels.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AlertRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert successfully created"
+                    },
+                    "400": {
+                        "description": "Invalid alert data provided"
+                    }
+                }
+            }
+        },
+        "/statistics": {
+            "get": {
+                "summary": "Get chemical usage statistics",
+                "description": "Gathers statistics and analytics about chemical usage trends and inventory turnover rates.",
+                "responses": {
+                    "200": {
+                        "description": "Statistics and analytics data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Statistics"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/reorder": {
+            "post": {
+                "summary": "Initiate reorder process",
+                "description": "Starts a reorder process for chemicals that have reached their minimum inventory thresholds.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ReorderRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Reorder process initiated"
+                    },
+                    "400": {
+                        "description": "Invalid reorder request"
+                    }
+                }
+            }
+        },
+        "/storage-requirements/{itemID}": {
+            "get": {
+                "summary": "Retrieve storage requirements for a chemical",
+                "description": "Fetches safety and environmental storage requirements for a specified chemical item using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "itemID",
+                        "in": "path",
+                        "description": "The unique identifier of the chemical item",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Storage requirements for the chemical item",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StorageRequirements"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Chemical item not found"
+                    }
+                }
+            }
+        },
+        "/item-hazard-info/{itemID}": {
+            "get": {
+                "summary": "Retrieve hazard information for a chemical",
+                "description": "Provides hazard and safety information for a specific chemical item using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "itemID",
+                        "in": "path",
+                        "description": "The unique identifier of the chemical item",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Hazard information for the chemical item",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HazardInfo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Chemical item not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ChemicalItem": {
+                "type": "object",
+                "properties": {
+                    "itemID": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "type": "integer"
+                    },
+                    "hazardLevel": {
+                        "type": "string"
+                    },
+                    "storageDetails": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name",
+                    "quantity",
+                    "hazardLevel",
+                    "storageDetails"
+                ]
+            },
+            "ChemicalItemUpdate": {
+                "type": "object",
+                "properties": {
+                    "quantity": {
+                        "type": "integer"
+                    },
+                    "storageDetails": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Regulation": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AlertRequest": {
+                "type": "object",
+                "properties": {
+                    "itemID": {
+                        "type": "string"
+                    },
+                    "thresholdQuantity": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "Statistics": {
+                "type": "object",
+                "properties": {
+                    "totalChemicals": {
+                        "type": "integer"
+                    },
+                    "averageUsage": {
+                        "type": "number"
+                    },
+                    "inventoryTurnover": {
+                        "type": "number"
+                    }
+                }
+            },
+            "ReorderRequest": {
+                "type": "object",
+                "properties": {
+                    "itemID": {
+                        "type": "string"
+                    },
+                    "reorderQuantity": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "StorageRequirements": {
+                "type": "object",
+                "properties": {
+                    "requirements": {
+                        "type": "string"
+                    }
+                }
+            },
+            "HazardInfo": {
+                "type": "object",
+                "properties": {
+                    "hazardDescription": {
+                        "type": "string"
+                    },
+                    "precautionaryMeasures": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

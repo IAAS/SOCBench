@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /inventory",
+            "description": "Retrieve detailed information about all chemical stocks and their current levels."
+        },
+        {
+            "endpoint": "POST /inventory",
+            "description": "Add a new chemical item to the inventory with relevant specifications."
+        },
+        {
+            "endpoint": "PUT /inventory/{itemID}",
+            "description": "Update the characteristics or storage information of a specific chemical item."
+        },
+        {
+            "endpoint": "DELETE /inventory/{itemID}",
+            "description": "Remove a particular chemical item from the inventory."
+        },
+        {
+            "endpoint": "GET /regulations",
+            "description": "Fetch the list of safety regulations and compliance rules relevant to the stored chemicals."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Create a notification or reminder for specific chemicals nearing minimum stock levels."
+        },
+        {
+            "endpoint": "GET /statistics",
+            "description": "Gather statistics and analytics about chemical usage trends and inventory turnover."
+        },
+        {
+            "endpoint": "POST /inventory/reorder",
+            "description": "Initiate a reorder process for chemicals that have reached minimum inventory thresholds."
+        },
+        {
+            "endpoint": "GET /storage-requirements/{itemID}",
+            "description": "Retrieve safety and environmental requirements for storing a specific chemical."
+        },
+        {
+            "endpoint": "GET /item-hazard-info/{itemID}",
+            "description": "Access hazard and safety information for a particular chemical item."
+        }
+    ]
+}

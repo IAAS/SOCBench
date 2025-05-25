@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /devices",
+            "description": "Retrieve a list of all registered medical devices with their respective details."
+        },
+        {
+            "endpoint": "POST /devices",
+            "description": "Register a new medical device by providing its specifications and sensor details."
+        },
+        {
+            "endpoint": "GET /device/{id}/status",
+            "description": "Retrieve the current operational status and performance metrics of the specified device."
+        },
+        {
+            "endpoint": "PUT /device/{id}/update",
+            "description": "Update the device's information, such as location or specifications."
+        },
+        {
+            "endpoint": "GET /analytics/reports",
+            "description": "Access generated analytical reports about device usage and health trends."
+        },
+        {
+            "endpoint": "POST /alerts/create",
+            "description": "Create a new alert based on specified maintenance or operational thresholds for devices."
+        },
+        {
+            "endpoint": "GET /maintenance/schedule",
+            "description": "Retrieve the current predictive maintenance schedule for all devices."
+        },
+        {
+            "endpoint": "POST /maintenance/schedule/update",
+            "description": "Modify the maintenance schedule entries by specifying new tasks and timelines."
+        },
+        {
+            "endpoint": "DELETE /device/{id}",
+            "description": "Remove a device from the tracking system, ceasing its monitoring and maintenance scheduling."
+        },
+        {
+            "endpoint": "GET /sensors/data/{id}",
+            "description": "Retrieve raw data from the specified sensor for informed diagnostics and analysis."
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /resources",
+            "description": "Create a new cloud computing allocation request with specified parameters."
+        },
+        {
+            "endpoint": "GET /resources/{id}",
+            "description": "Retrieve detailed information about a specific resource allocation."
+        },
+        {
+            "endpoint": "PUT /resources/{id}",
+            "description": "Update the configuration or scaling properties of an existing resource."
+        },
+        {
+            "endpoint": "DELETE /resources/{id}",
+            "description": "Remove an active cloud computing resource allocation."
+        },
+        {
+            "endpoint": "GET /resources",
+            "description": "Retrieve a comprehensive list of all current cloud resource allocations."
+        },
+        {
+            "endpoint": "GET /optimization-strategies",
+            "description": "Fetch all available optimization strategies applicable for scaling resources."
+        },
+        {
+            "endpoint": "POST /resources/{id}/scale",
+            "description": "Initiate a scaling operation for the specific resource, increasing or decreasing its usage."
+        },
+        {
+            "endpoint": "GET /resource-usage/{id}",
+            "description": "Get usage statistics and analysis for a given resource allocation."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Set up alerts for monitoring specific threshold conditions on resources."
+        },
+        {
+            "endpoint": "DELETE /alerts/{alert_id}",
+            "description": "Remove an existing alert from monitoring."
+        }
+    ]
+}

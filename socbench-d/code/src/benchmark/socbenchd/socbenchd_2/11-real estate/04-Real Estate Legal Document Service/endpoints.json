@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /templates",
+            "description": "Retrieve a list of available real estate contract templates."
+        },
+        {
+            "endpoint": "POST /templates",
+            "description": "Upload a new real estate document template for customization and usage."
+        },
+        {
+            "endpoint": "GET /documents/customization-options",
+            "description": "Fetch possible customization fields and settings for a specified document."
+        },
+        {
+            "endpoint": "POST /documents",
+            "description": "Generate a customized document using the provided template and user specifications."
+        },
+        {
+            "endpoint": "PUT /documents/{document_id}",
+            "description": "Update an existing document with new information or changes."
+        },
+        {
+            "endpoint": "GET /contracts/validation",
+            "description": "Analyze a real estate contract for missing fields or inconsistencies."
+        },
+        {
+            "endpoint": "GET /contracts/comparison",
+            "description": "Compare two real estate contracts and summarize their differences."
+        },
+        {
+            "endpoint": "GET /contracts/examples",
+            "description": "Retrieve example contract sections for drafting purposes."
+        },
+        {
+            "endpoint": "DELETE /documents/{document_id}",
+            "description": "Delete a specific document from the repository."
+        },
+        {
+            "endpoint": "PATCH /documents/{document_id}/status",
+            "description": "Update the status of a specific document, e.g., 'draft' or 'finalized'."
+        }
+    ]
+}

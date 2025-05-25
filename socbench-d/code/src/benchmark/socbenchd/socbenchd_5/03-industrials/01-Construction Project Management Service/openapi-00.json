@@ -1,0 +1,461 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Construction Project Management Service",
+    "version": "1.0.0",
+    "description": "A RESTful API tailored for construction companies to efficiently plan, coordinate, and track their projects, offering features like scheduling support, resource allocation, progress tracking, and budget monitoring. Users can integrate with construction management software and on-site data collection devices for streamlined project delivery."
+  },
+  "servers": [
+    {
+      "url": "https://api.constructionpm.com/v1",
+      "description": "Primary API server"
+    }
+  ],
+  "paths": {
+    "/projects": {
+      "get": {
+        "summary": "Retrieve all projects",
+        "description": "Retrieve a list of ongoing and completed construction projects with their summaries.",
+        "responses": {
+          "200": {
+            "description": "A list of projects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Project"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new project",
+        "description": "Create a new construction project by providing necessary details such as project name, description, budget, and timeline.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewProject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Project created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{id}": {
+      "get": {
+        "summary": "Retrieve a specific project",
+        "description": "Retrieve detailed information about a specific construction project by its identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The identifier of the project.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detailed information about the project.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a project",
+        "description": "Update details and parameters of an existing project, such as the timeline, budget, or tasks.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The identifier of the project to update.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Project updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a project",
+        "description": "Remove a project and all its associated data from the system.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The identifier of the project to delete.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Project deleted successfully."
+          }
+        }
+      }
+    },
+    "/projects/{id}/milestones": {
+      "post": {
+        "summary": "Add milestones to a project",
+        "description": "Add milestones to a specific project for progress tracking.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The identifier of the project to add milestones to.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewMilestone"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Milestone added successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Milestone"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{id}/progress": {
+      "get": {
+        "summary": "Retrieve project progress",
+        "description": "Retrieve the current progress and status of a specific project in real-time.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The identifier of the project.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current progress and status of the project.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Progress"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resources": {
+      "get": {
+        "summary": "Retrieve all resources",
+        "description": "Retrieve a list of resources available for allocation to projects.",
+        "responses": {
+          "200": {
+            "description": "List of available resources.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Resource"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resources/{id}/assign": {
+      "post": {
+        "summary": "Assign a resource to a project",
+        "description": "Assign a specific resource to a project or task with detailed allocation.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The identifier of the resource to assign.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResourceAssignment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resource assigned successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceAssignmentResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports": {
+      "get": {
+        "summary": "Generate reports",
+        "description": "Generate and retrieve detailed reports on project statuses and metrics.",
+        "responses": {
+          "200": {
+            "description": "Generated reports successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Project": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "budget": {
+            "type": "number",
+            "format": "float"
+          },
+          "timeline": {
+            "$ref": "#/components/schemas/Timeline"
+          }
+        }
+      },
+      "NewProject": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "budget": {
+            "type": "number",
+            "format": "float"
+          },
+          "timeline": {
+            "$ref": "#/components/schemas/Timeline"
+          }
+        }
+      },
+      "UpdateProject": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "budget": {
+            "type": "number",
+            "format": "float"
+          },
+          "timeline": {
+            "$ref": "#/components/schemas/Timeline"
+          }
+        }
+      },
+      "Timeline": {
+        "type": "object",
+        "properties": {
+          "start_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "NewMilestone": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "Milestone": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "Progress": {
+        "type": "object",
+        "properties": {
+          "completed_tasks": {
+            "type": "integer"
+          },
+          "remaining_tasks": {
+            "type": "integer"
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Resource": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "availability": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ResourceAssignment": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "type": "string"
+          },
+          "task_id": {
+            "type": "string"
+          }
+        }
+      },
+      "ResourceAssignmentResult": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "Report": {
+        "type": "object",
+        "properties": {
+          "report_id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "content": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

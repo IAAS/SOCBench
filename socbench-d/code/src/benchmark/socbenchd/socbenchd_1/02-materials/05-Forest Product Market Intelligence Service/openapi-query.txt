@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+Service:
+Equips businesses with market trends and price analysis for forest-derived products, supporting strategic planning and competitive positioning efforts.
+
+Endpoints:
+GET /market-trends: Retrieve the latest market trends analysis for forest-derived products.
+GET /price-analysis: Access detailed price fluctuation data for various forest-derived products.
+POST /strategy-recommendations: Submit strategic criteria to receive tailored recommendations for business planning.
+GET /historical-data: Retrieve historical data for trends in forest product markets.
+GET /competitive-insights: Acquire insights into competitive positioning strategies within the forest-derived product sector.
+POST /custom-report: Request a custom report based on specified market parameters.
+GET /resource-usage-statistics: Obtain data on the usage and consumption trends for forest-derived resources.
+GET /geographical-analysis: Access market data segmented by geographical regions for specified products.
+GET /regulatory-updates: Stay informed about regulations impacting the forest-derived products industry.
+POST /subscribe-updates: Subscribe to automatic updates and alerts for specific market changes.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

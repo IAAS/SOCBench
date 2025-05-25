@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /glass-production-data",
+            "description": "Retrieve historical data related to glass production from connected manufacturing units."
+        },
+        {
+            "endpoint": "POST /process-optimization/sequences",
+            "description": "Submit and analyze production process sequences to suggest potential optimization strategies."
+        },
+        {
+            "endpoint": "GET /energy-consumption/overview",
+            "description": "Fetch a summary of energy consumption metrics across production facilities."
+        },
+        {
+            "endpoint": "POST /quality-check/analyze",
+            "description": "Submit production data for comprehensive quality assessment analysis."
+        },
+        {
+            "endpoint": "GET /recommended-actions/latest",
+            "description": "Retrieve the latest suggested actions for improving production efficiency based on analyzed data."
+        },
+        {
+            "endpoint": "GET /materials-usage/report",
+            "description": "Access detailed reports on raw materials utilization and efficiency."
+        },
+        {
+            "endpoint": "POST /alerts/create",
+            "description": "Configure custom alerts based on specific production or quality thresholds."
+        },
+        {
+            "endpoint": "GET /system-health/status",
+            "description": "Retrieve the current operational status of production monitoring systems."
+        },
+        {
+            "endpoint": "POST /data-import/manual",
+            "description": "Upload and integrate manually collected data into the analysis system."
+        },
+        {
+            "endpoint": "DELETE /alerts/{id}",
+            "description": "Remove a specific previously configured alert based on its unique identifier."
+        }
+    ]
+}

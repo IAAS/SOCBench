@@ -1,0 +1,413 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Environmental Impact Assessment Service API",
+        "description": "This API enables businesses to evaluate the environmental consequences of their production activities by analyzing parameters such as resource usage, emissions, waste generation, and energy consumption. The service provides impact scores, tailored mitigation recommendations, and supports continuous assessment metrics toward sustainability objectives.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.environmental-impact.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/impact-assessment": {
+            "post": {
+                "summary": "Submit operational data",
+                "description": "Submits operational data to initiate an environmental impact assessment.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "data": {
+                                        "type": "object",
+                                        "description": "Detailed operational data such as production metrics, resource consumption, emissions, and waste generated."
+                                    }
+                                },
+                                "required": [
+                                    "data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Assessment created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "assessmentId": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the created assessment."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/impact-scores/{assessmentId}": {
+            "get": {
+                "summary": "Retrieve impact scores",
+                "description": "Fetches the environmental impact scores for a specific assessment.",
+                "parameters": [
+                    {
+                        "name": "assessmentId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the assessment.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Impact scores retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "scores": {
+                                            "type": "object",
+                                            "description": "Detailed impact scores for various environmental parameters."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Assessment not found."
+                    }
+                }
+            }
+        },
+        "/impact-assessment/{assessmentId}": {
+            "put": {
+                "summary": "Update operational data",
+                "description": "Updates the operational data for an existing environmental impact assessment.",
+                "parameters": [
+                    {
+                        "name": "assessmentId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the assessment.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "data": {
+                                        "type": "object",
+                                        "description": "Updated operational data."
+                                    }
+                                },
+                                "required": [
+                                    "data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Assessment updated successfully."
+                    },
+                    "404": {
+                        "description": "Assessment not found."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete an assessment",
+                "description": "Deletes a previously submitted environmental impact assessment.",
+                "parameters": [
+                    {
+                        "name": "assessmentId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the assessment.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Assessment deleted successfully."
+                    },
+                    "404": {
+                        "description": "Assessment not found."
+                    }
+                }
+            }
+        },
+        "/impact-scenarios": {
+            "post": {
+                "summary": "Submit hypothetical data",
+                "description": "Submits hypothetical operational data to estimate potential environmental impacts.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "data": {
+                                        "type": "object",
+                                        "description": "Hypothetical operational data for scenario analysis."
+                                    }
+                                },
+                                "required": [
+                                    "data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Scenario submitted successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/mitigation-recommendations/{assessmentId}": {
+            "get": {
+                "summary": "Retrieve mitigation recommendations",
+                "description": "Fetches tailored mitigation recommendations based on an assessment.",
+                "parameters": [
+                    {
+                        "name": "assessmentId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the assessment.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Recommendations retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "recommendations": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "description": "Specific mitigation actions to reduce environmental impact."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Assessment not found."
+                    }
+                }
+            }
+        },
+        "/resource-tracking": {
+            "get": {
+                "summary": "Access resource usage data",
+                "description": "Provides data on resource usage across different operational activities.",
+                "responses": {
+                    "200": {
+                        "description": "Resource tracking data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "resourceType": {
+                                                "type": "string",
+                                                "description": "Type of resource being tracked."
+                                            },
+                                            "usage": {
+                                                "type": "number",
+                                                "description": "Amount of resource used."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/emission-reports/{assessmentId}": {
+            "get": {
+                "summary": "Retrieve emission reports",
+                "description": "Fetches detailed emission reports related to a specific assessment.",
+                "parameters": [
+                    {
+                        "name": "assessmentId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the assessment.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Emission reports retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "report": {
+                                            "type": "object",
+                                            "description": "Detailed emission data and analytics."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Assessment not found."
+                    }
+                }
+            }
+        },
+        "/assessment-history": {
+            "get": {
+                "summary": "View assessment history",
+                "description": "Fetches the history of all assessments performed by the user.",
+                "responses": {
+                    "200": {
+                        "description": "Assessment history retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "assessmentId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the assessment."
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "description": "Date and time of the assessment."
+                                            },
+                                            "score": {
+                                                "type": "object",
+                                                "description": "Impact score summary of the assessment."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/impact-assessment/{assessmentId}/status": {
+            "patch": {
+                "summary": "Modify review status",
+                "description": "Updates the review status of a specific assessment.",
+                "parameters": [
+                    {
+                        "name": "assessmentId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the assessment.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "description": "The new status of the assessment (e.g., approved, rejected, under-review)."
+                                    }
+                                },
+                                "required": [
+                                    "status"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Status updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid status value."
+                    },
+                    "404": {
+                        "description": "Assessment not found."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

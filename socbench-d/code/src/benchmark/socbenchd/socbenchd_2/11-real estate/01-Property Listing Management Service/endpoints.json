@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /properties",
+            "description": "Retrieve the list of all real estate advertisements available in the system."
+        },
+        {
+            "endpoint": "GET /properties/{property_id}",
+            "description": "Fetch detailed information about a specific real estate advertisement using its unique identifier."
+        },
+        {
+            "endpoint": "POST /properties",
+            "description": "Create and post a new advertisement for a property."
+        },
+        {
+            "endpoint": "PUT /properties/{property_id}",
+            "description": "Update details of an existing property advertisement."
+        },
+        {
+            "endpoint": "DELETE /properties/{property_id}",
+            "description": "Remove a property advertisement from the system."
+        },
+        {
+            "endpoint": "GET /properties/search",
+            "description": "Search properties based on specific criteria such as location and price range."
+        },
+        {
+            "endpoint": "POST /properties/{property_id}/photos",
+            "description": "Upload high-resolution photos to a specific property advertisement."
+        },
+        {
+            "endpoint": "DELETE /properties/{property_id}/photos/{photo_id}",
+            "description": "Remove a specific photo from a property advertisement."
+        },
+        {
+            "endpoint": "POST /properties/{property_id}/documents",
+            "description": "Attach legal or promotional documents to a property advertisement."
+        },
+        {
+            "endpoint": "DELETE /properties/{property_id}/documents/{document_id}",
+            "description": "Remove a specific document from a property advertisement."
+        }
+    ]
+}

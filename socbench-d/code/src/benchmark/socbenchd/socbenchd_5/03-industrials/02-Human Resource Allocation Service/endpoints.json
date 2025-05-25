@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /employees",
+            "description": "Retrieve the details of all employees managed within the system including their skills and availability."
+        },
+        {
+            "endpoint": "GET /projects",
+            "description": "Fetch the list of active and planned projects along with relevant resource requirements."
+        },
+        {
+            "endpoint": "POST /projects",
+            "description": "Submit a new project along with its workforce and skill requirements."
+        },
+        {
+            "endpoint": "PUT /employees/{id}",
+            "description": "Update the information associated with a specific employee, such as skills or assigned projects."
+        },
+        {
+            "endpoint": "DELETE /projects/{id}",
+            "description": "Remove a specific project from the system, releasing assigned resources for reallocation."
+        },
+        {
+            "endpoint": "GET /shifts",
+            "description": "Retrieve the current and upcoming shift schedules for all employees."
+        },
+        {
+            "endpoint": "POST /recommendations",
+            "description": "Request a resource allocation recommendation based on project inputs and available staff."
+        },
+        {
+            "endpoint": "GET /availability",
+            "description": "Fetch the availability status of employees over a specified timeframe."
+        },
+        {
+            "endpoint": "PUT /shifts/{id}",
+            "description": "Modify the shift scheduling of an employee to optimize resource distribution."
+        },
+        {
+            "endpoint": "POST /analytics",
+            "description": "Generate detailed reports on resource allocation efficiency and project workforce adequacy."
+        }
+    ]
+}

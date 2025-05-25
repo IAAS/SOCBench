@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Property Listing Management Service",
+            "description": "The Property Listing Management Service facilitates real estate agencies and individuals to create, update, and manage property listings effectively. Users can aggregate property details, including descriptions, images, and pricing, and publish them to various platforms to reach potential buyers or renters."
+        },
+        {
+            "name": "Real Estate Market Analysis Service",
+            "description": "This service provides data insights and tools to analyze market trends, property value estimations, and demographic information. Real estate professionals can utilize this data to make informed decisions regarding buying, selling, or investing in properties."
+        },
+        {
+            "name": "Client Relationship Management (CRM) for Realtors",
+            "description": "Designed for real estate agents, this CRM service enables the organization of client interactions, schedule management, lead tracking, and personalized communication management to improve relationship handling and sales processes."
+        },
+        {
+            "name": "Property Documentation Processing Service",
+            "description": "This service assists in preparing, validating, and managing all necessary paperwork for real estate transactions, such as contracts, titles, and permits, ensuring a seamless and compliant transfer process of ownership."
+        },
+        {
+            "name": "Virtual Property Tour Integration Service",
+            "description": "Allows potential clients to explore properties in a virtual setting via 360-degree videos or augmented reality experiences. Realtors can integrate such tours into listings, providing engaged and immersive experiences for users."
+        }
+    ]
+}

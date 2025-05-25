@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /storagesystems",
+            "description": "Retrieve a list of all managed energy storage systems."
+        },
+        {
+            "endpoint": "GET /storagesystems/{id}",
+            "description": "Retrieve detailed information about a specific storage system identified by {id}."
+        },
+        {
+            "endpoint": "POST /storagesystems",
+            "description": "Register a new energy storage system with the management service."
+        },
+        {
+            "endpoint": "DELETE /storagesystems/{id}",
+            "description": "Remove a specific storage system, identified by {id}, from the management service."
+        },
+        {
+            "endpoint": "PUT /storagesystems/{id}/settings",
+            "description": "Update the configuration settings for a specific storage system identified by {id}."
+        },
+        {
+            "endpoint": "GET /storagesystems/{id}/cycles",
+            "description": "Retrieve data on all charge-discharge cycles of a specific storage system identified by {id}."
+        },
+        {
+            "endpoint": "POST /storagesystems/{id}/actions/charge",
+            "description": "Initiate a charge operation for a specific storage system identified by {id}."
+        },
+        {
+            "endpoint": "POST /storagesystems/{id}/actions/discharge",
+            "description": "Initiate a discharge operation for a specific storage system identified by {id}."
+        },
+        {
+            "endpoint": "GET /renewablesources",
+            "description": "Retrieve a list of linked renewable energy sources integrated with the energy storage systems."
+        },
+        {
+            "endpoint": "PUT /renewablesources/{id}/link",
+            "description": "Link a specified renewable energy source identified by {id} to a storage system for optimized management."
+        }
+    ]
+}

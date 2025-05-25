@@ -1,0 +1,417 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Cybersecurity Monitoring and Alerting API",
+        "description": "Provides advanced real-time monitoring and alerting systems to identify and mitigate potential cybersecurity threats before impact.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.cybersecurity.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/alerts": {
+            "post": {
+                "summary": "Create a new alert rule",
+                "description": "Add a new alert rule for monitoring specific network activities, such as unusual traffic patterns or unauthorized access attempts.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The name of the alert rule."
+                                    },
+                                    "conditions": {
+                                        "type": "array",
+                                        "description": "Conditions that must be met to trigger the alert.",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "severity": {
+                                        "type": "string",
+                                        "enum": [
+                                            "low",
+                                            "medium",
+                                            "high",
+                                            "critical"
+                                        ],
+                                        "description": "The severity level of the alert."
+                                    },
+                                    "enabled": {
+                                        "type": "boolean",
+                                        "description": "Whether the alert is enabled."
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "conditions",
+                                    "severity"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert rule created successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve all alert rules",
+                "description": "Fetch a list of all existing alert rules in the system, including their conditions and status.",
+                "responses": {
+                    "200": {
+                        "description": "A list of alert rules.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "The unique identifier for the alert rule."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "The name of the alert rule."
+                                            },
+                                            "conditions": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "severity": {
+                                                "type": "string"
+                                            },
+                                            "enabled": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/{alert_id}": {
+            "put": {
+                "summary": "Update a specific alert rule",
+                "description": "Modify the details of an existing alert rule by its ID.",
+                "parameters": [
+                    {
+                        "name": "alert_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier for the alert rule.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "conditions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "severity": {
+                                        "type": "string"
+                                    },
+                                    "enabled": {
+                                        "type": "boolean"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Alert rule updated successfully."
+                    },
+                    "404": {
+                        "description": "Alert rule not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove a specific alert rule",
+                "description": "Delete an alert rule from the system by its ID.",
+                "parameters": [
+                    {
+                        "name": "alert_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier for the alert rule.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Alert rule removed successfully."
+                    },
+                    "404": {
+                        "description": "Alert rule not found."
+                    }
+                }
+            }
+        },
+        "/threats": {
+            "post": {
+                "summary": "Log a cybersecurity threat",
+                "description": "Add details of a detected cybersecurity threat for tracking and analysis.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "description": "Type of the detected threat, e.g., malware, phishing."
+                                    },
+                                    "severity": {
+                                        "type": "string",
+                                        "enum": [
+                                            "low",
+                                            "medium",
+                                            "high",
+                                            "critical"
+                                        ]
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "severity"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Threat logged successfully."
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get logged cybersecurity threats",
+                "description": "Retrieve a list of all cybersecurity threats logged in the system.",
+                "responses": {
+                    "200": {
+                        "description": "A list of logged cybersecurity threats.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "type": {
+                                                "type": "string"
+                                            },
+                                            "severity": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/systems/{system_id}/status": {
+            "put": {
+                "summary": "Update monitored system status",
+                "description": "Change the operational status of a monitored system.",
+                "parameters": [
+                    {
+                        "name": "system_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the monitored system.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "description": "New operational status, e.g., active, inactive."
+                                    }
+                                },
+                                "required": [
+                                    "status"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "System status updated successfully."
+                    },
+                    "404": {
+                        "description": "System not found."
+                    }
+                }
+            }
+        },
+        "/systems": {
+            "get": {
+                "summary": "Get details of monitored systems",
+                "description": "Retrieve a list of all monitored systems, including their current status.",
+                "responses": {
+                    "200": {
+                        "description": "A list of monitored systems.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "status": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/generate": {
+            "post": {
+                "summary": "Generate a comprehensive report",
+                "description": "Generate a report summarizing monitoring activities and incidents.",
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Optional start date for the report."
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Optional end date for the report."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Report generated successfully."
+                    }
+                }
+            }
+        },
+        "/config/settings": {
+            "get": {
+                "summary": "Fetch current system settings",
+                "description": "Retrieve the current configuration settings of the monitoring system.",
+                "responses": {
+                    "200": {
+                        "description": "System configuration settings.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "setting_name": {
+                                            "type": "string"
+                                        },
+                                        "value": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

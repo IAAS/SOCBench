@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /compliance-incidents",
+            "description": "Retrieve a list of recorded safety compliance incidents along with related device data."
+        },
+        {
+            "endpoint": "POST /compliance-incidents",
+            "description": "Add new safety compliance incident details recorded by on-site devices."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Fetch generated safety alerts regarding detected non-compliance events."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Send a new safety alert for a specific issue or area."
+        },
+        {
+            "endpoint": "GET /safety-certificates",
+            "description": "List all generated safety improvement certificates with relevant details."
+        },
+        {
+            "endpoint": "POST /safety-certificates",
+            "description": "Create and assign a new safety improvement certificate based on latest data."
+        },
+        {
+            "endpoint": "GET /reports",
+            "description": "Access detailed safety compliance and monitoring reports for analysis."
+        },
+        {
+            "endpoint": "POST /reports",
+            "description": "Generate a new custom report by specifying parameters like time frame and site."
+        },
+        {
+            "endpoint": "GET /sites/{site_id}/statistics",
+            "description": "Retrieve overall safety compliance statistics specific to a site."
+        },
+        {
+            "endpoint": "PATCH /sites/{site_id}",
+            "description": "Update site-specific configurations, such as compliance thresholds or monitoring intervals."
+        }
+    ]
+}

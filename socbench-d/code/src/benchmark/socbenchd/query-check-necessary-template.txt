@@ -1,0 +1,22 @@
+SUMMARY:
+Check endpoints if they are necessary.
+
+DOCUMENT:
+Services:
+{services}
+
+Query:
+{query}
+
+List of endpoints:
+{endpoints}
+
+TASK:
+You are given a query and a set of OpenAPI specification. Check for each of the given endpoints in the list of endpoint if it is required to fulfill the task. Return "Yes" if it is required or "No" if not.
+
+EXAMPLE
+Yes
+No
+
+INSTRUCTIONS:
+You are an expert judge if an endpoint is not needed to fulfill a query. Check if an endpoint from the list of endpoints is necessary to fulfill the query or if it is necessary to retrieve parameters for another endpoint in the list. Do not format the output as you are in an automated setting.

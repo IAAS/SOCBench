@@ -1,0 +1,135 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Energy Consumption Analytics and Optimization API",
+        "description": "API for observing and analyzing energy consumption in smart grid systems. Enables users to gather energy usage data, view efficiency statistics, examine load distribution, and optimize energy usage at household and industrial levels. Supports feedback to improve functionality.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/household/consumption": {
+            "get": {
+                "summary": "Retrieve household energy consumption data",
+                "description": "Fetch detailed energy consumption data at the household level over a specified time range to analyze patterns.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "Filter energy consumption data from this start date (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "Filter energy consumption data up to this end date (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved household energy consumption data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ConsumptionData"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/report/custom": {
+            "get": {
+                "summary": "Request a custom energy consumption report",
+                "description": "Request a report tailored to specific energy consumption parameters for meaningful insights.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "Start date for the custom report (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "End date for the custom report (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filters",
+                        "in": "query",
+                        "required": false,
+                        "description": "Additional filters or criteria for the report.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved the custom energy report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomReport"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ConsumptionData": {
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of the energy consumption record."
+                    },
+                    "consumption": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Energy consumed in kilowatt-hours (kWh)."
+                    }
+                }
+            },
+            "CustomReport": {
+                "type": "object",
+                "properties": {
+                    "report_id": {
+                        "type": "string",
+                        "description": "Unique ID for the custom report."
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ConsumptionData"
+                        },
+                        "description": "Data included in the custom report."
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,342 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Renewable Energy Monitoring API",
+    "description": "This API provides data and insights for monitoring and optimizing renewable energy sources such as solar, wind, and hydroelectricity. Features include real-time performance tracking, predictive maintenance alerts, and integration with power grid systems.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.renewableenergy.com/v1",
+      "description": "Production Server"
+    }
+  ],
+  "paths": {
+    "/renewables/overview": {
+      "get": {
+        "summary": "Retrieve overview statistics of monitored renewable energy systems",
+        "description": "This endpoint provides aggregated statistical data of all monitored renewable energy systems, such as total energy output, efficiency, and carbon-offset metrics.",
+        "responses": {
+          "200": {
+            "description": "Aggregated statistics retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "solar_energy_output": "50000 kWh",
+                  "wind_energy_output": "34000 kWh",
+                  "hydroelectric_energy_output": "60000 kWh",
+                  "total_carbon_offset": "150 metric tons"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/renewables/{id}/performance": {
+      "get": {
+        "summary": "Get real-time performance data of a specific renewable energy system",
+        "description": "Fetch the real-time performance metrics for a renewable energy system identified by its ID, including energy output, efficiency, and potential issues.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the renewable energy system.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Real-time performance data retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "system123",
+                  "status": "operational",
+                  "output": "1200 kWh",
+                  "efficiency": "87%"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "System not found."
+          }
+        }
+      }
+    },
+    "/alerts/predictive-maintenance": {
+      "post": {
+        "summary": "Create a predictive maintenance alert",
+        "description": "Generate a new predictive maintenance alert for a specific renewable energy system to notify stakeholders of potential upcoming issues.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "system_id": {
+                    "type": "string",
+                    "description": "The unique ID of the renewable energy system."
+                  },
+                  "issue_type": {
+                    "type": "string",
+                    "description": "The type of predicted issue (e.g., shading, wear, malfunction)."
+                  },
+                  "priority": {
+                    "type": "string",
+                    "enum": ["low", "medium", "high"],
+                    "description": "The priority level of the alert."
+                  }
+                },
+                "required": ["system_id", "issue_type", "priority"]
+              },
+              "example": {
+                "system_id": "system123",
+                "issue_type": "shading",
+                "priority": "high"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Predictive maintenance alert created successfully."
+          },
+          "400": {
+            "description": "Invalid input data."
+          }
+        }
+      }
+    },
+    "/alerts": {
+      "get": {
+        "summary": "List all active alerts",
+        "description": "Retrieve all ongoing alerts for monitored renewable energy systems, categorized by type and priority.",
+        "responses": {
+          "200": {
+            "description": "Active alerts retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "alert_id": "alert_123",
+                    "system_id": "system123",
+                    "issue_type": "shading",
+                    "priority": "high",
+                    "status": "active"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/renewables/{id}/settings": {
+      "put": {
+        "summary": "Update configuration settings for a renewable energy system",
+        "description": "Modify the configuration settings of a specific monitored renewable energy system.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the renewable energy system.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "notification_preferences": {
+                    "type": "string",
+                    "description": "Notification preferences for alerts (e.g., email, SMS)."
+                  },
+                  "thresholds": {
+                    "type": "object",
+                    "description": "Custom thresholds for system settings.",
+                    "properties": {
+                      "max_output": {
+                        "type": "string",
+                        "description": "Maximum allowable energy output."
+                      }
+                    }
+                  }
+                }
+              },
+              "example": {
+                "notification_preferences": "email",
+                "thresholds": {
+                  "max_output": "7000 kWh"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Configuration updated successfully."
+          },
+          "400": {
+            "description": "Invalid configuration data."
+          }
+        }
+      }
+    },
+    "/grids/integration-status": {
+      "get": {
+        "summary": "Get integration status of energy systems with power grids",
+        "description": "Retrieve the power grid integration status of all monitored renewable energy systems.",
+        "responses": {
+          "200": {
+            "description": "Integration status retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "system_id": "system123",
+                    "grid_connected": true
+                  },
+                  {
+                    "system_id": "system456",
+                    "grid_connected": false
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/grids/dispatch": {
+      "post": {
+        "summary": "Dispatch renewable energy to the power grid",
+        "description": "Send a dispatch command to integrate renewable energy into the power grid for optimized distribution.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "energy_amount": {
+                    "type": "string",
+                    "description": "Amount of energy to dispatch (e.g., in kWh)."
+                  }
+                },
+                "required": ["energy_amount"]
+              },
+              "example": {
+                "energy_amount": "5000 kWh"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dispatch command sent successfully."
+          },
+          "400": {
+            "description": "Invalid dispatch configuration."
+          }
+        }
+      }
+    },
+    "/simulation": {
+      "get": {
+        "summary": "Run energy production simulation",
+        "description": "Simulate potential energy production under specified conditions, such as weather and system performance data.",
+        "responses": {
+          "200": {
+            "description": "Simulation executed successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "conditions": {
+                    "solar_irradiance": "800 W/m2",
+                    "wind_speed": "20 km/h"
+                  },
+                  "predicted_output": "6000 kWh"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/renewables/{id}": {
+      "delete": {
+        "summary": "Remove a renewable energy system from monitoring",
+        "description": "Remove a specific renewable energy system, identified by its ID, from monitoring.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the renewable energy system.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Energy system removed from monitoring."
+          },
+          "404": {
+            "description": "System not found."
+          }
+        }
+      }
+    },
+    "/renewables/{id}/maintenance-history": {
+      "get": {
+        "summary": "Query maintenance history of a renewable energy system",
+        "description": "Retrieve maintenance history (past repairs, inspections, and improvements) for a specific renewable energy system by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the renewable energy system.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Maintenance history retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "system_id": "system123",
+                  "maintenance_records": [
+                    {
+                      "date": "2023-09-15",
+                      "action": "Replaced inverter"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "System not found."
+          }
+        }
+      }
+    }
+  }
+}

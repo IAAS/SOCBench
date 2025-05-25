@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /environmental-impact/reports",
+            "description": "Retrieve a comprehensive environmental impact report for a specific manufacturing process."
+        },
+        {
+            "endpoint": "POST /environmental-impact/evaluate",
+            "description": "Submit data for evaluation to receive an environmental impact score."
+        },
+        {
+            "endpoint": "GET /green-practices/resources",
+            "description": "Retrieve a list of recommended eco-friendly practices for manufacturers."
+        },
+        {
+            "endpoint": "POST /production-data/upload",
+            "description": "Upload detailed production dataset for analysis."
+        },
+        {
+            "endpoint": "GET /reports/historical",
+            "description": "Access historical reports on environmental assessment outcomes."
+        },
+        {
+            "endpoint": "GET /materials/impact",
+            "description": "Retrieve environmental impact information based on material composition."
+        },
+        {
+            "endpoint": "POST /benchmarking/compare",
+            "description": "Compare the environmental footprints of similar manufacturing processes."
+        },
+        {
+            "endpoint": "GET /facility/audit/schedule",
+            "description": "Retrieve scheduling details for an environmental facility audit."
+        },
+        {
+            "endpoint": "POST /facility/audit/request",
+            "description": "Request a new audit to evaluate a facility's environmental practices."
+        },
+        {
+            "endpoint": "GET /certifications",
+            "description": "List available eco-certification programs and their requirements."
+        }
+    ]
+}

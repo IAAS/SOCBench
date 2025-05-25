@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /documents",
+            "description": "Fetch a list of all real estate transaction-related documents managed by the service."
+        },
+        {
+            "endpoint": "GET /documents/{id}",
+            "description": "Retrieve the details and content of a specific document by its ID."
+        },
+        {
+            "endpoint": "POST /documents",
+            "description": "Upload a new document relevant to a real estate transaction."
+        },
+        {
+            "endpoint": "PUT /documents/{id}",
+            "description": "Update the metadata or content of an existing document by its ID."
+        },
+        {
+            "endpoint": "DELETE /documents/{id}",
+            "description": "Remove a document associated with a real estate transaction from the system."
+        },
+        {
+            "endpoint": "GET /transactions",
+            "description": "Retrieve a list of real estate transactions currently processed."
+        },
+        {
+            "endpoint": "POST /transactions",
+            "description": "Initiate a new real estate transaction in the service."
+        },
+        {
+            "endpoint": "PUT /transactions/{id}/validate",
+            "description": "Execute validation procedures for the documents and information of a given transaction."
+        },
+        {
+            "endpoint": "POST /transactions/{id}/finalize",
+            "description": "Mark a transaction as finalized and archive associated documents properly."
+        },
+        {
+            "endpoint": "GET /transactions/{id}/status",
+            "description": "Check the current status and compliance results of a specified transaction."
+        }
+    ]
+}

@@ -1,0 +1,399 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Consumer Textile Preferences Mapping Service API",
+        "description": "The Consumer Textile Preferences Mapping Service provides apparel producers and retailers the ability to analyze fashion trends, including styles, fabrics, colors, and consumer preferences segmented across regions and demographics.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.consumertextilepreferences.com",
+            "description": "Production API server"
+        }
+    ],
+    "paths": {
+        "/trends": {
+            "get": {
+                "summary": "Retrieve current fashion trends",
+                "description": "Fetch a list of current fashion trends, filtered by demographic or regional preferences.",
+                "parameters": [
+                    {
+                        "name": "demographic",
+                        "in": "query",
+                        "description": "Filter trends by a specific demographic (e.g., age group, gender).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "Filter trends by a specific region (e.g., North America, Europe).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of current trends segmented by demographic or region.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "trend": {
+                                                "type": "string",
+                                                "example": "Minimalistic Streetwear"
+                                            },
+                                            "popularity_score": {
+                                                "type": "number",
+                                                "example": 87.5
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/styles": {
+            "get": {
+                "summary": "Get details on apparel styles",
+                "description": "Retrieve details about specific apparel styles, including their popularity metrics.",
+                "parameters": [
+                    {
+                        "name": "style",
+                        "in": "query",
+                        "description": "Specify the apparel style (e.g., casual, formal) to retrieve details for.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Information about specified apparel styles.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "style": {
+                                            "type": "string",
+                                            "example": "Athleisure"
+                                        },
+                                        "popularity_score": {
+                                            "type": "number",
+                                            "example": 85.3
+                                        },
+                                        "associated_demographics": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "Millennials"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/fabrics": {
+            "get": {
+                "summary": "Retrieve fabric preferences",
+                "description": "Get detailed insights about fabric preferences of various consumer groups.",
+                "parameters": [
+                    {
+                        "name": "consumerGroup",
+                        "in": "query",
+                        "description": "Filter fabric preferences by a specific consumer group (e.g., eco-conscious buyers).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Fabric preferences for the specified group.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "fabric": {
+                                            "type": "string",
+                                            "example": "Organic Cotton"
+                                        },
+                                        "popularity_score": {
+                                            "type": "number",
+                                            "example": 78.5
+                                        },
+                                        "sustainability_rating": {
+                                            "type": "number",
+                                            "example": 9.2
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/colors": {
+            "get": {
+                "summary": "Fetch trending color choices",
+                "description": "Get insights into trending color choices across various demographics.",
+                "parameters": [
+                    {
+                        "name": "demographic",
+                        "in": "query",
+                        "description": "Filter trending colors by a specific demographic.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Trending color preferences categorized by demographics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "color": {
+                                                "type": "string",
+                                                "example": "Forest Green"
+                                            },
+                                            "popularity_score": {
+                                                "type": "number",
+                                                "example": 80.2
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "summary": "Submit consumer feedback",
+                "description": "Submit feedback about consumer apparel preferences for analysis.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "feedback": {
+                                        "type": "string",
+                                        "example": "Consumers prefer lightweight materials during the summer."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback submission status.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/demographics": {
+            "get": {
+                "summary": "Retrieve demographics-specific insights",
+                "description": "Fetch insights segmented by specific demographic groups such as age, gender, or income level.",
+                "responses": {
+                    "200": {
+                        "description": "Consumer insights categorized by demographics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "demographic": {
+                                                "type": "string",
+                                                "example": "Gen Z"
+                                            },
+                                            "insights": {
+                                                "type": "string",
+                                                "example": "Gen Z prefers bold colors and sustainable fabrics."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/preferences": {
+            "get": {
+                "summary": "Retrieve consumer preferences",
+                "description": "Retrieve aggregated consumer preferences based on region or season.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "Filter preferences specific to a geographical region.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "season",
+                        "in": "query",
+                        "description": "Filter preferences by a specific season (e.g., winter, summer).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Aggregated consumer preferences for specified filters.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/patterns": {
+            "get": {
+                "summary": "Explore textile patterns",
+                "description": "Retrieve trendy textile patterns and related insights.",
+                "responses": {
+                    "200": {
+                        "description": "Information on patterns trending in the fashion industry.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/customreports": {
+            "post": {
+                "summary": "Request custom reports",
+                "description": "Request customized reports enriched with consumer apparel insight data.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "report_request": {
+                                        "type": "string",
+                                        "example": "Detailed report on winter apparel trends in North America."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Custom report request submission status.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Report request successfully submitted."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/historicaltrends": {
+            "get": {
+                "summary": "Analyze historical fashion trends",
+                "description": "Retrieve historical data to analyze and predict future fashion trends.",
+                "responses": {
+                    "200": {
+                        "description": "Historical fashion trends data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "year": {
+                                                "type": "integer",
+                                                "example": 2020
+                                            },
+                                            "trend": {
+                                                "type": "string",
+                                                "example": "Vintage Revival"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

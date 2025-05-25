@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+This API optimizes streaming performance by providing adaptive bitrate streaming, regional content caching, and analytics for viewer engagement. It ensures high-quality user experience even under varying network conditions.
+
+Endpoints:
+GET /stream/quality: Retrieve the quality settings for a specific streaming session.
+POST /stream/initiate: Initiate a new streaming session with the provided parameters.
+PUT /stream/update: Update the configuration of an ongoing streaming session.
+GET /analytics/viewer: Fetch viewer engagement analytics for a specific content.
+GET /analytics/summary: Retrieve a summary of analytics data for the platform.
+POST /cache/region/settings: Configure caching settings for a specific geographical region.
+GET /cache/region/status: Check the status and metrics for regional content caching.
+POST /bitrate/adaptive: Set adaptive bitrate settings for improved content delivery.
+GET /bitrate/current: Obtain the current bitrate used during the streaming session.
+DELETE /stream/terminate: Terminate an ongoing streaming session gracefully.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

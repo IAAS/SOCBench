@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Material Supply Chain Optimization Service",
+            "description": "Provides a comprehensive solution for tracking and optimizing material procurement, inventory, and logistics by leveraging real-time data analytics to enhance operational efficiency."
+        },
+        {
+            "name": "Construction Material Specification Service",
+            "description": "Offers engineers and architects accurate information on material properties and compliance standards, enabling informed decisions in construction projects."
+        },
+        {
+            "name": "Recyclable Material Classification Service",
+            "description": "Facilitates the identification and classification of recyclable materials in waste streams, assisting manufacturers in achieving sustainability goals."
+        },
+        {
+            "name": "Mining Operation Efficiency Analysis Service",
+            "description": "Delivers insights into mining operations by analyzing machinery data and production metrics, helping companies maximize resource extraction and minimize operational costs."
+        },
+        {
+            "name": "Forest Product Market Intelligence Service",
+            "description": "Equips businesses with market trends and price analysis for forest-derived products, supporting strategic planning and competitive positioning efforts."
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /patients",
+            "description": "Retrieve a list of registered patients with summary details."
+        },
+        {
+            "endpoint": "GET /patients/{id}/records",
+            "description": "Fetch consolidated health records for a specific patient by their ID."
+        },
+        {
+            "endpoint": "POST /patients",
+            "description": "Add a new patient's information to the system database."
+        },
+        {
+            "endpoint": "PUT /patients/{id}",
+            "description": "Update patient details for a specific patient."
+        },
+        {
+            "endpoint": "DELETE /patients/{id}",
+            "description": "Remove a patient's information from the system."
+        },
+        {
+            "endpoint": "GET /providers",
+            "description": "Retrieve a list of associated healthcare providers and their details."
+        },
+        {
+            "endpoint": "GET /providers/{id}",
+            "description": "Fetch details including available services for a specific health care provider."
+        },
+        {
+            "endpoint": "POST /records/{patient_id}",
+            "description": "Add new health records for a designated patient."
+        },
+        {
+            "endpoint": "GET /reports/overview",
+            "description": "Generate a summary report of system activity and health statistics."
+        },
+        {
+            "endpoint": "GET /compliance/status",
+            "description": "Review the service's compliance status with data protection regulations."
+        }
+    ]
+}

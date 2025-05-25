@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+This service assists in preparing, validating, and managing all necessary paperwork for real estate transactions, such as contracts, titles, and permits, ensuring a seamless and compliant transfer process of ownership.
+
+Endpoints:
+GET /documents: Fetch a list of all real estate transaction-related documents managed by the service.
+GET /documents/{id}: Retrieve the details and content of a specific document by its ID.
+POST /documents: Upload a new document relevant to a real estate transaction.
+PUT /documents/{id}: Update the metadata or content of an existing document by its ID.
+DELETE /documents/{id}: Remove a document associated with a real estate transaction from the system.
+GET /transactions: Retrieve a list of real estate transactions currently processed.
+POST /transactions: Initiate a new real estate transaction in the service.
+PUT /transactions/{id}/validate: Execute validation procedures for the documents and information of a given transaction.
+POST /transactions/{id}/finalize: Mark a transaction as finalized and archive associated documents properly.
+GET /transactions/{id}/status: Check the current status and compliance results of a specified transaction.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /maintenance-schedule",
+            "description": "Retrieve the current maintenance schedules for all utility infrastructure components."
+        },
+        {
+            "endpoint": "POST /maintenance-schedule",
+            "description": "Create a new maintenance schedule for a specified set of infrastructure components."
+        },
+        {
+            "endpoint": "PUT /maintenance-schedule/{id}",
+            "description": "Update the existing maintenance schedule identified by the unique ID."
+        },
+        {
+            "endpoint": "DELETE /maintenance-schedule/{id}",
+            "description": "Remove a maintenance schedule from the system using its unique identifier."
+        },
+        {
+            "endpoint": "GET /component-status",
+            "description": "Get the real-time operational status of all monitored components in the utility infrastructure."
+        },
+        {
+            "endpoint": "POST /predictive-analysis",
+            "description": "Submit data for predictive analysis to identify potential future maintenance needs."
+        },
+        {
+            "endpoint": "GET /resource-allocation",
+            "description": "Retrieve information about allocated resources for specific maintenance tasks."
+        },
+        {
+            "endpoint": "POST /resource-allocation",
+            "description": "Allocate resources, such as personnel or equipment, for planned maintenance activities."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Return a list of active alerts and notifications regarding infrastructure status."
+        },
+        {
+            "endpoint": "PUT /settings",
+            "description": "Update system configuration and preferences for maintenance scheduling and tracking."
+        }
+    ]
+}

@@ -1,0 +1,378 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Insurance Policy Management API",
+        "version": "1.0.0",
+        "description": "This API assists users with the management of their insurance policies, including policy renewals, claims submissions, and coverage details review."
+    },
+    "paths": {
+        "/policies": {
+            "get": {
+                "summary": "Retrieve User's Insurance Policies",
+                "description": "Fetch a list of all insurance policies associated with the user.",
+                "responses": {
+                    "200": {
+                        "description": "A list of insurance policies is returned.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Policy"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/policies/{policyId}": {
+            "get": {
+                "summary": "Retrieve Policy Details",
+                "description": "Fetch specific details about an insurance policy using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "policyId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the insurance policy",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detailed information about the specified insurance policy.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Policy"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete an Insurance Policy",
+                "description": "Request the removal of an insurance policy from the user's active policies.",
+                "parameters": [
+                    {
+                        "name": "policyId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the policy to be deleted",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The insurance policy has been successfully deleted."
+                    }
+                }
+            }
+        },
+        "/policies/{policyId}/renew": {
+            "post": {
+                "summary": "Renew an Insurance Policy",
+                "description": "Initiate the renewal process for an existing insurance policy using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "policyId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the insurance policy to be renewed",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The renewal process has been successfully initiated."
+                    }
+                }
+            }
+        },
+        "/claims": {
+            "post": {
+                "summary": "Submit a New Insurance Claim",
+                "description": "Create and submit a new insurance claim for processing and review.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ClaimSubmission"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The insurance claim has been successfully submitted.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Claim"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/claims/{claimId}": {
+            "get": {
+                "summary": "Retrieve Claim Details",
+                "description": "Fetch specific details about an insurance claim using its unique Claim ID.",
+                "parameters": [
+                    {
+                        "name": "claimId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the insurance claim",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detailed information about the specified insurance claim.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Claim"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update Insurance Claim",
+                "description": "Modify or provide additional information for a previously submitted insurance claim.",
+                "parameters": [
+                    {
+                        "name": "claimId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the insurance claim to be updated",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ClaimUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The insurance claim has been successfully updated."
+                    }
+                }
+            }
+        },
+        "/coverage": {
+            "get": {
+                "summary": "Review Policy Coverage",
+                "description": "Fetch details regarding the coverage applicable under multiple insurance policies.",
+                "responses": {
+                    "200": {
+                        "description": "Coverage details are successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Coverage"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "summary": "Submit Feedback",
+                "description": "Allow users to submit feedback or comments regarding the insurance services.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Feedback"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User feedback has been successfully submitted."
+                    }
+                }
+            }
+        },
+        "/notifications": {
+            "get": {
+                "summary": "Retrieve Notification History",
+                "description": "Access the user's notification history related to policy updates and claims.",
+                "responses": {
+                    "200": {
+                        "description": "Notification history successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Notification"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Policy": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique policy identifier"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Policy name or title"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Type of the insurance policy"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Current status of the insurance policy"
+                    },
+                    "renewalDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The date when the policy is scheduled for renewal"
+                    }
+                }
+            },
+            "Claim": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique claim identifier"
+                    },
+                    "policyId": {
+                        "type": "string",
+                        "description": "Associated policy identifier for the claim"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Current status of the claim"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of the claim"
+                    },
+                    "submissionDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Date and time when the claim was submitted"
+                    }
+                }
+            },
+            "ClaimSubmission": {
+                "type": "object",
+                "properties": {
+                    "policyId": {
+                        "type": "string",
+                        "description": "Associated policy identifier for the new claim"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Detailed description of the claim"
+                    }
+                },
+                "required": [
+                    "policyId",
+                    "description"
+                ]
+            },
+            "ClaimUpdate": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "description": "Updated description of the claim"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Updated status of the claim"
+                    }
+                }
+            },
+            "Coverage": {
+                "type": "object",
+                "properties": {
+                    "policies": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Policy"
+                        },
+                        "description": "List of policies with their coverage details"
+                    }
+                }
+            },
+            "Feedback": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "description": "Unique identifier of the user submitting the feedback"
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Feedback or comment message"
+                    }
+                },
+                "required": [
+                    "message"
+                ]
+            },
+            "Notification": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique notification identifier"
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Notification message/content"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Date and time when the notification was issued"
+                    }
+                }
+            }
+        }
+    }
+}

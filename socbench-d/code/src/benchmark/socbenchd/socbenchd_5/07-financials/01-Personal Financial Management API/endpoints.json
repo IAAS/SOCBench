@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /accounts",
+            "description": "Retrieve a list of all accounts linked for financial tracking."
+        },
+        {
+            "endpoint": "POST /transactions",
+            "description": "Create a new entry to record a financial transaction."
+        },
+        {
+            "endpoint": "GET /transactions/monthly",
+            "description": "Retrieve a grouped summary of transactions categorized by month."
+        },
+        {
+            "endpoint": "PUT /budgets/{budget_id}",
+            "description": "Update the details of an existing budget configuration."
+        },
+        {
+            "endpoint": "DELETE /transactions/{transaction_id}",
+            "description": "Remove a specific transaction from the system."
+        },
+        {
+            "endpoint": "GET /budgets/summary",
+            "description": "Retrieve an overview of all active budgets and their statuses."
+        },
+        {
+            "endpoint": "POST /goals",
+            "description": "Create a financial savings or expense goal."
+        },
+        {
+            "endpoint": "GET /insights",
+            "description": "Retrieve insights and analysis based on financial data trends."
+        },
+        {
+            "endpoint": "PATCH /accounts/{account_id}",
+            "description": "Modify specific details of a linked financial account."
+        },
+        {
+            "endpoint": "GET /notifications",
+            "description": "Retrieve the list of scheduled or past notifications regarding financial updates."
+        }
+    ]
+}

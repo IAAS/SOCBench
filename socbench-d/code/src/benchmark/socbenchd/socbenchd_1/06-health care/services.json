@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Telemedicine Consultation Management System",
+            "description": "This service enables healthcare providers to efficiently manage remote patient consultations. It includes functionalities like appointment scheduling, virtual meeting links generation, and secure medical data exchange. Providers can access patient history and diagnostic tools, enhancing healthcare outcomes across distances."
+        },
+        {
+            "name": "Electronic Medical Records (EMR) Integration API",
+            "description": "A service designed to consolidate and standardize electronic health records from various providers, ensuring seamless data sharing and retrieval while maintaining compliance with data protection regulations. Healthcare providers can access complete patient histories quickly for informed decisions."
+        },
+        {
+            "name": "Pharmaceutical Inventory Monitoring Service",
+            "description": "Offers an API for pharmacies and healthcare outlets to track inventory levels of medications and supplies, receive alerts for restocking, and analyze transactional trends. This ensures uninterrupted availability of essential medicines and better supply chain management."
+        },
+        {
+            "name": "Patient Health Metrics Monitoring Service",
+            "description": "Allows for the real-time tracking and recording of patient health metrics such as blood pressure, glucose levels, and heart rate. Medical professionals can access this data for ongoing assessments, enabling proactive interventions and personalized treatment plans."
+        },
+        {
+            "name": "Health Insurance Validation and Claim Submission Service",
+            "description": "Provides a systematic approach for validating health insurance policies and streamlining claim submissions for medical services. Organizations can confirm policy coverage in real time, ensuring a smoother interaction between patients, insurers, and healthcare providers."
+        }
+    ]
+}

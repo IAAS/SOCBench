@@ -1,0 +1,401 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+OpenAPI:
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Real Estate Market Insights API",
+        "description": "Provides real-time insights into property price trends, neighborhood growth statistics, and market demand analysis for informed decision-making.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.realestateinsights.com",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/properties/trends": {
+            "get": {
+                "summary": "Retrieve property price trends",
+                "description": "Retrieve real-time property price trends based on specified criteria, such as location or property type.",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "required": true,
+                        "description": "The location for which to retrieve property price trends, e.g., city or ZIP code.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "propertyType",
+                        "in": "query",
+                        "required": false,
+                        "description": "The type of property to filter by (e.g., residential, commercial).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of property price trends.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "priceTrends": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/neighborhoods/growth": {
+            "get": {
+                "summary": "Access neighborhood growth statistics",
+                "description": "Retrieve growth statistics for specific neighborhoods, including development indicators and trends.",
+                "parameters": [
+                    {
+                        "name": "neighborhoodId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The unique identifier for the neighborhood.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Neighborhood growth statistics successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "growthRate": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "developmentProjects": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/market/demand": {
+            "get": {
+                "summary": "Fetch market demand analysis",
+                "description": "Retrieve the current market demand analysis for specific property types or locations.",
+                "parameters": [
+                    {
+                        "name": "propertyType",
+                        "in": "query",
+                        "required": false,
+                        "description": "The property type for which to analyze demand (e.g., apartment, house).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "required": true,
+                        "description": "The desired location for market demand analysis.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Market demand analysis successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "demandScore": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "comparisonIndex": {
+                                            "type": "number",
+                                            "format": "float"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/properties/analyze": {
+            "post": {
+                "summary": "Analyze property listing",
+                "description": "Submit property listing information for extensive analytics including pricing, demand, and growth potential.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "propertyId": {
+                                        "type": "string"
+                                    },
+                                    "propertyDetails": {
+                                        "type": "object",
+                                        "properties": {
+                                            "size": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "location": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Property analytics successfully generated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "analyticsReport": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/regions/insights": {
+            "get": {
+                "summary": "Get market insights for regions",
+                "description": "Retrieve detailed market insights for specified regions or zones.",
+                "parameters": [
+                    {
+                        "name": "regionId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The identifier of the region to retrieve insights for.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Market insights for the specified region retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "marketSummary": {
+                                            "type": "string"
+                                        },
+                                        "trends": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "aspect": {
+                                                        "type": "string"
+                                                    },
+                                                    "value": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/price-threshold": {
+            "put": {
+                "summary": "Set property price threshold alerts",
+                "description": "Configure price threshold alerts to monitor changes in property prices.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "priceThreshold": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "alertType": {
+                                        "type": "string",
+                                        "enum": [
+                                            "email",
+                                            "sms",
+                                            "push"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Price threshold alert configured successfully."
+                    }
+                }
+            }
+        },
+        "/rental-analysis": {
+            "get": {
+                "summary": "Analyze rental market",
+                "description": "Analyze dynamics in the rental market, including tenant demand and pricing trends.",
+                "parameters": [
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "required": true,
+                        "description": "City for rental analysis.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Rental market analysis retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/neighborhood/comparison": {
+            "post": {
+                "summary": "Compare neighborhoods",
+                "description": "Compare multiple neighborhoods based on growth and demand metrics provided.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "neighborhoodIds": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Neighborhood comparison generated successfully."
+                    }
+                }
+            }
+        },
+        "/investment-opportunities": {
+            "get": {
+                "summary": "Identify top investment opportunities",
+                "description": "Retrieve the best investment opportunities based on market growth and demand.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Top investment opportunities identified successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/realtor-assist/service-ratings": {
+            "get": {
+                "summary": "Fetch real estate service provider reviews",
+                "description": "Retrieve reviews and efficiency ratings for various real estate service providers.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Service ratings retrieved successfully."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

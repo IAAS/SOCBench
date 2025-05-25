@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /equipment/{id}/status",
+            "description": "Retrieve the current operational status for a specific equipment unit by its ID."
+        },
+        {
+            "endpoint": "POST /equipment/{id}/assign",
+            "description": "Assign a specific task or operation to the equipment referenced by the given ID."
+        },
+        {
+            "endpoint": "GET /production/daily",
+            "description": "Fetch the overall daily production metrics for the mining site."
+        },
+        {
+            "endpoint": "GET /maintenance/schedule",
+            "description": "Access the upcoming maintenance schedule for all equipment."
+        },
+        {
+            "endpoint": "POST /alerts/create",
+            "description": "Set up a new alert for specific equipment or operational metrics."
+        },
+        {
+            "endpoint": "GET /inventory/materials",
+            "description": "List all available materials in storage along with their quantities."
+        },
+        {
+            "endpoint": "PUT /inspection/{id}/log",
+            "description": "Log the results of an inspection for a specific equipment or location."
+        },
+        {
+            "endpoint": "GET /site/power-usage",
+            "description": "Retrieve metrics related to the site's power consumption."
+        },
+        {
+            "endpoint": "DELETE /alerts/{id}",
+            "description": "Delete a previously created alert specified by its unique ID."
+        },
+        {
+            "endpoint": "POST /training/schedule",
+            "description": "Add a new schedule for training sessions for the operations team."
+        }
+    ]
+}

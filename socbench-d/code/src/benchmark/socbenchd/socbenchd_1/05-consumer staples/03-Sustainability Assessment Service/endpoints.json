@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /product/metrics",
+            "description": "Retrieve the sustainability metrics for a specific product."
+        },
+        {
+            "endpoint": "POST /product/register",
+            "description": "Add a new product to the monitoring system with its basic information."
+        },
+        {
+            "endpoint": "PUT /product/update",
+            "description": "Update details of an existing product in the system."
+        },
+        {
+            "endpoint": "GET /supplychain/overview",
+            "description": "Retrieve an overview of the entire supply chain for all products."
+        },
+        {
+            "endpoint": "GET /supplychain/{id}/metrics",
+            "description": "Retrieve detailed sustainability analysis for a specific supply chain segment."
+        },
+        {
+            "endpoint": "POST /supplier/add",
+            "description": "Register a new supplier along with initial sustainability data."
+        },
+        {
+            "endpoint": "GET /suppliers",
+            "description": "List all suppliers associated with the supply chains in the service."
+        },
+        {
+            "endpoint": "PUT /supplier/{id}/update",
+            "description": "Update sustainability data or other information of a specific supplier."
+        },
+        {
+            "endpoint": "GET /report/daily",
+            "description": "Generate a daily sustainability compliance report for all registered products."
+        },
+        {
+            "endpoint": "DELETE /product/{id}",
+            "description": "Remove a product and its associated data from the monitoring system."
+        }
+    ]
+}

@@ -1,0 +1,433 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Energy Sector Carbon Emissions Reporting API",
+        "description": "This API facilitates the calculation and reporting of carbon emissions within the energy sector. It supports operational data input, tailored emissions report generation, compliance monitoring, and sustainability tracking.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.energysector.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/emissions/reports": {
+            "post": {
+                "summary": "Generate a tailored emissions report",
+                "description": "Creates a new emissions report based on the provided operational data. The report can help fulfill regulatory or sustainability reporting requirements.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "data": {
+                                        "type": "object",
+                                        "description": "Operational data required for emissions calculations, such as fuel consumption and activities performed."
+                                    },
+                                    "report_name": {
+                                        "type": "string",
+                                        "description": "Name or title for the emissions report."
+                                    }
+                                },
+                                "required": [
+                                    "data",
+                                    "report_name"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Emissions report successfully generated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "report_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the created emissions report."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "The status of the generated report (e.g., 'completed' or 'in-progress')."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/emissions/reports/{report_id}": {
+            "get": {
+                "summary": "Retrieve emissions report details",
+                "description": "Fetches the details of a generated emissions report using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "report_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the emissions report to retrieve.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the emissions report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "report_id": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the emissions report."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "description": "The operational data used for generating this report."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the report (e.g., 'completed')."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update an emissions report",
+                "description": "Provides the capability to update an existing emissions report with new or corrected operational data.",
+                "parameters": [
+                    {
+                        "name": "report_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the emissions report to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "data": {
+                                        "type": "object",
+                                        "description": "Updated operational data for the emissions report."
+                                    }
+                                },
+                                "required": [
+                                    "data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Emissions report successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "The status of the update operation (e.g., 'success')."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete an emissions report",
+                "description": "Removes a previously generated emissions report from the system.",
+                "parameters": [
+                    {
+                        "name": "report_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the emissions report to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Emissions report successfully deleted."
+                    }
+                }
+            }
+        },
+        "/data/uploads": {
+            "post": {
+                "summary": "Upload operational data files",
+                "description": "Uploads data files for analysis and inclusion in emissions calculations.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "The file containing operational data for upload."
+                                    }
+                                },
+                                "required": [
+                                    "file"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "File successfully uploaded.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "upload_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the uploaded file."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "The status of the upload operation (e.g., 'success')."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/data/processing/status": {
+            "get": {
+                "summary": "Check data processing status",
+                "description": "Retrieves the status of data currently being processed for emissions calculations.",
+                "responses": {
+                    "200": {
+                        "description": "Processing status retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "upload_id": {
+                                                "type": "string",
+                                                "description": "Identifier for the uploaded data file."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Processing status (e.g., 'in-progress', 'completed')."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/factors/emissions": {
+            "get": {
+                "summary": "Retrieve carbon emission factors",
+                "description": "Fetches standardized carbon emission factors for various activities within the energy sector.",
+                "responses": {
+                    "200": {
+                        "description": "List of emission factors retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "factor_name": {
+                                                "type": "string",
+                                                "description": "Name of the emission factor."
+                                            },
+                                            "value": {
+                                                "type": "number",
+                                                "description": "Numeric value of the emission factor."
+                                            },
+                                            "unit": {
+                                                "type": "string",
+                                                "description": "Unit of measurement for the emission factor (e.g., 'kg CO2e')."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/factors/emissions/calculations": {
+            "post": {
+                "summary": "Submit emissions calculation scenario",
+                "description": "Submit operational data to calculate emissions based on pre-defined factors.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "factors": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "factor_name": {
+                                                    "type": "string",
+                                                    "description": "Name of the emission factor to use."
+                                                },
+                                                "quantity": {
+                                                    "type": "number",
+                                                    "description": "Quantity involved in the calculation."
+                                                }
+                                            },
+                                            "required": [
+                                                "factor_name",
+                                                "quantity"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "factors"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Emissions calculation scenario submitted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "calculation_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the calculation."
+                                        },
+                                        "result": {
+                                            "type": "number",
+                                            "description": "Calculated emissions value."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/regulations/requirements": {
+            "get": {
+                "summary": "List current regulatory requirements",
+                "description": "Retrieves a list of current regulatory requirements related to emissions reporting that apply to the energy sector.",
+                "responses": {
+                    "200": {
+                        "description": "List of regulatory requirements retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "requirement_name": {
+                                                "type": "string",
+                                                "description": "Name of the regulatory requirement."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Description of the regulatory requirement."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sustainability/goals": {
+            "get": {
+                "summary": "View sustainability goals and progress",
+                "description": "Fetches user-defined sustainability targets along with associated progress measures.",
+                "responses": {
+                    "200": {
+                        "description": "Sustainability goals and progress retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "goal_name": {
+                                                "type": "string",
+                                                "description": "Name of the sustainability goal."
+                                            },
+                                            "target_value": {
+                                                "type": "number",
+                                                "description": "The target value to achieve for the goal (e.g., reduction in emissions)."
+                                            },
+                                            "current_value": {
+                                                "type": "number",
+                                                "description": "Current progress toward achieving the target."
+                                            },
+                                            "unit": {
+                                                "type": "string",
+                                                "description": "Unit of measurement for the goal (e.g., 'kg CO2e')."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    }
+}

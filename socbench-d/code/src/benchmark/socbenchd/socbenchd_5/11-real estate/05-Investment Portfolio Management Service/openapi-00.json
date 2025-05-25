@@ -1,0 +1,379 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Real Estate Investment Portfolio Management API",
+    "description": "This API supports individual and institutional investors in analyzing and managing their real estate investment portfolios. It provides tools for performance tracking, optimization, market insights, and transaction logging.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.realestate-investments.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/investment-portfolio": {
+      "get": {
+        "summary": "Retrieve investment portfolio summary",
+        "description": "Returns a summary of the investor's real estate investment portfolio, including aggregated data and overall performance metrics.",
+        "responses": {
+          "200": {
+            "description": "Portfolio summary retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "portfolios": {
+                      "type": "array",
+                      "description": "A list of investment portfolios owned by the investor.",
+                      "items": {
+                        "$ref": "#/components/schemas/PortfolioSummary"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new portfolio entry",
+        "description": "Creates a new real estate investment portfolio for the investor.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPortfolio"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Portfolio created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortfolioSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/investment-portfolio/{portfolioId}": {
+      "get": {
+        "summary": "Fetch details of a specific portfolio",
+        "description": "Retrieves detailed information about a specific investment portfolio by its ID.",
+        "parameters": [
+          {
+            "name": "portfolioId",
+            "in": "path",
+            "required": true,
+            "description": "Unique ID of the portfolio",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Portfolio details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortfolioDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update portfolio details",
+        "description": "Updates existing information for the specified real estate investment portfolio.",
+        "parameters": [
+          {
+            "name": "portfolioId",
+            "in": "path",
+            "required": true,
+            "description": "Unique ID of the portfolio",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatedPortfolio"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Portfolio updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortfolioDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a portfolio",
+        "description": "Removes a specific portfolio from the system by its ID.",
+        "parameters": [
+          {
+            "name": "portfolioId",
+            "in": "path",
+            "required": true,
+            "description": "Unique ID of the portfolio",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Portfolio deleted successfully"
+          }
+        }
+      }
+    },
+    "/market-insights": {
+      "get": {
+        "summary": "Access market insights and trends",
+        "description": "Retrieves market insights and recent trends from the real estate sector.",
+        "responses": {
+          "200": {
+            "description": "Market insights retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarketInsights"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/real-estate-analyzer": {
+      "post": {
+        "summary": "Submit properties for analysis",
+        "description": "Submits properties for analysis and valuation within the context of the investor's real estate investment portfolio.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PropertyAnalysisRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Properties analyzed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertyAnalysisResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/real-estate-trends": {
+      "get": {
+        "summary": "Retrieve real estate trends and forecasts",
+        "description": "Retrieves current trends and forecasts for specified real estate markets.",
+        "parameters": [
+          {
+            "name": "region",
+            "in": "query",
+            "required": false,
+            "description": "Region for which the trends and forecasts are desired",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trends and forecasts retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealEstateTrends"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/performance-reports/{portfolioId}": {
+      "get": {
+        "summary": "Generate performance reports",
+        "description": "Generates and downloads detailed performance reports for a specific investment portfolio.",
+        "parameters": [
+          {
+            "name": "portfolioId",
+            "in": "path",
+            "required": true,
+            "description": "Unique ID of the portfolio",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Performance report generated successfully",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transaction-history": {
+      "post": {
+        "summary": "Log a new transaction",
+        "description": "Logs a new transaction or activity within a designated investment portfolio.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewTransaction"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Transaction logged successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PortfolioSummary": {
+        "type": "object",
+        "properties": {
+          "portfolioId": { "type": "string", "description": "Unique identifier of the portfolio" },
+          "name": { "type": "string", "description": "Name of the investment portfolio" },
+          "totalValue": { "type": "number", "format": "float", "description": "Total value of the portfolio" },
+          "performance": { "type": "string", "description": "Performance summary of the portfolio" }
+        }
+      },
+      "NewPortfolio": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "Name of the new portfolio" },
+          "description": { "type": "string", "description": "Description of the portfolio" }
+        }
+      },
+      "PortfolioDetails": {
+        "type": "object",
+        "properties": {
+          "portfolioId": { "type": "string", "description": "Unique identifier of the portfolio" },
+          "name": { "type": "string", "description": "Name of the portfolio" },
+          "assets": { "type": "array", "items": { "type": "object" }, "description": "List of assets in the portfolio" }
+        }
+      },
+      "UpdatedPortfolio": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "Updated name of the portfolio" },
+          "description": { "type": "string", "description": "Updated description of the portfolio" }
+        }
+      },
+      "MarketInsights": {
+        "type": "object",
+        "properties": {
+          "insights": { "type": "array", "items": { "type": "string" }, "description": "List of market insights" }
+        }
+      },
+      "PropertyAnalysisRequest": {
+        "type": "object",
+        "properties": {
+          "properties": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "List of properties to be analyzed"
+          }
+        }
+      },
+      "PropertyAnalysisResponse": {
+        "type": "object",
+        "properties": {
+          "analysisResults": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "Analysis results for the submitted properties"
+          }
+        }
+      },
+      "RealEstateTrends": {
+        "type": "object",
+        "properties": {
+          "trends": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of real estate market trends and forecasts"
+          }
+        }
+      },
+      "NewTransaction": {
+        "type": "object",
+        "properties": {
+          "portfolioId": { "type": "string", "description": "Associated portfolio ID" },
+          "transactionDetails": { "type": "string", "description": "Details of the transaction" }
+        }
+      },
+      "TransactionSummary": {
+        "type": "object",
+        "properties": {
+          "transactionId": { "type": "string", "description": "Unique transaction ID" },
+          "status": { "type": "string", "description": "Status of the transaction" }
+        }
+      }
+    }
+  }
+}

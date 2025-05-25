@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+This service offers a platform for workforce skill assessments, training module delivery, and certification management for industrial organizations.
+
+Endpoints:
+GET /skill-assessments: Retrieve a list of available workforce skill assessment modules.
+POST /skill-assessments/{assessmentId}/complete: Submit the completion status of a specific skill assessment for a user.
+GET /training-modules: Fetch the catalog of currently available training modules.
+POST /training-modules/{moduleId}/enroll: Enroll a user into a specific training module.
+GET /certifications: List all certifications offered by the platform along with details.
+POST /certifications/{certId}/apply: Apply for a certification exam associated with an identifier.
+GET /users/{userId}/progress: Retrieve the training progress and skill assessment status of a specific user.
+PUT /users/{userId}/profile: Update the profile details of a specific user.
+GET /analytics/completion-rates: Obtain analytics data on the completion rates of assessments and training modules.
+POST /support/tickets: Submit a new support ticket for platform-related inquiries or issues.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

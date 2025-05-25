@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Financial Instrument Trading Service",
+            "description": "Provides an API for executing real-time buy or sell orders on various financial instruments such as stocks, bonds, and commodities. This service supports integration with user trading accounts, allowing for secure and efficient market participation."
+        },
+        {
+            "name": "Credit Scoring and Risk Assessment Service",
+            "description": "Offers an API to evaluate and calculate credit scores for individuals or businesses based on input data. Financial institutions can use this for risk assessment in loan approvals or financial planning."
+        },
+        {
+            "name": "Insurance Policy Management Service",
+            "description": "Facilitates the management of insurance policies, claims, and payments through a RESTful system. Users can submit claims or renew policies via this service securely and transparently."
+        },
+        {
+            "name": "Market Data Stream and Analytics Service",
+            "description": "Delivers live market updates and data via streaming endpoints, combined with analytical insights into recent trends. Ideal for financial analysts and professionals tracking market activities."
+        },
+        {
+            "name": "Wealth Management and Investment Planning Service",
+            "description": "Assists users in personal investment management by providing portfolio optimization tools, asset allocation advice, and financial goal tracking through an accessible REST interface."
+        }
+    ]
+}

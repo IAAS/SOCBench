@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+The Hotel Booking Optimization Service is a RESTful API designed for providing robust tools for managing and optimizing hotel room bookings. Features include access to real-time room availability, price management adjustments based on demand, and enabling third-party integration for seamless customer experiences. By obtaining an API key, customers can utilize advanced query parameters to filter room preferences and check availability. For instance, a customer interested in a deluxe suite during the holiday season may use the service to check specific openings and receive instant booking options that align with price and room type preferences.
+
+Endpoints:
+GET /rooms: Retrieve a list of available rooms with their current status and attributes.
+POST /bookings: Create a new booking for a specific room by providing customer information and desired dates.
+GET /bookings/{id}: Fetch booking details using the unique booking identifier.
+PUT /bookings/{id}: Update the booking information such as dates or accommodations.
+DELETE /bookings/{id}: Cancel an existing booking with the specified booking identifier.
+GET /promotions: Obtain a list of current promotions and offers for room bookings.
+POST /feedback: Submit feedback or reviews for a past stay or the booking process.
+GET /prices: Query the prices based on room type, location, and date range.
+GET /availability/{date}: Check the availability of rooms for a specific date.
+POST /integration: Set up third-party integrations by providing required credentials and preferences.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

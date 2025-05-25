@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Service:
+Provides up-to-the-second financial market data, including stock prices, indices, and trading volumes, for informed financial decision-making.
+
+Endpoints:
+GET /markets/overview: Retrieve a summary of the current state of the financial markets, including major indices and key data points.
+GET /stocks/{symbol}/price: Fetch the current real-time price and trading data for a specific stock identified by its symbol.
+GET /indices: List all financial indices available for data retrieval, including their current values.
+GET /trading/volumes: Access aggregated trading volume statistics, segmented by market or sector, for a specific time range.
+GET /sectors: Retrieve financial performance data for various market sectors to analyze comparative trends.
+GET /currencies/{currency1}-{currency2}: Provide the current exchange rate and historical trends between two specified currencies.
+GET /news/trends: Summarize trending financial news that may impact market movements or individual stock performance.
+POST /alerts/subscribe: Set up a subscription for real-time alerts on specific stocks, indices, or market activities.
+GET /historical/{symbol}/{date}: Access historical price and volume data for a specific stock symbol on a given date.
+GET /analysis/popular: Retrieve data on the most actively traded stocks or highly monitored indices in the current session.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

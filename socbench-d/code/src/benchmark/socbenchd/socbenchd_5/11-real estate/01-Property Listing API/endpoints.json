@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /listings",
+            "description": "Create a new property listing with details such as location, pricing, and features."
+        },
+        {
+            "endpoint": "GET /listings",
+            "description": "Retrieve a list of all property listings available in the system."
+        },
+        {
+            "endpoint": "GET /listings/{id}",
+            "description": "Retrieve detailed information about a specific property listing using its unique identifier."
+        },
+        {
+            "endpoint": "PUT /listings/{id}",
+            "description": "Update information of a specific property listing with provided details."
+        },
+        {
+            "endpoint": "DELETE /listings/{id}",
+            "description": "Remove a specific property listing permanently from the system."
+        },
+        {
+            "endpoint": "GET /listings/search",
+            "description": "Search for property listings using query parameters like location, pricing range, and features."
+        },
+        {
+            "endpoint": "POST /features",
+            "description": "Add new features options to list as potential property attributes."
+        },
+        {
+            "endpoint": "GET /locations",
+            "description": "Retrieve a list of all available location data options in the system."
+        },
+        {
+            "endpoint": "GET /statistics",
+            "description": "View aggregated statistics related to property listings, such as counts and averages."
+        },
+        {
+            "endpoint": "POST /agents",
+            "description": "Register a real estate agent within the system to manage property listings."
+        }
+    ]
+}

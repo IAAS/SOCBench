@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /projects",
+            "description": "Retrieve a list of ongoing and completed construction projects."
+        },
+        {
+            "endpoint": "POST /projects",
+            "description": "Create a new construction project with specified details and parameters."
+        },
+        {
+            "endpoint": "GET /projects/{id}",
+            "description": "Retrieve detailed information about a specific project by its identifier."
+        },
+        {
+            "endpoint": "PUT /projects/{id}",
+            "description": "Update details and parameters of an existing project."
+        },
+        {
+            "endpoint": "DELETE /projects/{id}",
+            "description": "Remove a project and all its associated data from the system."
+        },
+        {
+            "endpoint": "POST /projects/{id}/milestones",
+            "description": "Add milestones to a specific project for progress tracking."
+        },
+        {
+            "endpoint": "GET /projects/{id}/progress",
+            "description": "Retrieve the current progress and status of a specific project in real-time."
+        },
+        {
+            "endpoint": "GET /resources",
+            "description": "Retrieve a list of resources available for allocation to projects."
+        },
+        {
+            "endpoint": "POST /resources/{id}/assign",
+            "description": "Assign a specific resource to a project or task with detailed allocation."
+        },
+        {
+            "endpoint": "GET /reports",
+            "description": "Generate and retrieve detailed reports on project statuses and metrics."
+        }
+    ]
+}

@@ -1,0 +1,417 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Facilities Maintenance Management Service API",
+        "description": "The Facilities Maintenance Management Service API assists companies in managing maintenance schedules, work orders, and asset tracking in industrial facilities. Key functionalities include automated maintenance reminders, breakdown reporting, and inventory tracking for spare parts.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/maintenance/tasks": {
+            "get": {
+                "summary": "Retrieve upcoming maintenance tasks",
+                "description": "Retrieve a list of upcoming maintenance tasks for a facility identified by its facility ID.",
+                "parameters": [
+                    {
+                        "name": "facility_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier for the facility."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of upcoming maintenance tasks.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "task_id": "123",
+                                        "description": "Replace HVAC filter",
+                                        "due_date": "2023-10-15",
+                                        "status": "Pending"
+                                    },
+                                    {
+                                        "task_id": "124",
+                                        "description": "Inspect electrical panel",
+                                        "due_date": "2023-10-18",
+                                        "status": "Scheduled"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new maintenance task",
+                "description": "Add a new maintenance task entry associated with a specific facility.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "facility_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier for the facility."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Details of the maintenance task."
+                                    },
+                                    "due_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "The date by which the task should be completed."
+                                    }
+                                },
+                                "required": [
+                                    "facility_id",
+                                    "description",
+                                    "due_date"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The maintenance task was successfully created.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "task_id": "125",
+                                    "message": "Maintenance task created successfully."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/maintenance/task/{task_id}": {
+            "put": {
+                "summary": "Modify an existing maintenance task",
+                "description": "Update the details of an ongoing or scheduled maintenance task using its task ID.",
+                "parameters": [
+                    {
+                        "name": "task_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the maintenance task."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Updated description for the task."
+                                    },
+                                    "due_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Updated due date for the task."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The task details were updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "task_id": "123",
+                                    "message": "Task updated successfully."
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a maintenance task",
+                "description": "Remove a maintenance task from the schedule using its task ID.",
+                "parameters": [
+                    {
+                        "name": "task_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the maintenance task to be deleted."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The task was deleted successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "task_id": "123",
+                                    "message": "Task deleted successfully."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/assets": {
+            "get": {
+                "summary": "List all assets for a facility",
+                "description": "Retrieve a list of all assets associated with a specific facility for tracking and maintenance purposes.",
+                "parameters": [
+                    {
+                        "name": "facility_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier for the facility."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of all assets for the facility.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "asset_id": "1001",
+                                        "name": "HVAC System",
+                                        "status": "Operational"
+                                    },
+                                    {
+                                        "asset_id": "1002",
+                                        "name": "Backup Generator",
+                                        "status": "Under Maintenance"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new asset",
+                "description": "Create and associate a new asset with a specific facility for inventory and maintenance tracking.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "facility_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier for the facility."
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The name of the asset."
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "description": "The operational status of the asset."
+                                    }
+                                },
+                                "required": [
+                                    "facility_id",
+                                    "name",
+                                    "status"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The asset was successfully added.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "asset_id": "1003",
+                                    "message": "Asset added successfully."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/spare-parts": {
+            "get": {
+                "summary": "Retrieve spare parts inventory",
+                "description": "Retrieve the inventory records of spare parts for a specific facility.",
+                "parameters": [
+                    {
+                        "name": "facility_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier for the facility."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of spare parts inventory for the facility.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "part_id": "SP-001",
+                                        "name": "Filter Cartridge",
+                                        "quantity": 10
+                                    },
+                                    {
+                                        "part_id": "SP-002",
+                                        "name": "Lubricant Oil",
+                                        "quantity": 5
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/breakdown/report": {
+            "post": {
+                "summary": "Report a breakdown issue",
+                "description": "Log a breakdown issue for immediate attention and prioritization.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "facility_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier for the facility."
+                                    },
+                                    "asset_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier for the affected asset."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Details of the breakdown issue."
+                                    }
+                                },
+                                "required": [
+                                    "facility_id",
+                                    "asset_id",
+                                    "description"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The breakdown issue was successfully reported.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "report_id": "BR-001",
+                                    "message": "Breakdown reported successfully."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/maintenance-reminders": {
+            "get": {
+                "summary": "Get maintenance reminders",
+                "description": "Retrieve active automated reminders for upcoming maintenance tasks in a specific facility.",
+                "parameters": [
+                    {
+                        "name": "facility_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier for the facility."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of active reminders for upcoming maintenance tasks.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "reminder_id": "REM-001",
+                                        "task_description": "Replace HVAC filter",
+                                        "reminder_date": "2023-10-14"
+                                    },
+                                    {
+                                        "reminder_id": "REM-002",
+                                        "task_description": "Inspect electrical panel",
+                                        "reminder_date": "2023-10-17"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/facilities/{facility_id}/details": {
+            "get": {
+                "summary": "Get facility details",
+                "description": "Retrieve detailed information about a specific facility for reference purposes.",
+                "parameters": [
+                    {
+                        "name": "facility_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier for the facility."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about the requested facility.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "facility_id": "FAC-001",
+                                    "name": "Manufacturing Plant A",
+                                    "location": "123 Industrial Way, Cityville",
+                                    "size": "200,000 sqft",
+                                    "operations": "24/7"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

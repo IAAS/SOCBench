@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /stock-prices",
+            "description": "Retrieve the real-time stock prices for specified companies."
+        },
+        {
+            "endpoint": "GET /historical-data",
+            "description": "Obtain historical financial data and trends for analysis."
+        },
+        {
+            "endpoint": "GET /indices",
+            "description": "Access information about major market indices and their values."
+        },
+        {
+            "endpoint": "GET /market-news",
+            "description": "Fetch the latest news articles and updates related to financial markets."
+        },
+        {
+            "endpoint": "GET /securities/details",
+            "description": "Retrieve detailed financial data for a given security."
+        },
+        {
+            "endpoint": "POST /alerts/subscribe",
+            "description": "Subscribe to real-time alerts based on predefined triggers."
+        },
+        {
+            "endpoint": "GET /exchange-rates",
+            "description": "Provide current foreign exchange rates with respect to major currencies."
+        },
+        {
+            "endpoint": "GET /commodities-prices",
+            "description": "Get current prices of major traded commodities, including precious metals and oil."
+        },
+        {
+            "endpoint": "POST /portfolio/analyze",
+            "description": "Offer an analysis of a portfolio against market conditions and fund performance."
+        },
+        {
+            "endpoint": "GET /financial-calendar",
+            "description": "Present key financial dates and upcoming events affecting the market."
+        }
+    ]
+}

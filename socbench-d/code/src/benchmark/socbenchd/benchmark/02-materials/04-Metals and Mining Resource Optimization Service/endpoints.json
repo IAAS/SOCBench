@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /auth/token",
+            "description": "Request and retrieve an authorization token for accessing the API services. This is the first step to ensure secure access and data integrity."
+        },
+        {
+            "endpoint": "GET /ore-grades/{mining-lot-id}",
+            "description": "Fetch real-time ore grade information for a specific mining lot, providing insights into material quality and guiding extraction strategies."
+        },
+        {
+            "endpoint": "GET /extraction-rates",
+            "description": "Obtain current and historical extraction rate data across different mining lots to analyze trends over time and adjust operational strategies accordingly."
+        },
+        {
+            "endpoint": "GET /equipment/utilization",
+            "description": "Retrieve detailed data on equipment usage, including operational time and idle periods, to evaluate equipment efficiency and optimize resource allocation."
+        },
+        {
+            "endpoint": "POST /alerts/equipment-maintenance",
+            "description": "Create automated alerts for preventive maintenance. Alerts notify relevant stakeholders of potential equipment issues based on historical wear-and-tear data to prevent unexpected failures."
+        },
+        {
+            "endpoint": "GET /mining-areas/high-potential",
+            "description": "Identify and list mining areas with the highest potential based on current and predicted ore grades, aiding in resource allocation and planning."
+        },
+        {
+            "endpoint": "GET /reports/resource-yield",
+            "description": "Generate comprehensive reports detailing current resource yield and compare it against historical performance to measure efficiency and productivity."
+        },
+        {
+            "endpoint": "POST /sensors/register",
+            "description": "Register a new on-site monitoring sensor with the system, allowing it to stream real-time data into the service for enhanced monitoring."
+        },
+        {
+            "endpoint": "GET /analytics/predictive-trends",
+            "description": "Access advanced analytics reports that predict future trends in resource extraction, equipment usage, and ore grades to inform strategic planning."
+        },
+        {
+            "endpoint": "DELETE /alerts/{alert-id}",
+            "description": "Remove an existing maintenance alert, providing control over active alerts and ensuring relevancy."
+        }
+    ]
+}

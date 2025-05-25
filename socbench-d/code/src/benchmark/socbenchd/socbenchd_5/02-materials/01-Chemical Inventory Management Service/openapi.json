@@ -1,0 +1,402 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Materials Sector Chemical Inventory Management API",
+        "description": "This API provides a system for materials companies to efficiently manage their inventory of various chemicals, including tracking stock levels, expiration dates, and ensuring storage compliance.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.materialssector.com"
+        }
+    ],
+    "paths": {
+        "/chemicals": {
+            "get": {
+                "summary": "Retrieve all chemicals in inventory",
+                "description": "Fetch a complete list of all chemicals currently being managed in the inventory.",
+                "responses": {
+                    "200": {
+                        "description": "A list of all chemicals in inventory.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Chemical"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new chemical",
+                "description": "Add a new chemical to the inventory with relevant details, including name, properties, and storage requirements.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewChemical"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Chemical successfully added."
+                    }
+                }
+            }
+        },
+        "/chemicals/{id}": {
+            "get": {
+                "summary": "Get details of a specific chemical",
+                "description": "Retrieve detailed information about a specific chemical by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the chemical.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the requested chemical.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Chemical"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No chemical found with the specified ID."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a chemical",
+                "description": "Update the details of an existing chemical in the inventory.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the chemical to be updated.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateChemical"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Chemical successfully updated."
+                    },
+                    "404": {
+                        "description": "No chemical found with the specified ID."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove a chemical",
+                "description": "Remove a specific chemical from the inventory based on its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the chemical to be deleted.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Chemical successfully removed."
+                    },
+                    "404": {
+                        "description": "No chemical found with the specified ID."
+                    }
+                }
+            }
+        },
+        "/inventory/expiring": {
+            "get": {
+                "summary": "List chemicals nearing expiration",
+                "description": "Retrieve a list of all inventory items that are nearing their expiration dates.",
+                "responses": {
+                    "200": {
+                        "description": "List of chemicals nearing expiration.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Chemical"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/compliance": {
+            "get": {
+                "summary": "Generate compliance report",
+                "description": "Compile a compliance report for storage regulations of all chemicals in the inventory.",
+                "responses": {
+                    "200": {
+                        "description": "Compliance report generated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ComplianceReport"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/replenish": {
+            "post": {
+                "summary": "Request chemical replenishment",
+                "description": "Submit a request for the replenishment of specific chemicals that have low stock levels.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "chemicals": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of chemical IDs to be replenished."
+                                    }
+                                },
+                                "required": [
+                                    "chemicals"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Replenishment request successfully submitted."
+                    }
+                }
+            }
+        },
+        "/report/summary": {
+            "get": {
+                "summary": "Generate inventory summary report",
+                "description": "Generate and retrieve a summary report of the current inventory status.",
+                "responses": {
+                    "200": {
+                        "description": "Inventory summary report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InventorySummary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/settings/storage": {
+            "put": {
+                "summary": "Update storage settings",
+                "description": "Update the settings and requirements for the storage of chemicals.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "temperature": {
+                                        "type": "number",
+                                        "description": "Required storage temperature in Celsius."
+                                    },
+                                    "humidity": {
+                                        "type": "number",
+                                        "description": "Required storage humidity percentage."
+                                    }
+                                },
+                                "required": [
+                                    "temperature",
+                                    "humidity"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Storage settings successfully updated."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Chemical": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the chemical."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the chemical."
+                    },
+                    "properties": {
+                        "type": "object",
+                        "description": "Properties of the chemical.",
+                        "additionalProperties": true
+                    },
+                    "expirationDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Expiration date of the chemical."
+                    },
+                    "storageRequirements": {
+                        "type": "object",
+                        "description": "Storage requirements for the chemical.",
+                        "additionalProperties": true
+                    }
+                },
+                "required": [
+                    "id",
+                    "name"
+                ]
+            },
+            "NewChemical": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the chemical."
+                    },
+                    "properties": {
+                        "type": "object",
+                        "description": "Properties of the chemical.",
+                        "additionalProperties": true
+                    },
+                    "expirationDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Expiration date of the chemical."
+                    },
+                    "storageRequirements": {
+                        "type": "object",
+                        "description": "Storage requirements for the chemical.",
+                        "additionalProperties": true
+                    }
+                },
+                "required": [
+                    "name",
+                    "expirationDate"
+                ]
+            },
+            "UpdateChemical": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the chemical."
+                    },
+                    "properties": {
+                        "type": "object",
+                        "description": "Properties of the chemical.",
+                        "additionalProperties": true
+                    },
+                    "expirationDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Expiration date of the chemical."
+                    },
+                    "storageRequirements": {
+                        "type": "object",
+                        "description": "Storage requirements for the chemical.",
+                        "additionalProperties": true
+                    }
+                }
+            },
+            "ComplianceReport": {
+                "type": "object",
+                "properties": {
+                    "complianceStatus": {
+                        "type": "string",
+                        "description": "Overall compliance status."
+                    },
+                    "details": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "chemicalId": {
+                                    "type": "string",
+                                    "description": "Chemical identifier."
+                                },
+                                "status": {
+                                    "type": "string",
+                                    "description": "Compliance status for the chemical."
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "InventorySummary": {
+                "type": "object",
+                "properties": {
+                    "totalChemicals": {
+                        "type": "integer",
+                        "description": "Total number of chemicals in inventory."
+                    },
+                    "expiringSoon": {
+                        "type": "integer",
+                        "description": "Number of chemicals nearing expiration."
+                    },
+                    "lowStock": {
+                        "type": "integer",
+                        "description": "Number of chemicals with low stock levels."
+                    },
+                    "complianceScore": {
+                        "type": "number",
+                        "description": "Overall compliance score as a percentage."
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /properties",
+            "description": "Retrieve a list of properties managed by the service."
+        },
+        {
+            "endpoint": "POST /properties",
+            "description": "Add a new property to the management system."
+        },
+        {
+            "endpoint": "GET /properties/{propertyId}/maintenance-schedule",
+            "description": "View the maintenance schedule for a specific property."
+        },
+        {
+            "endpoint": "POST /properties/{propertyId}/maintenance-tasks",
+            "description": "Create a new maintenance task for a specified property."
+        },
+        {
+            "endpoint": "PUT /maintenance-tasks/{taskId}",
+            "description": "Update an existing maintenance task's details."
+        },
+        {
+            "endpoint": "DELETE /maintenance-tasks/{taskId}",
+            "description": "Remove a maintenance task from the system."
+        },
+        {
+            "endpoint": "GET /service-providers",
+            "description": "Retrieve a catalog of available service providers."
+        },
+        {
+            "endpoint": "POST /service-providers",
+            "description": "Add a new service provider for maintenance collaboration."
+        },
+        {
+            "endpoint": "POST /maintenance-tasks/{taskId}/assign",
+            "description": "Assign a maintenance task to a specific service provider."
+        },
+        {
+            "endpoint": "GET /maintenance-tasks/{taskId}/status",
+            "description": "Check the status of a specific maintenance task."
+        }
+    ]
+}

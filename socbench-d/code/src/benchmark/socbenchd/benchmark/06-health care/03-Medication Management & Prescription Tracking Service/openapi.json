@@ -1,0 +1,427 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Medication Management & Prescription Tracking Service",
+        "version": "1.0.0",
+        "description": "A RESTful API focused on optimizing the management of medications and tracking prescription fulfillment, improving patient adherence and reducing medication errors in the healthcare sector."
+    },
+    "paths": {
+        "/medications": {
+            "get": {
+                "summary": "Retrieve all registered medications",
+                "description": "Returns a list of all medications registered in the system, along with their details such as schedules, dosage, prescribing physician, and any other relevant information.",
+                "responses": {
+                    "200": {
+                        "description": "List of medications retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Medication"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new medication",
+                "description": "Add a new medication to the patient's profile, including details like dosage, schedule, and prescribing physician.",
+                "requestBody": {
+                    "description": "Medication details to be added.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Medication"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Medication added successfully."
+                    }
+                }
+            }
+        },
+        "/reminders": {
+            "get": {
+                "summary": "Fetch active medication reminders",
+                "description": "Fetch all active medication reminders for a specific patient, providing details such as scheduled times and notification statuses.",
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The ID of the patient whose reminders are to be fetched."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of medication reminders fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Reminder"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reminders/{reminderId}": {
+            "put": {
+                "summary": "Update an existing medication reminder",
+                "description": "Update an existing medication reminder for a patient, allowing modifications to scheduled times or notification preferences.",
+                "parameters": [
+                    {
+                        "name": "reminderId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The ID of the reminder to update."
+                    }
+                ],
+                "requestBody": {
+                    "description": "Details of the reminder to be updated.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ReminderUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Reminder updated successfully."
+                    }
+                }
+            }
+        },
+        "/refills": {
+            "get": {
+                "summary": "List upcoming prescription refills",
+                "description": "List all upcoming prescription refills due for renewal, along with status and date details.",
+                "responses": {
+                    "200": {
+                        "description": "List of upcoming prescription refills.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Refill"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/refills/notify": {
+            "post": {
+                "summary": "Send refill notifications",
+                "description": "Send a refill notification to patients and their healthcare providers based on approaching refill dates.",
+                "requestBody": {
+                    "description": "Details to send a refill notification.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RefillNotification"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Refill notification sent successfully."
+                    }
+                }
+            }
+        },
+        "/scan/barcode": {
+            "post": {
+                "summary": "Verify medication dispensation via barcode",
+                "description": "Submit a barcode scan result to verify medication dispensation and register it against the patient's profile.",
+                "requestBody": {
+                    "description": "Barcode scan result to be verified.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "barcodeValue": {
+                                        "type": "string",
+                                        "description": "The scanned barcode value."
+                                    },
+                                    "patientId": {
+                                        "type": "string",
+                                        "description": "The ID of the patient."
+                                    }
+                                },
+                                "required": [
+                                    "barcodeValue",
+                                    "patientId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Barcode verified and medication registered successfully."
+                    }
+                }
+            }
+        },
+        "/interactions": {
+            "get": {
+                "summary": "Retrieve drug interaction warnings",
+                "description": "Retrieve potential drug-drug interaction warnings for a patient's current list of medications, facilitating safer prescription practices.",
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The ID of the patient to check interactions for."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of potential drug-drug interactions.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Interaction"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/interactions/check": {
+            "post": {
+                "summary": "Check new prescription for interactions",
+                "description": "Submit a new prescription for interaction checking, instantly alerting to contraindications or adverse effects with current medications.",
+                "requestBody": {
+                    "description": "New prescription details for interaction checking.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewPrescription"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Interaction check completed."
+                    }
+                }
+            }
+        },
+        "/medications/{medicationId}": {
+            "delete": {
+                "summary": "Remove a medication from the profile",
+                "description": "Remove a medication from the patient's profile after its usage has been completed or canceled by the healthcare provider.",
+                "parameters": [
+                    {
+                        "name": "medicationId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The ID of the medication to be removed."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Medication removed successfully."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Medication": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the medication."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the medication."
+                    },
+                    "dosage": {
+                        "type": "string",
+                        "description": "Dosage instructions for the medication."
+                    },
+                    "schedule": {
+                        "type": "string",
+                        "description": "Schedule for taking the medication."
+                    },
+                    "prescribingPhysician": {
+                        "type": "string",
+                        "description": "Name of the prescribing physician."
+                    }
+                },
+                "required": [
+                    "name",
+                    "dosage",
+                    "schedule",
+                    "prescribingPhysician"
+                ]
+            },
+            "Reminder": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the reminder."
+                    },
+                    "medicationId": {
+                        "type": "string",
+                        "description": "Associated medication ID."
+                    },
+                    "scheduledTime": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Time when the reminder is scheduled."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Current status of the reminder."
+                    }
+                },
+                "required": [
+                    "medicationId",
+                    "scheduledTime"
+                ]
+            },
+            "ReminderUpdate": {
+                "type": "object",
+                "properties": {
+                    "scheduledTime": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "New scheduled time for the reminder."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Updated status of the reminder."
+                    }
+                }
+            },
+            "Refill": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the refill."
+                    },
+                    "medicationId": {
+                        "type": "string",
+                        "description": "Associated medication ID."
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Date the refill is due."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Current status of the refill."
+                    }
+                },
+                "required": [
+                    "medicationId",
+                    "dueDate"
+                ]
+            },
+            "RefillNotification": {
+                "type": "object",
+                "properties": {
+                    "patientId": {
+                        "type": "string",
+                        "description": "ID of the patient to notify."
+                    },
+                    "refillId": {
+                        "type": "string",
+                        "description": "ID of the refill requiring notification."
+                    }
+                },
+                "required": [
+                    "patientId",
+                    "refillId"
+                ]
+            },
+            "Interaction": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the interaction warning."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of the potential interaction."
+                    },
+                    "severity": {
+                        "type": "string",
+                        "description": "Severity level of the drug interaction."
+                    }
+                },
+                "required": [
+                    "description",
+                    "severity"
+                ]
+            },
+            "NewPrescription": {
+                "type": "object",
+                "properties": {
+                    "medicationId": {
+                        "type": "string",
+                        "description": "ID of the new prescription medication."
+                    },
+                    "patientId": {
+                        "type": "string",
+                        "description": "ID of the patient for the new prescription."
+                    }
+                },
+                "required": [
+                    "medicationId",
+                    "patientId"
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /products/{id}/environmental-impact",
+            "description": "Retrieve the environmental impact details for a specific product by its ID."
+        },
+        {
+            "endpoint": "POST /products/evaluate",
+            "description": "Submit a product for a comprehensive environmental evaluation."
+        },
+        {
+            "endpoint": "GET /categories/{id}/average-impact",
+            "description": "Retrieve the average environmental impact for a specific category."
+        },
+        {
+            "endpoint": "GET /certifications",
+            "description": "Retrieve a list of recognized sustainability certifications."
+        },
+        {
+            "endpoint": "POST /certifications/verify",
+            "description": "Submit a product for verification against a specific sustainability certification."
+        },
+        {
+            "endpoint": "GET /carbon-footprint/range",
+            "description": "Retrieve products within a specified carbon footprint range."
+        },
+        {
+            "endpoint": "GET /recyclability/{id}",
+            "description": "Retrieve recyclability details for a specific product by its ID."
+        },
+        {
+            "endpoint": "POST /products/bulk-evaluate",
+            "description": "Submit multiple products for environmental evaluation in a single request."
+        },
+        {
+            "endpoint": "GET /environmental-news/highlights",
+            "description": "Retrieve highlights of recent developments in environmental standards or practices."
+        },
+        {
+            "endpoint": "GET /regions/{region_id}/impact-statistics",
+            "description": "Retrieve environmental impact statistics for products distributed in a specific region."
+        }
+    ]
+}

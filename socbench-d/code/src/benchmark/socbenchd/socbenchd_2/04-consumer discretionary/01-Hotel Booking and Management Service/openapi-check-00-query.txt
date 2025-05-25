@@ -1,0 +1,596 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Hospitality Booking API",
+        "description": "This API allows for booking, scheduling, and managing reservations for hospitality businesses. Users can search for hotels, view room availability, make bookings, manage reservations, and view hotel reviews.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.hospitalitybooking.com/v1",
+            "description": "Production Server"
+        },
+        {
+            "url": "https://sandbox.api.hospitalitybooking.com/v1",
+            "description": "Sandbox Server"
+        }
+    ],
+    "paths": {
+        "/hotels": {
+            "get": {
+                "summary": "Retrieve a list of hotels",
+                "description": "Retrieve a list of hotels based on specified filters such as location and ratings.",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "The location or city where the user is searching for hotels.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "rating",
+                        "in": "query",
+                        "description": "Filter hotels based on the minimum rating (e.g., 1-5 stars).",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 5
+                        }
+                    },
+                    {
+                        "name": "price_range",
+                        "in": "query",
+                        "description": "Filter hotels within a specific price range (e.g., 50-200).",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "50-200"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of hotels matching the criteria.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Hotel"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rooms": {
+            "get": {
+                "summary": "Fetch available rooms",
+                "description": "Fetch the available rooms in a specified hotel for a given date range.",
+                "parameters": [
+                    {
+                        "name": "hotelId",
+                        "in": "query",
+                        "description": "The unique identifier of the hotel.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "checkin_date",
+                        "in": "query",
+                        "description": "The desired check-in date (YYYY-MM-DD).",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "checkout_date",
+                        "in": "query",
+                        "description": "The desired check-out date (YYYY-MM-DD).",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Available rooms in the specified hotel and date range.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Room"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reservations": {
+            "post": {
+                "summary": "Create a new reservation",
+                "description": "Create a new reservation for a hotel room including guest details.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewReservation"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Reservation successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Reservation"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reservations/{id}": {
+            "get": {
+                "summary": "Get reservation details",
+                "description": "Fetch the details of an existing reservation by reservation ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The unique identifier of the reservation.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the reservation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Reservation"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update an existing reservation",
+                "description": "Update the details of an existing reservation identified by reservation ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The unique identifier of the reservation.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateReservation"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Reservation updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Reservation"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Cancel an existing reservation",
+                "description": "Cancel an existing reservation by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The unique identifier of the reservation to be canceled.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Reservation canceled successfully."
+                    }
+                }
+            }
+        },
+        "/amenities": {
+            "get": {
+                "summary": "Retrieve a list of amenities",
+                "description": "Retrieve a list of amenities available at a specific hotel or room.",
+                "parameters": [
+                    {
+                        "name": "hotelId",
+                        "in": "query",
+                        "description": "The unique identifier of the hotel.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of amenities available at the hotel or room.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Amenity"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reviews": {
+            "post": {
+                "summary": "Submit a review",
+                "description": "Submit a review for a hotel or service by a guest.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewReview"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Review submitted successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Review"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reviews/{hotelId}": {
+            "get": {
+                "summary": "Fetch reviews for a hotel",
+                "description": "Fetch all reviews for a specified hotel by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "hotelId",
+                        "in": "path",
+                        "description": "The unique identifier of the hotel.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of reviews for the specified hotel.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Review"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/booking-history/{userId}": {
+            "get": {
+                "summary": "Retrieve booking history",
+                "description": "Retrieve the booking history for a specific user identified by their unique ID.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "The unique identifier of the user.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of past bookings for the specified user.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Reservation"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Hotel": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the hotel."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the hotel."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "The location of the hotel."
+                    },
+                    "rating": {
+                        "type": "integer",
+                        "description": "The hotel's rating (1-5 stars)."
+                    },
+                    "price_range": {
+                        "type": "string",
+                        "description": "The average price range of the hotel."
+                    }
+                }
+            },
+            "Room": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the room."
+                    },
+                    "hotelId": {
+                        "type": "string",
+                        "description": "The unique identifier of the hotel the room belongs to."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of room (e.g., single, double, suite)."
+                    },
+                    "price": {
+                        "type": "number",
+                        "description": "The price per night for the room."
+                    },
+                    "availability": {
+                        "type": "boolean",
+                        "description": "Indicates whether the room is available."
+                    }
+                }
+            },
+            "NewReservation": {
+                "type": "object",
+                "properties": {
+                    "hotelId": {
+                        "type": "string",
+                        "description": "The unique identifier of the hotel."
+                    },
+                    "roomId": {
+                        "type": "string",
+                        "description": "The unique identifier of the room being booked."
+                    },
+                    "guestDetails": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "The name of the guest."
+                            },
+                            "email": {
+                                "type": "string",
+                                "description": "The email of the guest."
+                            },
+                            "phone": {
+                                "type": "string",
+                                "description": "The phone number of the guest."
+                            }
+                        }
+                    },
+                    "checkin_date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The desired check-in date (YYYY-MM-DD)."
+                    },
+                    "checkout_date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The desired check-out date (YYYY-MM-DD)."
+                    }
+                }
+            },
+            "Reservation": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the reservation."
+                    },
+                    "hotelId": {
+                        "type": "string",
+                        "description": "The unique identifier of the hotel."
+                    },
+                    "roomId": {
+                        "type": "string",
+                        "description": "The unique identifier of the room."
+                    },
+                    "guestDetails": {
+                        "type": "object",
+                        "description": "Details of the guest making the reservation.",
+                        "$ref": "#/components/schemas/NewReservation/properties/guestDetails"
+                    },
+                    "checkin_date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The check-in date (YYYY-MM-DD)."
+                    },
+                    "checkout_date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The check-out date (YYYY-MM-DD)."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The current status of the reservation (e.g., confirmed, canceled)."
+                    }
+                }
+            },
+            "UpdateReservation": {
+                "type": "object",
+                "properties": {
+                    "checkin_date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The new desired check-in date (YYYY-MM-DD)."
+                    },
+                    "checkout_date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The new desired check-out date (YYYY-MM-DD)."
+                    },
+                    "guestDetails": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/NewReservation/properties/guestDetails"
+                    }
+                }
+            },
+            "Amenity": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the amenity."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the amenity."
+                    }
+                }
+            },
+            "NewReview": {
+                "type": "object",
+                "properties": {
+                    "hotelId": {
+                        "type": "string",
+                        "description": "The unique identifier of the hotel being reviewed."
+                    },
+                    "userId": {
+                        "type": "string",
+                        "description": "The unique identifier of the user leaving the review."
+                    },
+                    "rating": {
+                        "type": "integer",
+                        "description": "The rating assigned by the user (1-5).",
+                        "minimum": 1,
+                        "maximum": 5
+                    },
+                    "comment": {
+                        "type": "string",
+                        "description": "The review comment provided by the user."
+                    }
+                }
+            },
+            "Review": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the review."
+                    },
+                    "hotelId": {
+                        "type": "string",
+                        "description": "The unique identifier of the hotel."
+                    },
+                    "userId": {
+                        "type": "string",
+                        "description": "The unique identifier of the user who left the review."
+                    },
+                    "rating": {
+                        "type": "integer",
+                        "description": "The rating assigned by the user (1-5)."
+                    },
+                    "comment": {
+                        "type": "string",
+                        "description": "The review comment provided by the user."
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The timestamp of when the review was created."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

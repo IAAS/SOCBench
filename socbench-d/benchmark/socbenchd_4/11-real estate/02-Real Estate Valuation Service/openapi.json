@@ -1,0 +1,495 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Real Estate Property Valuation Service API",
+        "description": "A service providing tools to estimate property values based on market trends, location desirability, and property features. Additionally offers insights into market trends, desirability ratings, property-specific data, and valuation details across multiple properties.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.realestatevaluationservice.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/property/value-estimate": {
+            "post": {
+                "summary": "Estimate property value",
+                "description": "Submit property attributes to calculate and retrieve an estimated market value.",
+                "requestBody": {
+                    "description": "Property attributes are required for valuation.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "location": {
+                                        "type": "string",
+                                        "description": "Property's location address or coordinates."
+                                    },
+                                    "size": {
+                                        "type": "number",
+                                        "description": "Size of the property in square feet."
+                                    },
+                                    "bedrooms": {
+                                        "type": "integer",
+                                        "description": "Number of bedrooms in the property."
+                                    },
+                                    "bathrooms": {
+                                        "type": "integer",
+                                        "description": "Number of bathrooms in the property."
+                                    },
+                                    "features": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of additional property features (e.g., pool, garage, backyard)."
+                                    }
+                                },
+                                "required": [
+                                    "location",
+                                    "size",
+                                    "bedrooms",
+                                    "bathrooms"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Estimated market value of the property with details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "estimatedValue": {
+                                            "type": "number",
+                                            "description": "Estimated market value in USD."
+                                        },
+                                        "confidenceScore": {
+                                            "type": "number",
+                                            "description": "Confidence level of the estimate (0-1 scale)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/market/trends": {
+            "get": {
+                "summary": "Retrieve market trends",
+                "description": "Access insights into current market trends for a specified region.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": true,
+                        "description": "Region or locality for which market trends are to be fetched.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Market trends data for the specified region.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "region": {
+                                            "type": "string",
+                                            "description": "The queried region."
+                                        },
+                                        "averagePrice": {
+                                            "type": "number",
+                                            "description": "Average property price in the region."
+                                        },
+                                        "priceTrend": {
+                                            "type": "string",
+                                            "description": "Current trend description ('increasing', 'decreasing', 'stable')."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/locations/desirability": {
+            "get": {
+                "summary": "Get location desirability ratings",
+                "description": "Retrieve a list of locations with desirability ratings based on factors such as amenities, schools, and safety.",
+                "responses": {
+                    "200": {
+                        "description": "List of locations with desirability ratings.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "location": {
+                                                "type": "string",
+                                                "description": "Name of the location."
+                                            },
+                                            "desirabilityScore": {
+                                                "type": "number",
+                                                "description": "Desirability score (0-1 scale)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/property/{id}": {
+            "get": {
+                "summary": "Fetch property details",
+                "description": "Retrieve detailed information for a specific property by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the property.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detailed property information.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "The unique property identifier."
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "description": "The property's address."
+                                        },
+                                        "size": {
+                                            "type": "number",
+                                            "description": "Size of the property in square feet."
+                                        },
+                                        "features": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "description": "List of available property features."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/comparison/multi-properties": {
+            "post": {
+                "summary": "Compare multiple property valuations",
+                "description": "Compare valuation details across multiple supplied properties.",
+                "requestBody": {
+                    "description": "List of property attributes for comparison.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "location": {
+                                            "type": "string",
+                                            "description": "Property location for comparison."
+                                        },
+                                        "size": {
+                                            "type": "number",
+                                            "description": "Property size in square feet."
+                                        },
+                                        "bedrooms": {
+                                            "type": "integer",
+                                            "description": "Number of bedrooms in the property."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Comparison data across supplied properties.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "property": {
+                                                "type": "string",
+                                                "description": "Property reference or ID."
+                                            },
+                                            "estimatedValue": {
+                                                "type": "number",
+                                                "description": "Market value estimate for the property."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/property/features/{id}": {
+            "get": {
+                "summary": "Retrieve property features",
+                "description": "Retrieve feature details of a property by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Property ID for which features are requested.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of features available in the property.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "The unique property identifier."
+                                        },
+                                        "features": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "description": "Collection of property features."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/valuation/history": {
+            "post": {
+                "summary": "Retrieve historical valuation data",
+                "description": "Request the historical valuation data for a supplied property ID over time.",
+                "requestBody": {
+                    "description": "Property ID for retrieving historical valuation data.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "propertyId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the property."
+                                    }
+                                },
+                                "required": [
+                                    "propertyId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Historical valuation data for the property.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Date of the valuation."
+                                            },
+                                            "value": {
+                                                "type": "number",
+                                                "description": "Estimated value on the specific date."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/property/recommendations": {
+            "get": {
+                "summary": "Get property recommendations",
+                "description": "Receive property recommendations based on defined criteria.",
+                "parameters": [
+                    {
+                        "name": "criteria",
+                        "in": "query",
+                        "required": true,
+                        "description": "Filter criteria for recommended properties.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of recommended properties matching the criteria.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "The property ID."
+                                            },
+                                            "address": {
+                                                "type": "string",
+                                                "description": "The address of the recommended property."
+                                            },
+                                            "estimatedValue": {
+                                                "type": "number",
+                                                "description": "Property's estimated value."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/investment/reports": {
+            "post": {
+                "summary": "Generate investment report",
+                "description": "Generate a detailed investment report for selected properties.",
+                "requestBody": {
+                    "description": "List of property IDs for generating the investment report.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "propertyIds": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of property IDs to include in the report."
+                                    }
+                                },
+                                "required": [
+                                    "propertyIds"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Generated investment report.",
+                        "content": {
+                            "application/pdf": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary",
+                                    "description": "PDF format investment report."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/area/valuation-statistics": {
+            "get": {
+                "summary": "Get area valuation statistics",
+                "description": "Retrieve statistical valuation data aggregated for a given area.",
+                "parameters": [
+                    {
+                        "name": "area",
+                        "in": "query",
+                        "required": true,
+                        "description": "Area for which statistics are requested.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Aggregated valuation data for the area.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "averageValue": {
+                                            "type": "number",
+                                            "description": "Average property value in the area."
+                                        },
+                                        "medianValue": {
+                                            "type": "number",
+                                            "description": "Median property value in the area."
+                                        },
+                                        "priceSpread": {
+                                            "type": "string",
+                                            "description": "Range of property prices (e.g., \"$200,000 - $500,000\")."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

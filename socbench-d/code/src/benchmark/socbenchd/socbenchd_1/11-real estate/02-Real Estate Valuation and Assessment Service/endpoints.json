@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /properties/valuation",
+            "description": "Retrieve the estimated value of a property by providing location and features."
+        },
+        {
+            "endpoint": "POST /properties/add",
+            "description": "Submit detailed property information to be stored and analyzed."
+        },
+        {
+            "endpoint": "GET /location/trends",
+            "description": "Get market trends for a specific location, including price movement."
+        },
+        {
+            "endpoint": "GET /properties/features",
+            "description": "Fetch a list of features commonly seen in properties within a given area."
+        },
+        {
+            "endpoint": "GET /properties/history",
+            "description": "Access historical valuation data of a property."
+        },
+        {
+            "endpoint": "PUT /properties/update",
+            "description": "Update the details of an existing property record in the service database."
+        },
+        {
+            "endpoint": "GET /reits/list",
+            "description": "Retrieve a list of noteworthy real estate investment trusts and their performance."
+        },
+        {
+            "endpoint": "GET /properties/similar",
+            "description": "Identify similar properties based on input property details."
+        },
+        {
+            "endpoint": "DELETE /properties/remove",
+            "description": "Delete a previously entered property record from the database."
+        },
+        {
+            "endpoint": "GET /properties/comparison",
+            "description": "Get a detailed comparison of two or more properties based on given attributes."
+        }
+    ]
+}

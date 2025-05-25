@@ -1,0 +1,443 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Energy Sector Maintenance Management API",
+    "description": "API to schedule, update, and manage maintenance activities for energy sector equipment, ensuring operational reliability and minimal downtime.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.energysector.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/maintenance/schedule": {
+      "get": {
+        "summary": "Retrieve Scheduled Maintenance Activities",
+        "description": "Fetch a list of all scheduled maintenance activities for energy sector equipment.",
+        "responses": {
+          "200": {
+            "description": "List of scheduled maintenance activities.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the maintenance activity."
+                      },
+                      "equipmentId": {
+                        "type": "string",
+                        "description": "Unique identifier for the associated equipment."
+                      },
+                      "startDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Scheduled start date and time of the maintenance activity."
+                      },
+                      "endDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Scheduled end date and time of the maintenance activity."
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Details about the maintenance activity."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/create": {
+      "post": {
+        "summary": "Create New Maintenance Activity",
+        "description": "Schedule a new maintenance activity for energy equipment.",
+        "requestBody": {
+          "description": "Details of the maintenance activity to create.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "equipmentId": {
+                    "type": "string",
+                    "description": "Unique identifier for the equipment."
+                  },
+                  "startDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Start date and time for the maintenance activity."
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "End date and time for the maintenance activity."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the maintenance activity."
+                  }
+                },
+                "required": ["equipmentId", "startDate", "endDate"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Maintenance activity successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique identifier for the newly created maintenance activity."
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Confirmation message.",
+                      "example": "Created"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/update/{id}": {
+      "put": {
+        "summary": "Update Scheduled Maintenance Activity",
+        "description": "Update the details of an existing maintenance schedule, identified by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the maintenance activity to update.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated details of the maintenance activity.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Updated start date and time."
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Updated end date and time."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Updated description of the maintenance activity."
+                  }
+                },
+                "required": ["startDate", "endDate"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Maintenance activity successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique identifier of the updated maintenance activity."
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Confirmation message.",
+                      "example": "Updated"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/delete/{id}": {
+      "delete": {
+        "summary": "Delete Maintenance Activity",
+        "description": "Remove a specific maintenance activity from the schedule, using its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the maintenance activity to delete.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Maintenance activity successfully deleted."
+          }
+        }
+      }
+    },
+    "/equipment/status": {
+      "get": {
+        "summary": "Fetch Equipment Operational Status",
+        "description": "Retrieve the current operational status of energy sector equipment.",
+        "responses": {
+          "200": {
+            "description": "List of equipment statuses.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "equipmentId": {
+                        "type": "string",
+                        "description": "Unique identifier for the equipment."
+                      },
+                      "status": {
+                        "type": "string",
+                        "description": "Operational status of the equipment (e.g., Online, Offline, Maintenance)."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts/create": {
+      "post": {
+        "summary": "Create Alert for Equipment",
+        "description": "Generate a new alert for specified equipment based on predefined conditions.",
+        "requestBody": {
+          "description": "Details of the alert to be created.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "equipmentId": {
+                    "type": "string",
+                    "description": "Unique identifier for the equipment."
+                  },
+                  "condition": {
+                    "type": "string",
+                    "description": "Predefined condition for triggering the alert."
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Alert message to be displayed."
+                  }
+                },
+                "required": ["equipmentId", "condition", "message"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Alert successfully created."
+          }
+        }
+      }
+    },
+    "/alerts": {
+      "get": {
+        "summary": "List Alerts",
+        "description": "Retrieve a list of all active alerts associated with energy sector equipment.",
+        "responses": {
+          "200": {
+            "description": "List of current alerts.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "alertId": {
+                        "type": "string",
+                        "description": "Unique identifier of the alert."
+                      },
+                      "equipmentId": {
+                        "type": "string",
+                        "description": "Unique identifier for the equipment associated with the alert."
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Alert message."
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Time when the alert was generated."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/equipment/{id}/maintenance-status": {
+      "put": {
+        "summary": "Update Maintenance Status of Equipment",
+        "description": "Mark the maintenance status of specific equipment identified by its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the equipment.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Details of the updated maintenance status.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "description": "Updated maintenance status of the equipment (e.g., In Maintenance, Ready, Under Inspection)."
+                  }
+                },
+                "required": ["status"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Maintenance status successfully updated."
+          }
+        }
+      }
+    },
+    "/reports/maintenance": {
+      "get": {
+        "summary": "Retrieve Maintenance Reports",
+        "description": "Fetch detailed reports of past maintenance activities.",
+        "responses": {
+          "200": {
+            "description": "Maintenance reports retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "reportId": {
+                        "type": "string",
+                        "description": "Unique identifier of the maintenance report."
+                      },
+                      "equipmentId": {
+                        "type": "string",
+                        "description": "Unique identifier of the equipment."
+                      },
+                      "details": {
+                        "type": "string",
+                        "description": "Details of the maintenance activity performed."
+                      },
+                      "date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Date of the maintenance activity."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics/performance": {
+      "get": {
+        "summary": "Access Equipment Performance Metrics",
+        "description": "Retrieve key performance metrics for energy equipment to ensure operational reliability.",
+        "responses": {
+          "200": {
+            "description": "Equipment performance metrics retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "equipmentId": {
+                        "type": "string",
+                        "description": "Unique identifier of the equipment."
+                      },
+                      "metric": {
+                        "type": "string",
+                        "description": "Type of performance metric (e.g., efficiency, uptime)."
+                      },
+                      "value": {
+                        "type": "string",
+                        "description": "Value of the performance metric."
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of the metric."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  }
+}

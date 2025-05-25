@@ -1,0 +1,436 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+OpenAPI:
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Material Properties and Standards API",
+        "description": "This API offers engineers and architects accurate information on material properties and compliance standards to facilitate informed decisions in construction projects. The API includes endpoints for retrieving, adding, updating, deleting, and calculating properties of materials, as well as checking compliance with standards for specific materials.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.materialssector.com",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/materials": {
+            "get": {
+                "summary": "Retrieve all materials",
+                "description": "Fetch a list of materials available in the database, including their general properties such as type, density, strength, and other characteristics.",
+                "responses": {
+                    "200": {
+                        "description": "A list of materials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Material"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new material",
+                "description": "Add a new material to the database with its specifications and applicable compliance standards.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MaterialInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Material successfully added",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Material"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/materials/{id}": {
+            "get": {
+                "summary": "Retrieve material details",
+                "description": "Fetch detailed information about a specific material by its ID, including specifications, general properties, and compliance standards.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the material",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Material details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Material"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update material details",
+                "description": "Update the information of a specific material in the database using its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the material",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MaterialInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Material successfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Material"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete material",
+                "description": "Remove a specific material from the database by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the material",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Material successfully deleted"
+                    }
+                }
+            }
+        },
+        "/standards": {
+            "get": {
+                "summary": "Retrieve compliance standards",
+                "description": "List the compliance standards covered by the service, along with their associated requirements and descriptions.",
+                "responses": {
+                    "200": {
+                        "description": "A list of compliance standards",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Standard"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/materials/{id}/compliance": {
+            "get": {
+                "summary": "Check material compliance",
+                "description": "Retrieve the compliance status of a specific material against the defined standards.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the material",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Compliance status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "materialId": {
+                                            "type": "string",
+                                            "description": "The ID of the material"
+                                        },
+                                        "compliance": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Compliance"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/calculations": {
+            "post": {
+                "summary": "Submit calculation request",
+                "description": "Submit data for a calculation related to material properties or compliance evaluation.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "materialId": {
+                                        "type": "string",
+                                        "description": "The ID of the material"
+                                    },
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Input data required for the calculation"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Calculation submitted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "calculationId": {
+                                            "type": "string",
+                                            "description": "The ID of the submitted calculation"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/calculations/{id}/result": {
+            "get": {
+                "summary": "Retrieve calculation result",
+                "description": "Check the results of a specific calculation for a material, using the calculation ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the calculation",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Calculation result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "calculationId": {
+                                            "type": "string",
+                                            "description": "The ID of the calculation"
+                                        },
+                                        "result": {
+                                            "type": "object",
+                                            "description": "The result of the calculation"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{id}/materials": {
+            "get": {
+                "summary": "Retrieve materials for a project",
+                "description": "Fetch a collection of materials associated with a particular construction project by its project ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the project",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of materials for the project",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Material"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Material": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier for the material"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the material"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of material (e.g., steel, concrete)"
+                    },
+                    "properties": {
+                        "type": "object",
+                        "description": "General properties of the material"
+                    },
+                    "standards": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Standard"
+                        }
+                    }
+                }
+            },
+            "MaterialInput": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the material"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of material (e.g., steel, concrete)"
+                    },
+                    "properties": {
+                        "type": "object",
+                        "description": "Specifications or general properties of the material"
+                    },
+                    "standards": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Standard"
+                        }
+                    }
+                }
+            },
+            "Standard": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier for the standard"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the compliance standard"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Details about the compliance standard"
+                    },
+                    "requirements": {
+                        "type": "object",
+                        "description": "Requirements defined by the standard"
+                    }
+                }
+            },
+            "Compliance": {
+                "type": "object",
+                "properties": {
+                    "standardId": {
+                        "type": "string",
+                        "description": "The ID of the compliance standard"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The compliance status (e.g., compliant, non-compliant)"
+                    },
+                    "remarks": {
+                        "type": "string",
+                        "description": "Additional comments or notes about the compliance status"
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

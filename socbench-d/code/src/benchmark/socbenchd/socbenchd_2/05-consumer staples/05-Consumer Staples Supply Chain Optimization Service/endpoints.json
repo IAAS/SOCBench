@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /inventory",
+            "description": "Retrieve the current state of inventory including stock levels and product details."
+        },
+        {
+            "endpoint": "POST /order",
+            "description": "Create a new order request specifying product quantities, customer details, and delivery preferences."
+        },
+        {
+            "endpoint": "GET /orders/{orderId}",
+            "description": "Retrieve details of the specified order including its status, items, and expected delivery date."
+        },
+        {
+            "endpoint": "PUT /orders/{orderId}",
+            "description": "Update details of an existing order, including modifying quantities or updating shipping details."
+        },
+        {
+            "endpoint": "POST /products",
+            "description": "Add a new product to the inventory specifying attributes such as name, category, price, and stock quantity."
+        },
+        {
+            "endpoint": "GET /suppliers",
+            "description": "Fetch a list of available suppliers including their contact details and provided products."
+        },
+        {
+            "endpoint": "POST /distribution-routes",
+            "description": "Define a new distribution route including its stops, transit times, and associated regions."
+        },
+        {
+            "endpoint": "GET /analytics/inventory",
+            "description": "Retrieve analytical insights and trends on inventory levels and turnover rates."
+        },
+        {
+            "endpoint": "PATCH /warehouse/settings",
+            "description": "Modify operation settings of a specific warehouse, such as hours of operation or storage capacities."
+        },
+        {
+            "endpoint": "DELETE /orders/{orderId}",
+            "description": "Cancel the specified order and update the inventory accordingly."
+        }
+    ]
+}

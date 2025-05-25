@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /inventory-overview",
+            "description": "Retrieve a current snapshot of the inventory levels categorized by material type."
+        },
+        {
+            "endpoint": "POST /supplier-feedback",
+            "description": "Submit performance feedback for a specific supplier based on recent transactions."
+        },
+        {
+            "endpoint": "GET /transport-routes",
+            "description": "Obtain recommended logistics routes based on current transportation data and constraints."
+        },
+        {
+            "endpoint": "POST /reorder-schedule",
+            "description": "Upload intended reordering schedules for materials to align with predictive demand planning."
+        },
+        {
+            "endpoint": "GET /raw-material-sources",
+            "description": "Access a list of available raw material sources with quality and cost evaluations."
+        },
+        {
+            "endpoint": "POST /transportation-tracking",
+            "description": "Submit and manage data related to in-transit shipments for improved monitoring."
+        },
+        {
+            "endpoint": "GET /inventory-forecast",
+            "description": "Analyze trends and receive predictive insights on inventory levels based on historical data."
+        },
+        {
+            "endpoint": "POST /cost-analysis",
+            "description": "Perform cost breakdown studies concerning procurement and logistics expenditures."
+        },
+        {
+            "endpoint": "GET /supply-chain-health",
+            "description": "Retrieve a comprehensive status report of the supply chain's operational efficiency."
+        },
+        {
+            "endpoint": "POST /strategic-suggestions",
+            "description": "Input considerations and retrieve optimization recommendations tailored for supply chain strategies."
+        }
+    ]
+}

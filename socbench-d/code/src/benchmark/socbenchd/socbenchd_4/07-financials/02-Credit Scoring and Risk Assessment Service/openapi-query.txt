@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Service:
+Offers an API to evaluate and calculate credit scores for individuals or businesses based on input data. Financial institutions can use this for risk assessment in loan approvals or financial planning.
+
+Endpoints:
+POST /creditScore: Calculate the credit score based on supplied user financial data.
+GET /userScore/{userId}: Retrieve the calculated credit score for the specified user by their unique identifier.
+GET /criteria: List the criteria used for calculating a credit score.
+POST /criteria: Add or update criteria for credit score calculation.
+GET /scoreHistory/{userId}: Retrieve the credit score history for a given user.
+POST /bulkScore: Calculate credit scores for multiple users or businesses through batch processing.
+GET /businessTypes: List supported business types for credit score evaluation.
+POST /riskEvaluation: Perform a comprehensive risk evaluation based on credit scores and additional contextual data.
+DELETE /criteria/{criteriaId}: Remove a specified scoring criterion by its unique identifier.
+GET /scoringMetrics: Retrieve detailed extrapolation data utilized for credit risk metrics.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

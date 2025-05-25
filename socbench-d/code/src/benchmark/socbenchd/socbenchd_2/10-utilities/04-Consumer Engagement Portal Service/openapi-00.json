@@ -1,0 +1,273 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Utilities Dashboard API",
+    "description": "This API provides utilities customers with access to an interactive dashboard for managing their utility services. Users can view consumption history, set and manage usage goals, make payments, and receive personalized energy-saving tips.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.utilities-dashboard.com/v1",
+      "description": "Main API server"
+    }
+  ],
+  "paths": {
+    "/dashboard/overview": {
+      "get": {
+        "summary": "Retrieve Dashboard Overview",
+        "description": "Fetch a summary overview of the user's utility usage and account status, including outstanding balances and recent activities.",
+        "responses": {
+          "200": {
+            "description": "Success response with dashboard overview data",
+            "content": {
+              "application/json": {
+                "example": {
+                  "userId": "12345",
+                  "accountBalance": 50.25,
+                  "recentActivities": [
+                    "Payment of $30 made on 2023-09-15",
+                    "Energy-saving tip retrieved"
+                  ],
+                  "consumptionSummary": {
+                    "electricity": 250.5,
+                    "gas": 100.2,
+                    "water": 75.1
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/usage-history": {
+      "get": {
+        "summary": "Retrieve Utility Consumption History",
+        "description": "Request detailed consumption history data for the user's utility services over a specified period.",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "description": "The start date for the consumption history (YYYY-MM-DD format).",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "description": "The end date for the consumption history (YYYY-MM-DD format).",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success response with consumption history data",
+            "content": {
+              "application/json": {
+                "example": {
+                  "electricity": [
+                    { "date": "2023-09-01", "consumption": 15.5 },
+                    { "date": "2023-09-02", "consumption": 16.0 }
+                  ],
+                  "gas": [
+                    { "date": "2023-09-01", "consumption": 8.3 },
+                    { "date": "2023-09-02", "consumption": 7.9 }
+                  ],
+                  "water": [
+                    { "date": "2023-09-01", "consumption": 10.2 },
+                    { "date": "2023-09-02", "consumption": 11.0 }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/usage-goals": {
+      "post": {
+        "summary": "Set or Update Usage Goals",
+        "description": "Allow users to set new resource consumption goals or update current goals for better utility management.",
+        "requestBody": {
+          "description": "Details of the usage goals to set or update.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "electricityGoal": 200,
+                "gasGoal": 100,
+                "waterGoal": 50
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success response after setting or updating usage goals."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove Usage Goals",
+        "description": "Delete previously set resource consumption goals for the user's account.",
+        "responses": {
+          "200": {
+            "description": "Success response after deleting usage goals."
+          }
+        }
+      }
+    },
+    "/bills/recent": {
+      "get": {
+        "summary": "Retrieve Recent Bills",
+        "description": "Fetch a list of the most recent billing statements and their respective payment statuses.",
+        "responses": {
+          "200": {
+            "description": "Success response with a list of recent bills and payment statuses.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "bills": [
+                    {
+                      "billDate": "2023-09-01",
+                      "amount": 75.50,
+                      "status": "Paid"
+                    },
+                    {
+                      "billDate": "2023-08-01",
+                      "amount": 80.70,
+                      "status": "Outstanding"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bills/pay": {
+      "post": {
+        "summary": "Submit Payment for a Bill",
+        "description": "Submit payment for an outstanding utility bill, providing payment details.",
+        "requestBody": {
+          "description": "Details of the bill payment including the bill ID and payment method.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "billId": "98765",
+                "paymentAmount": 75.50,
+                "paymentMethod": "credit_card"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success response after processing the payment."
+          }
+        }
+      }
+    },
+    "/energy-tips": {
+      "get": {
+        "summary": "Retrieve Energy-Saving Tips",
+        "description": "Get personalized energy-saving tips based on the user's past usage patterns.",
+        "responses": {
+          "200": {
+            "description": "Success response with a set of tailored energy-saving tips.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "tips": [
+                    "Turn off lights when not in use.",
+                    "Use energy-efficient appliances.",
+                    "Adjust thermostat settings during non-peak hours."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile/settings": {
+      "put": {
+        "summary": "Update User Profile Settings",
+        "description": "Update the user's account preferences and notification settings for the service.",
+        "requestBody": {
+          "description": "Details of the settings to update.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "emailNotifications": true,
+                "smsNotifications": false,
+                "preferredLanguage": "en"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success response after updating profile settings."
+          }
+        }
+      }
+    },
+    "/announcements": {
+      "get": {
+        "summary": "Retrieve Announcements",
+        "description": "Get the latest announcements and relevant messages from utility providers.",
+        "responses": {
+          "200": {
+            "description": "Success response with announcements and messages.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "announcements": [
+                    "Scheduled maintenance on 2023-10-15.",
+                    "New energy-saving initiatives launched."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/outage-info": {
+      "get": {
+        "summary": "Fetch Outage Information",
+        "description": "Retrieve details on ongoing or upcoming utility outages in the user's area.",
+        "responses": {
+          "200": {
+            "description": "Success response with outage information.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "outages": [
+                    {
+                      "type": "electricity",
+                      "status": "Scheduled",
+                      "startTime": "2023-10-15T08:00:00Z",
+                      "endTime": "2023-10-15T12:00:00Z"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

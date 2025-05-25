@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+This service assists in tracking and reporting environmental emissions and compliance metrics, helping industries meet regulatory requirements.
+
+Endpoints:
+GET /reports/environmental-insights: Retrieve a summary of environmental metrics and trends across monitored facilities.
+POST /compliance/report-violation: Submit data regarding a detected environmental regulation violation incident.
+GET /facilities/{facility_id}/emissions: Access emissions data specific to a particular facility by its identifier.
+PUT /facilities/{facility_id}/thresholds: Update the operational thresholds for emission limits at the specified facility.
+DELETE /alerts/{alert_id}: Remove a specific alert notification generated for compliance monitoring.
+GET /inventory/resources: List resources and materials used that might impact environmental metrics.
+POST /feedback/suggestions: Submit suggestions or feedback regarding environmental practices and system usage.
+GET /analytics/forecast-emissions: Access predicted emissions data based on current and historical trends.
+PATCH /users/preferences: Update user-defined preferences for notification and report types.
+POST /data/manual-entry: Manually enter environmental data readings to supplement automated sensor data.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

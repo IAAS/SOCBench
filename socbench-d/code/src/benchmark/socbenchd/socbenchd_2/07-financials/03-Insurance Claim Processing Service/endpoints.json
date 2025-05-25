@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /claims/submit",
+            "description": "Submit a new insurance claim for processing."
+        },
+        {
+            "endpoint": "GET /claims/status",
+            "description": "Retrieve the current status of an existing insurance claim."
+        },
+        {
+            "endpoint": "PUT /claims/update",
+            "description": "Update details of an existing insurance claim."
+        },
+        {
+            "endpoint": "DELETE /claims/delete",
+            "description": "Remove an insurance claim from the system."
+        },
+        {
+            "endpoint": "POST /documents/upload",
+            "description": "Upload required documents for an insurance claim."
+        },
+        {
+            "endpoint": "GET /policies",
+            "description": "Retrieve a list of available insurance policies."
+        },
+        {
+            "endpoint": "GET /claim/history",
+            "description": "Access the processing history of a specific claim."
+        },
+        {
+            "endpoint": "POST /claims/validate",
+            "description": "Validate the provided information for accuracy before submission."
+        },
+        {
+            "endpoint": "GET /analytics/reports",
+            "description": "Generate reports on claim processing trends and metrics."
+        },
+        {
+            "endpoint": "POST /customer/feedback",
+            "description": "Submit feedback related to the insurance claim process."
+        }
+    ]
+}

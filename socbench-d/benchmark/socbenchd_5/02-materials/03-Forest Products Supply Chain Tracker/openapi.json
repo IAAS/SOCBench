@@ -1,0 +1,370 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Forest Product Tracker API",
+        "description": "This API enables companies in the Materials sector to monitor the production, transportation, and delivery of forest products, ensuring sustainability and optimizing logistics processes.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/forest-products/status": {
+            "get": {
+                "summary": "Retrieve Current Forest Product Status",
+                "description": "Fetches the current status of all forest product batches being monitored within the system, giving details about their production and transportation state.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved the status of all monitored forest product batches.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the forest product batch."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current status of the batch (e.g., 'In Production', 'In Transit', 'Delivered')."
+                                            },
+                                            "lastUpdated": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Timestamp of the last status update."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/production/report": {
+            "post": {
+                "summary": "Submit Production Report",
+                "description": "Creates a new report for a newly initiated forest product production batch.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "batchId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the new production batch."
+                                    },
+                                    "startDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "The start date of the production batch."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "A brief description or name of the production batch."
+                                    }
+                                },
+                                "required": [
+                                    "batchId",
+                                    "startDate"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully submitted the production batch report."
+                    }
+                }
+            }
+        },
+        "/transportation/routes": {
+            "get": {
+                "summary": "Fetch Optimized Transportation Routes",
+                "description": "Returns optimized routes for transportation and delivery of forest products to various destinations.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved the optimized transportation routes.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "routeId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the transportation route."
+                                            },
+                                            "origin": {
+                                                "type": "string",
+                                                "description": "The starting location of the route."
+                                            },
+                                            "destination": {
+                                                "type": "string",
+                                                "description": "The target delivery destination."
+                                            },
+                                            "duration": {
+                                                "type": "string",
+                                                "description": "Estimated duration of the route."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/product/{id}/delivery": {
+            "patch": {
+                "summary": "Update Delivery Schedule",
+                "description": "Updates the delivery schedule for a given forest product batch based on its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the specific product batch to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "newDeliveryDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "The new delivery date for the product batch."
+                                    }
+                                },
+                                "required": [
+                                    "newDeliveryDate"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated the delivery schedule."
+                    }
+                }
+            }
+        },
+        "/sustainability/audit": {
+            "post": {
+                "summary": "Initiate Sustainability Compliance Audit",
+                "description": "Creates a new sustainability audit request for a specified forest product batch.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "batchId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the product batch requiring the audit."
+                                    }
+                                },
+                                "required": [
+                                    "batchId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully initiated the sustainability compliance audit."
+                    }
+                }
+            }
+        },
+        "/logs/transportation": {
+            "get": {
+                "summary": "View Transportation Logs",
+                "description": "Fetches transportation logs for specific forest product deliveries.",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "query",
+                        "required": false,
+                        "description": "Filter logs by a specific product ID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved transportation logs.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "logId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the log entry."
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Time of the log entry."
+                                            },
+                                            "details": {
+                                                "type": "string",
+                                                "description": "Details about the transportation log."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/product/{id}/status": {
+            "put": {
+                "summary": "Modify Product Monitoring Status",
+                "description": "Updates the operational monitoring status of a specific forest product batch.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique product batch identifier to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "newStatus": {
+                                        "type": "string",
+                                        "description": "The new operational status for the monitored product batch."
+                                    }
+                                },
+                                "required": [
+                                    "newStatus"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated the product monitoring status."
+                    }
+                }
+            }
+        },
+        "/report/{id}": {
+            "delete": {
+                "summary": "Remove Submitted Report",
+                "description": "Deletes a previously submitted production report by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier for the report to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successfully deleted the report."
+                    }
+                }
+            }
+        },
+        "/analytics/production": {
+            "get": {
+                "summary": "Generate Production Analytics",
+                "description": "Returns analytics and insights based on overall forest product production statistics.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully generated production analytics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "totalProduced": {
+                                            "type": "integer",
+                                            "description": "Total amount of products produced."
+                                        },
+                                        "activeBatches": {
+                                            "type": "integer",
+                                            "description": "Number of currently active production batches."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback/logistics": {
+            "post": {
+                "summary": "Submit Logistics Feedback",
+                "description": "Allows submitting feedback related to the logistics and tracking processes for forest products.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "feedback": {
+                                        "type": "string",
+                                        "description": "Detailed feedback about logistics operations."
+                                    },
+                                    "rating": {
+                                        "type": "integer",
+                                        "description": "User's rating for the logistics (1-5 scale)."
+                                    }
+                                },
+                                "required": [
+                                    "feedback",
+                                    "rating"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully submitted the logistics feedback."
+                    }
+                }
+            }
+        }
+    }
+}

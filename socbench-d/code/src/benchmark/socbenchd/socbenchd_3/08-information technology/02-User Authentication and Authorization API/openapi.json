@@ -1,0 +1,408 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "User and Access Management API",
+        "description": "This service provides a secure means for registering users, managing credentials, and ensuring proper access control across applications.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.example.com",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/register": {
+            "post": {
+                "summary": "Register a new user",
+                "description": "Creates a new user by securely storing the provided credentials.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "johndoe"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secureP@ssw0rd"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "johndoe@example.com"
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "password",
+                                    "email"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User successfully registered."
+                    },
+                    "400": {
+                        "description": "Input validation failed."
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "Authenticate a user",
+                "description": "Authenticates the user with the provided credentials and returns a session token.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "johndoe"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secureP@ssw0rd"
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Authentication successful. Token returned.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "description": "Session token",
+                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials."
+                    }
+                }
+            }
+        },
+        "/profile": {
+            "get": {
+                "summary": "Retrieve user profile",
+                "description": "Fetches the currently authenticated user's profile information.",
+                "responses": {
+                    "200": {
+                        "description": "Profile information retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "username": {
+                                            "type": "string",
+                                            "example": "johndoe"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "johndoe@example.com"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-01-01T00:00:00Z"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update user profile",
+                "description": "Updates the authenticated user's profile.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "newemail@example.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profile successfully updated."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/password/change": {
+            "post": {
+                "summary": "Change password",
+                "description": "Allows an authenticated user to securely change their current password.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "current_password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "oldP@ssw0rd"
+                                    },
+                                    "new_password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "newSecureP@ss"
+                                    }
+                                },
+                                "required": [
+                                    "current_password",
+                                    "new_password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password changed successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input or current password incorrect."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/access-control": {
+            "post": {
+                "summary": "Configure access control",
+                "description": "Allows configuration of access control policies for applications.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "policy": {
+                                        "type": "object",
+                                        "example": {
+                                            "allow": [
+                                                "user:read",
+                                                "admin:manage"
+                                            ],
+                                            "deny": [
+                                                "guest:write"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "policy"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Access control policy set successfully."
+                    },
+                    "400": {
+                        "description": "Policy configuration invalid."
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve access control settings",
+                "description": "Fetches the current access control settings and permissions.",
+                "responses": {
+                    "200": {
+                        "description": "Access control settings retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "policy": {
+                                            "allow": [
+                                                "user:read",
+                                                "admin:manage"
+                                            ],
+                                            "deny": [
+                                                "guest:write"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/application/register": {
+            "post": {
+                "summary": "Register application",
+                "description": "Registers a new application for access management purposes.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "MyApplication"
+                                    },
+                                    "redirect_uri": {
+                                        "type": "string",
+                                        "example": "https://myapplication.com/auth/callback"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "redirect_uri"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Application registered successfully."
+                    },
+                    "400": {
+                        "description": "Invalid application details."
+                    }
+                }
+            }
+        },
+        "/application/{id}/details": {
+            "get": {
+                "summary": "Retrieve application details",
+                "description": "Fetches detailed information for a specific registered application.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The ID of the application to fetch details for."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Application details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "id": "app123",
+                                        "name": "MyApplication",
+                                        "redirect_uri": "https://myapplication.com/auth/callback",
+                                        "created_at": "2023-01-01T00:00:00Z"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Application not found."
+                    }
+                }
+            }
+        },
+        "/application/{id}": {
+            "delete": {
+                "summary": "Remove application",
+                "description": "Removes a registered application from the access management system.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The ID of the application to remove."
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Application removed successfully."
+                    },
+                    "404": {
+                        "description": "Application not found."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

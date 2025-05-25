@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /stream/quality",
+            "description": "Retrieve the quality settings for a specific streaming session."
+        },
+        {
+            "endpoint": "POST /stream/initiate",
+            "description": "Initiate a new streaming session with the provided parameters."
+        },
+        {
+            "endpoint": "PUT /stream/update",
+            "description": "Update the configuration of an ongoing streaming session."
+        },
+        {
+            "endpoint": "GET /analytics/viewer",
+            "description": "Fetch viewer engagement analytics for a specific content."
+        },
+        {
+            "endpoint": "GET /analytics/summary",
+            "description": "Retrieve a summary of analytics data for the platform."
+        },
+        {
+            "endpoint": "POST /cache/region/settings",
+            "description": "Configure caching settings for a specific geographical region."
+        },
+        {
+            "endpoint": "GET /cache/region/status",
+            "description": "Check the status and metrics for regional content caching."
+        },
+        {
+            "endpoint": "POST /bitrate/adaptive",
+            "description": "Set adaptive bitrate settings for improved content delivery."
+        },
+        {
+            "endpoint": "GET /bitrate/current",
+            "description": "Obtain the current bitrate used during the streaming session."
+        },
+        {
+            "endpoint": "DELETE /stream/terminate",
+            "description": "Terminate an ongoing streaming session gracefully."
+        }
+    ]
+}

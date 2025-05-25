@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /generation/solar",
+            "description": "Fetch real-time solar energy generation data."
+        },
+        {
+            "endpoint": "GET /generation/wind",
+            "description": "Fetch real-time wind energy generation data."
+        },
+        {
+            "endpoint": "GET /generation/forecast",
+            "description": "Retrieve energy generation forecast based on current data."
+        },
+        {
+            "endpoint": "GET /resources/status",
+            "description": "Extract operational status of energy generation resources."
+        },
+        {
+            "endpoint": "POST /alerts/configuration",
+            "description": "Configure real-time alerts for threshold breaches."
+        },
+        {
+            "endpoint": "GET /reports/daily",
+            "description": "Download daily aggregate reports for resource generation."
+        },
+        {
+            "endpoint": "PUT /resources/maintenance",
+            "description": "Schedule maintenance for a specific energy resource."
+        },
+        {
+            "endpoint": "DELETE /alerts",
+            "description": "Remove specific alert configurations by ID."
+        },
+        {
+            "endpoint": "GET /statistics/comparative",
+            "description": "Retrieve comparative statistics of solar vs. wind energy generation."
+        },
+        {
+            "endpoint": "GET /resources/list",
+            "description": "Fetch details of all monitored energy resources."
+        }
+    ]
+}

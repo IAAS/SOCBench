@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+Service:
+This API facilitates the coordination of recycling processes and waste management for materials, thereby promoting eco-friendly practices in the materials domain.
+
+Endpoints:
+POST /recycling-centers: Add a new recycling center to the database, including location, capacity, and contact details.
+GET /recycling-centers/{id}: Retrieve detailed information about a specific recycling center by its unique ID.
+PUT /recycling-centers/{id}: Update the details of an existing recycling center by its unique ID.
+DELETE /recycling-centers/{id}: Remove a recycling center record by its unique ID.
+POST /waste-materials: Add a new type of waste material to the database, including its composition and properties.
+GET /waste-materials: List all types of waste materials available in the database.
+POST /recycling-requests: Create a request for recycling a specific material from a source location to a recycling center.
+GET /recycling-status: Check the current status of all pending or processed recycling requests.
+POST /sustainability-reports: Upload a report regarding sustainability metrics and recycling efficiency.
+GET /analytics/recycling-trends: Retrieve analytics insights into trends and performance in recycling over time.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

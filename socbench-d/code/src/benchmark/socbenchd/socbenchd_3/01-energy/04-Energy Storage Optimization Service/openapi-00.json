@@ -1,0 +1,304 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Energy Storage and Management API",
+    "description": "API for managing energy storage and release through actionable insights derived from energy supply-demand modeling. Use cases include optimizing renewable energy storage and release during peak periods.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.energy-management.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/energy-model/create": {
+      "post": {
+        "summary": "Create Energy Supply-Demand Model",
+        "description": "Creates a new energy supply-demand model using the provided parameters to assist in energy management.",
+        "requestBody": {
+          "description": "JSON object containing parameters for the energy model creation.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the energy model."
+                  },
+                  "parameters": {
+                    "type": "object",
+                    "description": "Key parameters for modeling supply-demand dynamics.",
+                    "additionalProperties": { "type": "number" }
+                  }
+                },
+                "required": ["name", "parameters"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Energy model created successfully."
+          },
+          "400": {
+            "description": "Invalid input parameters."
+          }
+        }
+      }
+    },
+    "/energy-models": {
+      "get": {
+        "summary": "Retrieve Energy Models",
+        "description": "Fetches a list of all available energy supply-demand models in the system.",
+        "responses": {
+          "200": {
+            "description": "List of energy models.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string", "description": "Unique identifier of the energy model." },
+                      "name": { "type": "string", "description": "Name of the energy model." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-model/{modelId}": {
+      "patch": {
+        "summary": "Update Energy Model",
+        "description": "Updates the parameters of an existing energy supply-demand model by specifying its unique identifier.",
+        "parameters": [
+          {
+            "name": "modelId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the energy model.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "description": "JSON object containing the updated parameters for the energy model.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "parameters": {
+                    "type": "object",
+                    "description": "Updated key parameters for modeling supply-demand dynamics.",
+                    "additionalProperties": { "type": "number" }
+                  }
+                },
+                "required": ["parameters"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Energy model updated successfully."
+          },
+          "404": {
+            "description": "Energy model not found."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Energy Model",
+        "description": "Deletes an energy model permanently using its unique identifier.",
+        "parameters": [
+          {
+            "name": "modelId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the energy model.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Energy model deleted successfully."
+          },
+          "404": {
+            "description": "Energy model not found."
+          }
+        }
+      }
+    },
+    "/energy-insights": {
+      "get": {
+        "summary": "Retrieve Energy Insights",
+        "description": "Fetches actionable insights based on current energy data and future demand predictions.",
+        "responses": {
+          "200": {
+            "description": "Insights retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "Actionable insights for energy management.",
+                  "additionalProperties": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-storage/action": {
+      "post": {
+        "summary": "Perform Energy Storage or Release Action",
+        "description": "Performs specific actions related to energy storage or release based on the defined parameters.",
+        "requestBody": {
+          "description": "JSON object defining the energy action to be performed.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action": { "type": "string", "description": "Action to be performed (e.g., 'store', 'release')." },
+                  "amount": { "type": "number", "description": "Amount of energy to store or release." },
+                  "timestamp": { "type": "string", "format": "date-time", "description": "Timestamp of the action." }
+                },
+                "required": ["action", "amount"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Action performed successfully."
+          },
+          "400": {
+            "description": "Invalid action parameters."
+          }
+        }
+      }
+    },
+    "/energy-usage/analytics": {
+      "get": {
+        "summary": "Retrieve Energy Usage Analytics",
+        "description": "Gathers analytical insights on patterns and trends in energy usage over time.",
+        "responses": {
+          "200": {
+            "description": "Analytics retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "Energy analytics data.",
+                  "additionalProperties": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alert-config/create": {
+      "post": {
+        "summary": "Create Alert Configuration",
+        "description": "Sets up an alert mechanism to notify stakeholders about specific energy-related events.",
+        "requestBody": {
+          "description": "JSON object containing alert configuration details.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "event": { "type": "string", "description": "Event type to trigger an alert." },
+                  "threshold": { "type": "number", "description": "Threshold for triggering the alert." },
+                  "recipients": {
+                    "type": "array",
+                    "description": "List of alert recipients.",
+                    "items": { "type": "string" }
+                  }
+                },
+                "required": ["event", "threshold", "recipients"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Alert configuration created successfully."
+          },
+          "400": {
+            "description": "Invalid configuration parameters."
+          }
+        }
+      }
+    },
+    "/recommendations/strategy": {
+      "get": {
+        "summary": "Retrieve Energy Management Recommendations",
+        "description": "Provides recommended strategies for optimizing energy management, including storage and release suggestions.",
+        "responses": {
+          "200": {
+            "description": "Recommendations retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "Recommendations for optimization.",
+                  "additionalProperties": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-preferences/storage-strategy": {
+      "put": {
+        "summary": "Update Storage Strategy Preferences",
+        "description": "Updates user preferences regarding energy storage strategies for customized actions.",
+        "requestBody": {
+          "description": "JSON object specifying the updated storage strategy preferences.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "strategy": { "type": "string", "description": "Preferred storage strategy (e.g., 'cost-efficient', 'performance-oriented')." },
+                  "parameters": {
+                    "type": "object",
+                    "description": "Additional parameters associated with the strategy.",
+                    "additionalProperties": { "type": "number" }
+                  }
+                },
+                "required": ["strategy"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Storage strategy preferences updated successfully."
+          },
+          "400": {
+            "description": "Invalid preference parameters provided."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  }
+}

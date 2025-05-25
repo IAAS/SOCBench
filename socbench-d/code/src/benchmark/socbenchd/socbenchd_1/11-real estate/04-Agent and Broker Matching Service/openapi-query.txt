@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+By connecting property seekers or sellers with suitable real estate professionals, this service enables efficient interactions. Key features include profile creation, reviews, ratings, and a recommendation algorithm linking users with agents based on location, specialization, and performance metrics.
+
+Endpoints:
+GET /agents: Retrieve the list of real estate agents based on given filters like location and specialization.
+POST /agents: Create a new real estate agent profile.
+GET /properties: Fetch available properties listed for sale or rent.
+POST /properties: Add a new property listing to the service.
+GET /recommendations: Get recommended agents for a specific property based on user preferences and metrics.
+POST /reviews: Submit a review and rating for a real estate agent by a user.
+GET /reviews/{agentId}: Retrieve all reviews and ratings for a specific agent.
+PUT /agents/{agentId}: Update the information of a specific real estate agent.
+DELETE /properties/{propertyId}: Remove a property listing from the service.
+POST /feedback: Submit user feedback regarding the overall service.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

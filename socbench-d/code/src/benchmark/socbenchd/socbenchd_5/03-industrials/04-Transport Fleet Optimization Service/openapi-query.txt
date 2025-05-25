@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+The Transport Fleet Optimization Service API provides logistics companies with tools to manage and optimize their vehicle fleets. Capabilities include route optimization, real-time tracking, fuel usage analysis, and maintenance scheduling. Upon integration, logistics managers can ensure efficient usage of resources, minimize costs, and improve service reliability. For example, a company can send data on cargo requirements and delivery schedules to receive optimized routing instructions and cost estimations for operations.
+
+Endpoints:
+POST /optimize_route: Submit cargo and schedule data to receive optimized routing for vehicles.
+GET /vehicle_status: Retrieve real-time status and location data for all active vehicles.
+POST /maintenance_schedule: Submit vehicle details to generate a maintenance schedule based on usage data.
+GET /fuel_consumption_report: Retrieve a detailed fuel consumption analysis for a specified time period.
+PUT /update_vehicle_info: Update information about a fleet vehicle, including capacity and operational status.
+DELETE /remove_vehicle: Remove a vehicle from the fleet management system.
+GET /delivery_statistics: Retrieve aggregated performance statistics for completed deliveries.
+POST /add_vehicle: Add a new vehicle to the fleet management database with its specifications.
+GET /route_history: Retrieve past routing data and path analytics for specified vehicles.
+POST /fuel_usage_alert: Set up alerts for excess fuel consumption parameters for real-time notifications.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

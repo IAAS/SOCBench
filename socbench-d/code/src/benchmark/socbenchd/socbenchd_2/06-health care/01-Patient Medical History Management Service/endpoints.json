@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /patients",
+            "description": "Retrieve a list of all patients stored in the system."
+        },
+        {
+            "endpoint": "GET /patients/{patient_id}",
+            "description": "Retrieve comprehensive medical records for a specific patient using their unique identifier."
+        },
+        {
+            "endpoint": "POST /patients",
+            "description": "Create a new patient record with relevant details and initial medical data."
+        },
+        {
+            "endpoint": "PUT /patients/{patient_id}",
+            "description": "Update the complete details and medical records of an existing patient."
+        },
+        {
+            "endpoint": "PATCH /patients/{patient_id}",
+            "description": "Modify specific details or add additional medical data to an existing patient record."
+        },
+        {
+            "endpoint": "DELETE /patients/{patient_id}",
+            "description": "Remove the records of an existing patient from the system securely."
+        },
+        {
+            "endpoint": "GET /providers",
+            "description": "Retrieve the list of healthcare providers utilizing the system's services."
+        },
+        {
+            "endpoint": "GET /audit",
+            "description": "Fetch the audit trail for all activities performed within the system for compliance purposes."
+        },
+        {
+            "endpoint": "POST /sharing/{patient_id}",
+            "description": "Initiate the secure sharing of a patient’s medical record with authorized entities."
+        },
+        {
+            "endpoint": "GET /compliance",
+            "description": "Verify the service's compliance status with healthcare regulations such as HIPAA."
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /production/orders",
+            "description": "Create a new production order for glass products."
+        },
+        {
+            "endpoint": "GET /production/orders/{id}/status",
+            "description": "Retrieve the current status of a specific production order."
+        },
+        {
+            "endpoint": "POST /machines/{id}/configurations",
+            "description": "Submit specific configuration data to a machine in the production line."
+        },
+        {
+            "endpoint": "GET /machines/performance",
+            "description": "Obtain performance metrics for all machines within the facility."
+        },
+        {
+            "endpoint": "POST /quality-control/tests",
+            "description": "Schedule a quality control test for a batch of produced glass items."
+        },
+        {
+            "endpoint": "GET /resources/inventory",
+            "description": "View current raw material inventory levels in the facility."
+        },
+        {
+            "endpoint": "PUT /resources/inventory/{item_id}",
+            "description": "Update the inventory levels for a specific material."
+        },
+        {
+            "endpoint": "GET /alerts/notifications",
+            "description": "Receive notifications about maintenance alerts or production anomalies."
+        },
+        {
+            "endpoint": "POST /reports/generate",
+            "description": "Generate a detailed production and quality control report."
+        },
+        {
+            "endpoint": "DELETE /production/orders/{id}",
+            "description": "Cancel an existing production order by its identifier."
+        }
+    ]
+}

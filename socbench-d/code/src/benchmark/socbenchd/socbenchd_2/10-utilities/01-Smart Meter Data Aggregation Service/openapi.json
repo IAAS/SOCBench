@@ -1,0 +1,411 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Smart Meter Data Aggregation and Visualization Service",
+        "description": "This service facilitates the aggregation and visualization of data collected from smart meters across residential and commercial locations. It allows for real-time integration with utility meters, providing support for the analysis of consumption patterns, leak detection, and demand forecasting.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.smartmeterutilities.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/meters": {
+            "get": {
+                "summary": "Retrieve all meters",
+                "description": "Fetch a list of all smart meter devices currently being monitored by the service.",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "meter_id": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the meter."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "The name or label associated with the meter."
+                                            },
+                                            "location": {
+                                                "type": "string",
+                                                "description": "The location where the meter is installed."
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "description": "The type of meter (e.g., electric, gas, water)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/meters/{meter_id}/data": {
+            "get": {
+                "summary": "Fetch historical meter data",
+                "description": "Retrieve historical data for a specific smart meter, identified by its unique meter ID.",
+                "parameters": [
+                    {
+                        "name": "meter_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the meter.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The start date for the historical data in ISO 8601 format (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The end date for the historical data in ISO 8601 format (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historical data retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "meter_id": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the meter."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "timestamp": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "description": "The timestamp for the data point."
+                                                    },
+                                                    "value": {
+                                                        "type": "number",
+                                                        "description": "The consumption value recorded by the meter at the given timestamp."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/meters/add": {
+            "post": {
+                "summary": "Add a new meter",
+                "description": "Add a new smart meter device to the monitoring system.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The name or label for the new meter."
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "description": "The location where the meter will be installed."
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "The type of meter (e.g., electric, gas, water)."
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "location",
+                                    "type"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Meter added successfully"
+                    }
+                }
+            }
+        },
+        "/meters/{meter_id}": {
+            "put": {
+                "summary": "Update a meter's details",
+                "description": "Update the name, location, or metadata of a specific smart meter by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "meter_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the meter.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The updated name or label for the meter."
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "description": "The updated location for the meter."
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "The updated type of the meter (e.g., electric, gas, water)."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Meter updated successfully"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove a meter",
+                "description": "Delete a specific smart meter and all its associated data by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "meter_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the meter.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Meter deleted successfully"
+                    }
+                }
+            }
+        },
+        "/analytics/consumption-pattern": {
+            "get": {
+                "summary": "Get consumption patterns",
+                "description": "Retrieve aggregated insights and patterns derived from consumption data for all meters.",
+                "responses": {
+                    "200": {
+                        "description": "Aggregated consumption patterns retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "pattern": {
+                                                "type": "string",
+                                                "description": "The identified consumption pattern."
+                                            },
+                                            "impact": {
+                                                "type": "string",
+                                                "description": "The relative impact of the identified pattern (e.g., low, medium, high)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/leak-detection": {
+            "get": {
+                "summary": "Detect potential leaks",
+                "description": "Analyze real-time data to detect potential leaks or anomalies in the system.",
+                "responses": {
+                    "200": {
+                        "description": "Leak detection analysis completed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "meter_id": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the meter."
+                                            },
+                                            "leak_detected": {
+                                                "type": "boolean",
+                                                "description": "Indicates whether a leak has been detected."
+                                            },
+                                            "details": {
+                                                "type": "string",
+                                                "description": "Additional details about the detected anomaly."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/demand-forecast": {
+            "get": {
+                "summary": "Retrieve demand forecasts",
+                "description": "Fetch predictions for future utility demand based on historical trends.",
+                "responses": {
+                    "200": {
+                        "description": "Future demand forecasts retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "The timestamp for the forecasted demand point."
+                                            },
+                                            "forecast_value": {
+                                                "type": "number",
+                                                "description": "The predicted consumption value."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/setup": {
+            "post": {
+                "summary": "Configure an alert",
+                "description": "Set up a custom alert, such as for usage thresholds or performance monitoring.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "description": "The type of alert to configure (e.g., threshold, anomaly)."
+                                    },
+                                    "threshold": {
+                                        "type": "number",
+                                        "description": "The threshold value for triggering the alert."
+                                    },
+                                    "frequency": {
+                                        "type": "string",
+                                        "description": "The frequency of monitoring (e.g., daily, hourly)."
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "threshold",
+                                    "frequency"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert configured successfully"
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "get": {
+                "summary": "Retrieve alerts",
+                "description": "Fetch all configured alerts along with their current statuses.",
+                "responses": {
+                    "200": {
+                        "description": "Alerts retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "alert_id": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the alert."
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "description": "The type of alert."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "The current status of the alert (e.g., active, inactive)."
+                                            },
+                                            "last_triggered": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "The timestamp when the alert was last triggered."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

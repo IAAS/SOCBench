@@ -1,0 +1,363 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Energy Market Participation Service API",
+        "description": "Empowers energy producers and consumers to participate in energy markets by providing tools for price forecasts, trading, and analytics to ensure optimal transactions and energy distribution.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.energy-market.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/market/forecasts": {
+            "get": {
+                "summary": "Retrieve energy price forecasts",
+                "description": "Retrieves energy price forecasts for various time intervals and regions. Includes data on predicted prices, regional specifics, and time intervals (e.g., hourly, daily, monthly).",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "The region for which the forecast is required. Example: 'NorthAmerica', 'Europe', etc.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "interval",
+                        "in": "query",
+                        "description": "The forecast interval. Example: 'hourly', 'daily', or 'monthly'.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "hourly",
+                                "daily",
+                                "monthly"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of forecasts.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "region": {
+                                                "type": "string",
+                                                "description": "The region."
+                                            },
+                                            "interval": {
+                                                "type": "string",
+                                                "description": "The interval (e.g., hourly, daily)."
+                                            },
+                                            "price": {
+                                                "type": "number",
+                                                "description": "Predicted energy price."
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "The timestamp for the forecast data."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input parameters."
+                    }
+                }
+            }
+        },
+        "/market/trade": {
+            "post": {
+                "summary": "Submit a trade order",
+                "description": "Allows users to submit a trade order for energy transactions by specifying energy quantity, price, and other trade parameters.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "quantity": {
+                                        "type": "number",
+                                        "description": "The quantity of energy to trade, in MWh."
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "description": "The price per unit of energy."
+                                    },
+                                    "trade_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "buy",
+                                            "sell"
+                                        ],
+                                        "description": "The type of trade ('buy' or 'sell')."
+                                    },
+                                    "region": {
+                                        "type": "string",
+                                        "description": "The region for the trade."
+                                    }
+                                },
+                                "required": [
+                                    "quantity",
+                                    "price",
+                                    "trade_type",
+                                    "region"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Trade order created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "trade_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the trade."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input parameters."
+                    }
+                }
+            }
+        },
+        "/trade/{trade_id}": {
+            "put": {
+                "summary": "Modify an existing trade order",
+                "description": "Allows users to modify an existing trade order by specifying the trade ID and updated parameters.",
+                "parameters": [
+                    {
+                        "name": "trade_id",
+                        "in": "path",
+                        "description": "The unique identifier of the trade to modify.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "quantity": {
+                                        "type": "number",
+                                        "description": "Updated quantity of energy to trade."
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "description": "Updated price per unit of energy."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Trade order successfully updated."
+                    },
+                    "404": {
+                        "description": "Trade not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Cancel a specific trade order",
+                "description": "Allows users to cancel an existing trade order using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "trade_id",
+                        "in": "path",
+                        "description": "The unique identifier of the trade to cancel.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Trade order successfully canceled."
+                    },
+                    "404": {
+                        "description": "Trade not found."
+                    }
+                }
+            }
+        },
+        "/analytics/distribution": {
+            "get": {
+                "summary": "Retrieve energy distribution analytics",
+                "description": "Fetches reports and trends related to energy distribution patterns.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully fetched distribution analytics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "region": {
+                                                "type": "string",
+                                                "description": "Region of the distribution analysis."
+                                            },
+                                            "trend": {
+                                                "type": "string",
+                                                "description": "Key distribution trend observed."
+                                            },
+                                            "data_points": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "time": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "description": "Timestamp for the data point."
+                                                        },
+                                                        "value": {
+                                                            "type": "number",
+                                                            "description": "Value of the distribution metric at the timestamp."
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/custom": {
+            "post": {
+                "summary": "Generate customized analytics reports",
+                "description": "Allows users to create customized analytics reports based on specific energy consumption criteria.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "criteria": {
+                                        "type": "string",
+                                        "description": "The criteria for customizing analytics reports."
+                                    }
+                                },
+                                "required": [
+                                    "criteria"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully generated analytics report."
+                    }
+                }
+            }
+        },
+        "/producers": {
+            "get": {
+                "summary": "List registered energy producers",
+                "description": "Retrieves a list of registered energy producers, including their output capacities and availability.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully fetched producers."
+                    }
+                }
+            }
+        },
+        "/consumers": {
+            "get": {
+                "summary": "Retrieve registered energy consumers",
+                "description": "Provides details about registered energy consumers and their historical consumption patterns.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved consumers."
+                    }
+                }
+            }
+        },
+        "/marketpatterns": {
+            "get": {
+                "summary": "Retrieve energy market trends",
+                "description": "Fetches patterns and trends in energy markets based on historical data for analysis.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved market patterns."
+                    }
+                }
+            }
+        },
+        "/user/preferences": {
+            "patch": {
+                "summary": "Update user-specific preferences",
+                "description": "Allows users to update their preferences and settings related to the use of the service.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "preference_key": {
+                                        "type": "string",
+                                        "description": "A specific preference key to update."
+                                    },
+                                    "preference_value": {
+                                        "type": "string",
+                                        "description": "The value for the specified preference key."
+                                    }
+                                },
+                                "required": [
+                                    "preference_key",
+                                    "preference_value"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Preferences updated successfully."
+                    }
+                }
+            }
+        }
+    }
+}

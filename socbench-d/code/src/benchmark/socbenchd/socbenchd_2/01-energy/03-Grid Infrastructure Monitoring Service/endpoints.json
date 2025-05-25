@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /grid-status",
+            "description": "Retrieve the overall health and status of the grid infrastructure."
+        },
+        {
+            "endpoint": "POST /anomalies/report",
+            "description": "Submit a detailed report of an identified anomaly in the grid."
+        },
+        {
+            "endpoint": "GET /substations/{id}",
+            "description": "Fetch detailed health and operational data of a specific substation by its identifier."
+        },
+        {
+            "endpoint": "PATCH /transformers/{id}/configure",
+            "description": "Update configuration settings for a specific transformer."
+        },
+        {
+            "endpoint": "GET /transmission-lines",
+            "description": "List all monitored transmission lines with their current statuses."
+        },
+        {
+            "endpoint": "PUT /sensors/{id}/maintenance",
+            "description": "Mark a specific sensor as under maintenance."
+        },
+        {
+            "endpoint": "GET /anomaly-history",
+            "description": "Access historical data of detected anomalies for trend analysis."
+        },
+        {
+            "endpoint": "DELETE /alerts/{alert_id}",
+            "description": "Remove a specific alert from the system by its identifier."
+        },
+        {
+            "endpoint": "POST /notifications/subscribe",
+            "description": "Subscribe to real-time notifications for specific criteria."
+        },
+        {
+            "endpoint": "GET /network/topology",
+            "description": "Visualize the current topology of the grid network."
+        }
+    ]
+}

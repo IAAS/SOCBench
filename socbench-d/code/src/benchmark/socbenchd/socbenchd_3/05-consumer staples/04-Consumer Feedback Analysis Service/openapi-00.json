@@ -1,0 +1,440 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Customer Feedback Analysis Service",
+    "description": "This service analyzes customer reviews and feedback from various platforms to provide manufacturers insights into product reception and areas for improvement. It is particularly useful for companies in the Consumer Staples Sector.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.consumerfeedback.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/feedback": {
+      "get": {
+        "summary": "Retrieve all customer feedback",
+        "description": "Retrieves a list of all customer feedback and reviews aggregated from various platforms.",
+        "responses": {
+          "200": {
+            "description": "A list of customer feedback and reviews.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Feedback"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Submit new customer feedback",
+        "description": "Submit a new piece of customer feedback for analysis via this endpoint.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Feedback successfully submitted."
+          },
+          "400": {
+            "description": "Invalid input."
+          }
+        }
+      }
+    },
+    "/feedback/summary": {
+      "get": {
+        "summary": "Get summary of feedback analysis",
+        "description": "Access a summary of customer feedback analysis, providing aggregated insights.",
+        "responses": {
+          "200": {
+            "description": "Summary of feedback analysis.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Summary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "summary": "Retrieve all products",
+        "description": "Retrieve a list of all products being monitored for feedback analysis.",
+        "responses": {
+          "200": {
+            "description": "A list of monitored products.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new product",
+        "description": "Add a new product to the monitoring list for customer feedback analysis.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Product successfully added."
+          },
+          "400": {
+            "description": "Invalid input."
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "put": {
+        "summary": "Update product details",
+        "description": "Update the details of a specific product that is being monitored for feedback.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the product to be updated.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product successfully updated."
+          },
+          "404": {
+            "description": "Product not found."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove a product",
+        "description": "Remove a product from the monitoring list based on its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the product to be deleted.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Product successfully deleted."
+          },
+          "404": {
+            "description": "Product not found."
+          }
+        }
+      }
+    },
+    "/insights": {
+      "get": {
+        "summary": "Retrieve detailed insights",
+        "description": "Retrieve detailed insights derived from the analyzed customer feedback.",
+        "responses": {
+          "200": {
+            "description": "Detailed insights.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Insights"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trends": {
+      "get": {
+        "summary": "Get trend data of feedback",
+        "description": "Retrieve trend data based on customer feedback over specified time intervals.",
+        "responses": {
+          "200": {
+            "description": "Trend data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Trends"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts": {
+      "post": {
+        "summary": "Configure custom alerts",
+        "description": "Configure custom alerts based on specific feedback trends or insights via this endpoint.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertConfig"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Alert configuration successfully created."
+          },
+          "400": {
+            "description": "Invalid input."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Feedback": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the feedback."
+          },
+          "productId": {
+            "type": "string",
+            "description": "The ID of the product that the feedback relates to."
+          },
+          "user": {
+            "type": "string",
+            "description": "Identifier for the user who submitted the feedback."
+          },
+          "content": {
+            "type": "string",
+            "description": "The content of the feedback."
+          },
+          "rating": {
+            "type": "integer",
+            "description": "The rating provided in the feedback, typically on a scale of 1-5.",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the feedback was submitted."
+          }
+        }
+      },
+      "FeedbackInput": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "The ID of the product that the feedback relates to."
+          },
+          "user": {
+            "type": "string",
+            "description": "Identifier for the user submitting the feedback."
+          },
+          "content": {
+            "type": "string",
+            "description": "The content of the feedback."
+          },
+          "rating": {
+            "type": "integer",
+            "description": "The rating provided in the feedback, typically on a scale of 1-5.",
+            "minimum": 1,
+            "maximum": 5
+          }
+        },
+        "required": ["productId", "user", "content", "rating"]
+      },
+      "Summary": {
+        "type": "object",
+        "properties": {
+          "totalFeedback": {
+            "type": "integer",
+            "description": "The total number of feedback entries analyzed."
+          },
+          "averageRating": {
+            "type": "number",
+            "description": "The average rating across all feedback analyzed."
+          },
+          "positiveFeedbackPercentage": {
+            "type": "number",
+            "description": "The percentage of positive feedback."
+          },
+          "mostMentionedProducts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of products most frequently mentioned in feedback."
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the product."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the product."
+          },
+          "category": {
+            "type": "string",
+            "description": "The category the product belongs to."
+          }
+        }
+      },
+      "ProductInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the product."
+          },
+          "category": {
+            "type": "string",
+            "description": "The category the product belongs to."
+          }
+        },
+        "required": ["name", "category"]
+      },
+      "Insights": {
+        "type": "object",
+        "properties": {
+          "productInsights": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ProductInsight"
+            },
+            "description": "Insights grouped by product."
+          },
+          "generalTrends": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "General trends observed in customer feedback."
+          }
+        }
+      },
+      "ProductInsight": {
+        "type": "object",
+        "properties": {
+          "averageRating": {
+            "type": "number",
+            "description": "The average rating for this product."
+          },
+          "totalFeedback": {
+            "type": "integer",
+            "description": "The total number of feedback entries for this product."
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Keywords most frequently associated with the product."
+          }
+        }
+      },
+      "Trends": {
+        "type": "object",
+        "properties": {
+          "timeIntervals": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "Time intervals used for the trend analysis."
+          },
+          "trendData": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "The date the data point corresponds to."
+                },
+                "value": {
+                  "type": "number",
+                  "description": "The feedback trend value for the data point."
+                }
+              }
+            }
+          }
+        }
+      },
+      "AlertConfig": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "A name for the alert configuration."
+          },
+          "criteria": {
+            "type": "string",
+            "description": "The criteria for the alert, e.g., a specific trend threshold or keyword appearance."
+          },
+          "alertType": {
+            "type": "string",
+            "description": "Type of alert, e.g., email or SMS."
+          }
+        },
+        "required": ["name", "criteria"]
+      }
+    }
+  }
+}

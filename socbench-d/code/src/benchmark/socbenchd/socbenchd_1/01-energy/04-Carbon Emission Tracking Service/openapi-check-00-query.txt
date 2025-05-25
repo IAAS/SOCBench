@@ -1,0 +1,469 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Carbon Footprint Monitoring Service",
+        "description": "This API facilitates industries to monitor their carbon footprint and implement measures to comply with environmental regulations. It provides endpoints for retrieving carbon emissions data, submitting carbon reduction plans, registering offset projects, analyzing energy usage, and more.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.example.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/carbon-emissions": {
+            "get": {
+                "summary": "Retrieve carbon emissions data",
+                "description": "Retrieve measured and calculated carbon emissions data for the specified industry.",
+                "parameters": [
+                    {
+                        "name": "industryId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The ID of the industry for which the carbon emissions data is requested.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved carbon emissions data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "industryId": {
+                                            "type": "string"
+                                        },
+                                        "emissionsData": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "timestamp": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "carbonEmissions": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/carbon-reduction-plan": {
+            "post": {
+                "summary": "Submit a carbon reduction plan",
+                "description": "Submit a carbon reduction plan for the industry, specifying reduction targets and timetables.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "industryId": {
+                                        "type": "string"
+                                    },
+                                    "targets": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "year": {
+                                                    "type": "integer"
+                                                },
+                                                "emissionReduction": {
+                                                    "type": "number"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "timeline": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "industryId",
+                                    "targets",
+                                    "timeline"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Carbon reduction plan successfully submitted."
+                    }
+                }
+            }
+        },
+        "/regulatory-compliance": {
+            "get": {
+                "summary": "Check regulatory compliance",
+                "description": "Obtain the current compliance status and recommendations to meet environmental regulations based on the industry's operations.",
+                "parameters": [
+                    {
+                        "name": "industryId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The ID of the industry whose compliance status is to be checked.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Regulatory compliance status retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "industryId": {
+                                            "type": "string"
+                                        },
+                                        "complianceStatus": {
+                                            "type": "string"
+                                        },
+                                        "recommendations": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/offset-projects": {
+            "post": {
+                "summary": "Register an offset project",
+                "description": "Register a project intended to offset carbon emissions for review and analysis.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "industryId": {
+                                        "type": "string"
+                                    },
+                                    "projectName": {
+                                        "type": "string"
+                                    },
+                                    "projectDescription": {
+                                        "type": "string"
+                                    },
+                                    "anticipatedReduction": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "industryId",
+                                    "projectName",
+                                    "projectDescription",
+                                    "anticipatedReduction"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Offset project successfully registered."
+                    }
+                }
+            }
+        },
+        "/energy-usage": {
+            "get": {
+                "summary": "Access energy usage details",
+                "description": "Retrieve detailed insights into the energy usage of the industry's operations.",
+                "parameters": [
+                    {
+                        "name": "industryId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The ID of the industry for which energy usage details are requested.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Energy usage details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "industryId": {
+                                            "type": "string"
+                                        },
+                                        "energyUsageDetails": {
+                                            "type": "object",
+                                            "properties": {
+                                                "totalUsage": {
+                                                    "type": "number"
+                                                },
+                                                "breakdown": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "category": {
+                                                                "type": "string"
+                                                            },
+                                                            "usage": {
+                                                                "type": "number"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/equipment-efficiency-check": {
+            "post": {
+                "summary": "Evaluate equipment efficiency",
+                "description": "Enable the submission of equipment details for efficiency evaluation and propose upgrades if applicable.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "equipmentId": {
+                                        "type": "string"
+                                    },
+                                    "industryId": {
+                                        "type": "string"
+                                    },
+                                    "usageDetails": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "equipmentId",
+                                    "industryId",
+                                    "usageDetails"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Equipment efficiency evaluation completed successfully."
+                    }
+                }
+            }
+        },
+        "/best-practices": {
+            "get": {
+                "summary": "Discover best practices",
+                "description": "Discover recommended best practices based on the industry type and location.",
+                "parameters": [
+                    {
+                        "name": "industryType",
+                        "in": "query",
+                        "required": true,
+                        "description": "The type of industry requesting best practice recommendations.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "required": false,
+                        "description": "The geographical location of the industry.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Best practices successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/team-training": {
+            "post": {
+                "summary": "Enroll staff in training programs",
+                "description": "Enroll organizational staff in training programs regarding sustainable energy practices.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "industryId": {
+                                        "type": "string"
+                                    },
+                                    "teamDetails": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "role": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "industryId",
+                                    "teamDetails"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Staff successfully enrolled in training programs."
+                    }
+                }
+            }
+        },
+        "/financial-incentives": {
+            "get": {
+                "summary": "List financial incentives",
+                "description": "Retrieve a list of available financial incentives for adopting sustainable operations.",
+                "parameters": [
+                    {
+                        "name": "industryId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The ID of the industry querying financial incentives.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Financial incentives retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "incentiveName": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            },
+                                            "eligibilityCriteria": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/report-feedback": {
+            "post": {
+                "summary": "Submit report feedback",
+                "description": "Submit feedback or flag inaccuracies in generated environmental reports or data.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "reportId": {
+                                        "type": "string"
+                                    },
+                                    "feedback": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "reportId",
+                                    "feedback"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback successfully submitted."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

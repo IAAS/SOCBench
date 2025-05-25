@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+Predicts future energy demand using advanced machine learning models trained on historical and environmental data, supporting efficient resource planning.
+
+Endpoints:
+POST /predict-demand: Submit data to predict future energy demand based on the provided parameters and data.
+GET /model-info: Retrieve information about the machine learning models used for predictions, including version and features.
+PUT /update-environment-data: Upload new environmental data to refine the predictive model's accuracy and comprehensiveness.
+GET /historical-demand: Access historical energy demand data for analysis and reference.
+DELETE /clear-dataset: Remove unnecessary or outdated datasets from the service database.
+GET /resource-planning-guides: Obtain insights and resources for efficient energy resource planning.
+POST /forecast-validation: Mark and comment on forecast results to improve the learning process of the models.
+GET /usage-statistics: Retrieve statistics on service usage and performance metrics.
+PATCH /update-demand-profile: Modify the characteristics of existing demand profiles used in predictions.
+GET /regional-demand-trends: Analyze energy demand trends across different geographical areas using multidimensional filtering.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

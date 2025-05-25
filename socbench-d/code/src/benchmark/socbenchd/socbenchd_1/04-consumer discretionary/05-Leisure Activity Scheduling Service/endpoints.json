@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /events/list",
+            "description": "Retrieve a list of available leisure events for booking."
+        },
+        {
+            "endpoint": "POST /events/book",
+            "description": "Book a specific leisure event based on user selection."
+        },
+        {
+            "endpoint": "GET /tours/list",
+            "description": "Retrieve details about available tours for selection."
+        },
+        {
+            "endpoint": "POST /tours/schedule",
+            "description": "Schedule and book a tour for the user."
+        },
+        {
+            "endpoint": "GET /itinerary/view",
+            "description": "View the personalized itinerary created by the user."
+        },
+        {
+            "endpoint": "POST /payment/checkout",
+            "description": "Complete the payment for booked events and tours."
+        },
+        {
+            "endpoint": "GET /destinations/highlights",
+            "description": "Get recommendations for popular destinations."
+        },
+        {
+            "endpoint": "POST /feedback/submit",
+            "description": "Provide feedback and reviews for leisure activities."
+        },
+        {
+            "endpoint": "GET /notifications/list",
+            "description": "Retrieve notifications and updates for booked activities."
+        },
+        {
+            "endpoint": "DELETE /itinerary/cancel",
+            "description": "Cancel and remove an item from the itinerary list."
+        }
+    ]
+}

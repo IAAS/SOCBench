@@ -1,0 +1,449 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Carbon Emissions Tracking and Reporting Service",
+        "version": "1.0.0",
+        "description": "A RESTful API designed to assist energy companies in monitoring, calculating, and reporting carbon emissions derived from their operations. Supports compliance with international and regional standards."
+    },
+    "paths": {
+        "/register": {
+            "post": {
+                "summary": "Register a new company account",
+                "description": "Create a new company account to access the Carbon Emissions Tracking and Reporting Service, tailored to company details and compliance needs.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "companyName": {
+                                        "type": "string",
+                                        "description": "The name of the company registering for the service."
+                                    },
+                                    "contactEmail": {
+                                        "type": "string",
+                                        "description": "Email address for the primary contact at the company."
+                                    },
+                                    "complianceNeeds": {
+                                        "type": "string",
+                                        "description": "Description of the company's compliance needs and objectives."
+                                    }
+                                },
+                                "required": [
+                                    "companyName",
+                                    "contactEmail",
+                                    "complianceNeeds"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful registration. Returns the new account details."
+                    },
+                    "400": {
+                        "description": "Invalid input, object invalid."
+                    }
+                }
+            }
+        },
+        "/authenticate": {
+            "post": {
+                "summary": "Obtain an API access key",
+                "description": "Authenticate with company credentials to obtain an access key required for secure access to all other endpoints.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "description": "Company's username for the API."
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "Company's password for the API."
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Authentication successful. Returns the API access key."
+                    },
+                    "401": {
+                        "description": "Authentication failed. Invalid credentials."
+                    }
+                }
+            }
+        },
+        "/emissions": {
+            "get": {
+                "summary": "Retrieve carbon emissions data",
+                "description": "Retrieve detailed emissions data filtered by timeframe, facility, and source, supporting insights into fuel combustion and production activities.",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "Start date for the emissions data."
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "End date for the emissions data."
+                    },
+                    {
+                        "name": "facility",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The specific facility for which emissions data is requested."
+                    },
+                    {
+                        "name": "source",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The source of emissions (e.g., fuel type, activity)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of emissions data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date"
+                                            },
+                                            "facility": {
+                                                "type": "string"
+                                            },
+                                            "source": {
+                                                "type": "string"
+                                            },
+                                            "emissions": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Amount of emissions measured in CO2 equivalent."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request parameters."
+                    }
+                }
+            }
+        },
+        "/reports/generate": {
+            "post": {
+                "summary": "Generate detailed compliance reports",
+                "description": "Create compliance reports based on emissions data, with the ability to filter by location, source, and regulatory standards.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "criteria": {
+                                        "type": "object",
+                                        "properties": {
+                                            "location": {
+                                                "type": "string"
+                                            },
+                                            "source": {
+                                                "type": "string"
+                                            },
+                                            "standard": {
+                                                "type": "string",
+                                                "description": "Regulatory standard for the report, e.g., Greenhouse Gas Protocol."
+                                            }
+                                        },
+                                        "required": [
+                                            "location",
+                                            "standard"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Report generation successful. Returns report details."
+                    },
+                    "400": {
+                        "description": "Invalid request parameters."
+                    }
+                }
+            }
+        },
+        "/standards/compliance": {
+            "get": {
+                "summary": "Access compliance standards",
+                "description": "Retrieve the latest international and regional compliance standards for accurate emissions reporting.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of compliance standards.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "standard": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/emissions-hotspots": {
+            "get": {
+                "summary": "Analyze emissions hotspots",
+                "description": "Analyze emissions data to identify hotspots, areas with the highest emissions, aiding in targeted reduction strategies.",
+                "responses": {
+                    "200": {
+                        "description": "Successful analysis of emissions hotspots.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "location": {
+                                                "type": "string"
+                                            },
+                                            "emissions": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "Amount of emissions at the location."
+                                            },
+                                            "rank": {
+                                                "type": "integer",
+                                                "description": "Hotspot rank based on emissions level."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/set": {
+            "post": {
+                "summary": "Create custom emissions alerts",
+                "description": "Set alerts for emissions exceeding specified thresholds. Notifications can be directed to relevant personnel.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "threshold": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "description": "Emissions threshold that triggers an alert."
+                                    },
+                                    "notificationEmail": {
+                                        "type": "string",
+                                        "description": "Email address to send alerts to."
+                                    }
+                                },
+                                "required": [
+                                    "threshold",
+                                    "notificationEmail"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Alert set successfully."
+                    },
+                    "400": {
+                        "description": "Invalid request parameters."
+                    }
+                }
+            }
+        },
+        "/systems/integration": {
+            "get": {
+                "summary": "Integration information",
+                "description": "Details on integrating the API with existing company data collection systems, including supported formats and protocols.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of integration information.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "formats": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "protocols": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/history/activities": {
+            "get": {
+                "summary": "Retrieve historical activity logs",
+                "description": "Obtain a log of historical activities related to emissions tracking and reporting, useful for audits and reviews.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of activity logs.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "activity": {
+                                                "type": "string",
+                                                "description": "Description of the activity."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/settings": {
+            "put": {
+                "summary": "Update user settings",
+                "description": "Modify user settings and preferences for notification and data display options for emissions tracking.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "notifications": {
+                                        "type": "object",
+                                        "properties": {
+                                            "email": {
+                                                "type": "boolean",
+                                                "description": "Enable or disable email notifications."
+                                            },
+                                            "sms": {
+                                                "type": "boolean",
+                                                "description": "Enable or disable SMS notifications."
+                                            }
+                                        }
+                                    },
+                                    "displaySettings": {
+                                        "type": "object",
+                                        "properties": {
+                                            "theme": {
+                                                "type": "string",
+                                                "description": "Preferred data display theme, e.g., light or dark."
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "notifications",
+                                    "displaySettings"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User settings updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid request parameters."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-API-KEY"
+            }
+        }
+    },
+    "security": [
+        {
+            "ApiKeyAuth": []
+        }
+    ]
+}

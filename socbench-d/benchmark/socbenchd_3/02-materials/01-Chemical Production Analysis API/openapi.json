@@ -1,0 +1,345 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Chemical Production Monitoring Service API",
+        "description": "This API enables detailed monitoring and analysis of chemical production processes. Users can access real-time data insights to optimize production efficiency and ensure quality compliance.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.chemicalmonitoring.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/process/start": {
+            "post": {
+                "summary": "Initiate Monitoring Process",
+                "description": "Start monitoring a specific chemical production line by providing necessary process details.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "productionLineId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the chemical production line to monitor."
+                                    },
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Additional configuration parameters for monitoring."
+                                    }
+                                },
+                                "required": [
+                                    "productionLineId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Monitoring process successfully started.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "processId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the initiated monitoring process."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/process/{id}/status": {
+            "get": {
+                "summary": "Get Monitoring Process Status",
+                "description": "Retrieve the current status of a monitoring process using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the monitoring process.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Current status of the monitoring process.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the monitoring process (e.g., running, completed, error)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Monitoring process not found."
+                    }
+                }
+            }
+        },
+        "/process/{id}/update": {
+            "put": {
+                "summary": "Update Monitoring Process Settings",
+                "description": "Update the settings or configurations for an ongoing monitoring process using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the monitoring process.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Updated configuration parameters for the process."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Monitoring process successfully updated."
+                    },
+                    "404": {
+                        "description": "Monitoring process not found."
+                    }
+                }
+            }
+        },
+        "/process/{id}/terminate": {
+            "delete": {
+                "summary": "Terminate Monitoring Process",
+                "description": "Stop a monitoring process using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the monitoring process.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Monitoring process successfully terminated."
+                    },
+                    "404": {
+                        "description": "Monitoring process not found."
+                    }
+                }
+            }
+        },
+        "/insights/data": {
+            "get": {
+                "summary": "Access Processed Insights",
+                "description": "Retrieve processed insights derived from real-time data of the monitoring process.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved insights data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "insights": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            },
+                                            "description": "Array of insights data."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/insights/quality": {
+            "get": {
+                "summary": "Get Quality Compliance Metrics",
+                "description": "Evaluate and retrieve quality compliance metrics for the monitored process.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved quality metrics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "qualityMetrics": {
+                                            "type": "object",
+                                            "description": "Object containing quality compliance data."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/send": {
+            "post": {
+                "summary": "Trigger Alerts",
+                "description": "Send notifications or alerts based on specific production parameters.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "alertType": {
+                                        "type": "string",
+                                        "description": "Type of alert to send."
+                                    },
+                                    "details": {
+                                        "type": "object",
+                                        "description": "Detailed information about the alert."
+                                    }
+                                },
+                                "required": [
+                                    "alertType"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Alert successfully triggered."
+                    },
+                    "400": {
+                        "description": "Invalid alert data."
+                    }
+                }
+            }
+        },
+        "/trends": {
+            "get": {
+                "summary": "Analyze Historical Trends",
+                "description": "Retrieve historical data to analyze trends in production efficiency.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved historical trends.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    },
+                                    "description": "Array of trend data."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/logs/save": {
+            "post": {
+                "summary": "Save Data Logs",
+                "description": "Archive monitored data logs for future reference or audits.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "logData": {
+                                        "type": "object",
+                                        "description": "Data to save in the logs."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Log data successfully saved."
+                    }
+                }
+            }
+        },
+        "/logs/{id}/details": {
+            "get": {
+                "summary": "Fetch Log Details",
+                "description": "Retrieve detailed information about a specific archived log using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the archived log.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved log details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "logDetails": {
+                                            "type": "object",
+                                            "description": "Details of the requested log."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Log not found."
+                    }
+                }
+            }
+        }
+    }
+}

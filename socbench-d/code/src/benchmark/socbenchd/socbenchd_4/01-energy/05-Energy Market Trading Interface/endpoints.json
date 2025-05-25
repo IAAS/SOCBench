@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /commodities",
+            "description": "Retrieve the list of available energy commodities for trading."
+        },
+        {
+            "endpoint": "POST /transactions/new",
+            "description": "Create a new trade transaction for a specific energy commodity."
+        },
+        {
+            "endpoint": "GET /transactions/{transaction_id}",
+            "description": "Fetch details of a specific trade transaction by its ID."
+        },
+        {
+            "endpoint": "PUT /transactions/{transaction_id}/update",
+            "description": "Modify the details of an existing trade transaction."
+        },
+        {
+            "endpoint": "DELETE /transactions/{transaction_id}",
+            "description": "Cancel an existing trade transaction."
+        },
+        {
+            "endpoint": "GET /market-prices",
+            "description": "Obtain the latest market prices for listed energy commodities."
+        },
+        {
+            "endpoint": "POST /marketpricerequests",
+            "description": "Submit a request to analyze market price fluctuations for a specific commodity."
+        },
+        {
+            "endpoint": "GET /market-analytics",
+            "description": "Retrieve analytics and insights based on active trade data."
+        },
+        {
+            "endpoint": "GET /tradehistory",
+            "description": "View the trading history for a specific producer or consumer."
+        },
+        {
+            "endpoint": "GET /distributors",
+            "description": "List registered distributors participating in trading activities."
+        }
+    ]
+}

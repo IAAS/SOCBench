@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /machinery_health",
+            "description": "Retrieve real-time operational status of all monitored machinery."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Set up alerts for specific machinery condition thresholds."
+        },
+        {
+            "endpoint": "GET /analytics/predictions",
+            "description": "Access predictive maintenance analytics and insights for machinery."
+        },
+        {
+            "endpoint": "GET /sensor_data/{id}",
+            "description": "Retrieve historical sensor data for the specified machinery by its ID."
+        },
+        {
+            "endpoint": "PUT /machinery_config/{id}",
+            "description": "Update configuration settings for the specified machinery by its ID."
+        },
+        {
+            "endpoint": "DELETE /alerts/{id}",
+            "description": "Remove an existing alert by its ID."
+        },
+        {
+            "endpoint": "POST /sensor_data/upload",
+            "description": "Upload sensor data files for processing and analysis."
+        },
+        {
+            "endpoint": "GET /system_report",
+            "description": "Generate and download a comprehensive system health report."
+        },
+        {
+            "endpoint": "GET /maintenance_schedule",
+            "description": "Retrieve scheduled maintenance details for all monitored machinery."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit user feedback regarding the service and its endpoints."
+        }
+    ]
+}

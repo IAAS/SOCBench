@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+This platform allows content providers to manage live and on-demand video streaming, including features like adaptive bitrate handling, viewer engagement analytics, and dynamic advertisement insertion.
+
+Endpoints:
+POST /video/upload: Upload a new video to the platform for processing and streaming.
+GET /video/{videoID}/streamingUrl: Retrieve the streaming URL for a specific video.
+POST /live/start: Initiate a live video streaming session.
+PATCH /live/{sessionID}/advertisement: Insert an advertisement dynamically into a live stream session.
+GET /analytics/viewership: Retrieve analytics data regarding viewer engagement and statistics.
+DELETE /video/{videoID}: Remove a specific video from the platform.
+POST /live/{sessionID}/end: Terminate an active live streaming session.
+GET /video/metadata: Obtain metadata for videos, including titles and descriptions.
+PUT /video/{videoID}/advertisement: Replace advertisements associated with an on-demand video.
+GET /platform/health: Check the current health and operational status of the streaming platform.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

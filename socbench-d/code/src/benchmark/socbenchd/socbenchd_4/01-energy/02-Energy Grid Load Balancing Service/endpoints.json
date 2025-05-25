@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /energy-demand",
+            "description": "Retrieve the historical and real-time energy demand data across the grid."
+        },
+        {
+            "endpoint": "POST /energy-input-adjustment",
+            "description": "Submit parameters for adjusting energy inputs to optimize grid efficiency."
+        },
+        {
+            "endpoint": "GET /grid-stability",
+            "description": "View the current stability metrics of the energy grid system."
+        },
+        {
+            "endpoint": "GET /real-time-demand",
+            "description": "Fetch dynamically updating demand patterns for analysis."
+        },
+        {
+            "endpoint": "POST /threshold-settings",
+            "description": "Define thresholds for demand prediction adjustments."
+        },
+        {
+            "endpoint": "GET /efficiency-metrics",
+            "description": "Retrieve metrics highlighting energy distribution efficiency."
+        },
+        {
+            "endpoint": "POST /sensor-calibration",
+            "description": "Send commands to calibrate grid monitoring sensors."
+        },
+        {
+            "endpoint": "GET /adjustment-history",
+            "description": "Provide historical actions taken to optimize grid performance."
+        },
+        {
+            "endpoint": "GET /input-sources",
+            "description": "List the available energy input sources and their statuses."
+        },
+        {
+            "endpoint": "POST /alert-notifications",
+            "description": "Create custom notifications for specific demand conditions."
+        }
+    ]
+}

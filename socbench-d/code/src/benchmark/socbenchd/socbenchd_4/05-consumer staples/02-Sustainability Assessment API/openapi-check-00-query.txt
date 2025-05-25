@@ -1,0 +1,284 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+OpenAPI:
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Consumer Staples Environmental Impact Service",
+        "description": "This service evaluates the environmental impact of products within the consumer staples domain. Users can inquire about carbon footprint, recyclability, and sustainability certifications of goods. The service is beneficial for companies aiming to meet eco-friendly standards.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.consumerstaples.com",
+            "description": "Main API server"
+        }
+    ],
+    "paths": {
+        "/products/{id}/environmental-impact": {
+            "get": {
+                "summary": "Retrieve product environmental impact",
+                "description": "Retrieve the environmental impact details for a specific product by its ID, including carbon footprint, recyclability, and sustainability certifications.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique identifier of the product",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Environmental impact details returned successfully"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                }
+            }
+        },
+        "/products/evaluate": {
+            "post": {
+                "summary": "Evaluate environmental impact of a product",
+                "description": "Submit a product for a comprehensive environmental evaluation considering factors like sustainability certifications, carbon footprint, and recyclability.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "productDetails": {
+                                        "type": "object",
+                                        "description": "Details of the product being submitted for evaluation"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Environmental evaluation completed successfully"
+                    },
+                    "400": {
+                        "description": "Invalid product details provided"
+                    }
+                }
+            }
+        },
+        "/categories/{id}/average-impact": {
+            "get": {
+                "summary": "Retrieve average environmental impact for category",
+                "description": "Retrieve the average environmental impact for products within a specific category.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique identifier of the category",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Average environmental impact retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    }
+                }
+            }
+        },
+        "/certifications": {
+            "get": {
+                "summary": "Retrieve sustainability certifications",
+                "description": "Retrieve a list of recognized sustainability certifications used for evaluating products.",
+                "responses": {
+                    "200": {
+                        "description": "List of certifications retrieved successfully"
+                    }
+                }
+            }
+        },
+        "/certifications/verify": {
+            "post": {
+                "summary": "Verify a product against a certification",
+                "description": "Submit a product for verification against a specific sustainability certification.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "productId": {
+                                        "type": "string",
+                                        "description": "ID of the product"
+                                    },
+                                    "certificationId": {
+                                        "type": "string",
+                                        "description": "ID of the certification to verify against"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Verification completed successfully"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            }
+        },
+        "/carbon-footprint/range": {
+            "get": {
+                "summary": "Retrieve products by carbon footprint range",
+                "description": "Retrieve a list of products whose carbon footprint falls within the specified range.",
+                "parameters": [
+                    {
+                        "name": "min",
+                        "in": "query",
+                        "description": "Minimum carbon footprint value",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "max",
+                        "in": "query",
+                        "description": "Maximum carbon footprint value",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Products retrieved successfully"
+                    },
+                    "400": {
+                        "description": "Invalid range parameters"
+                    }
+                }
+            }
+        },
+        "/recyclability/{id}": {
+            "get": {
+                "summary": "Retrieve recyclability details",
+                "description": "Retrieve recyclability details for a specific product by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique identifier of the product",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Recyclability details retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                }
+            }
+        },
+        "/products/bulk-evaluate": {
+            "post": {
+                "summary": "Bulk evaluate products",
+                "description": "Submit multiple products for environmental evaluation in a single request.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "description": "Details of a product"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Bulk evaluation completed successfully"
+                    },
+                    "400": {
+                        "description": "Invalid request data"
+                    }
+                }
+            }
+        },
+        "/environmental-news/highlights": {
+            "get": {
+                "summary": "Retrieve environmental news highlights",
+                "description": "Retrieve highlights of recent developments in environmental standards or practices.",
+                "responses": {
+                    "200": {
+                        "description": "News highlights retrieved successfully"
+                    }
+                }
+            }
+        },
+        "/regions/{region_id}/impact-statistics": {
+            "get": {
+                "summary": "Retrieve environmental impact statistics for region",
+                "description": "Retrieve environmental impact statistics for products distributed in a specific region.",
+                "parameters": [
+                    {
+                        "name": "region_id",
+                        "in": "path",
+                        "description": "Unique identifier of the region",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Impact statistics retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Region not found"
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

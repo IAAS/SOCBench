@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Service:
+Facilitates the management of insurance policies, claims, and payments through a RESTful system. Users can submit claims or renew policies via this service securely and transparently.
+
+Endpoints:
+POST /claims: Submit a new insurance claim.
+GET /claims/{claim_id}: Retrieve the details of a specific insurance claim by ID.
+PUT /claims/{claim_id}: Update an existing insurance claim's information.
+GET /policies: Fetch the list of all active insurance policies under the user.
+GET /policies/{policy_id}: Retrieve details of a specific insurance policy.
+POST /policies/renewals: Submit a request to renew an existing insurance policy.
+GET /payments: List all payment transactions related to policies and claims.
+POST /payments: Initiate a new payment for policy renewal or claim settlement.
+POST /feedback: Submit feedback regarding the insurance service.
+GET /notifications: Retrieve a list of notifications related to policy activities and claims.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

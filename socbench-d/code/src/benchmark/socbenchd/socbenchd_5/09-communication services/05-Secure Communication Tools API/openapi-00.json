@@ -1,0 +1,362 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "End-to-End Encrypted Communication API",
+        "description": "This API provides a secure, end-to-end encrypted communication solution for messaging, calling, and file sharing. Designed to ensure user privacy and regulatory compliance, this service is suitable for both individuals and organizations.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.securecommunication.com",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/messages/send": {
+            "post": {
+                "summary": "Send a new message",
+                "description": "Send a new message to a specific user or group with end-to-end encryption.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "recipient_id": {
+                                        "type": "string",
+                                        "description": "Unique ID of the recipient (user or group)."
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "description": "Content of the message to be sent."
+                                    }
+                                },
+                                "required": [
+                                    "recipient_id",
+                                    "message"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Message successfully sent.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message_id": {
+                                            "type": "string",
+                                            "description": "Unique ID of the sent message."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "sent"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/messages/{message_id}": {
+            "delete": {
+                "summary": "Delete a message",
+                "description": "Permanently delete a specific message from the server.",
+                "parameters": [
+                    {
+                        "name": "message_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique ID of the message to be deleted."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Message successfully deleted."
+                    },
+                    "404": {
+                        "description": "Message not found."
+                    }
+                }
+            }
+        },
+        "/conversations": {
+            "get": {
+                "summary": "List all conversations",
+                "description": "Retrieve a list of all conversations for the logged-in user.",
+                "responses": {
+                    "200": {
+                        "description": "A list of conversations.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "conversation_id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "last_message": {
+                                                "type": "string"
+                                            },
+                                            "last_updated": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/conversations/{conversation_id}/read": {
+            "put": {
+                "summary": "Mark conversation as read",
+                "description": "Mark all messages in a specific conversation as read.",
+                "parameters": [
+                    {
+                        "name": "conversation_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique ID of the conversation to be marked as read."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Conversation successfully marked as read."
+                    },
+                    "404": {
+                        "description": "Conversation not found."
+                    }
+                }
+            }
+        },
+        "/files/share": {
+            "post": {
+                "summary": "Upload and share a file",
+                "description": "Upload and share a file securely with end-to-end encryption.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "The file to be uploaded and shared."
+                                    },
+                                    "recipient_id": {
+                                        "type": "string",
+                                        "description": "Unique ID of the recipient (user or group)."
+                                    }
+                                },
+                                "required": [
+                                    "file",
+                                    "recipient_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "File successfully uploaded and shared.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "file_id": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "shared"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/files/{file_id}/download": {
+            "get": {
+                "summary": "Download an encrypted file",
+                "description": "Download an encrypted file securely using its unique ID.",
+                "parameters": [
+                    {
+                        "name": "file_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique ID of the file to download."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File successfully downloaded.",
+                        "content": {
+                            "application/octet-stream": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "File not found."
+                    }
+                }
+            }
+        },
+        "/contacts": {
+            "get": {
+                "summary": "Retrieve the contact list",
+                "description": "Retrieve the contact list for the logged-in user.",
+                "responses": {
+                    "200": {
+                        "description": "List of contacts.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "user_id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "example": "online"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/calls/start": {
+            "post": {
+                "summary": "Initiate a secure call",
+                "description": "Start a secure voice or video call with a specific user or group.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "recipient_id": {
+                                        "type": "string",
+                                        "description": "Unique ID of the recipient (user or group)."
+                                    },
+                                    "call_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "voice",
+                                            "video"
+                                        ],
+                                        "description": "Type of call to initiate (voice or video)."
+                                    }
+                                },
+                                "required": [
+                                    "recipient_id",
+                                    "call_type"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Call successfully initiated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "call_id": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "in-progress"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/settings/privacy": {
+            "put": {
+                "summary": "Update privacy settings",
+                "description": "Update the privacy settings for the logged-in user's account.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "share_last_seen": {
+                                        "type": "boolean",
+                                        "description": "Whether to share the 'last seen' status with other users."
+                                    },
+                                    "read_receipts": {
+                                        "type": "boolean",
+                                        "description": "Whether to allow sending/receiving read receipts."
+                                    }
+                                },
+                                "required": [
+                                    "share_last_seen",
+                                    "read_receipts"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Privacy settings successfully updated."
+                    }
+                }
+            }
+        }
+    }
+}

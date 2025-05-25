@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+Service:
+This service enables detailed monitoring and analysis of chemical production processes. Users can access real-time data insights to optimize production efficiency and ensure quality compliance.
+
+Endpoints:
+POST /process/start: Initiate the monitoring process for a specified chemical production line.
+GET /process/{id}/status: Retrieve the current status of the monitoring process by its identifier.
+PUT /process/{id}/update: Update settings or configurations for an ongoing monitoring process.
+DELETE /process/{id}/terminate: Terminate the monitoring process identified by its unique identifier.
+GET /insights/data: Access processed insights and analytics derived from real-time data.
+GET /insights/quality: Evaluate and retrieve quality compliance metrics for the monitored process.
+POST /alerts/send: Trigger notifications or alerts based on specific production parameters.
+GET /trends: Analyze historical data to illustrate trends in production efficiency.
+POST /logs/save: Archive monitored data logs for future reference or audits.
+GET /logs/{id}/details: Fetch detailed information about a specific archived log by ID.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /maintenance-schedule",
+            "description": "Retrieve the complete maintenance schedule for the facilities."
+        },
+        {
+            "endpoint": "POST /incident-report",
+            "description": "Submit a detailed report for any observed incidents or issues."
+        },
+        {
+            "endpoint": "GET /prediction-summary",
+            "description": "Retrieve summaries of predictive maintenance algorithms and findings."
+        },
+        {
+            "endpoint": "POST /sensor-data",
+            "description": "Upload new data collected from sensors for analysis."
+        },
+        {
+            "endpoint": "GET /failure-likelihood",
+            "description": "Get the probability of potential failures in the system components."
+        },
+        {
+            "endpoint": "PUT /maintenance-schedule/{id}",
+            "description": "Update an existing maintenance schedule entry by ID."
+        },
+        {
+            "endpoint": "DELETE /incident-report/{id}",
+            "description": "Remove a specific incident report by ID."
+        },
+        {
+            "endpoint": "GET /equipment-status",
+            "description": "Retrieve the current status and performance metrics of equipment."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Access active alerts and warnings related to system performance."
+        },
+        {
+            "endpoint": "POST /custom-query",
+            "description": "Execute a custom analytics query on existing datasets."
+        }
+    ]
+}

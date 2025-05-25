@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+Service:
+Organizations can utilize this API to track software license usage, ensuring compliance with agreements and avoiding potential legal or financial penalties.
+
+Endpoints:
+POST /license/track: Submit software license information to the system for tracking compliance.
+GET /license/compliance: Retrieve compliance status reports for tracked software licenses.
+PUT /license/update/{licenseId}: Update details of a specific tracked software license.
+DELETE /license/remove/{licenseId}: Remove a tracked software license from the database.
+GET /usage/data: Fetch detailed usage data for all monitored software.
+POST /alerts/set: Configure alerts for license usage thresholds and compliance violations.
+GET /alerts: List all active alerts and their configurations.
+POST /compliance/report: Generate a comprehensive compliance report for oversight purposes.
+GET /license/{licenseId}: Retrieve details and historical usage of a specific software license.
+POST /user/license/assign: Assign a specific software license to a user within the organization.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

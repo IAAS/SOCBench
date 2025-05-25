@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /grids",
+            "description": "Retrieve the list of all utility grids available for simulation and analysis."
+        },
+        {
+            "endpoint": "POST /grids/{gridId}/simulate",
+            "description": "Initiate a simulation for the specified grid to analyze operational performance under various conditions."
+        },
+        {
+            "endpoint": "GET /scenarios",
+            "description": "Retrieve all predefined and custom simulation scenarios."
+        },
+        {
+            "endpoint": "POST /scenarios",
+            "description": "Create a new scenario specifying expansion plans and load conditions."
+        },
+        {
+            "endpoint": "DELETE /scenarios/{scenarioId}",
+            "description": "Remove an existing simulation scenario by its ID."
+        },
+        {
+            "endpoint": "GET /results/{simulationId}",
+            "description": "Retrieve the results of a completed simulation by simulation ID."
+        },
+        {
+            "endpoint": "PUT /grids/{gridId}/infrastructure",
+            "description": "Update the infrastructure data for a given grid before initiating simulations."
+        },
+        {
+            "endpoint": "POST /optimizations",
+            "description": "Run an optimization process to achieve load balancing for a specific grid configuration."
+        },
+        {
+            "endpoint": "GET /reports",
+            "description": "Access detailed reports and analytical data derived from past simulations."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Set up alert notifications for specific grid conditions or simulation parameters."
+        }
+    ]
+}

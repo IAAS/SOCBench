@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+Service:
+This RESTful API supports patients and healthcare providers in scheduling and managing medical appointments. Patients can search for available time slots with specific practitioners and book appointments, while practitioners can manage their schedules and availability effectively.
+
+Endpoints:
+POST /appointments: Create a new medical appointment for a patient with a specified practitioner.
+GET /appointments: Retrieve a list of all scheduled appointments for a particular patient or practitioner.
+PATCH /appointments/{appointment_id}: Update the details of a specific appointment using its unique ID.
+DELETE /appointments/{appointment_id}: Cancel a medical appointment by its ID.
+GET /practitioners: Retrieve a list of all available healthcare practitioners within the network.
+GET /practitioners/{practitioner_id}/availability: Retrieve the available time slots for a specific practitioner.
+POST /practitioners/{practitioner_id}/availability: Add or update the availability schedule for a specific practitioner.
+GET /patients/{patient_id}/history: Retrieve the appointment history for a specific patient.
+GET /appointment-types: Retrieve a list of available types of medical appointments.
+POST /reports: Generate a detailed report summarizing appointments and availability for a specified timeframe.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

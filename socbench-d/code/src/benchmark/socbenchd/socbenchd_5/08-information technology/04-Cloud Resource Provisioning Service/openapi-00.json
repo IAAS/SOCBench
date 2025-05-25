@@ -1,0 +1,357 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Cloud Resource Management API",
+    "version": "1.0.0",
+    "description": "This API allows users to deploy, scale, and manage cloud resources seamlessly, optimizing application hosting and data storage operations in real time. Users can create, update, scale, tag, and retrieve cloud resource information, including performance and usage metrics."
+  },
+  "paths": {
+    "/resources": {
+      "post": {
+        "summary": "Create a new cloud resource",
+        "description": "Create a new cloud resource for the user by specifying the necessary configuration details.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "description": "The name of the new resource." },
+                  "type": { "type": "string", "description": "The type of the resource (e.g., VM, database, storage)." },
+                  "region": { "type": "string", "description": "The deployment region for the resource." },
+                  "configuration": {
+                    "type": "object",
+                    "description": "Key-value pairs specifying configuration details for the resource."
+                  }
+                },
+                "required": ["name", "type", "region"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Resource created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string", "description": "The unique ID of the newly created resource." },
+                    "status": { "type": "string", "description": "The status of the resource creation process." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieve all cloud resources",
+        "description": "Retrieve a list of all cloud resources currently managed by the service.",
+        "responses": {
+          "200": {
+            "description": "A list of cloud resources.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string", "description": "The unique ID of the resource." },
+                      "name": { "type": "string", "description": "The name of the resource." },
+                      "type": { "type": "string", "description": "The type of the resource." },
+                      "status": { "type": "string", "description": "The current status of the resource." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resources/{id}": {
+      "get": {
+        "summary": "Retrieve detailed information about a specific resource",
+        "description": "Fetch detailed information about a specific cloud resource identified by its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The unique ID of the cloud resource to retrieve."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the specific resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string", "description": "The unique ID of the resource." },
+                    "name": { "type": "string", "description": "The name of the resource." },
+                    "type": { "type": "string", "description": "The type of the resource." },
+                    "configuration": {
+                      "type": "object",
+                      "description": "Configuration details of the resource."
+                    },
+                    "status": { "type": "string", "description": "The current status of the resource." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update resource configuration or attributes",
+        "description": "Update the configuration or attributes of a specific cloud resource identified by its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The unique ID of the cloud resource to update."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "description": "The updated name of the resource." },
+                  "configuration": {
+                    "type": "object",
+                    "description": "Updated configuration details for the resource."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resource updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string", "description": "The ID of the updated resource." },
+                    "status": { "type": "string", "description": "The updated status of the resource." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a specific cloud resource",
+        "description": "Delete a specific cloud resource identified by its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The unique ID of the resource to delete."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Resource deleted successfully."
+          }
+        }
+      }
+    },
+    "/resources/{id}/scale": {
+      "post": {
+        "summary": "Scale a specific resource",
+        "description": "Scale a specific cloud resource up or down based on user requirements.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The unique ID of the resource to scale."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "scaleType": {
+                    "type": "string",
+                    "description": "The type of scaling operation (e.g., 'up', 'down')."
+                  },
+                  "scaleValue": {
+                    "type": "number",
+                    "description": "The amount by which to scale the resource."
+                  }
+                },
+                "required": ["scaleType", "scaleValue"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resource scaled successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string", "description": "The ID of the scaled resource." },
+                    "status": { "type": "string", "description": "The updated status of the resource." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "summary": "Retrieve usage and performance metrics for all cloud resources",
+        "description": "Fetch aggregated usage and performance metrics for all resources managed by the service.",
+        "responses": {
+          "200": {
+            "description": "Metrics retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string", "description": "The unique ID of the resource." },
+                      "metrics": {
+                        "type": "object",
+                        "description": "Performance and usage metrics for the resource."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics/{id}": {
+      "get": {
+        "summary": "Retrieve detailed metrics for a specific resource",
+        "description": "Fetch detailed performance and usage metrics for a specific cloud resource.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The unique ID of the resource to fetch metrics for."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detailed metrics retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string", "description": "The unique ID of the resource." },
+                    "metrics": {
+                      "type": "object",
+                      "description": "Detailed performance and usage metrics for the resource."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/regions": {
+      "get": {
+        "summary": "List all available regions",
+        "description": "Retrieve a list of all regions where cloud resources can be deployed.",
+        "responses": {
+          "200": {
+            "description": "A list of available regions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "The name of a region."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags": {
+      "post": {
+        "summary": "Assign tags to resources",
+        "description": "Assign tags to cloud resources for categorization and organization.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "resourceId": { "type": "string", "description": "The ID of the resource to tag." },
+                  "tags": {
+                    "type": "array",
+                    "items": { "type": "string", "description": "A tag to assign to the resource." }
+                  }
+                },
+                "required": ["resourceId", "tags"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tags assigned successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "resourceId": { "type": "string", "description": "The ID of the tagged resource." },
+                    "tags": {
+                      "type": "array",
+                      "items": { "type": "string", "description": "The tags assigned to the resource." }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

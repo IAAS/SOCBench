@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /questionnaires",
+            "description": "Create and define a new healthcare questionnaire for assessments."
+        },
+        {
+            "endpoint": "GET /questionnaires",
+            "description": "Retrieve a list of available questionnaires and their details."
+        },
+        {
+            "endpoint": "GET /questionnaires/{id}",
+            "description": "Retrieve specific questionnaire details by its unique identifier."
+        },
+        {
+            "endpoint": "PUT /questionnaires/{id}",
+            "description": "Update the structure or content of an existing questionnaire."
+        },
+        {
+            "endpoint": "DELETE /questionnaires/{id}",
+            "description": "Remove an existing questionnaire from the system."
+        },
+        {
+            "endpoint": "POST /responses",
+            "description": "Submit responses to a specific questionnaire for analysis."
+        },
+        {
+            "endpoint": "GET /responses/{id}",
+            "description": "View analysis and results of submitted questionnaire responses by identifier."
+        },
+        {
+            "endpoint": "GET /analytics",
+            "description": "Retrieve aggregated insights and trends based on questionnaire data."
+        },
+        {
+            "endpoint": "POST /monitoring",
+            "description": "Initiate monitoring for a patient based on tailored assessments."
+        },
+        {
+            "endpoint": "GET /monitoring/{id}",
+            "description": "Retrieve data from ongoing monitoring of a specific patient for evaluations."
+        }
+    ]
+}

@@ -1,0 +1,347 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Mortgage Loan Assessment API",
+    "description": "This API allows users to assess applicants' qualifications for mortgage loans by analyzing financial data, creditworthiness, and repayment potential through a secure interface.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.mortgageassessments.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/applications": {
+      "post": {
+        "summary": "Submit a new mortgage application",
+        "description": "Submit a new mortgage application with complete financial and personal information. The application will be analyzed for further feasibility actions.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "personalInformation": {
+                    "type": "object",
+                    "description": "Personal details of the applicant.",
+                    "properties": {
+                      "name": { "type": "string" },
+                      "dob": { "type": "string", "format": "date" },
+                      "ssn": { "type": "string" }
+                    },
+                    "required": ["name", "dob", "ssn"]
+                  },
+                  "financialInformation": {
+                    "type": "object",
+                    "description": "Financial details of the applicant.",
+                    "properties": {
+                      "income": { "type": "number", "format": "double" },
+                      "debts": { "type": "number", "format": "double" },
+                      "creditScore": { "type": "integer" }
+                    },
+                    "required": ["income", "creditScore"]
+                  }
+                },
+                "required": ["personalInformation", "financialInformation"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Mortgage application created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{id}": {
+      "get": {
+        "summary": "Retrieve mortgage application details",
+        "description": "Retrieve the details of a submitted mortgage application using a unique identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the mortgage application.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the mortgage application.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Application not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a mortgage application",
+        "description": "Update information on an existing mortgage application.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the mortgage application.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "Fields to update in the application.",
+                "properties": {
+                  "financialInformation": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Application updated successfully." },
+          "404": { "description": "Application not found." }
+        }
+      },
+      "delete": {
+        "summary": "Delete a mortgage application",
+        "description": "Remove a specific mortgage application by its unique identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the mortgage application.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Mortgage application deleted."
+          },
+          "404": {
+            "description": "Application not found."
+          }
+        }
+      }
+    },
+    "/applications/{id}/calculate": {
+      "post": {
+        "summary": "Calculate loan feasibility",
+        "description": "Analyze and estimate loan feasibility for a specific application.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the mortgage application.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Loan feasibility analysis completed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "feasibilityScore": { "type": "number", "format": "double" },
+                    "recommendation": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{id}/status": {
+      "get": {
+        "summary": "Check application status",
+        "description": "Check the current status and progress of a submitted mortgage application.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the mortgage application.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Application status retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "progress": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{id}/submit": {
+      "post": {
+        "summary": "Submit application for review",
+        "description": "Formalize and submit the mortgage application for further review.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the mortgage application.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Application successfully submitted for review."
+          }
+        }
+      }
+    },
+    "/loans/interest-rates": {
+      "get": {
+        "summary": "Fetch current interest rates",
+        "description": "Fetch the current interest rates for different loan types and durations.",
+        "responses": {
+          "200": {
+            "description": "Interest rates retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "loanType": { "type": "string" },
+                      "interestRate": { "type": "number", "format": "double" },
+                      "duration": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/documents": {
+      "post": {
+        "summary": "Upload documents for processing",
+        "description": "Upload required documents for mortgage processing to a user's profile.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the user.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Document uploaded successfully." }
+        }
+      },
+      "get": {
+        "summary": "Retrieve uploaded documents",
+        "description": "Retrieve a list of documents uploaded for a user's mortgage applications.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the user.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Documents retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "documentId": { "type": "string" },
+                      "fileName": { "type": "string" },
+                      "uploadedAt": { "type": "string", "format": "date-time" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {}
+}

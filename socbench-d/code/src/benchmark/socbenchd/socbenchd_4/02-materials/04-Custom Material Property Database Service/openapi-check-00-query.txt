@@ -1,0 +1,339 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Material Properties Database API",
+        "description": "This API provides access to a comprehensive database of material properties, enabling efficient material selection and optimization for engineering and design projects. The API allows users to search materials by specific criteria, retrieve detailed characteristics, access environmental ratings, and integrate the data with design software.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.materialsdb.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/materials": {
+            "get": {
+                "summary": "Retrieve List of Materials",
+                "description": "Fetch a list of all materials available in the database, along with basic metadata for each.",
+                "responses": {
+                    "200": {
+                        "description": "A list of materials was successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "id": "mat001",
+                                        "name": "Aluminum",
+                                        "category": "Metal"
+                                    },
+                                    {
+                                        "id": "mat002",
+                                        "name": "Polypropylene",
+                                        "category": "Polymer"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/materials/{id}": {
+            "get": {
+                "summary": "Fetch Material Properties",
+                "description": "Retrieve the detailed properties of a specific material by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the material.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the specified material retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": "mat001",
+                                    "name": "Aluminum",
+                                    "properties": {
+                                        "density": "2.70 g/cm^3",
+                                        "thermal_conductivity": "237 W/mK",
+                                        "melting_point": "660.3 \u00b0C"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The material with the specified ID was not found."
+                    }
+                }
+            }
+        },
+        "/materials/search": {
+            "post": {
+                "summary": "Search Materials by Criteria",
+                "description": "Search for materials matching specific mechanical, thermal, and chemical property criteria.",
+                "requestBody": {
+                    "description": "Provide search criteria for material properties.",
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "mechanical": {
+                                    "yield_strength": {
+                                        "min": 200,
+                                        "max": 500
+                                    }
+                                },
+                                "thermal": {
+                                    "thermal_conductivity": {
+                                        "min": 100
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Materials matching the criteria were successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "id": "mat001",
+                                        "name": "Aluminum",
+                                        "category": "Metal"
+                                    },
+                                    {
+                                        "id": "mat003",
+                                        "name": "Copper",
+                                        "category": "Metal"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/properties": {
+            "get": {
+                "summary": "Retrieve Available Property Categories",
+                "description": "Get a list of all property categories that can be used for material evaluation, such as 'mechanical', 'thermal', and 'chemical'.",
+                "responses": {
+                    "200": {
+                        "description": "List of property categories retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    "mechanical",
+                                    "thermal",
+                                    "chemical",
+                                    "optical",
+                                    "electrical"
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/applications": {
+            "get": {
+                "summary": "Access Material Applications",
+                "description": "Fetch typical applications for different materials.",
+                "responses": {
+                    "200": {
+                        "description": "A list of material applications was successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "material": "Aluminum",
+                                        "applications": [
+                                            "Automotive",
+                                            "Aerospace",
+                                            "Construction"
+                                        ]
+                                    },
+                                    {
+                                        "material": "Polypropylene",
+                                        "applications": [
+                                            "Packaging",
+                                            "Textiles",
+                                            "Laboratory Equipment"
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/integration/guidelines": {
+            "get": {
+                "summary": "Retrieve API Integration Guidelines",
+                "description": "Obtain documentation and support files for integrating the API with existing design and engineering software.",
+                "responses": {
+                    "200": {
+                        "description": "Integration guidelines successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "guidelines_url": "https://api.materialsdb.com/v1/guidelines.pdf",
+                                    "support_contact": "support@materialsdb.com"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/upload": {
+            "post": {
+                "summary": "Upload Design Project File",
+                "description": "Upload a design file to extract material requirements for optimization.",
+                "requestBody": {
+                    "description": "The design project file in a compatible format (e.g., CAD, JSON).",
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "File uploaded and parsed successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "status": "success",
+                                    "message": "Material requirements extracted."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/optimization/recommendations": {
+            "get": {
+                "summary": "Fetch Material Selection Recommendations",
+                "description": "Get recommendations for materials to optimize project performance based on uploaded data.",
+                "responses": {
+                    "200": {
+                        "description": "Recommendations retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "material": "Composite X",
+                                        "benefits": "Lightweight, high strength-to-weight ratio"
+                                    },
+                                    {
+                                        "material": "Steel Y",
+                                        "benefits": "High durability, cost-effective"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/environmental/ratings": {
+            "get": {
+                "summary": "Explore Environmental Ratings",
+                "description": "Retrieve environmental ratings for materials based on criteria such as carbon footprint, recyclability, and sustainability.",
+                "responses": {
+                    "200": {
+                        "description": "Environmental ratings retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "material": "Aluminum",
+                                        "ratings": {
+                                            "carbon_footprint": "Medium",
+                                            "recyclability": "High",
+                                            "sustainability": "Moderate"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/datasets/export": {
+            "get": {
+                "summary": "Download Data Export",
+                "description": "Download material data sets for offline analysis or backup purposes.",
+                "parameters": [
+                    {
+                        "name": "format",
+                        "in": "query",
+                        "required": false,
+                        "description": "The format in which to export the dataset. Defaults to JSON.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "json",
+                                "csv",
+                                "xml"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dataset export successful.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "download_url": "https://api.materialsdb.com/v1/datasets/export.json"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /product/recommendations",
+            "description": "Retrieve a list of recommended personal care products based on user input parameters such as skin type and allergies."
+        },
+        {
+            "endpoint": "POST /user/preferences",
+            "description": "Submit user preferences, including skin type, allergies, and other desired features, to tailor recommendations."
+        },
+        {
+            "endpoint": "GET /products/{id}",
+            "description": "Retrieve detailed information about a specific product, including ingredients and suitability analysis."
+        },
+        {
+            "endpoint": "GET /categories",
+            "description": "Retrieve a list of all available product categories."
+        },
+        {
+            "endpoint": "GET /categories/{id}/products",
+            "description": "Retrieve products belonging to a specific category."
+        },
+        {
+            "endpoint": "GET /ingredients",
+            "description": "Retrieve a list of all ingredients used in products along with detailed properties."
+        },
+        {
+            "endpoint": "GET /ingredients/{id}",
+            "description": "Retrieve specific details about an individual ingredient."
+        },
+        {
+            "endpoint": "POST /reviews",
+            "description": "Submit a review for a specific product, including feedback and ratings."
+        },
+        {
+            "endpoint": "GET /reviews/{id}",
+            "description": "Retrieve reviews for a particular product."
+        },
+        {
+            "endpoint": "GET /trends",
+            "description": "Retrieve information on trending products and popular categories based on current user data."
+        }
+    ]
+}

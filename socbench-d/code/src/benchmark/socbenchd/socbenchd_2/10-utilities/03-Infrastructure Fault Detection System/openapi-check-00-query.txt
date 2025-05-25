@@ -1,0 +1,503 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Infrastructure Monitoring and Analysis API",
+        "description": "This RESTful API is designed to monitor and analyze infrastructure data such as pipelines and power grids in real-time. It identifies anomalies, predicts failures, and advises preventive maintenance, ensuring uninterrupted service delivery.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.infrastructure-monitoring.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/infrastructure/status": {
+            "get": {
+                "summary": "Retrieve infrastructure status",
+                "description": "Fetch the status of all monitored infrastructure components, including pipelines and power grids.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of infrastructure status.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "components": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "description": "Unique identifier for the component."
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "description": "Type of component (pipeline, power grid, etc.)."
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "description": "Current status of the component (operational, under maintenance, faulty)."
+                                                    },
+                                                    "lastChecked": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "description": "Timestamp of the last status check."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/anomaly-detection": {
+            "post": {
+                "summary": "Detect anomalies",
+                "description": "Analyze monitored data for anomalies and receive detailed notifications regarding the detected issues.",
+                "requestBody": {
+                    "description": "Payload containing parameters to specify the scope of anomaly detection.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "componentIds": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of component IDs to analyze for anomalies."
+                                    },
+                                    "timePeriod": {
+                                        "type": "object",
+                                        "properties": {
+                                            "start": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Start of the time period for anomaly detection."
+                                            },
+                                            "end": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "End of the time period for anomaly detection."
+                                            }
+                                        },
+                                        "description": "Time period during which anomalies are to be detected."
+                                    }
+                                },
+                                "required": [
+                                    "componentIds",
+                                    "timePeriod"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful anomaly detection.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "anomalies": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "componentId": {
+                                                        "type": "string",
+                                                        "description": "ID of the component where the anomaly was detected."
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "description": "Summary of the detected anomaly."
+                                                    },
+                                                    "detectedAt": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "description": "Timestamp when the anomaly was detected."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/infrastructure/maintenance-schedule": {
+            "put": {
+                "summary": "Update maintenance schedule",
+                "description": "Update the scheduled maintenance activities for specific infrastructure elements.",
+                "requestBody": {
+                    "description": "Payload specifying the maintenance schedule updates.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "componentId": {
+                                        "type": "string",
+                                        "description": "ID of the component for which the maintenance schedule is being updated."
+                                    },
+                                    "maintenanceDate": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Date and time for the scheduled maintenance."
+                                    },
+                                    "details": {
+                                        "type": "string",
+                                        "description": "Detailed description of the maintenance activities."
+                                    }
+                                },
+                                "required": [
+                                    "componentId",
+                                    "maintenanceDate"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful update of the maintenance schedule."
+                    }
+                }
+            }
+        },
+        "/infrastructure/failure-predictions": {
+            "get": {
+                "summary": "Access failure predictions",
+                "description": "Fetch reports containing predictions about potential failures in the infrastructure.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of failure predictions.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "predictions": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "componentId": {
+                                                        "type": "string",
+                                                        "description": "ID of the component for which the failure prediction applies."
+                                                    },
+                                                    "failureProbability": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "description": "Probability of failure for the component."
+                                                    },
+                                                    "predictedAt": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "description": "Timestamp when the prediction was generated."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/infrastructure/evaluation": {
+            "post": {
+                "summary": "Submit infrastructure performance data",
+                "description": "Submit historical performance data for the infrastructure for evaluation and analysis.",
+                "requestBody": {
+                    "required": true,
+                    "description": "Payload containing the historical data for evaluation.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "componentId": {
+                                        "type": "string",
+                                        "description": "ID of the component whose historical data is being submitted."
+                                    },
+                                    "historicalData": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "timestamp": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "description": "Timestamp of the historical record."
+                                                },
+                                                "metric": {
+                                                    "type": "string",
+                                                    "description": "Metric name (e.g., voltage, pressure)."
+                                                },
+                                                "value": {
+                                                    "type": "number",
+                                                    "description": "Recorded value of the metric."
+                                                }
+                                            }
+                                        },
+                                        "description": "List of historical records for evaluation."
+                                    }
+                                },
+                                "required": [
+                                    "componentId",
+                                    "historicalData"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful submission and analysis of historical data."
+                    }
+                }
+            }
+        },
+        "/sensors/overview": {
+            "get": {
+                "summary": "Fetch sensor overview",
+                "description": "Obtain an overview summary of sensor readings and performance analytics.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of sensor overview.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "sensors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "sensorId": {
+                                                        "type": "string",
+                                                        "description": "ID of the sensor."
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "description": "Current status of the sensor (active, inactive, faulty)."
+                                                    },
+                                                    "readings": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "timestamp": {
+                                                                    "type": "string",
+                                                                    "format": "date-time",
+                                                                    "description": "Timestamp of the reading."
+                                                                },
+                                                                "value": {
+                                                                    "type": "number",
+                                                                    "description": "Recorded value of the metric."
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/clear-all": {
+            "delete": {
+                "summary": "Clear all alerts",
+                "description": "Remove all current alerts and notifications, resetting the system state.",
+                "responses": {
+                    "200": {
+                        "description": "All alerts successfully cleared."
+                    }
+                }
+            }
+        },
+        "/settings/notification-preferences": {
+            "patch": {
+                "summary": "Modify notification preferences",
+                "description": "Adjust user-defined preferences for receiving notifications about the infrastructure.",
+                "requestBody": {
+                    "description": "Payload containing updated notification preferences.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "emailAlerts": {
+                                        "type": "boolean",
+                                        "description": "Enable or disable email alerts."
+                                    },
+                                    "smsAlerts": {
+                                        "type": "boolean",
+                                        "description": "Enable or disable SMS alerts."
+                                    },
+                                    "thresholds": {
+                                        "type": "object",
+                                        "properties": {
+                                            "anomalyDetection": {
+                                                "type": "number",
+                                                "description": "Threshold for anomaly detection notifications."
+                                            },
+                                            "failureProbability": {
+                                                "type": "number",
+                                                "description": "Threshold for failure probability notifications."
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "emailAlerts",
+                                    "smsAlerts"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Notification preferences successfully updated."
+                    }
+                }
+            }
+        },
+        "/reports/system-reliability": {
+            "get": {
+                "summary": "Fetch system reliability reports",
+                "description": "Retrieve comprehensive reports on the overall reliability and performance trends of the infrastructure.",
+                "responses": {
+                    "200": {
+                        "description": "System reliability reports successfully fetched.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reports": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "reportId": {
+                                                        "type": "string",
+                                                        "description": "Unique identifier for the reliability report."
+                                                    },
+                                                    "summary": {
+                                                        "type": "string",
+                                                        "description": "High-level summary of the report."
+                                                    },
+                                                    "generatedAt": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "description": "Timestamp when the report was generated."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/diagnostics/run-check": {
+            "post": {
+                "summary": "Run diagnostics",
+                "description": "Initiate a real-time diagnostic check for specified infrastructure components to ensure optimal operation.",
+                "requestBody": {
+                    "description": "Payload containing the details for running diagnostics.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "componentId": {
+                                        "type": "string",
+                                        "description": "ID of the component to run diagnostics on."
+                                    },
+                                    "diagnosticType": {
+                                        "type": "string",
+                                        "description": "Type of diagnostic to be performed (standard, comprehensive, etc.)."
+                                    }
+                                },
+                                "required": [
+                                    "componentId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Diagnostics successfully executed.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "diagnosticId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the diagnostic session."
+                                        },
+                                        "results": {
+                                            "type": "object",
+                                            "description": "Results of the diagnostic."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

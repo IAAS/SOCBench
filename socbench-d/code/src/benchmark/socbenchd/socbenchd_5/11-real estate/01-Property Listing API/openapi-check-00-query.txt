@@ -1,0 +1,428 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+OpenAPI:
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Real Estate Listings API",
+        "description": "API to enable real estate agencies to manage property listings, integrate features, locations, and agents. Supports adding, editing, deleting, searching, and retrieving property listings, along with managing feature options, agents, and locations.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/listings": {
+            "post": {
+                "summary": "Create a new property listing",
+                "description": "Add a new property listing with details such as location, pricing, and features.",
+                "operationId": "createListing",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "description": "Title of the property listing"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Details about the property"
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "description": "Location of the property"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "description": "Price of the property"
+                                    },
+                                    "features": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of features associated with the property"
+                                    }
+                                },
+                                "required": [
+                                    "title",
+                                    "location",
+                                    "price"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Property successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Listing"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve all property listings",
+                "description": "Retrieve a list of all property listings available in the system.",
+                "operationId": "getAllListings",
+                "responses": {
+                    "200": {
+                        "description": "List of property listings",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Listing"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/listings/{id}": {
+            "get": {
+                "summary": "Retrieve specific property listing details",
+                "description": "Retrieve details about a specific property listing using its unique identifier.",
+                "operationId": "getListingById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the listing",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Listing details retrieved",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Listing"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Listing not found"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a property listing",
+                "description": "Update information of a specific property listing with provided details.",
+                "operationId": "updateListing",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the listing",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Listing"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Listing successfully updated"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Listing not found"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a property listing",
+                "description": "Remove a specific property listing permanently using its unique identifier.",
+                "operationId": "deleteListing",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the listing",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Listing successfully deleted"
+                    },
+                    "404": {
+                        "description": "Listing not found"
+                    }
+                }
+            }
+        },
+        "/listings/search": {
+            "get": {
+                "summary": "Search property listings",
+                "description": "Search for property listings using query parameters like location, pricing range, and features.",
+                "operationId": "searchListings",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "Location to filter listings by",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "minPrice",
+                        "in": "query",
+                        "description": "Minimum price to filter listings by",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "maxPrice",
+                        "in": "query",
+                        "description": "Maximum price to filter listings by",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "features",
+                        "in": "query",
+                        "description": "Comma-separated list of features to filter listings by",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Search results",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Listing"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/features": {
+            "post": {
+                "summary": "Add new property features",
+                "description": "Add new feature options to list as potential property attributes.",
+                "operationId": "addFeature",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the feature"
+                                    }
+                                },
+                                "required": [
+                                    "name"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Feature successfully added"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/locations": {
+            "get": {
+                "summary": "Retrieve available locations",
+                "description": "Retrieve a list of all available location data options in the system.",
+                "operationId": "getLocations",
+                "responses": {
+                    "200": {
+                        "description": "List of available locations",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/statistics": {
+            "get": {
+                "summary": "View property statistics",
+                "description": "View aggregated statistics related to property listings, such as counts and averages.",
+                "operationId": "getStatistics",
+                "responses": {
+                    "200": {
+                        "description": "Property statistics retrieved",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "totalListings": {
+                                            "type": "integer",
+                                            "description": "Total number of listings"
+                                        },
+                                        "averagePrice": {
+                                            "type": "number",
+                                            "description": "Average price of listings"
+                                        },
+                                        "totalLocations": {
+                                            "type": "integer",
+                                            "description": "Number of unique locations"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/agents": {
+            "post": {
+                "summary": "Register a real estate agent",
+                "description": "Register a new real estate agent within the system to manage property listings.",
+                "operationId": "registerAgent",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Agent's name"
+                                    },
+                                    "contact": {
+                                        "type": "string",
+                                        "description": "Agent's contact information"
+                                    },
+                                    "agencyName": {
+                                        "type": "string",
+                                        "description": "Name of the real estate agency the agent is associated with"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "contact"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Agent registered successfully"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Listing": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier of the listing"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Title of the listing"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Detailed description of the property"
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Location of the property"
+                    },
+                    "price": {
+                        "type": "number",
+                        "description": "Price of the property"
+                    },
+                    "features": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of features associated with the property"
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

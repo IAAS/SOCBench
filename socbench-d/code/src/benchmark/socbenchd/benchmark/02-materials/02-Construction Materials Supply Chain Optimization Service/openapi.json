@@ -1,0 +1,570 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Construction Materials Supply Chain Optimization API",
+        "description": "This API provides tools for optimizing the supply chain in the construction materials sector, with functionalities for demand forecasting, supplier performance analysis, logistics tracking, and more.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.construction-materials.com"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-API-KEY"
+            }
+        }
+    },
+    "security": [
+        {
+            "ApiKeyAuth": []
+        }
+    ],
+    "paths": {
+        "/api/authentication": {
+            "get": {
+                "summary": "Retrieve API authentication credentials",
+                "description": "Retrieve authentication credentials using API keys for secure and verified access to all service functionalities.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of authentication credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "accessToken": {
+                                            "type": "string",
+                                            "description": "Access token for API access"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/demand-forecast": {
+            "get": {
+                "summary": "Access demand forecasting data",
+                "description": "Access demand forecasting data by specifying parameters such as material type, region, and historical time frame. Returns a JSON report with trends and projections.",
+                "parameters": [
+                    {
+                        "name": "materialType",
+                        "in": "query",
+                        "required": true,
+                        "description": "Type of the construction material",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": true,
+                        "description": "Geographical region for which demand data is required",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "startTime",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start time for the historical data",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "endTime",
+                        "in": "query",
+                        "required": true,
+                        "description": "End time for the historical data",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of demand forecast data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "forecastData": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "description": "Date for the forecast"
+                                                    },
+                                                    "forecastValue": {
+                                                        "type": "number",
+                                                        "description": "Projected demand value"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logistics-routing": {
+            "post": {
+                "summary": "Submit logistics data for route optimization",
+                "description": "Submit logistics data including origin, destination, and delivery requirements to optimize transport routes based on predictive analytics.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "origin": {
+                                        "type": "string",
+                                        "description": "Starting point of the delivery"
+                                    },
+                                    "destination": {
+                                        "type": "string",
+                                        "description": "End point of the delivery"
+                                    },
+                                    "deliveryRequirements": {
+                                        "type": "string",
+                                        "description": "Special requirements for the delivery (e.g., time constraints, vehicle type)"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful submission and optimization of logistics route",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "optimizedRoute": {
+                                            "type": "string",
+                                            "description": "Details of the optimized transport route"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supplier-performance": {
+            "get": {
+                "summary": "Retrieve supplier performance metrics",
+                "description": "Retrieve comprehensive reports on supplier performance metrics like delivery timeliness, quality of materials, and overall reliability.",
+                "parameters": [
+                    {
+                        "name": "supplierId",
+                        "in": "query",
+                        "required": false,
+                        "description": "ID of the supplier",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of supplier performance data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "performanceMetrics": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "metricName": {
+                                                        "type": "string",
+                                                        "description": "Name of the performance metric"
+                                                    },
+                                                    "value": {
+                                                        "type": "string",
+                                                        "description": "Value of the performance metric"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/historical-sales": {
+            "get": {
+                "summary": "Access past sales data",
+                "description": "Access past sales data for specific construction materials, segmented by geography and time periods. This allows trend analysis and demand prediction.",
+                "parameters": [
+                    {
+                        "name": "materialType",
+                        "in": "query",
+                        "required": true,
+                        "description": "Type of construction material",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": true,
+                        "description": "Geographical region of interest",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "startTime",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start time for the sales data period",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "endTime",
+                        "in": "query",
+                        "required": true,
+                        "description": "End time for the sales data period",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of historical sales data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "salesData": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "description": "Sales data date"
+                                                    },
+                                                    "salesValue": {
+                                                        "type": "number",
+                                                        "description": "Value of sales"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/weather-data": {
+            "get": {
+                "summary": "Obtain weather data",
+                "description": "Obtain historical and predictive weather data to comprehend its impact on construction material demand and logistics planning.",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "required": true,
+                        "description": "Location for weather data retrieval",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "startTime",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start time for weather data period",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "endTime",
+                        "in": "query",
+                        "required": true,
+                        "description": "End time for weather data period",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of weather data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "weatherData": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "description": "Weather data date"
+                                                    },
+                                                    "temperature": {
+                                                        "type": "number",
+                                                        "description": "Temperature on the given date"
+                                                    },
+                                                    "precipitation": {
+                                                        "type": "number",
+                                                        "description": "Precipitation on the given date"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/inventory-management": {
+            "get": {
+                "summary": "Gather inventory insights",
+                "description": "Gather insights into current inventory levels to ensure alignment with forecasted demand and prevent stock-outs or overstocking.",
+                "parameters": [
+                    {
+                        "name": "materialType",
+                        "in": "query",
+                        "required": true,
+                        "description": "Construction material type for inventory check",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "warehouseLocation",
+                        "in": "query",
+                        "required": false,
+                        "description": "Warehouse location for inventory data",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of inventory data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "inventoryLevels": {
+                                            "type": "object",
+                                            "description": "Current inventory levels",
+                                            "additionalProperties": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/feedback-loop": {
+            "post": {
+                "summary": "Send feedback data",
+                "description": "Send feedback data on logistics or supplier performance to instantly adjust predictive models and improve supply chain responsiveness.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "logisticsFeedback": {
+                                        "type": "string",
+                                        "description": "Feedback on logistics performance"
+                                    },
+                                    "supplierFeedback": {
+                                        "type": "string",
+                                        "description": "Feedback on supplier performance"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback successfully received and processed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Result of the feedback processing"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/data-visualization": {
+            "get": {
+                "summary": "Access dynamic data visualization",
+                "description": "Access dynamic dashboards and visualization tools to map data trends, correlations, and performance metrics for better decision-making.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of data visualization tools",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "dashboardLinks": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "description": "URL link to the visualization dashboard"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/transport-cost-analysis": {
+            "get": {
+                "summary": "Analyze transportation costs",
+                "description": "Analyze transportation costs across different routes and suppliers to identify potential savings and improve budget allocations.",
+                "parameters": [
+                    {
+                        "name": "origin",
+                        "in": "query",
+                        "required": false,
+                        "description": "Departure location for transportation cost analysis",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "destination",
+                        "in": "query",
+                        "required": false,
+                        "description": "Arrival location for transportation cost analysis",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "route",
+                        "in": "query",
+                        "required": false,
+                        "description": "Specific route for cost analysis",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "supplier",
+                        "in": "query",
+                        "required": false,
+                        "description": "Supplier name for cost evaluation",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of transportation cost analysis",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "costAnalysis": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "route": {
+                                                        "type": "string",
+                                                        "description": "Analyzed transportation route"
+                                                    },
+                                                    "cost": {
+                                                        "type": "number",
+                                                        "description": "Transportation cost"
+                                                    },
+                                                    "savingsPotential": {
+                                                        "type": "number",
+                                                        "description": "Potential savings on the analyzed route"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

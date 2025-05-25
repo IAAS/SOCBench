@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /alerts",
+            "description": "Create a new alert rule for monitoring specific network activities."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Retrieve all existing alert rules for the system."
+        },
+        {
+            "endpoint": "PUT /alerts/{alert_id}",
+            "description": "Update the specific alert rule identified by an ID."
+        },
+        {
+            "endpoint": "DELETE /alerts/{alert_id}",
+            "description": "Remove the specified alert rule from the system."
+        },
+        {
+            "endpoint": "POST /threats",
+            "description": "Log a new detected cybersecurity threat."
+        },
+        {
+            "endpoint": "GET /threats",
+            "description": "Retrieve a list of all logged cybersecurity threats."
+        },
+        {
+            "endpoint": "PUT /systems/{system_id}/status",
+            "description": "Update the operational status of a specified monitored system."
+        },
+        {
+            "endpoint": "GET /systems",
+            "description": "Retrieve details and state of all monitored systems."
+        },
+        {
+            "endpoint": "POST /reports/generate",
+            "description": "Generate a comprehensive report on monitoring activities and incidents."
+        },
+        {
+            "endpoint": "GET /config/settings",
+            "description": "Fetch the current configuration settings of the monitoring system."
+        }
+    ]
+}

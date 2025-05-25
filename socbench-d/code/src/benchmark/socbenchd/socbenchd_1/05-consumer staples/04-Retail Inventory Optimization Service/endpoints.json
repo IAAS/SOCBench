@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /inventory/status",
+            "description": "Retrieve the current inventory status, including quantities and locations of items."
+        },
+        {
+            "endpoint": "POST /inventory/restock",
+            "description": "Submit a request to restock specific items based on demand predictions."
+        },
+        {
+            "endpoint": "GET /analytics/patterns",
+            "description": "Analyze and report purchasing trends and seasonal patterns."
+        },
+        {
+            "endpoint": "POST /analytics/forecast",
+            "description": "Provide forecast data for inventory requirements based on historical data."
+        },
+        {
+            "endpoint": "GET /waste/reports",
+            "description": "Retrieve detailed waste reports to identify inefficiencies."
+        },
+        {
+            "endpoint": "PUT /inventory/adjust",
+            "description": "Adjust inventory levels manually after verification by staff."
+        },
+        {
+            "endpoint": "GET /suppliers/list",
+            "description": "List all suppliers and their associated products."
+        },
+        {
+            "endpoint": "POST /orders/new",
+            "description": "Create a new order for inventory replenishment."
+        },
+        {
+            "endpoint": "DELETE /inventory/remove",
+            "description": "Remove specific items from inventory upon confirmation."
+        },
+        {
+            "endpoint": "GET /performance/metrics",
+            "description": "Retrieve KPIs and other metrics related to inventory optimization."
+        }
+    ]
+}

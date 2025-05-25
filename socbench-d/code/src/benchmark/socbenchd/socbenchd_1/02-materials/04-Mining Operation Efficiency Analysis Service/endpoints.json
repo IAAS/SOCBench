@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /equipment-status",
+            "description": "Retrieve the current operational status of all mining machinery."
+        },
+        {
+            "endpoint": "POST /equipment/maintenance-schedule",
+            "description": "Submit and update the maintenance schedule for specific equipment."
+        },
+        {
+            "endpoint": "GET /sites/resources-overview",
+            "description": "Fetch detailed reports on the types and quantities of resources available across mining sites."
+        },
+        {
+            "endpoint": "POST /analysis/start",
+            "description": "Initialize the detailed performance analysis for selected mining equipment."
+        },
+        {
+            "endpoint": "GET /equipment/{id}/metrics",
+            "description": "Retrieve real-time metrics, such as resource extraction rates, for a specific piece of equipment."
+        },
+        {
+            "endpoint": "PUT /equipment/{id}/settings",
+            "description": "Update operational settings for a specified piece of machinery."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Retrieve active alerts and warnings for mining machinery and operations."
+        },
+        {
+            "endpoint": "POST /sites/add",
+            "description": "Add a new mining site to the monitoring system."
+        },
+        {
+            "endpoint": "DELETE /equipment/{id}",
+            "description": "Remove a piece of machinery from the data monitoring system by ID."
+        },
+        {
+            "endpoint": "GET /data/historical",
+            "description": "Fetch and download historical data logs for equipment and site production metrics."
+        }
+    ]
+}

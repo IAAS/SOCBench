@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /materials",
+            "description": "Retrieve a list of materials available in the database including their general properties."
+        },
+        {
+            "endpoint": "GET /materials/{id}",
+            "description": "Fetch detailed information about a specific material, including specifications and compliance standards."
+        },
+        {
+            "endpoint": "POST /materials",
+            "description": "Add a new material to the database including its specifications and applicable standards."
+        },
+        {
+            "endpoint": "PUT /materials/{id}",
+            "description": "Update the information of a specific material in the database."
+        },
+        {
+            "endpoint": "DELETE /materials/{id}",
+            "description": "Remove a material entry from the database."
+        },
+        {
+            "endpoint": "GET /standards",
+            "description": "List compliance standards covered by the service and their associated requirements."
+        },
+        {
+            "endpoint": "GET /materials/{id}/compliance",
+            "description": "Retrieve compliance status of a specific material against defined standards."
+        },
+        {
+            "endpoint": "POST /calculations",
+            "description": "Submit data for a calculation related to material properties or compliance evaluation."
+        },
+        {
+            "endpoint": "GET /calculations/{id}/result",
+            "description": "Check the results of a specific calculation for a material."
+        },
+        {
+            "endpoint": "GET /projects/{id}/materials",
+            "description": "Fetch a collection of materials associated with a particular construction project."
+        }
+    ]
+}

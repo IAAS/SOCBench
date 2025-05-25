@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /occupancy/forecast",
+            "description": "Retrieve the forecasted occupancy rates for specified regions and dates based on historical data."
+        },
+        {
+            "endpoint": "POST /historical/upload",
+            "description": "Upload historical occupancy data to enhance forecast predictions."
+        },
+        {
+            "endpoint": "GET /seasonal/templates",
+            "description": "Fetch predefined templates for seasonal trends applied in forecasting."
+        },
+        {
+            "endpoint": "POST /regional/events",
+            "description": "Submit regional event information to consider in trend predictions."
+        },
+        {
+            "endpoint": "GET /resource/plan",
+            "description": "Obtain resource planning recommendations based on forecasted occupancy."
+        },
+        {
+            "endpoint": "GET /pricing/strategy",
+            "description": "Retrieve optimal pricing strategies determined by predicted demand trends."
+        },
+        {
+            "endpoint": "POST /feedback/correction",
+            "description": "Submit feedback to adjust and fine-tune prediction algorithms."
+        },
+        {
+            "endpoint": "GET /marketing/campaign",
+            "description": "Access suggested marketing campaigns targeting forecasted peak periods."
+        },
+        {
+            "endpoint": "DELETE /historical/data",
+            "description": "Remove outdated or incorrect historical data to maintain dataset accuracy."
+        },
+        {
+            "endpoint": "PATCH /forecast/config",
+            "description": "Update configuration settings for forecasting parameters and models."
+        }
+    ]
+}

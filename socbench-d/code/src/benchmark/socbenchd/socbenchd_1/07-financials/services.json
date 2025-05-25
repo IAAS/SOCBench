@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Personal Banking Account Management API",
+            "description": "Enables users to securely manage banking accounts via features such as balance inquiries, transaction history, fund transfers, and statement downloads."
+        },
+        {
+            "name": "Investment Portfolio Analysis Service",
+            "description": "Provides investors with detailed insights into portfolio performance, diversification, and risk assessment through advanced analytics."
+        },
+        {
+            "name": "Insurance Policy Management System",
+            "description": "Assists users with the management of insurance policies, including policy renewals, claims submissions, and coverage details review."
+        },
+        {
+            "name": "Capital Market Data Feed",
+            "description": "Delivers real-time and historical financial data, including stock prices, indices, and market news, for brokers and investors."
+        },
+        {
+            "name": "Mortgage Prequalification API",
+            "description": "Assesses applicants’ qualifications for mortgage loans by analyzing financial data, creditworthiness, and repayment potential through a secure interface."
+        }
+    ]
+}

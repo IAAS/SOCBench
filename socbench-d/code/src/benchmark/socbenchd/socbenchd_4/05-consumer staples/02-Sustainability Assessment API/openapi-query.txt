@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+Service:
+This service evaluates the environmental impact of products within the consumer staples domain. Users can inquire about carbon footprint, recyclability, and sustainability certifications of goods. The service is beneficial for companies aiming to meet eco-friendly standards.
+
+Endpoints:
+GET /products/{id}/environmental-impact: Retrieve the environmental impact details for a specific product by its ID.
+POST /products/evaluate: Submit a product for a comprehensive environmental evaluation.
+GET /categories/{id}/average-impact: Retrieve the average environmental impact for a specific category.
+GET /certifications: Retrieve a list of recognized sustainability certifications.
+POST /certifications/verify: Submit a product for verification against a specific sustainability certification.
+GET /carbon-footprint/range: Retrieve products within a specified carbon footprint range.
+GET /recyclability/{id}: Retrieve recyclability details for a specific product by its ID.
+POST /products/bulk-evaluate: Submit multiple products for environmental evaluation in a single request.
+GET /environmental-news/highlights: Retrieve highlights of recent developments in environmental standards or practices.
+GET /regions/{region_id}/impact-statistics: Retrieve environmental impact statistics for products distributed in a specific region.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /equipment",
+            "description": "Retrieve the list of all registered IT equipment."
+        },
+        {
+            "endpoint": "POST /equipment",
+            "description": "Add a new IT equipment record to the inventory."
+        },
+        {
+            "endpoint": "GET /equipment/{id}",
+            "description": "Retrieve details of specified IT equipment by ID."
+        },
+        {
+            "endpoint": "PUT /equipment/{id}",
+            "description": "Update the details of a specific IT equipment record."
+        },
+        {
+            "endpoint": "DELETE /equipment/{id}",
+            "description": "Remove a specific IT equipment record from the inventory."
+        },
+        {
+            "endpoint": "GET /software",
+            "description": "Retrieve the list of all registered software information."
+        },
+        {
+            "endpoint": "POST /software",
+            "description": "Add a new software record to the inventory."
+        },
+        {
+            "endpoint": "GET /compliance/reports",
+            "description": "Generate compliance reports based on current inventory data."
+        },
+        {
+            "endpoint": "GET /analytics/stats",
+            "description": "Provide analytical statistics regarding IT inventory usage."
+        },
+        {
+            "endpoint": "GET /tracking/assets",
+            "description": "Access the real-time asset tracking data integrated with the system."
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+Service:
+This service allows organizations to efficiently manage their cloud-based infrastructure, ensuring optimal performance and security. Features include resource allocation, monitoring, and scaling.
+
+Endpoints:
+GET /infrastructure/resources: Retrieve the list of all managed infrastructure resources to monitor and organize.
+POST /infrastructure/resources: Add a new resource to the managed infrastructure list for monitoring purposes.
+PATCH /infrastructure/resources/{resource_id}: Update the configuration or properties of an existing infrastructure resource.
+DELETE /infrastructure/resources/{resource_id}: Remove an existing resource from the managed infrastructure list.
+GET /performance/metrics: Retrieve performance metrics for the managed infrastructure to analyze and ensure efficiency.
+GET /security/events: Retrieve the list of recent security events for review and action.
+POST /scaling/policies: Define a new scaling policy for automatic infrastructure scaling.
+PATCH /scaling/policies/{policy_id}: Modify an existing scaling policy to adjust its parameters.
+DELETE /scaling/policies/{policy_id}: Remove an existing scaling policy from the system.
+GET /health/status: Retrieve the overall health status of the entire managed infrastructure.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

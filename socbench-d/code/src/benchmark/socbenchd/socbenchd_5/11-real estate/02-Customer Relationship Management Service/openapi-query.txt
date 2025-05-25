@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+Facilitate organizations to manage stakeholder communications and records, including prospective buyer interactions and historical inquiries.
+
+Endpoints:
+GET /properties: Retrieve a list of all properties currently managed by the system.
+POST /properties: Add a new property to the management system.
+GET /properties/{propertyId}: Retrieve detailed information about a specific property using its unique identifier.
+PUT /properties/{propertyId}: Update the details of an existing property.
+DELETE /properties/{propertyId}: Remove a property from the system using its unique identifier.
+GET /inquiries: Retrieve a list of all recorded inquiries related to properties.
+POST /inquiries: Create a new entry for a prospective buyer inquiry.
+GET /reports: Generate and retrieve aggregated reports of inquiries and property interactions.
+GET /stakeholders: Retrieve a list of all stakeholders associated with the real estate services.
+POST /stakeholders: Add a new stakeholder to the service for record keeping and communication purposes.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+Service:
+Assists pharmacies in monitoring medication stock levels, expiration dates, and order management. Ensures seamless inventory control by integrating with existing pharmacy systems, providing real-time stock updates, notifying about low inventory levels, and offering detailed reports for optimized inventory management.
+
+Endpoints:
+GET /inventory/stock: Retrieve the current stock levels of all medications managed by the system.
+POST /inventory/add: Add a new medication to the inventory with specified details including initial stock level.
+PUT /inventory/update/{medicationId}: Update the details of an existing medication including name, stock level, or other relevant attributes.
+DELETE /inventory/remove/{medicationId}: Remove a medication from the inventory based on its unique identifier.
+GET /inventory/low-stock: Retrieve a list of medications that are below the predefined low-stock threshold.
+GET /inventory/expiration-soon: Retrieve a list of medications nearing their expiration dates within a specified timeframe.
+GET /inventory/reports: Generate and retrieve detailed inventory management reports for analysis.
+POST /orders/new: Create a new order to replenish stock for specified medications.
+GET /orders/status/{orderId}: Retrieve the current status and details of a specific order.
+PUT /orders/cancel/{orderId}: Cancel a pending order based on its unique order identifier.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

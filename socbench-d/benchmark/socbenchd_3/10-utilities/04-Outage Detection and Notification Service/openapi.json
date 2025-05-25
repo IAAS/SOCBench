@@ -1,0 +1,335 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Utility Network Outage Management API",
+        "description": "This API provides real-time insights and management for outages across utility networks. It integrates IoT sensor data and user-reported issues to enhance diagnostics and resolution, minimizing disruptions and optimizing customer experience.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.utilitysector.com",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/outages": {
+            "get": {
+                "summary": "Retrieve Current Outages",
+                "description": "Fetch a list of ongoing outages across the utility network, including location, duration, and affected customers.",
+                "responses": {
+                    "200": {
+                        "description": "A list of current outages in the utility network.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "outages": [
+                                        {
+                                            "id": "123",
+                                            "location": "City A",
+                                            "duration": "2 hours",
+                                            "affected_customers": 500
+                                        },
+                                        {
+                                            "id": "124",
+                                            "location": "City B",
+                                            "duration": "1 hour",
+                                            "affected_customers": 200
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/report-issue": {
+            "post": {
+                "summary": "Report an Issue",
+                "description": "Allows users to report outages or potential issues in the utility network.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "location": {
+                                        "type": "string",
+                                        "description": "Location of the reported issue."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Details about the outage or issue."
+                                    },
+                                    "timestamp": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Time the issue occurred."
+                                    }
+                                },
+                                "required": [
+                                    "location",
+                                    "description"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The issue report was successfully submitted."
+                    }
+                }
+            }
+        },
+        "/status/{sensor_id}": {
+            "get": {
+                "summary": "Fetch IoT Sensor Status",
+                "description": "Retrieve operational status and diagnostics for a specific IoT sensor in the network.",
+                "parameters": [
+                    {
+                        "name": "sensor_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the IoT sensor.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The operational status of the specific sensor.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "sensor_id": "sensor_001",
+                                    "status": "active",
+                                    "last_calibration": "2023-01-30T10:12:03Z"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensor-calibration": {
+            "put": {
+                "summary": "Update Sensor Calibration",
+                "description": "Adjust the calibration settings for IoT sensors in the utility network.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "sensor_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the sensor to be calibrated."
+                                    },
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "New calibration parameters for the sensor."
+                                    }
+                                },
+                                "required": [
+                                    "sensor_id",
+                                    "parameters"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The calibration parameters were successfully updated."
+                    }
+                }
+            }
+        },
+        "/dashboard/overview": {
+            "get": {
+                "summary": "Utility Network Dashboard Overview",
+                "description": "Access a summarized view of network performance, including energy distribution and operational metrics.",
+                "responses": {
+                    "200": {
+                        "description": "Network performance metrics summary.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "total_outages": 5,
+                                    "customers_impacted": 1200,
+                                    "energy_generated": "500 MW"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/subscribe": {
+            "post": {
+                "summary": "Subscribe to Outage Alerts",
+                "description": "Register to receive notifications about network outages and updates.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "description": "Email address where alerts will be sent."
+                                    },
+                                    "preferences": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "Notification preferences (e.g., outage updates, service restoration)."
+                                    }
+                                },
+                                "required": [
+                                    "email"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully subscribed to outage alerts."
+                    }
+                }
+            }
+        },
+        "/energy-generation/renewable": {
+            "get": {
+                "summary": "View Renewable Energy Statistics",
+                "description": "Retrieve data on energy generated from renewable sources in the utility network.",
+                "responses": {
+                    "200": {
+                        "description": "Statistics on renewable energy generation.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "solar": "300 MW",
+                                    "wind": "150 MW",
+                                    "hydro": "50 MW"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/customer/communication": {
+            "patch": {
+                "summary": "Modify Customer Notification Preferences",
+                "description": "Update user contact preferences for outage alerts.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "customer_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the customer."
+                                    },
+                                    "preferences": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "Updated notification preferences."
+                                    }
+                                },
+                                "required": [
+                                    "customer_id",
+                                    "preferences"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Customer contact preferences successfully updated."
+                    }
+                }
+            }
+        },
+        "/incident-history": {
+            "get": {
+                "summary": "List Past Incidents",
+                "description": "Retrieve a history of past incidents in the utility network along with their resolutions.",
+                "responses": {
+                    "200": {
+                        "description": "A detailed incident history.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "incidents": [
+                                        {
+                                            "id": "001",
+                                            "description": "Power failure in Zone A",
+                                            "resolved": true,
+                                            "resolution_time": "2 hours"
+                                        },
+                                        {
+                                            "id": "002",
+                                            "description": "Gas leak in Zone B",
+                                            "resolved": true,
+                                            "resolution_time": "1 day"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/simulation/drill": {
+            "post": {
+                "summary": "Initiate Simulation Drill",
+                "description": "Trigger a simulated outage or emergency drill to analyze preparedness.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "simulation_type": {
+                                        "type": "string",
+                                        "description": "Type of simulation, e.g., power outage, equipment failure."
+                                    },
+                                    "start_time": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Time the simulation will start."
+                                    }
+                                },
+                                "required": [
+                                    "simulation_type",
+                                    "start_time"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Simulation drill successfully initiated."
+                    }
+                }
+            }
+        }
+    }
+}

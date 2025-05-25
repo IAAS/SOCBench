@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Service:
+Allows users to assess creditworthiness for loans or other financial products.
+
+Endpoints:
+POST /credit-checks: Initiate a new creditworthiness assessment for a user or entity.
+GET /credit-checks/{id}: Retrieve details and outcome of a specific creditworthiness assessment.
+GET /credit-checks: List all creditworthiness assessments performed by the user.
+POST /credit-checks/upload-financial-documents: Upload necessary financial documents for creditworthiness analysis.
+GET /credit-scores: Retrieve comprehensive credit scores associated with a user or entity.
+GET /credit-scores/history: Obtain the historical data and changes related to credit scores.
+GET /financial-reports/{id}: Access detailed financial reports submitted for a creditworthiness check.
+POST /financial-reports: Submit a request for the generation of a detailed financial report.
+GET /recommendations: Retrieve suggested financial products based on the creditworthiness assessment.
+POST /alerts: Set up customized alerts for changes in credit scores or financial standings.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

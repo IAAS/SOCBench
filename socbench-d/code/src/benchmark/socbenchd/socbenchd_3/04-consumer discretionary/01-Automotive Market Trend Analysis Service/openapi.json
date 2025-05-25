@@ -1,0 +1,402 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Automotive Market Trend Analysis Service",
+        "description": "A RESTful API designed to provide market stakeholders with current trends in automobile sales, consumer preferences, and emerging technologies. Supports data segmentations, historical data trends, and predictive analytics based on regional economic indicators.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.automarkettrend.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/trends/regions": {
+            "get": {
+                "summary": "Retrieve Market Trends by Regions",
+                "description": "Fetch summarized market trends categorized by major global regions, providing stakeholders insights into current regional automotive trends.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with summarized trends by region.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "region": {
+                                                "type": "string",
+                                                "description": "Region name."
+                                            },
+                                            "trendDetails": {
+                                                "type": "string",
+                                                "description": "Summary of market trends for the given region."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/sales": {
+            "get": {
+                "summary": "Get Automobile Sales Analytics",
+                "description": "Access analytics of automobile sales including growth trends and comparison metrics for global markets.",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "The start date of the sales analytics period (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "The end date of the sales analytics period (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": false,
+                        "description": "Region to filter the analytics data.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with sales analytics insights.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "salesGrowth": {
+                                            "type": "number",
+                                            "description": "Overall sales growth percentage."
+                                        },
+                                        "comparisonMetrics": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "region": {
+                                                        "type": "string",
+                                                        "description": "Region name."
+                                                    },
+                                                    "growthPercentage": {
+                                                        "type": "number",
+                                                        "description": "Growth percentage in the specific region."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/preferences/update": {
+            "post": {
+                "summary": "Submit Consumer Preferences Data",
+                "description": "Submit new data regarding consumer preferences for analysis and storage, helping enrich the API's models.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the data submitter."
+                                    },
+                                    "preferencesData": {
+                                        "type": "object",
+                                        "description": "Details on consumer automobile preferences."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Data successfully submitted."
+                    }
+                }
+            }
+        },
+        "/technologies/upcoming": {
+            "get": {
+                "summary": "List Upcoming Technologies",
+                "description": "Obtain a list of emerging technologies influencing the automotive sector, including descriptions and potential impacts.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with the list of upcoming technologies.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "technology": {
+                                                "type": "string",
+                                                "description": "Technology name."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Brief description of the technology."
+                                            },
+                                            "impact": {
+                                                "type": "string",
+                                                "description": "Expected impact on the automotive sector."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/regions/economic-indicators": {
+            "get": {
+                "summary": "View Regional Economic Indicators",
+                "description": "Retrieve economic indicators for specified regions relevant to automotive market trends.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": true,
+                        "description": "Region for which economic indicators are requested.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with regional economic indicators.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "region": {
+                                            "type": "string",
+                                            "description": "Region name."
+                                        },
+                                        "indicators": {
+                                            "type": "object",
+                                            "description": "Key economic indicators for the region (e.g., GDP, inflation rate, etc.)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/historical-data/sales": {
+            "get": {
+                "summary": "Retrieve Historical Sales Data",
+                "description": "Obtain historical sales data for specific automobile categories or regions.",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "required": false,
+                        "description": "Specific automobile category (e.g., SUVs, sedans, etc.).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": false,
+                        "description": "Region for which historical sales data is requested.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with historical sales data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "year": {
+                                                "type": "integer",
+                                                "description": "Year of the sales data."
+                                            },
+                                            "category": {
+                                                "type": "string",
+                                                "description": "Automobile category."
+                                            },
+                                            "sales": {
+                                                "type": "integer",
+                                                "description": "Sales figure for the year."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/forecasts/sales-request": {
+            "post": {
+                "summary": "Request Sales Forecast",
+                "description": "Request predictive analytics on future automobile sales based on provided parameters like region or category.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "region": {
+                                        "type": "string",
+                                        "description": "Region for the forecast."
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "description": "Automobile category for the forecast."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Request accepted. Forecast will be processed."
+                    }
+                }
+            }
+        },
+        "/segments/market-share": {
+            "get": {
+                "summary": "View Market Share by Segments",
+                "description": "Access detailed market share metrics for different automobile segments.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with market share metrics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "segment": {
+                                                "type": "string",
+                                                "description": "Automobile segment."
+                                            },
+                                            "marketShare": {
+                                                "type": "number",
+                                                "description": "Market share percentage of the segment."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/distributors/top": {
+            "get": {
+                "summary": "List Top Distributors",
+                "description": "Retrieve a list of the top-performing automobile distribution networks sorted by sales figures.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with top distributors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "distributor": {
+                                                "type": "string",
+                                                "description": "Distributor name."
+                                            },
+                                            "sales": {
+                                                "type": "integer",
+                                                "description": "Sales figures for the distributor."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/preferences/trends": {
+            "get": {
+                "summary": "Explore Consumer Preference Trends",
+                "description": "Obtain insights into current trends in consumer behavior and preferences towards automotive purchases.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with consumer preference trends.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "preference": {
+                                                "type": "string",
+                                                "description": "Specific consumer preference."
+                                            },
+                                            "trend": {
+                                                "type": "string",
+                                                "description": "Details of the trend related to this preference."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

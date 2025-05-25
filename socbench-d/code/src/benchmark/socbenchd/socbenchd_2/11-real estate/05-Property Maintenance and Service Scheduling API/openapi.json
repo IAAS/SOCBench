@@ -1,0 +1,413 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Property Management Service API",
+        "description": "API for facilitating property managers in scheduling regular maintenance, tracking repairs, and managing service provider interactions efficiently.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.property-management-service.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/properties": {
+            "get": {
+                "summary": "Retrieve a list of managed properties",
+                "description": "Fetches a list of all properties currently being managed by the service.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of the property list.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Property"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new property",
+                "description": "Allows property managers to add a new property to the management system.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Property"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Property successfully added.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Property"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/properties/{propertyId}/maintenance-schedule": {
+            "get": {
+                "summary": "View maintenance schedule for a property",
+                "description": "Fetches the maintenance schedule for a specific property.",
+                "parameters": [
+                    {
+                        "name": "propertyId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the property",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of the maintenance schedule.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MaintenanceSchedule"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/properties/{propertyId}/maintenance-tasks": {
+            "post": {
+                "summary": "Create a maintenance task for a property",
+                "description": "Allows property managers to create a new maintenance task for a specific property.",
+                "parameters": [
+                    {
+                        "name": "propertyId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the property",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MaintenanceTask"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Maintenance task successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MaintenanceTask"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/maintenance-tasks/{taskId}": {
+            "put": {
+                "summary": "Update an existing maintenance task",
+                "description": "Allows property managers to update the details of an existing maintenance task.",
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the maintenance task",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MaintenanceTask"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Maintenance task successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MaintenanceTask"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a maintenance task",
+                "description": "Allows property managers to remove a maintenance task from the system.",
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the maintenance task",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Maintenance task successfully deleted."
+                    }
+                }
+            }
+        },
+        "/service-providers": {
+            "get": {
+                "summary": "Retrieve a list of service providers",
+                "description": "Fetches a catalog of available service providers for maintenance tasks.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of the service provider list.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ServiceProvider"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new service provider",
+                "description": "Allows property managers to add a new service provider to the system for maintenance collaboration.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ServiceProvider"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Service provider successfully added.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceProvider"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/maintenance-tasks/{taskId}/assign": {
+            "post": {
+                "summary": "Assign maintenance task to a service provider",
+                "description": "Assigns a specific maintenance task to a chosen service provider.",
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the maintenance task",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "serviceProviderId": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the service provider"
+                                    }
+                                },
+                                "required": [
+                                    "serviceProviderId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Maintenance task successfully assigned.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MaintenanceTask"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/maintenance-tasks/{taskId}/status": {
+            "get": {
+                "summary": "Check maintenance task status",
+                "description": "Retrieves the current status of a specified maintenance task.",
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the maintenance task",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved the maintenance task status.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "The current status of the maintenance task (e.g., pending, in-progress, completed)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Property": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the property."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name or address of the property."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "A description of the property."
+                    }
+                },
+                "required": [
+                    "id",
+                    "name"
+                ]
+            },
+            "MaintenanceTask": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the maintenance task."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "A description of the maintenance task."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The current status of the maintenance task (e.g., pending, in-progress, completed)."
+                    },
+                    "propertyId": {
+                        "type": "string",
+                        "description": "The unique identifier of the property the task is associated with."
+                    }
+                },
+                "required": [
+                    "id",
+                    "description",
+                    "status",
+                    "propertyId"
+                ]
+            },
+            "MaintenanceSchedule": {
+                "type": "object",
+                "properties": {
+                    "propertyId": {
+                        "type": "string",
+                        "description": "The unique identifier of the property the maintenance schedule belongs to."
+                    },
+                    "tasks": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MaintenanceTask"
+                        },
+                        "description": "A list of maintenance tasks for the property."
+                    }
+                },
+                "required": [
+                    "propertyId",
+                    "tasks"
+                ]
+            },
+            "ServiceProvider": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the service provider."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the service provider."
+                    },
+                    "contactInfo": {
+                        "type": "string",
+                        "description": "Contact information for the service provider (e.g., email or phone)."
+                    }
+                },
+                "required": [
+                    "id",
+                    "name"
+                ]
+            }
+        }
+    }
+}

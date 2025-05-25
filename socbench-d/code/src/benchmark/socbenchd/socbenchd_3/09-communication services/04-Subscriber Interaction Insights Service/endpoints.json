@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /customer_interactions",
+            "description": "Retrieve a summary of customer interactions over a specified time period."
+        },
+        {
+            "endpoint": "POST /subscription_trends",
+            "description": "Submit data to analyze and update subscriber trend metrics."
+        },
+        {
+            "endpoint": "GET /service_feedback",
+            "description": "Access aggregated feedback regarding various services provided."
+        },
+        {
+            "endpoint": "GET /popular_services",
+            "description": "Identify services with the highest customer adherence for promotional focus."
+        },
+        {
+            "endpoint": "POST /promotion_strategy",
+            "description": "Submit parameters to generate customized promotional strategies."
+        },
+        {
+            "endpoint": "GET /usage_statistics",
+            "description": "Retrieve detailed usage statistics of services over various regions."
+        },
+        {
+            "endpoint": "POST /customer_feedback",
+            "description": "Send customer feedback data to analyze satisfaction and improvements."
+        },
+        {
+            "endpoint": "GET /trend_analysis",
+            "description": "Obtain insights into service adoption trends with prediction capabilities."
+        },
+        {
+            "endpoint": "DELETE /obsolete_services",
+            "description": "Remove information regarding services marked as obsolete."
+        },
+        {
+            "endpoint": "PUT /update_service_data",
+            "description": "Update and maintain detailed information about available services."
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /maintenance/tasks",
+            "description": "Retrieve the list of upcoming maintenance tasks based on facility ID."
+        },
+        {
+            "endpoint": "POST /maintenance/tasks",
+            "description": "Create a new maintenance task entry for a specific facility."
+        },
+        {
+            "endpoint": "PUT /maintenance/task/{task_id}",
+            "description": "Modify details of an existing maintenance task by task ID."
+        },
+        {
+            "endpoint": "DELETE /maintenance/task/{task_id}",
+            "description": "Remove a maintenance task from the schedule using its task ID."
+        },
+        {
+            "endpoint": "GET /assets",
+            "description": "List all assets associated with a facility for tracking purposes."
+        },
+        {
+            "endpoint": "POST /assets",
+            "description": "Add a new asset for a facility to facilitate maintenance and inventory tracking."
+        },
+        {
+            "endpoint": "GET /inventory/spare-parts",
+            "description": "Retrieve the inventory records for spare parts in a facility."
+        },
+        {
+            "endpoint": "POST /breakdown/report",
+            "description": "Report a breakdown issue for immediate logging and prioritization."
+        },
+        {
+            "endpoint": "GET /alerts/maintenance-reminders",
+            "description": "Retrieve active automated reminders for upcoming maintenance tasks."
+        },
+        {
+            "endpoint": "GET /facilities/{facility_id}/details",
+            "description": "Provide detailed information about a specific facility for reference."
+        }
+    ]
+}

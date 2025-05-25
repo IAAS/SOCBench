@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+Designed for the coordination and optimization of industrial goods flow, this service provides tools for inventory tracking and order processing.
+
+Endpoints:
+POST /items: Add a new industrial good item to the inventory system.
+GET /items: Retrieve the complete list of items currently held in inventory.
+GET /items/{id}: Fetch the details of a specific item identified by its unique ID.
+PUT /items/{id}: Update details of an item identified by its unique ID.
+DELETE /items/{id}: Remove a specific item from the inventory by its unique ID.
+POST /orders: Create a new order for industrial goods from the existing inventory.
+GET /orders: Retrieve a list of all orders processed by the service.
+GET /orders/{id}: Retrieve detailed information for a specific order by its unique ID.
+PUT /orders/{id}: Update order details for a specific order identified by its unique ID.
+POST /transport/routes: Plan and generate optimal transportation routes for goods delivery.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

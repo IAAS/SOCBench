@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+Service:
+This service streamlines the incident response and escalation process for IT infrastructure teams. Featuring integration with monitoring tools, alert management systems, and automated remediation workflows, it improves operational efficiency and reduces system downtime significantly.
+
+Endpoints:
+POST /alert: Create a new alert to notify the teams of a detected issue.
+GET /alerts: Retrieve a list of all active alerts.
+GET /alert/{alertId}: Fetch detailed information about a specific alert using its ID.
+PUT /alert/{alertId}: Update properties of an existing alert via its ID.
+DELETE /alert/{alertId}: Remove an alert specified by its ID from the system.
+POST /incident: Initiate a new incident workflow for managing system downtime.
+GET /incidents: List all currently tracked incidents within the system.
+PATCH /incident/{incidentId}: Modify the status or details of an incident by its ID.
+POST /integration/test: Test a configured integration with a monitoring or alerting system.
+GET /settings/workflows: Retrieve current configurations for automated remediation workflows.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

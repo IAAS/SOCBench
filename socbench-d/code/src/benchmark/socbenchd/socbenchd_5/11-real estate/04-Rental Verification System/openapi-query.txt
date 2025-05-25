@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+Service:
+Verify and validate rental applicant credentials and history to improve tenant selection and ensure compliance with leasing policies.
+
+Endpoints:
+GET /applicants/{applicant_id}: Retrieve detailed information about a specific rental applicant.
+POST /applicants: Submit a new rental applicant's data for review and validation.
+GET /verifications: List all completed verifications performed for rental applicants.
+POST /verifications: Initiate a background and credential check for a rental applicant.
+GET /history/{applicant_id}: Retrieve the rental and payment history of a specific applicant.
+GET /properties: Browse the list of registered rental properties to match with verified applicants.
+POST /reports: Generate and download a compliance and eligibility report for a rental applicant.
+GET /status/{verification_id}: Check the current status of a verification process by its unique identifier.
+PUT /applicants/{applicant_id}: Update existing information of a rental applicant.
+DELETE /verifications/{verification_id}: Cancel an ongoing or completed rental verification process by its identifier.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

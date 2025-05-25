@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Patient Medical History Management Service",
+            "description": "This service enables secure storage, accessibility, and management of individual patient medical records. Healthcare providers can retrieve, update, and share comprehensive patient history, supporting continuous and informed care. Features include API-based access to retrieve patient data, updating functionalities, and compliance with HIPAA regulations for data protection."
+        },
+        {
+            "name": "Pharmacy Inventory Management Service",
+            "description": "Assists pharmacies in monitoring medication stock levels, expiration dates, and order management. Ensures seamless inventory control by integrating with existing pharmacy systems, providing real-time stock updates, notifying about low inventory levels, and offering detailed reports for optimized inventory management."
+        },
+        {
+            "name": "Health Care Equipment Maintenance Analytics",
+            "description": "This API enables tracking, reporting, and predictive maintenance scheduling of medical equipment. By connecting to on-device sensors, the service gathers operational data to predict maintenance needs, reducing unexpected downtime and enhancing equipment longevity. It provides detailed analytical reports for health care facilities."
+        },
+        {
+            "name": "Clinical Trial Participant Matching Service",
+            "description": "Facilitates matching patients' anonymous profiles with qualification criteria for ongoing clinical trials. Medical staff input patient anonymized data and receive recommendations for suitable trials, expediting the enrollment process and supporting medical research advancement."
+        },
+        {
+            "name": "Digital Health Assessment Tool Integration",
+            "description": "Offers APIs for integrating questionnaires and assessment tools into healthcare platforms. Enables tailored evaluations ensuring efficient patient initial screening and monitoring. Provides structured responses and automatic analysis for efficient diagnostic support."
+        }
+    ]
+}

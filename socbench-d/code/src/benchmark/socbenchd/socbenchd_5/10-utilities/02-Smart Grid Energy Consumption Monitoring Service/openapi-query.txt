@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+Allows users to observe and analyze energy consumption patterns in smart grid systems, providing insights to optimize energy usage and reduce waste at household and industrial levels.
+
+Endpoints:
+GET /household/consumption: Retrieve energy consumption data at the household level.
+GET /industrial/consumption: Access energy usage data for industrial facilities.
+GET /grid/efficiency: View the efficiency statistics of the smart grid system.
+GET /energy/load-distribution: Examine the load distribution across various grid segments.
+POST /optimize/household: Submit parameters to optimize an individual household's energy usage patterns.
+POST /optimize/industrial: Provide details to enhance energy usage efficiency of industrial operations.
+GET /renewable/usage-stats: Access statistics regarding the utilization of renewable energy sources.
+GET /analytics/trend: Analyze and retrieve trends in overall energy consumption.
+GET /report/custom: Request a customized report tailored to specific energy consumption parameters.
+POST /feedback: Submit user feedback regarding the system to encourage enhancements.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

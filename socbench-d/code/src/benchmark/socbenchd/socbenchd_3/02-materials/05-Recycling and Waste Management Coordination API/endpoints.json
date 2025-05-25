@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /recycling-centers",
+            "description": "Add a new recycling center to the database, including location, capacity, and contact details."
+        },
+        {
+            "endpoint": "GET /recycling-centers/{id}",
+            "description": "Retrieve detailed information about a specific recycling center by its unique ID."
+        },
+        {
+            "endpoint": "PUT /recycling-centers/{id}",
+            "description": "Update the details of an existing recycling center by its unique ID."
+        },
+        {
+            "endpoint": "DELETE /recycling-centers/{id}",
+            "description": "Remove a recycling center record by its unique ID."
+        },
+        {
+            "endpoint": "POST /waste-materials",
+            "description": "Add a new type of waste material to the database, including its composition and properties."
+        },
+        {
+            "endpoint": "GET /waste-materials",
+            "description": "List all types of waste materials available in the database."
+        },
+        {
+            "endpoint": "POST /recycling-requests",
+            "description": "Create a request for recycling a specific material from a source location to a recycling center."
+        },
+        {
+            "endpoint": "GET /recycling-status",
+            "description": "Check the current status of all pending or processed recycling requests."
+        },
+        {
+            "endpoint": "POST /sustainability-reports",
+            "description": "Upload a report regarding sustainability metrics and recycling efficiency."
+        },
+        {
+            "endpoint": "GET /analytics/recycling-trends",
+            "description": "Retrieve analytics insights into trends and performance in recycling over time."
+        }
+    ]
+}

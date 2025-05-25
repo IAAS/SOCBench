@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /assets",
+            "description": "Retrieve a list of all utility company assets, including substations and transmission lines."
+        },
+        {
+            "endpoint": "POST /assets",
+            "description": "Add a new infrastructure asset to the system, specifying details like type, location, and specifications."
+        },
+        {
+            "endpoint": "GET /assets/{assetId}/status",
+            "description": "Fetch the current status and detailed information for a specific asset."
+        },
+        {
+            "endpoint": "PUT /assets/{assetId}/status",
+            "description": "Update the status or modify operational parameters of a specific asset."
+        },
+        {
+            "endpoint": "GET /maintenance/schedules",
+            "description": "Retrieve scheduled maintenance activities for all assets."
+        },
+        {
+            "endpoint": "POST /maintenance/schedules",
+            "description": "Schedule a maintenance activity for an asset, specifying date, time, and objectives."
+        },
+        {
+            "endpoint": "GET /visualizations",
+            "description": "Access GIS-based visual representations of assets, along with their status and distribution."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Create condition-based alerts for specific assets, defining trigger parameters."
+        },
+        {
+            "endpoint": "GET /performance/history",
+            "description": "Retrieve historical performance data for assets over a specified date range."
+        },
+        {
+            "endpoint": "DELETE /alerts/{alertId}",
+            "description": "Remove an existing alert based on its identifier."
+        }
+    ]
+}

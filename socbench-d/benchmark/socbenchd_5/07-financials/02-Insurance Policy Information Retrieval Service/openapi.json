@@ -1,0 +1,444 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Insurance Policies Service",
+        "description": "A service providing details about various insurance policies, their coverage, and premium estimates within the financial sector.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/insurance-policies": {
+            "get": {
+                "summary": "Retrieve all available insurance policies",
+                "description": "Fetches a list of all available insurance policies including their details, coverage options, and high-level descriptions.",
+                "responses": {
+                    "200": {
+                        "description": "A list of insurance policies successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Policy"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/insurance-policies/{policy_id}/details": {
+            "get": {
+                "summary": "Detailed information on a specific insurance policy",
+                "description": "Retrieves comprehensive details for a specific insurance policy, including its terms, conditions, and specific coverage options.",
+                "parameters": [
+                    {
+                        "name": "policy_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier for the insurance policy.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the specified insurance policy.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PolicyDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/insurance-policies/categories": {
+            "get": {
+                "summary": "Retrieve insurance policy categories",
+                "description": "Provides a list of the different insurance policy categories offered by the service.",
+                "responses": {
+                    "200": {
+                        "description": "A list of policy categories was successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/insurance-policies/estimate-premium": {
+            "post": {
+                "summary": "Estimate policy premiums",
+                "description": "Submits the details of an insurance policy and receives a calculated premium estimate based on the provided details.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PremiumEstimateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Premium estimate successfully calculated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PremiumEstimateResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/insurance-policies/covered-items/{policy_id}": {
+            "get": {
+                "summary": "Fetch covered items under a specific policy",
+                "description": "Retrieves a list of items or conditions covered under a specific insurance policy.",
+                "parameters": [
+                    {
+                        "name": "policy_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the insurance policy.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of covered items for the specified insurance policy.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/insurance-policies/enroll": {
+            "post": {
+                "summary": "Enroll in an insurance policy",
+                "description": "Submits the required user information to enroll in a selected insurance policy.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EnrollmentRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User successfully enrolled in the selected insurance policy.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EnrollmentResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/insurance-policies/subscriptions/{subscription_id}": {
+            "delete": {
+                "summary": "Cancel an insurance policy subscription",
+                "description": "Cancels an existing subscription or enrollment in a specific insurance policy using its subscription ID.",
+                "parameters": [
+                    {
+                        "name": "subscription_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the subscription to be canceled.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The insurance policy subscription was successfully canceled.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CancellationResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/insurance-policies/{policy_id}/providers": {
+            "get": {
+                "summary": "Retrieve providers for a specific policy",
+                "description": "Retrieves a list of insurance providers applicable for a specific insurance policy.",
+                "parameters": [
+                    {
+                        "name": "policy_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the insurance policy.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of insurance providers for the specified policy was successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Provider"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/insurance-policies/{policy_id}/modify": {
+            "put": {
+                "summary": "Modify details of an insurance policy",
+                "description": "Updates or modifies details of a specific insurance policy, such as coverage, premiums, or duration.",
+                "parameters": [
+                    {
+                        "name": "policy_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the insurance policy to modify.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PolicyModificationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The insurance policy was successfully modified.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PolicyModificationResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/insurance-policies/claims/history": {
+            "get": {
+                "summary": "View claim history and status",
+                "description": "Allows users to view their claim history and check the status of claims associated with their insurance policies.",
+                "responses": {
+                    "200": {
+                        "description": "Claim history and status successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ClaimHistory"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Policy": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the policy."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the insurance policy."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "A brief description of the insurance policy."
+                    },
+                    "coverage": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "The coverage options available under the policy."
+                    }
+                }
+            },
+            "PolicyDetails": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the policy."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the insurance policy."
+                    },
+                    "detailedDescription": {
+                        "type": "string",
+                        "description": "A detailed description of the insurance policy terms, conditions, and benefits."
+                    },
+                    "coverage": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "PremiumEstimateRequest": {
+                "type": "object",
+                "properties": {
+                    "policy_id": {
+                        "type": "string",
+                        "description": "The unique identifier of the policy."
+                    },
+                    "personal_details": {
+                        "type": "object",
+                        "description": "User's personal information required for estimating the premium, such as age and location."
+                    }
+                }
+            },
+            "PremiumEstimateResponse": {
+                "type": "object",
+                "properties": {
+                    "premium": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "The calculated premium for the policy."
+                    }
+                }
+            },
+            "EnrollmentRequest": {
+                "type": "object",
+                "properties": {
+                    "policy_id": {
+                        "type": "string",
+                        "description": "The unique identifier of the selected policy."
+                    },
+                    "user_info": {
+                        "type": "object"
+                    }
+                }
+            },
+            "EnrollmentResponse": {
+                "type": "object",
+                "properties": {
+                    "enrollment_id": {
+                        "type": "string",
+                        "description": "The unique identifier for the successful enrollment."
+                    }
+                }
+            },
+            "CancellationResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "Confirmation of subscription cancellation."
+                    }
+                }
+            },
+            "Provider": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier for the provider."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the insurance provider."
+                    }
+                }
+            },
+            "PolicyModificationRequest": {
+                "type": "object",
+                "properties": {
+                    "coverageChange": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "PolicyModificationResponse": {
+                "type": "object",
+                "properties": {
+                    "confirmation": {
+                        "type": "string",
+                        "description": "Confirmation message for the policy modification."
+                    }
+                }
+            },
+            "ClaimHistory": {
+                "type": "object",
+                "properties": {
+                    "claim_id": {
+                        "type": "string",
+                        "description": "The unique ID for the claim."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The current status of the claim."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Details about the claim."
+                    }
+                }
+            }
+        }
+    }
+}

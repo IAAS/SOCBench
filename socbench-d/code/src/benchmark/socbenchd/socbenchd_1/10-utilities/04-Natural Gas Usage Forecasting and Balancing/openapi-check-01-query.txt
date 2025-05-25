@@ -1,0 +1,453 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Gas Utility Consumption Forecasting and Distribution Service",
+        "description": "This service assists gas utility companies in accurately forecasting consumption patterns, balancing supply accordingly, and ensuring efficient distribution to their customer base using advanced modeling and analytics.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.gasutilityservice.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/forecast": {
+            "get": {
+                "summary": "Retrieve Gas Consumption Forecast",
+                "description": "Fetch the predicted gas consumption patterns for specified time intervals. This endpoint allows gas utility companies to plan supply and distribution based on forecasted demand.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "Start date for the consumption forecast (format: YYYY-MM-DD)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "End date for the consumption forecast (format: YYYY-MM-DD)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "The region ID for which the forecast is required.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of consumption forecast.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "forecast": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "expected_consumption": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input parameters."
+                    }
+                }
+            },
+            "post": {
+                "summary": "Submit Parameters for Custom Forecast",
+                "description": "Submit parameters to generate a custom consumption forecast tailored to specific needs.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "The start date for the forecast."
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "The end date for the forecast."
+                                    },
+                                    "region": {
+                                        "type": "string",
+                                        "description": "Region ID for custom forecasting."
+                                    },
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Custom parameters for forecasting, such as weather conditions or historical anomalies.",
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "start_date",
+                                    "end_date"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Forecast parameters submitted successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input parameters."
+                    }
+                }
+            }
+        },
+        "/supply/balance": {
+            "get": {
+                "summary": "Retrieve Current Supply-Demand Balance",
+                "description": "Fetch the current supply-demand balance metrics for a specified region.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "The region ID to retrieve supply-demand balance metrics for.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved supply-demand balance.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "region": {
+                                            "type": "string"
+                                        },
+                                        "supply": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "demand": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "balance": {
+                                            "type": "number",
+                                            "format": "float"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid region specified."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update Supply Allocation Plan",
+                "description": "Update the supply allocation plan based on forecast adjustments to ensure efficient supply-demand balancing.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "region": {
+                                        "type": "string",
+                                        "description": "The region ID for which the supply allocation plan needs adjustment."
+                                    },
+                                    "new_supply_allocation": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "description": "The new supply allocation value for the region."
+                                    }
+                                },
+                                "required": [
+                                    "region",
+                                    "new_supply_allocation"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Supply allocation plan updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input parameters."
+                    }
+                }
+            }
+        },
+        "/distribution/status": {
+            "get": {
+                "summary": "Retrieve Live Gas Distribution Status",
+                "description": "Retrieve the live status of gas distribution across the network, providing updates on flow and distribution conditions.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved distribution status.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "details": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "region": {
+                                                        "type": "string"
+                                                    },
+                                                    "distribution_rate": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/distribution/manipulate": {
+            "post": {
+                "summary": "Trigger Gas Distribution Network Adjustments",
+                "description": "Trigger adjustments in the gas distribution network to respond to operational changes or emergencies.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "region": {
+                                        "type": "string",
+                                        "description": "The region for which the distribution network is being adjusted."
+                                    },
+                                    "adjustment_parameters": {
+                                        "type": "object",
+                                        "description": "Detailed parameters for the adjustment, such as flow rate changes or rerouting.",
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "region",
+                                    "adjustment_parameters"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Distribution network adjusted successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input parameters."
+                    }
+                }
+            }
+        },
+        "/efficiency/metrics": {
+            "get": {
+                "summary": "Retrieve Efficiency Analysis Metrics",
+                "description": "Retrieve pre-calculated efficiency metrics for gas distribution and supply systems.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved efficiency metrics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "metrics": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "metric_name": {
+                                                        "type": "string"
+                                                    },
+                                                    "value": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Submit Parameters for Detailed Efficiency Analysis",
+                "description": "Provide specific parameters to request a detailed analysis of the system's efficiency.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "region": {
+                                        "type": "string",
+                                        "description": "The region for which the efficiency analysis is being requested."
+                                    },
+                                    "analysis_parameters": {
+                                        "type": "object",
+                                        "description": "Specific parameters for the analysis, such as time intervals or operational criteria.",
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "region",
+                                    "analysis_parameters"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Efficiency analysis request processed successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input parameters."
+                    }
+                }
+            }
+        },
+        "/regions/config": {
+            "get": {
+                "summary": "Retrieve Region Configuration Details",
+                "description": "Fetch the configuration settings for all monitored regions.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved configuration details for monitored regions.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "region": {
+                                                "type": "string"
+                                            },
+                                            "config_params": {
+                                                "type": "object",
+                                                "additionalProperties": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update Region Configuration Settings",
+                "description": "Modify the configuration settings for a specific region in the monitored network.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "region": {
+                                        "type": "string",
+                                        "description": "The region ID for which the configuration settings are being updated."
+                                    },
+                                    "new_config_params": {
+                                        "type": "object",
+                                        "description": "New configuration parameters for the region.",
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "region",
+                                    "new_config_params"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Region configuration updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input parameters."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

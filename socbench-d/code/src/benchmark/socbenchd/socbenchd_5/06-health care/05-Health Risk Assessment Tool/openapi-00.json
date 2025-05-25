@@ -1,0 +1,372 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Health Risk Evaluation API",
+    "description": "This API evaluates a patient's health risk based on input data (e.g., lifestyle, family history, existing conditions), offering tailored health advice and preventive measures via advanced analytics algorithms.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.healthrisk.com",
+      "description": "Production server"
+    },
+    {
+      "url": "https://sandbox.api.healthrisk.com",
+      "description": "Sandbox server for testing"
+    }
+  ],
+  "paths": {
+    "/evaluation": {
+      "get": {
+        "summary": "Retrieve Evaluation Methods",
+        "description": "Fetch a summary of the methods and criteria used by the service to evaluate patient health risks.",
+        "responses": {
+          "200": {
+            "description": "Successful response containing evaluation methods and criteria.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "methods": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "criteria": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessment": {
+      "post": {
+        "summary": "Submit Patient Details for Risk Assessment",
+        "description": "Provide patient information such as lifestyle, family history, and existing conditions to obtain an initial health risk assessment.",
+        "requestBody": {
+          "description": "Patient data necessary for assessment",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "lifestyle": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  },
+                  "familyHistory": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "existingConditions": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": ["lifestyle", "familyHistory", "existingConditions"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Health risk assessment results returned successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "riskLevel": {
+                      "type": "string",
+                      "enum": ["low", "moderate", "high"]
+                    },
+                    "recommendations": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lifestyle-tips": {
+      "get": {
+        "summary": "Fetch Personalized Lifestyle Tips",
+        "description": "Retrieve lifestyle recommendations tailored to a patient based on their health evaluation results.",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "query",
+            "description": "Unique identifier for the patient to fetch corresponding lifestyle tips.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Personalized lifestyle tips successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/conditions": {
+      "get": {
+        "summary": "Retrieve Information on Health Conditions",
+        "description": "Fetch categorized information about various potential health conditions evaluated by the service.",
+        "responses": {
+          "200": {
+            "description": "Health condition details successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "conditionName": {
+                        "type": "string"
+                      },
+                      "category": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback": {
+      "post": {
+        "summary": "Submit Feedback",
+        "description": "Provide feedback about the recommendations or the experience with the service to help improve future evaluations.",
+        "requestBody": {
+          "description": "Feedback details",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "patientId": {
+                    "type": "string"
+                  },
+                  "comments": {
+                    "type": "string"
+                  },
+                  "rating": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                  }
+                },
+                "required": ["patientId", "comments", "rating"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Feedback successfully submitted."
+          }
+        }
+      }
+    },
+    "/history": {
+      "get": {
+        "summary": "Patient Assessment History",
+        "description": "Retrieve a history of all assessments conducted for a specific patient.",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "query",
+            "description": "Unique identifier for the patient.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Assessment history successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "assessmentId": {
+                        "type": "string"
+                      },
+                      "date": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "riskLevel": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/history/{assessmentId}": {
+      "delete": {
+        "summary": "Delete Assessment Record",
+        "description": "Delete a specific health risk assessment record for a patient using its unique identifier.",
+        "parameters": [
+          {
+            "name": "assessmentId",
+            "in": "path",
+            "description": "Unique identifier of the assessment to be deleted.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Assessment record successfully deleted."
+          }
+        }
+      }
+    },
+    "/analytics": {
+      "get": {
+        "summary": "Generate Statistics",
+        "description": "Generate anonymized aggregated statistical reports based on health risk assessment data.",
+        "responses": {
+          "200": {
+            "description": "Statistical data successfully generated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalAssessments": {
+                      "type": "integer"
+                    },
+                    "riskDistribution": {
+                      "type": "object",
+                      "properties": {
+                        "low": {
+                          "type": "integer"
+                        },
+                        "moderate": {
+                          "type": "integer"
+                        },
+                        "high": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications": {
+      "post": {
+        "summary": "Manage Notifications",
+        "description": "Configure and manage notifications and reminders related to health care for the patient.",
+        "requestBody": {
+          "description": "Notification preferences",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "patientId": {
+                    "type": "string"
+                  },
+                  "preferences": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": ["patientId", "preferences"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Notifications successfully configured."
+          }
+        }
+      }
+    },
+    "/updates": {
+      "get": {
+        "summary": "Discover Latest Health Care Updates",
+        "description": "Retrieve the latest updates and guidelines regarding health care and preventive measures.",
+        "responses": {
+          "200": {
+            "description": "Latest health care updates successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

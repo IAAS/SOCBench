@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Service:
+This service aids mortgage providers in managing loan applications from initiation to approval. Functionality includes applicant data collection, credit scoring, and document validation. Providers can customize workflows to match their operational requirements. Usage involves sending a POST request with applicant details and receiving a JSON response outlining the application's status and next steps. This API supports integration with external compliance systems to ensure adherence to regulations.
+
+Endpoints:
+POST /applications: Submit a new loan application with applicant details and initiate processing.
+GET /applications/status: Retrieve the current status and required next steps for a specific loan application.
+POST /applications/documents/upload: Submit required documents for a specific loan application for validation.
+GET /credit-scores: Retrieve the credit score computed for a specified applicant.
+PATCH /applications: Update applicant information or application details during processing.
+GET /compliance-status: Obtain compliance validation results for the current state of a loan application.
+DELETE /applications: Cancel or delete a specific loan application from the system.
+POST /applications/workflows/customize: Define and save customized workflows to match specific operational requirements.
+GET /applications/log: Access a detailed log of activities and changes associated with a loan application.
+GET /services/healthcheck: Check the operational status of the service.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

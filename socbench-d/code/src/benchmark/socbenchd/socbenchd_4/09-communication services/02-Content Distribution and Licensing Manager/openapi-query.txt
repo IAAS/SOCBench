@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+This service assists media companies in distributing digital content while managing licensing agreements. It offers capabilities such as automated content allocation, usage tracking, and royalty calculations to streamline operations.
+
+Endpoints:
+POST /licenses: Create a new licensing agreement for digital content.
+GET /licenses/{licenseId}: Retrieve detailed information about a specific licensing agreement.
+PUT /licenses/{licenseId}: Update details of an existing licensing agreement.
+DELETE /licenses/{licenseId}: Delete an expired or invalid licensing agreement.
+GET /content: Retrieve a list of managed digital content.
+GET /content/{contentId}: Fetch details about a specific piece of digital content.
+POST /content/{contentId}/allocate: Allocate specified digital content to a distribution channel.
+GET /reports/usage: Generate a report on digital content usage statistics.
+GET /reports/royalties: Generate a detailed royalty distribution report per licensing agreement.
+GET /health: Check the operational status of the service API.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

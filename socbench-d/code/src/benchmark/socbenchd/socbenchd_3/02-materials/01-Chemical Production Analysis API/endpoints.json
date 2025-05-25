@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /process/start",
+            "description": "Initiate the monitoring process for a specified chemical production line."
+        },
+        {
+            "endpoint": "GET /process/{id}/status",
+            "description": "Retrieve the current status of the monitoring process by its identifier."
+        },
+        {
+            "endpoint": "PUT /process/{id}/update",
+            "description": "Update settings or configurations for an ongoing monitoring process."
+        },
+        {
+            "endpoint": "DELETE /process/{id}/terminate",
+            "description": "Terminate the monitoring process identified by its unique identifier."
+        },
+        {
+            "endpoint": "GET /insights/data",
+            "description": "Access processed insights and analytics derived from real-time data."
+        },
+        {
+            "endpoint": "GET /insights/quality",
+            "description": "Evaluate and retrieve quality compliance metrics for the monitored process."
+        },
+        {
+            "endpoint": "POST /alerts/send",
+            "description": "Trigger notifications or alerts based on specific production parameters."
+        },
+        {
+            "endpoint": "GET /trends",
+            "description": "Analyze historical data to illustrate trends in production efficiency."
+        },
+        {
+            "endpoint": "POST /logs/save",
+            "description": "Archive monitored data logs for future reference or audits."
+        },
+        {
+            "endpoint": "GET /logs/{id}/details",
+            "description": "Fetch detailed information about a specific archived log by ID."
+        }
+    ]
+}

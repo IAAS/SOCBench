@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /provision",
+            "description": "Create and configure a new resource within the cloud ecosystem."
+        },
+        {
+            "endpoint": "GET /resources",
+            "description": "Retrieve a list of all active resources, including their current states and configurations."
+        },
+        {
+            "endpoint": "PUT /resources/{resource_id}",
+            "description": "Update the configuration settings of a specific resource with the given identifier."
+        },
+        {
+            "endpoint": "DELETE /resources/{resource_id}",
+            "description": "Remove the specified resource from the system, ceasing its functionalities."
+        },
+        {
+            "endpoint": "GET /resources/{resource_id}/metrics",
+            "description": "Fetch performance metrics and utilization statistics for a specific resource."
+        },
+        {
+            "endpoint": "POST /scaling/{resource_id}/up",
+            "description": "Increase the capacity of a specific resource to manage greater workloads."
+        },
+        {
+            "endpoint": "POST /scaling/{resource_id}/down",
+            "description": "Decrease the capacity of a specific resource to conserve operational costs."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "List all alerts or notifications related to resource thresholds and system statuses."
+        },
+        {
+            "endpoint": "POST /actions/{resource_id}/restart",
+            "description": "Reinitialize the specified resource to ensure consistent operation following modifications."
+        },
+        {
+            "endpoint": "GET /healthcheck",
+            "description": "Verify the overall operational status and health of the service infrastructure."
+        }
+    ]
+}

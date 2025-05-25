@@ -1,0 +1,427 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Nutritional Data Service API",
+    "description": "This API provides detailed nutritional data for various food products, supporting diet planning and health management.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.nutritiondata.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/food-items": {
+      "get": {
+        "summary": "Retrieve food items",
+        "description": "Retrieve a list of available food items along with their basic details such as name and category.",
+        "responses": {
+          "200": {
+            "description": "A list of food items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the food item"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the food item"
+                      },
+                      "category": {
+                        "type": "string",
+                        "description": "Category of the food item"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/food-items/{id}": {
+      "get": {
+        "summary": "Retrieve food item details",
+        "description": "Retrieve detailed nutritional information about a specific food item using its unique identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier for the food item"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detailed nutritional information for the food item",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique identifier for the food item"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the food item"
+                    },
+                    "category": {
+                      "type": "string",
+                      "description": "Category of the food item"
+                    },
+                    "nutritionalData": {
+                      "type": "object",
+                      "properties": {
+                        "calories": {
+                          "type": "number",
+                          "description": "Calories in kcal"
+                        },
+                        "protein": {
+                          "type": "number",
+                          "description": "Protein content in grams"
+                        },
+                        "fat": {
+                          "type": "number",
+                          "description": "Fat content in grams"
+                        },
+                        "carbohydrates": {
+                          "type": "number",
+                          "description": "Carbohydrate content in grams"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/daily-intake": {
+      "post": {
+        "summary": "Log and recommend daily intake",
+        "description": "Log a user's daily nutritional intake and provide recommendations based on their preferences and dietary goals.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userPreferences": {
+                    "type": "object",
+                    "description": "User's dietary preferences and restrictions",
+                    "example": {
+                      "vegetarian": true,
+                      "lactoseIntolerant": true
+                    }
+                  },
+                  "dietaryGoals": {
+                    "type": "object",
+                    "description": "Targeted dietary goals",
+                    "example": {
+                      "calorieLimit": 2000,
+                      "proteinTarget": 100
+                    }
+                  }
+                },
+                "required": ["userPreferences", "dietaryGoals"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully processed daily intake and provided recommendations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "recommendedPlan": {
+                      "type": "object",
+                      "description": "Recommended daily intake plan"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/food-categories": {
+      "get": {
+        "summary": "Retrieve food categories",
+        "description": "Retrieve a list of all available food categories along with their descriptions.",
+        "responses": {
+          "200": {
+            "description": "List of food categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "category": {
+                        "type": "string",
+                        "description": "Name of the food category"
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Description of the food category"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nutritional-guidelines/{category}": {
+      "get": {
+        "summary": "Retrieve nutritional guidelines",
+        "description": "Retrieve nutritional guidelines and daily recommendations for a specific demographic category.",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The demographic category for which nutritional guidelines are requested"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Nutritional guidelines and recommendations for the specified category",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "recommendedIntake": {
+                      "type": "object",
+                      "description": "Nutritional intake recommendations"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/custom-recipes": {
+      "post": {
+        "summary": "Submit a custom recipe",
+        "description": "Submit a custom recipe for calculation of its nutritional data.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "recipeName": {
+                    "type": "string",
+                    "description": "The name of the recipe"
+                  },
+                  "ingredients": {
+                    "type": "array",
+                    "description": "List of ingredients for the recipe",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "itemName": {
+                          "type": "string",
+                          "description": "Name of the ingredient"
+                        },
+                        "quantity": {
+                          "type": "string",
+                          "description": "Quantity of the ingredient"
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": ["recipeName", "ingredients"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Calculated nutritional data for the submitted custom recipe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nutritionalData": {
+                      "type": "object",
+                      "description": "Nutritional data for the submitted recipe"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/allergens": {
+      "get": {
+        "summary": "Retrieve allergen information",
+        "description": "Retrieve a list of common allergens and food items that contain them.",
+        "responses": {
+          "200": {
+            "description": "List of allergens and corresponding foods containing them",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "allergens": {
+                      "type": "array",
+                      "description": "List of allergens",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-preferences": {
+      "put": {
+        "summary": "Update user preferences",
+        "description": "Update a user's dietary preferences and restrictions to improve personalized recommendations.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "preferences": {
+                    "type": "object",
+                    "description": "Dietary preferences and restrictions",
+                    "example": {
+                      "vegan": true,
+                      "nutAllergy": true
+                    }
+                  }
+                },
+                "required": ["preferences"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User preferences successfully updated"
+          }
+        }
+      }
+    },
+    "/custom-recipes/{id}": {
+      "delete": {
+        "summary": "Delete custom recipe",
+        "description": "Delete a previously submitted custom recipe using its unique identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier for the custom recipe"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Custom recipe successfully deleted"
+          }
+        }
+      }
+    },
+    "/review-meal-plan": {
+      "post": {
+        "summary": "Review a meal plan",
+        "description": "Submit a meal plan for detailed nutritional consistency checks.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mealPlan": {
+                    "type": "array",
+                    "description": "List of food items in the meal plan",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "itemId": {
+                          "type": "string",
+                          "description": "ID of the food item"
+                        },
+                        "quantity": {
+                          "type": "number",
+                          "description": "Quantity of the food item"
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": ["mealPlan"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Nutritional consistency check results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "consistencyCheck": {
+                      "type": "object",
+                      "description": "Result of the nutritional consistency check"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

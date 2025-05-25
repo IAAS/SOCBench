@@ -1,0 +1,323 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Mining Resource Allocation Service API",
+        "description": "This API provides tools for mining companies to dynamically allocate machinery and personnel to various sites, optimize operations, and enhance overall efficiency while minimizing costs.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/machinery/allocate": {
+            "get": {
+                "summary": "Get Machinery Allocation",
+                "description": "Retrieve current allocation details for mining machinery to various sites.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved machinery allocation details.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "siteId": "123",
+                                    "machines": [
+                                        {
+                                            "id": "m1",
+                                            "type": "Excavator",
+                                            "status": "active"
+                                        },
+                                        {
+                                            "id": "m2",
+                                            "type": "Hauler",
+                                            "status": "maintenance"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Submit or Update Machinery Allocation",
+                "description": "Submit or update allocation plans for mining machinery across sites.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "siteId": "123",
+                                "machines": [
+                                    {
+                                        "id": "m1",
+                                        "type": "Excavator"
+                                    },
+                                    {
+                                        "id": "m3",
+                                        "type": "Bulldozer"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully submitted or updated machinery allocation."
+                    }
+                }
+            }
+        },
+        "/personnel/allocate": {
+            "get": {
+                "summary": "Get Personnel Allocation",
+                "description": "Retrieve current personnel allocation details for mining sites.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved personnel allocation details.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "siteId": "123",
+                                    "personnel": [
+                                        {
+                                            "id": "p1",
+                                            "role": "Engineer",
+                                            "shift": "morning"
+                                        },
+                                        {
+                                            "id": "p2",
+                                            "role": "Operator",
+                                            "shift": "night"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Submit or Update Personnel Allocation",
+                "description": "Submit or update personnel allocation plans for mining operations.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "siteId": "123",
+                                "personnel": [
+                                    {
+                                        "id": "p1",
+                                        "role": "Engineer",
+                                        "shift": "afternoon"
+                                    },
+                                    {
+                                        "id": "p3",
+                                        "role": "Technician",
+                                        "shift": "morning"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully submitted or updated personnel allocation."
+                    }
+                }
+            }
+        },
+        "/operations/status": {
+            "get": {
+                "summary": "Get Operations Status",
+                "description": "Retrieve status and productivity metrics for ongoing mining operations.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved operations status.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "siteId": "123",
+                                    "productivity": "85%",
+                                    "status": "active"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/operations/optimize": {
+            "post": {
+                "summary": "Optimize Operations",
+                "description": "Request optimization for resource allocation based on current operation data.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "siteId": "123",
+                                "parameters": {
+                                    "priority": "productivity",
+                                    "balanceLoad": true
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully optimized operations.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "siteId": "123",
+                                    "optimizedAllocation": {
+                                        "personnel": [
+                                            {
+                                                "id": "p1",
+                                                "shift": "morning"
+                                            }
+                                        ],
+                                        "machines": [
+                                            {
+                                                "id": "m1",
+                                                "status": "optimized"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/materials": {
+            "get": {
+                "summary": "Get Materials Inventory",
+                "description": "Retrieve available inventory data for materials and resources at each site.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved materials inventory.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "siteId": "123",
+                                    "materials": [
+                                        {
+                                            "type": "iron",
+                                            "quantity": "1500",
+                                            "unit": "tons"
+                                        },
+                                        {
+                                            "type": "coal",
+                                            "quantity": "800",
+                                            "unit": "tons"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/materials/update": {
+            "post": {
+                "summary": "Update Materials Inventory",
+                "description": "Update material stock levels to reflect changes in inventory.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "siteId": "123",
+                                "materials": [
+                                    {
+                                        "type": "iron",
+                                        "quantity": "1600",
+                                        "unit": "tons"
+                                    },
+                                    {
+                                        "type": "coal",
+                                        "quantity": "750",
+                                        "unit": "tons"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated materials inventory."
+                    }
+                }
+            }
+        },
+        "/sites/details": {
+            "get": {
+                "summary": "Get Sites Details",
+                "description": "Retrieve geographic and operational details for all active mining sites.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved site details.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "sites": [
+                                        {
+                                            "siteId": "123",
+                                            "location": "40.6892,-74.0445",
+                                            "status": "operational"
+                                        },
+                                        {
+                                            "siteId": "124",
+                                            "location": "34.0522,-118.2437",
+                                            "status": "under maintenance"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/efficiency": {
+            "post": {
+                "summary": "Submit and Generate Efficiency Reports",
+                "description": "Submit and generate efficiency and performance reports based on the latest operation metrics.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "siteId": "123",
+                                "reportType": "productivity",
+                                "timeRange": {
+                                    "start": "2023-01-01T00:00:00Z",
+                                    "end": "2023-01-31T23:59:59Z"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully generated efficiency report.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "reportId": "r123",
+                                    "status": "generated",
+                                    "link": "https://example.com/reports/r123"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /energy/forecast/solar",
+            "description": "Retrieve predicted energy production values for solar power based on provided date ranges."
+        },
+        {
+            "endpoint": "GET /energy/forecast/wind",
+            "description": "Retrieve predicted energy production values for wind power based on provided date ranges."
+        },
+        {
+            "endpoint": "GET /energy/forecast/hydro",
+            "description": "Retrieve predicted energy production values for hydroelectric power based on provided date ranges."
+        },
+        {
+            "endpoint": "POST /energy/forecast/request",
+            "description": "Submit a request for customized forecasts by providing specific requirements."
+        },
+        {
+            "endpoint": "GET /energy/history/solar",
+            "description": "Access historical data for solar energy production to analyze performance trends."
+        },
+        {
+            "endpoint": "GET /energy/history/wind",
+            "description": "Access historical data for wind energy production to analyze performance trends."
+        },
+        {
+            "endpoint": "GET /energy/history/hydro",
+            "description": "Access historical data for hydroelectric energy production to analyze performance trends."
+        },
+        {
+            "endpoint": "PUT /user/settings/alert",
+            "description": "Modify notifications settings for energy forecast updates and alerts."
+        },
+        {
+            "endpoint": "GET /weather/current",
+            "description": "Retrieve current meteorological data influencing renewable energy production rates."
+        },
+        {
+            "endpoint": "GET /weather/projection",
+            "description": "Retrieve meteorological patterns projected for an extended timeframe."
+        }
+    ]
+}

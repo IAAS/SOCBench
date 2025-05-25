@@ -1,0 +1,457 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Glass Production Facility Management API",
+        "description": "API for managing production workflows, monitoring machine performance, and ensuring quality control metrics are met effectively in glass production facilities.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.glassproductionfacility.com",
+            "description": "Production environment"
+        }
+    ],
+    "paths": {
+        "/production/orders": {
+            "post": {
+                "summary": "Create a new production order",
+                "description": "Endpoint to create a new production order for glass products. This includes specifying product details, batch size, and priority.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "productType": {
+                                        "type": "string",
+                                        "description": "Type of glass product to be produced."
+                                    },
+                                    "batchSize": {
+                                        "type": "integer",
+                                        "description": "Number of items in this production batch."
+                                    },
+                                    "priority": {
+                                        "type": "string",
+                                        "enum": [
+                                            "low",
+                                            "medium",
+                                            "high"
+                                        ],
+                                        "description": "Priority level of this order."
+                                    }
+                                },
+                                "required": [
+                                    "productType",
+                                    "batchSize",
+                                    "priority"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Production order created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "orderId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the production order."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the order."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data for production order."
+                    }
+                }
+            }
+        },
+        "/production/orders/{id}": {
+            "delete": {
+                "summary": "Cancel a production order",
+                "description": "Cancel an existing production order using its identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the production order to cancel.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Production order canceled successfully."
+                    },
+                    "404": {
+                        "description": "Production order not found."
+                    }
+                }
+            }
+        },
+        "/production/orders/{id}/status": {
+            "get": {
+                "summary": "Retrieve production order status",
+                "description": "Retrieve the current status of a specific production order by its identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the production order.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved order status.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "orderId": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the production order."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the production order."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Production order not found."
+                    }
+                }
+            }
+        },
+        "/machines/{id}/configurations": {
+            "post": {
+                "summary": "Submit machine configuration",
+                "description": "Submit specific configuration data to a machine in the production line.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the machine to configure.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "configuration": {
+                                        "type": "object",
+                                        "description": "Configuration details for the machine.",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "configuration"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Machine configuration submitted successfully."
+                    },
+                    "404": {
+                        "description": "Machine not found."
+                    }
+                }
+            }
+        },
+        "/machines/performance": {
+            "get": {
+                "summary": "Get machine performance metrics",
+                "description": "Retrieve performance metrics for all machines within the facility.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved machine performance metrics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "machineId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the machine."
+                                            },
+                                            "performanceMetrics": {
+                                                "type": "object",
+                                                "description": "Performance metrics of the machine.",
+                                                "additionalProperties": {
+                                                    "type": "number"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/quality-control/tests": {
+            "post": {
+                "summary": "Schedule a quality control test",
+                "description": "Schedule a new quality control test for a batch of produced glass items.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "batchId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the batch to be tested."
+                                    },
+                                    "testType": {
+                                        "type": "string",
+                                        "description": "Type of quality test to perform."
+                                    },
+                                    "scheduledTime": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "ISO 8601 formatted date and time for the test."
+                                    }
+                                },
+                                "required": [
+                                    "batchId",
+                                    "testType",
+                                    "scheduledTime"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Quality control test scheduled successfully."
+                    },
+                    "404": {
+                        "description": "Batch not found."
+                    }
+                }
+            }
+        },
+        "/resources/inventory": {
+            "get": {
+                "summary": "View raw material inventory",
+                "description": "Retrieve current raw material inventory levels in the facility.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved inventory levels.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "itemId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the inventory item."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the material."
+                                            },
+                                            "quantity": {
+                                                "type": "integer",
+                                                "description": "Quantity of the material available."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/resources/inventory/{item_id}": {
+            "put": {
+                "summary": "Update inventory levels",
+                "description": "Update the inventory levels for a specific material.",
+                "parameters": [
+                    {
+                        "name": "item_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the material to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "quantity": {
+                                        "type": "integer",
+                                        "description": "New quantity of the material."
+                                    }
+                                },
+                                "required": [
+                                    "quantity"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inventory levels updated successfully."
+                    },
+                    "404": {
+                        "description": "Material not found."
+                    }
+                }
+            }
+        },
+        "/alerts/notifications": {
+            "get": {
+                "summary": "Receive maintenance alerts",
+                "description": "Retrieve notifications about maintenance alerts or production anomalies.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved alerts.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "alertId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the alert."
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "description": "Notification details for the alert."
+                                            },
+                                            "severity": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "low",
+                                                    "medium",
+                                                    "high"
+                                                ],
+                                                "description": "Severity level of the alert."
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "description": "Timestamp of when the alert was issued."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/generate": {
+            "post": {
+                "summary": "Generate production and quality report",
+                "description": "Generate a detailed production and quality control report.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "startDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Start date for the report period."
+                                    },
+                                    "endDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "End date for the report period."
+                                    },
+                                    "includeDetails": {
+                                        "type": "boolean",
+                                        "description": "Whether to include detailed insights in the report."
+                                    }
+                                },
+                                "required": [
+                                    "startDate",
+                                    "endDate"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Report generated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reportId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the generated report."
+                                        },
+                                        "url": {
+                                            "type": "string",
+                                            "description": "Download URL for the report."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data for report generation."
+                    }
+                }
+            }
+        }
+    }
+}

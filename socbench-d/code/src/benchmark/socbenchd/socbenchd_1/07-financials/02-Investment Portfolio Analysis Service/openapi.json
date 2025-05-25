@@ -1,0 +1,336 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Portfolio Analytics Service",
+        "description": "Provides investors with detailed insights into portfolio performance, diversification, and risk assessment through advanced analytics.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/performance/portfolio": {
+            "get": {
+                "summary": "Retrieve Portfolio Performance Metrics",
+                "description": "Retrieve detailed performance metrics for a specified portfolio, including returns, volatility, and historical data.",
+                "parameters": [
+                    {
+                        "name": "portfolioId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The unique identifier of the portfolio to retrieve performance metrics for.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of portfolio performance metrics.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "portfolioId": "12345",
+                                    "performanceMetrics": {
+                                        "averageReturn": 0.06,
+                                        "volatility": 0.02,
+                                        "historicalData": []
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid portfolio ID provided."
+                    },
+                    "404": {
+                        "description": "Portfolio not found."
+                    }
+                }
+            }
+        },
+        "/portfolio/upload": {
+            "post": {
+                "summary": "Upload Portfolio Dataset",
+                "description": "Upload a new portfolio dataset to calculate detailed performance metrics.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "portfolioName": {
+                                        "type": "string",
+                                        "description": "Name of the portfolio."
+                                    },
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        },
+                                        "description": "Portfolio data in JSON format."
+                                    }
+                                },
+                                "required": [
+                                    "portfolioName",
+                                    "data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Portfolio uploaded and processed successfully."
+                    },
+                    "400": {
+                        "description": "Error in the uploaded dataset format."
+                    }
+                }
+            }
+        },
+        "/diversification/analysis": {
+            "get": {
+                "summary": "Retrieve Diversification Analysis",
+                "description": "Obtain an in-depth analysis of the diversification level for a specified portfolio.",
+                "parameters": [
+                    {
+                        "name": "portfolioId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The unique identifier of the portfolio to analyze for diversification.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of diversification analysis."
+                    },
+                    "400": {
+                        "description": "Invalid portfolio ID provided."
+                    },
+                    "404": {
+                        "description": "Portfolio not found."
+                    }
+                }
+            }
+        },
+        "/risk/assessment": {
+            "post": {
+                "summary": "Perform Risk Assessment",
+                "description": "Submit data for a comprehensive risk assessment on a specified portfolio.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "portfolioId": {
+                                        "type": "string",
+                                        "description": "The unique ID of the portfolio."
+                                    },
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Risk assessment parameters."
+                                    }
+                                },
+                                "required": [
+                                    "portfolioId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Risk assessment completed successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/benchmarks/compare": {
+            "get": {
+                "summary": "Retrieve Benchmark Comparison",
+                "description": "Retrieve comparative analysis between a portfolio and selected benchmarks.",
+                "parameters": [
+                    {
+                        "name": "portfolioId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "benchmarkIds",
+                        "in": "query",
+                        "required": true,
+                        "description": "List of benchmark IDs to compare against.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comparison data retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/alerts/thresholds": {
+            "get": {
+                "summary": "Retrieve Alert Thresholds",
+                "description": "Retrieve the list of configured notification thresholds for monitoring portfolio metrics.",
+                "parameters": [
+                    {
+                        "name": "portfolioId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The unique identifier of the portfolio to retrieve alert thresholds for.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Alert thresholds retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "portfolioId": "12345",
+                                    "alertThresholds": [
+                                        {
+                                            "metric": "return",
+                                            "threshold": 0.05
+                                        },
+                                        {
+                                            "metric": "volatility",
+                                            "threshold": 0.03
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/configure": {
+            "post": {
+                "summary": "Configure Alert Thresholds",
+                "description": "Configure new thresholds for portfolio performance alerts.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "portfolioId": {
+                                        "type": "string",
+                                        "description": "The unique ID of the portfolio."
+                                    },
+                                    "thresholds": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "metric": {
+                                                    "type": "string",
+                                                    "description": "Metric for the threshold (e.g., return, volatility)."
+                                                },
+                                                "threshold": {
+                                                    "type": "number",
+                                                    "description": "Threshold value for alerts."
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "portfolioId",
+                                    "thresholds"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Thresholds configured successfully."
+                    }
+                }
+            }
+        },
+        "/reports/summary": {
+            "get": {
+                "summary": "Retrieve Portfolio Summary Report",
+                "description": "Obtain a summarized report containing key insights on portfolio performance and analysis.",
+                "parameters": [
+                    {
+                        "name": "portfolioId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Portfolio summary retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/market-trends": {
+            "get": {
+                "summary": "Access Market Trend Analysis",
+                "description": "Retrieve market trend analysis relevant to a portfolio.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Market trends retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/portfolio/remove": {
+            "delete": {
+                "summary": "Remove Uploaded Portfolio",
+                "description": "Remove a previously uploaded portfolio dataset from the system.",
+                "parameters": [
+                    {
+                        "name": "portfolioId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The unique identifier of the portfolio to remove.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Portfolio removed successfully."
+                    },
+                    "404": {
+                        "description": "Portfolio not found."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    }
+}

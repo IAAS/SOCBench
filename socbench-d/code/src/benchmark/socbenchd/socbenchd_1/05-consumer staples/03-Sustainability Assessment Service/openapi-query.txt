@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+Service:
+Allows manufacturers to assess and monitor the sustainability metrics of their product supply chain within the consumer staples domain.
+
+Endpoints:
+GET /product/metrics: Retrieve the sustainability metrics for a specific product.
+POST /product/register: Add a new product to the monitoring system with its basic information.
+PUT /product/update: Update details of an existing product in the system.
+GET /supplychain/overview: Retrieve an overview of the entire supply chain for all products.
+GET /supplychain/{id}/metrics: Retrieve detailed sustainability analysis for a specific supply chain segment.
+POST /supplier/add: Register a new supplier along with initial sustainability data.
+GET /suppliers: List all suppliers associated with the supply chains in the service.
+PUT /supplier/{id}/update: Update sustainability data or other information of a specific supplier.
+GET /report/daily: Generate a daily sustainability compliance report for all registered products.
+DELETE /product/{id}: Remove a product and its associated data from the monitoring system.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /alerts",
+            "description": "Retrieve active alerts for safety and operational anomalies."
+        },
+        {
+            "endpoint": "GET /dashboard",
+            "description": "Access the intuitive dashboard presenting aggregated key metrics."
+        },
+        {
+            "endpoint": "POST /settings/thresholds",
+            "description": "Update safety and efficiency thresholds for monitoring parameters."
+        },
+        {
+            "endpoint": "GET /operations/current",
+            "description": "Fetch the current state of ongoing mining operations in all accessible locations."
+        },
+        {
+            "endpoint": "DELETE /anomalies/{id}",
+            "description": "Dismiss a previously reported anomaly by its unique identifier."
+        },
+        {
+            "endpoint": "GET /analytics/performance",
+            "description": "Request historical performance analytics for machinery and operations."
+        },
+        {
+            "endpoint": "POST /responses/automated",
+            "description": "Configure automated incident response actions based on detected anomalies."
+        },
+        {
+            "endpoint": "GET /resources/extraction",
+            "description": "Detail resource extraction rates at specific mines or facilities."
+        },
+        {
+            "endpoint": "PATCH /worker/devices/{deviceId}",
+            "description": "Update configurations of a specific worker's safety device."
+        },
+        {
+            "endpoint": "GET /reports/monthly",
+            "description": "Generate a comprehensive monthly report of mining activities and outcomes."
+        }
+    ]
+}

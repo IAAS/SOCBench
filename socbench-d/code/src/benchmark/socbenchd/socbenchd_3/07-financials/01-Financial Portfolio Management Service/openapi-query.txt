@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Service:
+This RESTful API service allows users to effectively manage and monitor their investment portfolios. Users can add, update, and view their asset holdings, track performance metrics, and receive tailored investment recommendations based on real-time market data. Prerequisites for use include user registration, secure authentication, and API key provision. The service supports integration with brokerage accounts for seamless data synchronization. For instance, a user can query their portfolio's overall performance by sending a GET request to the performance endpoint, receiving a response with detailed metrics in JSON format.
+
+Endpoints:
+GET /portfolios: Retrieve the list of all user investment portfolios.
+GET /portfolios/{id}: Retrieve details of a specific investment portfolio identified by its ID.
+POST /portfolios: Create a new investment portfolio with specific parameters.
+PUT /portfolios/{id}: Update the details of an existing investment portfolio by its ID.
+GET /performance: Obtain the performance metrics of all linked investment portfolios.
+POST /recommendations: Receive tailored investment recommendations based on portfolio data.
+GET /assets: List details and metrics of all assets within a portfolio.
+POST /alerts: Set up alerts for important financial events or metrics.
+GET /market-data: Retrieve real-time market data for analysis and comparison.
+DELETE /portfolios/{id}: Remove a specified investment portfolio and associated data by its ID.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+A service to manage and distribute interactive content such as videos, games, and multimedia across platforms. Includes features for content uploading, categorization, and real-time analytics on audience engagement.
+
+Endpoints:
+POST /content/upload: Upload a new piece of interactive content to the platform.
+GET /content/{id}: Retrieve detailed information about specific content by its ID.
+DELETE /content/{id}: Remove interactive content identified by its ID.
+GET /analytics/content/{id}: Fetch audience engagement metrics related to a particular content.
+GET /analytics/global: Access comprehensive real-time engagement analytics across all contents.
+PUT /content/{id}: Update the metadata or details of existing interactive content.
+GET /categories: Retrieve a list of existing categories for organizing content.
+POST /categorizations: Assign content to specific categories for improved organization.
+GET /popular-content: Retrieve a list of currently trending or highly popular content.
+GET /system/status: Check the operational status of the content distribution platform.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

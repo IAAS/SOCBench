@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /emission-records",
+            "description": "Retrieve the list of all recorded carbon emissions."
+        },
+        {
+            "endpoint": "POST /emission-records",
+            "description": "Submit a new carbon emission record for monitoring."
+        },
+        {
+            "endpoint": "PUT /emission-records/{record_id}",
+            "description": "Update an existing carbon emission record."
+        },
+        {
+            "endpoint": "DELETE /emission-records/{record_id}",
+            "description": "Remove a specific carbon emission record by its ID."
+        },
+        {
+            "endpoint": "GET /emission-reports",
+            "description": "Generate and retrieve detailed emission compliance reports."
+        },
+        {
+            "endpoint": "POST /sensors-data",
+            "description": "Upload data collected from emission monitoring sensors."
+        },
+        {
+            "endpoint": "PUT /thresholds",
+            "description": "Update threshold levels for emission compliance control."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Retrieve alerts triggered by emission levels exceeding thresholds."
+        },
+        {
+            "endpoint": "POST /aggregation",
+            "description": "Perform aggregation of emission data for analysis and reporting."
+        },
+        {
+            "endpoint": "GET /audit-trails",
+            "description": "Access recorded audit trails for emission records and modifications."
+        }
+    ]
+}

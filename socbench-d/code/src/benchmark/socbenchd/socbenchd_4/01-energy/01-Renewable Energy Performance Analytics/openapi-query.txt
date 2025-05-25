@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+This service provides real-time performance data and predictive analytics for renewable energy installations, such as solar panels and wind turbines, enabling optimization of energy output and maintenance scheduling.
+
+Endpoints:
+GET /real-time-data: Retrieve real-time data for all monitored renewable energy installations.
+POST /analytics/predictive-maintenance: Submit a request for predictive maintenance schedule generation for a specified installation.
+GET /performance/summary: Obtain a summarized performance report for all managed renewable energy sources to identify trends.
+GET /analytics/efficiency-reports: Access detailed efficiency analytics for a targeted renewable energy system.
+PUT /devices/configuration: Update configuration settings of a specific device within the renewable energy network.
+POST /alerts/configure: Define custom alert triggers for anomalies detected in energy production or equipment functioning.
+GET /alerts/history: View historical records of alerts and triggers for all systems.
+DELETE /data/obsolete-records: Remove outdated and non-relevant historical performance data from the database.
+GET /weather-impact: Retrieve analysis of weather data impact on energy production from connected systems.
+POST /insights/data-share: Share aggregate analytical insights with selected stakeholders for collaborative evaluation.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

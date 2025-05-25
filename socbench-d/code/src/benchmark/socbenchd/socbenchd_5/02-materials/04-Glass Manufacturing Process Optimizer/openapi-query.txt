@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+Service:
+A service designed for glass manufacturers to analyze production processes, optimize quality, and reduce energy consumption with advanced data analytics techniques.
+
+Endpoints:
+GET /glass-production-data: Retrieve historical data related to glass production from connected manufacturing units.
+POST /process-optimization/sequences: Submit and analyze production process sequences to suggest potential optimization strategies.
+GET /energy-consumption/overview: Fetch a summary of energy consumption metrics across production facilities.
+POST /quality-check/analyze: Submit production data for comprehensive quality assessment analysis.
+GET /recommended-actions/latest: Retrieve the latest suggested actions for improving production efficiency based on analyzed data.
+GET /materials-usage/report: Access detailed reports on raw materials utilization and efficiency.
+POST /alerts/create: Configure custom alerts based on specific production or quality thresholds.
+GET /system-health/status: Retrieve the current operational status of production monitoring systems.
+POST /data-import/manual: Upload and integrate manually collected data into the analysis system.
+DELETE /alerts/{id}: Remove a specific previously configured alert based on its unique identifier.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

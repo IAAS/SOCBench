@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /clients",
+            "description": "Retrieve a list of all clients associated with the real estate agent's profile."
+        },
+        {
+            "endpoint": "POST /clients",
+            "description": "Add a new client to the real estate agent's database."
+        },
+        {
+            "endpoint": "PUT /clients/{clientID}",
+            "description": "Update details of a specific client using their unique ID."
+        },
+        {
+            "endpoint": "DELETE /clients/{clientID}",
+            "description": "Remove a specified client from the database based on their unique ID."
+        },
+        {
+            "endpoint": "GET /properties",
+            "description": "Fetch a list of all available properties managed by the agent or agency."
+        },
+        {
+            "endpoint": "POST /properties",
+            "description": "Add a new property to the portfolio for sale or rent."
+        },
+        {
+            "endpoint": "PUT /properties/{propertyID}",
+            "description": "Edit information about a specific property identified by its unique ID."
+        },
+        {
+            "endpoint": "GET /appointments",
+            "description": "Retrieve all scheduled appointments and meetings for the real estate agent."
+        },
+        {
+            "endpoint": "POST /appointments",
+            "description": "Schedule a new appointment with a client or third party."
+        },
+        {
+            "endpoint": "DELETE /appointments/{appointmentID}",
+            "description": "Cancel a scheduled appointment identified by its unique ID."
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /facilities",
+            "description": "Add information about a new construction facility to be monitored."
+        },
+        {
+            "endpoint": "GET /facilities",
+            "description": "Retrieve a list of all monitored construction facilities."
+        },
+        {
+            "endpoint": "GET /facilities/energy-consumption",
+            "description": "Retrieve energy consumption statistics for a specific facility."
+        },
+        {
+            "endpoint": "PUT /facilities/{facility_id}/settings",
+            "description": "Update energy monitoring settings for a specific facility."
+        },
+        {
+            "endpoint": "GET /regions/reports",
+            "description": "Retrieve energy efficiency reports sorted by regions."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Create a custom alert criteria for energy thresholds."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "List all active energy consumption alerts."
+        },
+        {
+            "endpoint": "DELETE /alerts/{alert_id}",
+            "description": "Remove a specific energy consumption alert."
+        },
+        {
+            "endpoint": "GET /sensors/data",
+            "description": "Fetch sensor readings for detailed energy analysis."
+        },
+        {
+            "endpoint": "POST /analysis/retrend",
+            "description": "Initiate retrended analysis for assessing historical energy consumption patterns."
+        }
+    ]
+}

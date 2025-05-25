@@ -1,0 +1,317 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Streaming Optimization API",
+    "description": "This API optimizes streaming performance by providing adaptive bitrate streaming, regional content caching, and analytics for viewer engagement. It ensures a high-quality user experience even under varying network conditions.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.streamingoptimization.com/v1",
+      "description": "Production Server"
+    }
+  ],
+  "paths": {
+    "/stream/quality": {
+      "get": {
+        "summary": "Retrieve Stream Quality Settings",
+        "description": "Fetch the quality settings for a specific streaming session, including bitrate, resolution, and other key parameters.",
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "query",
+            "required": true,
+            "description": "Unique identifier for the streaming session.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Quality settings retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "bitrate": "3000kbps",
+                  "resolution": "1080p",
+                  "frameRate": "30fps"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stream/initiate": {
+      "post": {
+        "summary": "Initiate a New Streaming Session",
+        "description": "Start a new streaming session with, optionally, pre-defined settings and configurations.",
+        "requestBody": {
+          "description": "Settings to initialize the streaming session.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "userId": "12345",
+                "contentId": "abcde",
+                "quality": "auto",
+                "region": "US-East"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Streaming session initiated successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "sessionId": "xyz789",
+                  "status": "active"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stream/update": {
+      "put": {
+        "summary": "Update Streaming Session Configuration",
+        "description": "Modify the configuration of an ongoing streaming session, such as quality settings or region preferences.",
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "query",
+            "required": true,
+            "description": "Unique identifier for the streaming session to update.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated settings for the streaming session.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "quality": "720p",
+                "region": "US-West"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Streaming session updated successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Settings updated",
+                  "sessionId": "xyz789"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stream/terminate": {
+      "delete": {
+        "summary": "Terminate Streaming Session",
+        "description": "Gracefully terminate an ongoing streaming session to free up resources.",
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "query",
+            "required": true,
+            "description": "Unique identifier for the streaming session to terminate.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Streaming session terminated successfully."
+          }
+        }
+      }
+    },
+    "/analytics/viewer": {
+      "get": {
+        "summary": "Fetch Viewer Engagement Analytics",
+        "description": "Retrieve detailed analytics about viewer engagement for a specific content item.",
+        "parameters": [
+          {
+            "name": "contentId",
+            "in": "query",
+            "required": true,
+            "description": "Unique identifier for the content.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Viewer analytics fetched successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "contentId": "abcde",
+                  "viewCount": 1200,
+                  "averageViewTime": "15m 30s"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/summary": {
+      "get": {
+        "summary": "Retrieve Platform Analytics Summary",
+        "description": "Fetch a summary of analytics data for the streaming platform, including aggregated engagement metrics.",
+        "responses": {
+          "200": {
+            "description": "Platform analytics summary retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "totalViews": 500000,
+                  "averageSessionDuration": "30m 15s",
+                  "activeSessions": 3200
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cache/region/settings": {
+      "post": {
+        "summary": "Configure Regional Caching Settings",
+        "description": "Set up caching preferences and settings for a specific geographical region.",
+        "requestBody": {
+          "description": "Caching configuration details.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "region": "US-East",
+                "cacheDuration": "48h",
+                "contentCategories": ["movies", "sports"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Regional caching settings saved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Caching settings configured"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cache/region/status": {
+      "get": {
+        "summary": "Check Regional Caching Status",
+        "description": "Retrieve the status and performance metrics of content caching for a specific region.",
+        "parameters": [
+          {
+            "name": "region",
+            "in": "query",
+            "required": true,
+            "description": "The region for which to fetch caching metrics.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Regional caching status retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "region": "US-East",
+                  "cachedItems": 1500,
+                  "hitRate": "95%"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bitrate/adaptive": {
+      "post": {
+        "summary": "Set Adaptive Bitrate Settings",
+        "description": "Configure adaptive bitrate streaming to dynamically adjust content delivery to match network conditions.",
+        "requestBody": {
+          "description": "Settings for adaptive bitrate streaming.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "minBitrate": "800kbps",
+                "maxBitrate": "4000kbps",
+                "defaultQuality": "1080p"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Adaptive bitrate settings configured successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "adaptive settings enabled"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bitrate/current": {
+      "get": {
+        "summary": "Fetch Current Bitrate",
+        "description": "Retrieve the current bitrate being used during an ongoing streaming session.",
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "query",
+            "required": true,
+            "description": "Unique identifier for the streaming session.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current bitrate retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "currentBitrate": "2500kbps"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

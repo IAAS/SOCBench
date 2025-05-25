@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+This RESTful API facilitates booking, scheduling, and managing reservations for hospitality businesses, allowing users to search for hotels, view availability, and make bookings.
+
+Endpoints:
+GET /hotels: Retrieve a list of hotels based on specified filters such as location and ratings.
+GET /rooms: Fetch the available rooms in a specified hotel for a certain date range.
+POST /reservations: Create a new reservation for a hotel room including guest details.
+GET /reservations/{id}: Fetch the details of an existing reservation by reservation ID.
+PUT /reservations/{id}: Update the details of an existing reservation identified by reservation ID.
+DELETE /reservations/{id}: Cancel an existing reservation by its unique identifier.
+GET /amenities: Retrieve a list of amenities available at a specific hotel or room.
+POST /reviews: Submit a review for a hotel or service by a guest.
+GET /reviews/{hotelId}: Fetch all reviews for a specified hotel by its unique ID.
+GET /booking-history/{userId}: Retrieve the booking history for a specific user identified by their unique ID.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

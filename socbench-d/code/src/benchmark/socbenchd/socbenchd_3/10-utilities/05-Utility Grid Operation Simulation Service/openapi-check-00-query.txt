@@ -1,0 +1,432 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Utility Grid Simulation and Analysis API",
+        "description": "This API allows planners and engineers to simulate and analyze the operational performance of utility grids under various expansion scenarios and load conditions. Users can perform virtualization, scenario testing, optimization, and access detailed reports.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.utilitygrid.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/grids": {
+            "get": {
+                "summary": "Retrieve all utility grids",
+                "description": "Retrieve the list of all utility grids available for simulation and analysis.",
+                "responses": {
+                    "200": {
+                        "description": "A list of utility grids.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "gridId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the grid."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the grid."
+                                            },
+                                            "details": {
+                                                "type": "string",
+                                                "description": "Additional information about the grid."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/grids/{gridId}/simulate": {
+            "post": {
+                "summary": "Simulate a utility grid",
+                "description": "Initiate a simulation for the specified grid to analyze operational performance under various conditions.",
+                "parameters": [
+                    {
+                        "name": "gridId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the grid.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Simulation initiated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "simulationId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the initiated simulation."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the simulation initiation."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/scenarios": {
+            "get": {
+                "summary": "Retrieve all simulation scenarios",
+                "description": "Retrieve all predefined and custom simulation scenarios available for use.",
+                "responses": {
+                    "200": {
+                        "description": "A list of scenarios.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "scenarioId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the scenario."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the scenario."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Detailed description of the scenario."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new simulation scenario",
+                "description": "Create a new scenario specifying expansion plans and load conditions for simulations.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the new scenario."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Detailed description of the scenario."
+                                    },
+                                    "expansionPlans": {
+                                        "type": "object",
+                                        "description": "Details about the expansion plans."
+                                    },
+                                    "loadConditions": {
+                                        "type": "object",
+                                        "description": "Details about the load conditions."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Scenario created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "scenarioId": {
+                                            "type": "string",
+                                            "description": "The unique identifier for the newly created scenario."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Creation status of the scenario."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/scenarios/{scenarioId}": {
+            "delete": {
+                "summary": "Delete a simulation scenario",
+                "description": "Remove an existing simulation scenario by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "scenarioId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the scenario to be deleted.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Scenario deleted successfully."
+                    }
+                }
+            }
+        },
+        "/results/{simulationId}": {
+            "get": {
+                "summary": "Retrieve simulation results",
+                "description": "Retrieve the results of a completed simulation by its unique simulation ID.",
+                "parameters": [
+                    {
+                        "name": "simulationId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the simulation.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Simulation results retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "results": {
+                                            "type": "object",
+                                            "description": "Details of the simulation results."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/grids/{gridId}/infrastructure": {
+            "put": {
+                "summary": "Update grid infrastructure",
+                "description": "Update the infrastructure data for a given grid before initiating simulations.",
+                "parameters": [
+                    {
+                        "name": "gridId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the grid.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "infrastructure": {
+                                        "type": "object",
+                                        "description": "Details of the updated infrastructure data."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Infrastructure updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "gridId": {
+                                            "type": "string",
+                                            "description": "ID of the updated grid."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Update status."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/optimizations": {
+            "post": {
+                "summary": "Run load balancing optimization",
+                "description": "Run an optimization process to achieve load balancing for a specific grid configuration.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "gridId": {
+                                        "type": "string",
+                                        "description": "ID of the grid on which to perform optimization."
+                                    },
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Optimization parameters."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Optimization process initiated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "optimizationId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the initiated optimization process."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the optimization process initiation."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports": {
+            "get": {
+                "summary": "Access simulation reports",
+                "description": "Access detailed reports and analytical data derived from past simulations.",
+                "responses": {
+                    "200": {
+                        "description": "Reports retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "reportId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the report."
+                                            },
+                                            "details": {
+                                                "type": "string",
+                                                "description": "Detailed description of the report."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "post": {
+                "summary": "Set up alert notifications",
+                "description": "Set up alert notifications for specific grid conditions or simulation parameters.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "gridId": {
+                                        "type": "string",
+                                        "description": "Grid ID associated with the alert."
+                                    },
+                                    "parameters": {
+                                        "type": "object",
+                                        "description": "Conditions or thresholds for triggering the alert."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert notifications set up successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "alertId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the alert."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the alert setup."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

@@ -1,0 +1,369 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Tobacco Product Age Verification API",
+        "description": "This API ensures age restrictions are adhered to for tobacco product sales. Retailers can integrate this service to verify customer eligibility based on age criteria securely and efficiently.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.tobacco-verification.example.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/verify-age": {
+            "post": {
+                "summary": "Submit customer's age for verification",
+                "operationId": "verifyAge",
+                "description": "Submits a customer's age information to verify their eligibility to purchase tobacco products based on legal requirements.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "customer_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier for the customer."
+                                    },
+                                    "age": {
+                                        "type": "integer",
+                                        "description": "The age of the customer in years."
+                                    }
+                                },
+                                "required": [
+                                    "customer_id",
+                                    "age"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Age verified successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "transaction_id": {
+                                            "type": "string",
+                                            "description": "The unique identifier for the verification transaction."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "approved",
+                                                "rejected"
+                                            ],
+                                            "description": "The outcome of the age verification."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/status/{transaction_id}": {
+            "get": {
+                "summary": "Get age verification status",
+                "operationId": "getVerificationStatus",
+                "description": "Retrieves the status and decision of a previously submitted age verification request.",
+                "parameters": [
+                    {
+                        "name": "transaction_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique transaction ID for which the status is requested."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Verification status retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "transaction_id": {
+                                            "type": "string",
+                                            "description": "The transaction ID."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "approved",
+                                                "rejected",
+                                                "pending"
+                                            ],
+                                            "description": "The current status of the verification."
+                                        },
+                                        "decision": {
+                                            "type": "string",
+                                            "description": "Details about the verification decision."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Transaction not found."
+                    }
+                }
+            }
+        },
+        "/upload-id": {
+            "post": {
+                "summary": "Upload customer ID for validation",
+                "operationId": "uploadCustomerId",
+                "description": "Allows the upload of an image of the customer's government-issued identification card for detailed scrutiny and validation.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "customer_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier of the customer."
+                                    },
+                                    "id_image": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "The image file of the customer's identification card."
+                                    }
+                                },
+                                "required": [
+                                    "customer_id",
+                                    "id_image"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "ID uploaded and validated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid file or customer ID."
+                    }
+                }
+            }
+        },
+        "/supported-countries": {
+            "get": {
+                "summary": "List supported countries",
+                "operationId": "getSupportedCountries",
+                "description": "Fetches a list of countries where the age verification service is operational and compliant with local legal requirements.",
+                "responses": {
+                    "200": {
+                        "description": "Supported countries retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "description": "A country where the service is operational."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/verify-dob": {
+            "post": {
+                "summary": "Verify eligibility using date of birth",
+                "operationId": "verifyDob",
+                "description": "Checks the customer's eligibility using their date of birth.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "customer_id": {
+                                        "type": "string",
+                                        "description": "The unique identifier for the customer."
+                                    },
+                                    "date_of_birth": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "The customer's date of birth in YYYY-MM-DD format."
+                                    }
+                                },
+                                "required": [
+                                    "customer_id",
+                                    "date_of_birth"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Verification successful."
+                    },
+                    "400": {
+                        "description": "Invalid data provided."
+                    }
+                }
+            }
+        },
+        "/transaction-log": {
+            "get": {
+                "summary": "Retrieve verification transaction logs",
+                "operationId": "getTransactionLog",
+                "description": "Retrieves a comprehensive log of past verification transactions for audit and reporting purposes.",
+                "responses": {
+                    "200": {
+                        "description": "Transaction logs retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "transaction_id": {
+                                                "type": "string",
+                                                "description": "The unique ID of the transaction."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "The status of the transaction."
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Timestamp of the transaction."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transaction/{transaction_id}": {
+            "delete": {
+                "summary": "Delete a specific transaction record",
+                "operationId": "deleteTransaction",
+                "description": "Deletes a specific verification transaction from records to ensure data privacy.",
+                "parameters": [
+                    {
+                        "name": "transaction_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique ID of the transaction to be deleted."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction deleted successfully."
+                    },
+                    "404": {
+                        "description": "Transaction not found."
+                    }
+                }
+            }
+        },
+        "/service-policies": {
+            "get": {
+                "summary": "Fetch service policies and guidelines",
+                "operationId": "getServicePolicies",
+                "description": "Accesses the terms, policies, and operational guidelines of the age verification service.",
+                "responses": {
+                    "200": {
+                        "description": "Service policies retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/update-settings": {
+            "put": {
+                "summary": "Update service settings",
+                "operationId": "updateSettings",
+                "description": "Modifies the account-specific settings and preferences for customizing the verification service.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "notification_email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "description": "Email address for receiving notifications."
+                                    },
+                                    "enable_alerts": {
+                                        "type": "boolean",
+                                        "description": "Enable or disable system alerts."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Settings updated successfully."
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "get": {
+                "summary": "List all notifications and alerts",
+                "operationId": "getAlerts",
+                "description": "Lists all notifications and alerts related to verification activities and system statuses.",
+                "responses": {
+                    "200": {
+                        "description": "Alerts retrieved successfully."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

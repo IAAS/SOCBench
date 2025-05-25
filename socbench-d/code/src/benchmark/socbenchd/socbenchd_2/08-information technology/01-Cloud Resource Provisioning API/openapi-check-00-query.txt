@@ -1,0 +1,431 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Cloud Resource Management API",
+        "description": "This API enables IT administrators to efficiently allocate and configure cloud resources dynamically across various vendor platforms. By using this API, users can automate the creation and management of virtual machines, storage systems, and networking components, ensuring optimal usage of computational resources.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.cloudresources.com/v1",
+            "description": "Base server for the Cloud Resource Management API"
+        }
+    ],
+    "paths": {
+        "/resources": {
+            "get": {
+                "summary": "Retrieve all available resources with metadata",
+                "description": "Fetch a list of all resources currently available along with their associated metadata, such as type, status, and configuration.",
+                "responses": {
+                    "200": {
+                        "description": "List of resources retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the resource."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the resource."
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "description": "Type of the resource (e.g., VM, storage, network)."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current status of the resource (e.g., active, inactive)."
+                                            },
+                                            "metadata": {
+                                                "type": "object",
+                                                "description": "Additional metadata for the resource."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new resource",
+                "description": "Create a new resource by specifying its parameters and configuration details. This could include setting up virtual machines, storage, or networking components.",
+                "requestBody": {
+                    "description": "Details of the resource to be created.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the resource."
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "Type of resource to create (e.g., VM, storage, network)."
+                                    },
+                                    "configuration": {
+                                        "type": "object",
+                                        "description": "Configuration details for the resource (e.g., specs, capacity, tags)."
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "type",
+                                    "configuration"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Resource successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the newly created resource."
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "description": "Name of the created resource."
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "description": "Type of the created resource."
+                                        },
+                                        "configuration": {
+                                            "type": "object",
+                                            "description": "The configuration details of the created resource."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/resources/{id}": {
+            "get": {
+                "summary": "Retrieve a specific resource",
+                "description": "Fetch the details of a specific resource identified by its ID, including its configuration and metadata.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique ID of the resource.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resource details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the resource."
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "description": "Name of the resource."
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "description": "Type of the resource."
+                                        },
+                                        "configuration": {
+                                            "type": "object",
+                                            "description": "Configuration details of the resource."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a specific resource",
+                "description": "Update the configuration or parameters of a specific resource identified by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique ID of the resource to be updated.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "The new configuration data for the resource.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "configuration": {
+                                        "type": "object",
+                                        "description": "Updated configuration details for the resource."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Resource successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the resource."
+                                        },
+                                        "configuration": {
+                                            "type": "object",
+                                            "description": "Updated configuration details of the resource."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a specific resource",
+                "description": "Remove a specific resource from the system based on its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique ID of the resource to be deleted.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Resource deleted successfully."
+                    }
+                }
+            }
+        },
+        "/resources/actions/scale": {
+            "post": {
+                "summary": "Scale a resource",
+                "description": "Scale a resource to a specified level by providing its ID and desired configuration.",
+                "requestBody": {
+                    "description": "Details for scaling the resource.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "description": "The unique ID of the resource to be scaled."
+                                    },
+                                    "configuration": {
+                                        "type": "object",
+                                        "description": "The configuration parameters for scaling the resource."
+                                    }
+                                },
+                                "required": [
+                                    "id",
+                                    "configuration"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Resource scaled successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the resource."
+                                        },
+                                        "configuration": {
+                                            "type": "object",
+                                            "description": "The new configuration of the scaled resource."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vendors": {
+            "get": {
+                "summary": "Retrieve supported vendors",
+                "description": "Retrieve a list of supported cloud vendor platforms for dynamic resource allocation.",
+                "responses": {
+                    "200": {
+                        "description": "List of vendors retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "description": "Name of a supported cloud vendor platform."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/performance": {
+            "get": {
+                "summary": "Retrieve performance metrics",
+                "description": "Analyze and receive the performance metrics of the configured resources.",
+                "responses": {
+                    "200": {
+                        "description": "Performance metrics retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "resourceId": {
+                                                "type": "string",
+                                                "description": "ID of the resource."
+                                            },
+                                            "metrics": {
+                                                "type": "object",
+                                                "description": "Performance metrics such as CPU usage, memory usage, and network throughput."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/network/configuration": {
+            "post": {
+                "summary": "Set up networking configurations",
+                "description": "Set up networking configurations across all active resources.",
+                "requestBody": {
+                    "description": "Networking configuration details.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "networkSettings": {
+                                        "type": "object",
+                                        "description": "Details of the networking configurations to apply."
+                                    }
+                                },
+                                "required": [
+                                    "networkSettings"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Networking configurations applied successfully."
+                    }
+                }
+            }
+        },
+        "/healthcheck": {
+            "get": {
+                "summary": "Perform a system health check",
+                "description": "Perform a health check of the service and return the system's operational status.",
+                "responses": {
+                    "200": {
+                        "description": "Service health status retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current health status of the service (e.g., operational, degraded)."
+                                        },
+                                        "timestamp": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "Timestamp of the health check."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

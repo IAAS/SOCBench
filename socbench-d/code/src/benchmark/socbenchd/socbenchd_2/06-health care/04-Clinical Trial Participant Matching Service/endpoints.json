@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /clinical_trials",
+            "description": "Retrieve a list of clinical trials matching specified criteria."
+        },
+        {
+            "endpoint": "POST /patient_profiles",
+            "description": "Submit an anonymized patient profile for trial matching analysis."
+        },
+        {
+            "endpoint": "GET /recommended_trials/{patient_id}",
+            "description": "Fetch the recommended trials for a specific anonymized patient."
+        },
+        {
+            "endpoint": "PUT /update_trial_status/{trial_id}",
+            "description": "Update the enrolled status of a specific clinical trial based on patient participation."
+        },
+        {
+            "endpoint": "GET /trial_criteria/{trial_id}",
+            "description": "View the qualification criteria for a specific clinical trial."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit feedback about the service or specific trials to improve operations."
+        },
+        {
+            "endpoint": "GET /trial_statistics",
+            "description": "Retrieve statistics on clinical trial participation and outcomes."
+        },
+        {
+            "endpoint": "GET /search_trials",
+            "description": "Search for clinical trials using detailed filtering options."
+        },
+        {
+            "endpoint": "DELETE /patient_profiles/{patient_id}",
+            "description": "Remove an anonymized patient profile from the system."
+        },
+        {
+            "endpoint": "PATCH /update_contact_info",
+            "description": "Update contact information for trial coordinators."
+        }
+    ]
+}

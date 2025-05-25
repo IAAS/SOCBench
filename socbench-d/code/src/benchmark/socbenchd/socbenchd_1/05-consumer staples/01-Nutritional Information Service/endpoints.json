@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /food-items",
+            "description": "Retrieve a list of available food items with basic details like name and category."
+        },
+        {
+            "endpoint": "GET /food-items/{id}",
+            "description": "Retrieve detailed nutritional information about a specific food item by its unique identifier."
+        },
+        {
+            "endpoint": "POST /daily-intake",
+            "description": "Log and recommend a daily nutritional intake plan based on user preferences and dietary goals."
+        },
+        {
+            "endpoint": "GET /food-categories",
+            "description": "Retrieve a list of all available food categories and their descriptions."
+        },
+        {
+            "endpoint": "GET /nutritional-guidelines/{category}",
+            "description": "Retrieve nutritional guidelines and daily recommendations for a specific demographic category."
+        },
+        {
+            "endpoint": "POST /custom-recipes",
+            "description": "Submit custom recipes and retrieve their calculated nutritional data."
+        },
+        {
+            "endpoint": "GET /allergens",
+            "description": "Retrieve a list of common allergens and food items containing them."
+        },
+        {
+            "endpoint": "PUT /user-preferences",
+            "description": "Update a user's dietary preferences and restrictions for personalized recommendations."
+        },
+        {
+            "endpoint": "DELETE /custom-recipes/{id}",
+            "description": "Delete a previously submitted custom recipe by its unique identifier."
+        },
+        {
+            "endpoint": "POST /review-meal-plan",
+            "description": "Submit a complete meal plan for a detailed nutritional consistency check."
+        }
+    ]
+}

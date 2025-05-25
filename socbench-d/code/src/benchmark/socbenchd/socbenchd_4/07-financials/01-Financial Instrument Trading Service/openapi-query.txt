@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Service:
+Provides an API for executing real-time buy or sell orders on various financial instruments such as stocks, bonds, and commodities. This service supports integration with user trading accounts, allowing for secure and efficient market participation.
+
+Endpoints:
+POST /orders: Place a new buy or sell order for a specified financial instrument.
+GET /orders/{orderId}: Retrieve details of a specific order by its unique identifier.
+PUT /orders/{orderId}/cancel: Cancel an active buy or sell order identified by its unique identifier.
+GET /markets: Fetch a list of available markets for trading and their current status.
+GET /instruments: Retrieve data on financial instruments including stocks, bonds, and commodities.
+GET /instruments/{instrumentId}/price: Access the real-time price information for a specified financial instrument.
+POST /accounts/portfolio: Retrieve a snapshot of the user's trading account portfolio and its valuation.
+PATCH /accounts/settings: Update trading preferences and account-specific parameters.
+GET /analytics/trends: Analyze trading trends based on curated insights and historical data.
+GET /news/market: Provide the latest market news and updates for informed trading decisions.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

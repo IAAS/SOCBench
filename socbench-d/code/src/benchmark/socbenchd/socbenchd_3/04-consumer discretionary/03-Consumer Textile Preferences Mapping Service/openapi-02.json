@@ -1,0 +1,67 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Consumer Textile Preferences Mapping Service API",
+        "description": "The Consumer Textile Preferences Mapping Service allows apparel producers and retailers to analyze evolving fashion trends by providing insights into popular styles, fabrics, colors, and consumer preferences segmented by region and demographics.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.consumertextilepreferences.com",
+            "description": "Production API server"
+        }
+    ],
+    "paths": {
+        "/trends": {
+            "get": {
+                "summary": "Retrieve current fashion trends by demographic or region",
+                "description": "Fetch a list of current fashion trends, filtered by specific demographic or regional preferences. This endpoint provides actionable insights for businesses in the apparel industry.",
+                "parameters": [
+                    {
+                        "name": "demographic",
+                        "in": "query",
+                        "description": "The demographic to filter results by (e.g., age group, gender, etc.).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "The geographical region to filter trends by (e.g., North America, Europe, etc.).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of current fashion trends, segmented by demographic or region.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "trend": {
+                                                "type": "string",
+                                                "example": "Minimalistic Streetwear"
+                                            },
+                                            "popularity_score": {
+                                                "type": "number",
+                                                "example": 87.5
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

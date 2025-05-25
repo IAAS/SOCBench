@@ -1,0 +1,357 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Information Technology Sector: The Information Technology Sector comprises companies that offer software and information technology services, manufacturers and distributors of technology hardware & equipment such as communications equipment, cellular phones, computers & peripherals, electronic equipment and related instruments, and semiconductors and related equipment & materials.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Software License Usage Tracking API",
+        "version": "1.0.0",
+        "description": "This API allows organizations to track software license usage, ensuring compliance with agreements and avoiding legal or financial penalties. It includes features for managing licensing data, monitoring compliance, setting alerts, and generating reports."
+    },
+    "servers": [
+        {
+            "url": "https://api.softwarelicense.com/v1",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/license/track": {
+            "post": {
+                "summary": "Track a software license",
+                "description": "Submit software license information to the system for tracking compliance.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "licenseName": {
+                                        "type": "string",
+                                        "description": "Name of the software license."
+                                    },
+                                    "licenseKey": {
+                                        "type": "string",
+                                        "description": "Unique license key or identifier."
+                                    },
+                                    "expirationDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Expiration date of the license."
+                                    },
+                                    "userCount": {
+                                        "type": "integer",
+                                        "description": "Number of users allowed by this license."
+                                    }
+                                },
+                                "required": [
+                                    "licenseName",
+                                    "licenseKey",
+                                    "expirationDate"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Software license successfully tracked."
+                    },
+                    "400": {
+                        "description": "Invalid input."
+                    }
+                }
+            }
+        },
+        "/license/compliance": {
+            "get": {
+                "summary": "Get compliance status",
+                "description": "Retrieve compliance status reports for all tracked software licenses.",
+                "responses": {
+                    "200": {
+                        "description": "Compliance status fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "licenseId": {
+                                                "type": "string"
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "compliant",
+                                                    "non-compliant"
+                                                ]
+                                            },
+                                            "details": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/license/update/{licenseId}": {
+            "put": {
+                "summary": "Update license details",
+                "description": "Update the details of a specific tracked software license.",
+                "parameters": [
+                    {
+                        "name": "licenseId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the software license.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "licenseName": {
+                                        "type": "string"
+                                    },
+                                    "expirationDate": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "userCount": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "License details successfully updated."
+                    },
+                    "404": {
+                        "description": "License not found."
+                    }
+                }
+            }
+        },
+        "/license/remove/{licenseId}": {
+            "delete": {
+                "summary": "Remove a tracked license",
+                "description": "Remove a tracked software license from the database.",
+                "parameters": [
+                    {
+                        "name": "licenseId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the software license to be removed.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "License successfully removed."
+                    },
+                    "404": {
+                        "description": "License not found."
+                    }
+                }
+            }
+        },
+        "/usage/data": {
+            "get": {
+                "summary": "Fetch usage data",
+                "description": "Retrieve detailed usage data for all monitored software.",
+                "responses": {
+                    "200": {
+                        "description": "Usage data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "licenseId": {
+                                                "type": "string"
+                                            },
+                                            "usageByUsers": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "userId": {
+                                                            "type": "string"
+                                                        },
+                                                        "usageTime": {
+                                                            "type": "string",
+                                                            "description": "Cumulative usage time."
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/set": {
+            "post": {
+                "summary": "Set usage alerts",
+                "description": "Configure alerts for license usage thresholds and compliance violations.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "licenseId": {
+                                        "type": "string"
+                                    },
+                                    "threshold": {
+                                        "type": "integer",
+                                        "description": "Usage threshold to trigger alert."
+                                    },
+                                    "alertType": {
+                                        "type": "string",
+                                        "enum": [
+                                            "email",
+                                            "sms"
+                                        ],
+                                        "description": "Type of notification for the alert."
+                                    }
+                                },
+                                "required": [
+                                    "licenseId",
+                                    "threshold",
+                                    "alertType"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert configured successfully."
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "get": {
+                "summary": "Get active alerts",
+                "description": "List all active alerts and their configurations.",
+                "responses": {
+                    "200": {
+                        "description": "Active alerts retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/compliance/report": {
+            "post": {
+                "summary": "Generate compliance report",
+                "description": "Generate a comprehensive compliance report for oversight purposes.",
+                "responses": {
+                    "201": {
+                        "description": "Compliance report generated successfully."
+                    }
+                }
+            }
+        },
+        "/license/{licenseId}": {
+            "get": {
+                "summary": "Get license details",
+                "description": "Retrieve details and historical usage for a specific software license.",
+                "parameters": [
+                    {
+                        "name": "licenseId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the software license.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "License details and history fetched successfully."
+                    },
+                    "404": {
+                        "description": "License not found."
+                    }
+                }
+            }
+        },
+        "/user/license/assign": {
+            "post": {
+                "summary": "Assign license to a user",
+                "description": "Assign a specific software license to a user within the organization.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "licenseId": {
+                                        "type": "string"
+                                    },
+                                    "userId": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "licenseId",
+                                    "userId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "License successfully assigned to the user."
+                    },
+                    "404": {
+                        "description": "License or user not found."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

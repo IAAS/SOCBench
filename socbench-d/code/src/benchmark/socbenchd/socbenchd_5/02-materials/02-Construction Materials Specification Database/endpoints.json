@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /materials",
+            "description": "Retrieve a list of all available materials with detailed specifications."
+        },
+        {
+            "endpoint": "GET /materials/{id}",
+            "description": "Retrieve detailed information for a specific material by its identifier."
+        },
+        {
+            "endpoint": "POST /materials",
+            "description": "Add a new material with its specifications to the repository."
+        },
+        {
+            "endpoint": "PUT /materials/{id}",
+            "description": "Update the specifications and details of an existing material."
+        },
+        {
+            "endpoint": "DELETE /materials/{id}",
+            "description": "Remove a specific material from the repository by its identifier."
+        },
+        {
+            "endpoint": "GET /standards",
+            "description": "Retrieve a list of all construction material standards."
+        },
+        {
+            "endpoint": "POST /standards",
+            "description": "Add a new construction material standard to the repository."
+        },
+        {
+            "endpoint": "GET /materials/{id}/compliance",
+            "description": "Check the compliance status of a specific material against defined standards."
+        },
+        {
+            "endpoint": "POST /materials/{id}/feedback",
+            "description": "Submit feedback or reviews regarding the specifications of a material."
+        },
+        {
+            "endpoint": "GET /materials/search",
+            "description": "Search for materials based on criteria like type, usage, or compliance status."
+        }
+    ]
+}

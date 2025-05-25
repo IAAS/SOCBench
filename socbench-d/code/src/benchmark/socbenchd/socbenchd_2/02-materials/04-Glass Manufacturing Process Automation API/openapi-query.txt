@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+Service:
+Designed for glass production facilities to manage production workflows, monitor machine performance, and ensure quality control metrics are met effectively.
+
+Endpoints:
+POST /production/orders: Create a new production order for glass products.
+GET /production/orders/{id}/status: Retrieve the current status of a specific production order.
+POST /machines/{id}/configurations: Submit specific configuration data to a machine in the production line.
+GET /machines/performance: Obtain performance metrics for all machines within the facility.
+POST /quality-control/tests: Schedule a quality control test for a batch of produced glass items.
+GET /resources/inventory: View current raw material inventory levels in the facility.
+PUT /resources/inventory/{item_id}: Update the inventory levels for a specific material.
+GET /alerts/notifications: Receive notifications about maintenance alerts or production anomalies.
+POST /reports/generate: Generate a detailed production and quality control report.
+DELETE /production/orders/{id}: Cancel an existing production order by its identifier.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

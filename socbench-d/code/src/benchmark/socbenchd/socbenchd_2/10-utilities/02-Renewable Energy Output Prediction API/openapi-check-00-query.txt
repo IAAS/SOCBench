@@ -1,0 +1,497 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Renewable Power Prediction and Analytics API",
+        "description": "This API provides predictive analytics and detailed insights aimed at assisting renewable power producers in optimizing power output, enhancing grid stability, and improving resource allocation. It uses weather forecasting and historical performance data for wind, solar, and hydropower energy generation.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.utilities.example.com",
+            "description": "Main production server"
+        }
+    ],
+    "paths": {
+        "/power/forecast": {
+            "get": {
+                "summary": "Retrieve power output forecast",
+                "description": "Fetches power output forecasts based on specific weather conditions and location for wind, solar, and hydropower sources.",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "required": true,
+                        "description": "The geographical location for the forecast in latitude,longitude format.",
+                        "schema": {
+                            "type": "string",
+                            "example": "40.7128,-74.0060"
+                        }
+                    },
+                    {
+                        "name": "source",
+                        "in": "query",
+                        "required": true,
+                        "description": "Type of renewable source (e.g., wind, solar, hydro).",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "wind",
+                                "solar",
+                                "hydro"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "required": false,
+                        "description": "The date for which the forecast is required (YYYY-MM-DD). If not defined, defaults to the current date.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of power output forecast.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PowerForecast"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input parameters."
+                    }
+                }
+            },
+            "post": {
+                "summary": "Submit weather data for forecast updates",
+                "description": "Allows the submission of new weather data to update the power output forecasts.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/WeatherData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Weather data successfully submitted and forecast updated."
+                    },
+                    "400": {
+                        "description": "Invalid weather data provided."
+                    }
+                }
+            }
+        },
+        "/weather/trends": {
+            "get": {
+                "summary": "Access weather trends data",
+                "description": "Retrieve historical and present weather trends data to assess the impact on renewable energy production.",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "required": true,
+                        "description": "The geographical location for retrieving weather trends in latitude,longitude format.",
+                        "schema": {
+                            "type": "string",
+                            "example": "40.7128,-74.0060"
+                        }
+                    },
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "Start date for retrieving trends (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "End date for retrieving trends (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Weather trends data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WeatherTrends"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input parameters."
+                    }
+                }
+            }
+        },
+        "/performance/history": {
+            "get": {
+                "summary": "Retrieve historical performance data",
+                "description": "Provides past performance metrics for renewable power generation, including efficiency and output data.",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start date for retrieving performance data (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": true,
+                        "description": "End date for retrieving performance data (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "source",
+                        "in": "query",
+                        "required": false,
+                        "description": "Type of renewable source (e.g., wind, solar, hydro).",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "wind",
+                                "solar",
+                                "hydro"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historical performance data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PerformanceHistory"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input parameters."
+                    }
+                }
+            }
+        },
+        "/alert/settings": {
+            "post": {
+                "summary": "Define alert thresholds",
+                "description": "Allows users to define thresholds for power generation deviations and configure notifications.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AlertSettings"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Alert settings updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid alert settings provided."
+                    }
+                }
+            }
+        },
+        "/grid/stability": {
+            "get": {
+                "summary": "Retrieve grid stability analytics",
+                "description": "Fetch current grid stability analytics and actionable insights to optimize energy distribution.",
+                "responses": {
+                    "200": {
+                        "description": "Grid stability analytics fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GridStability"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/resource/allocation": {
+            "get": {
+                "summary": "Access resource allocation recommendations",
+                "description": "Provides recommendations for optimal allocation of resources among wind, solar, and hydropower sources.",
+                "responses": {
+                    "200": {
+                        "description": "Resource allocation recommendations retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceAllocation"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/model/training": {
+            "post": {
+                "summary": "Train predictive models with performance data",
+                "description": "Allows uploading of new renewable energy performance datasets to re-train predictive analytics models.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ModelTraining"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Model training initiated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid dataset provided for training."
+                    }
+                }
+            }
+        },
+        "/renewable/overview": {
+            "get": {
+                "summary": "Retrieve renewable sector overview",
+                "description": "Fetches comprehensive overviews of renewable energy sector trends, statistics, and metrics.",
+                "responses": {
+                    "200": {
+                        "description": "Sector overview data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RenewableOverview"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/settings": {
+            "put": {
+                "summary": "Update API service settings",
+                "description": "Allows customization of specific API service settings to better suit user needs.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/APISettings"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "API settings updated successfully."
+                    },
+                    "400": {
+                        "description": "Invalid settings provided."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PowerForecast": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "location": {
+                        "type": "string"
+                    },
+                    "source": {
+                        "type": "string"
+                    },
+                    "forecastedOutput": {
+                        "type": "number",
+                        "description": "Predicted power output in megawatts (MW)."
+                    }
+                }
+            },
+            "WeatherData": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "location": {
+                        "type": "string"
+                    },
+                    "temperature": {
+                        "type": "number",
+                        "description": "Temperature in Celsius."
+                    },
+                    "windSpeed": {
+                        "type": "number",
+                        "description": "Wind speed in m/s."
+                    },
+                    "precipitation": {
+                        "type": "number",
+                        "description": "Precipitation level in mm."
+                    }
+                }
+            },
+            "WeatherTrends": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string"
+                    },
+                    "historicalData": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "PerformanceHistory": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "source": {
+                        "type": "string"
+                    },
+                    "output": {
+                        "type": "number",
+                        "description": "Power output in megawatts (MW)."
+                    }
+                }
+            },
+            "AlertSettings": {
+                "type": "object",
+                "properties": {
+                    "threshold": {
+                        "type": "number",
+                        "description": "Threshold percentage for deviation."
+                    },
+                    "notificationMethod": {
+                        "type": "string",
+                        "enum": [
+                            "email",
+                            "sms",
+                            "webhook"
+                        ]
+                    }
+                }
+            },
+            "GridStability": {
+                "type": "object",
+                "properties": {
+                    "stabilityIndex": {
+                        "type": "number",
+                        "description": "Index value representing the current grid stability."
+                    }
+                }
+            },
+            "ResourceAllocation": {
+                "type": "object",
+                "properties": {
+                    "recommendations": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "ModelTraining": {
+                "type": "object",
+                "properties": {
+                    "datasetName": {
+                        "type": "string"
+                    },
+                    "file": {
+                        "type": "string",
+                        "format": "binary"
+                    }
+                }
+            },
+            "RenewableOverview": {
+                "type": "object",
+                "properties": {
+                    "trends": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "APISettings": {
+                "type": "object",
+                "properties": {
+                    "settingName": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

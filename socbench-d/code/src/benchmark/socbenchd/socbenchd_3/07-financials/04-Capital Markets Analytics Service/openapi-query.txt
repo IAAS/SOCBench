@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Service:
+Tailored for trading and investment firms, this API delivers in-depth analytics on capital markets, including stock prices, exchange rates, and derivative insights. Users access a vast database of historical and current financial data, enabling informed decision-making. Advanced features include customizable alerts for significant market movements. Integration involves setting up API keys and configuring preferences. For instance, a user can use the historical data endpoint with specific date ranges to retrieve stock performance metrics for analysis.
+
+Endpoints:
+GET /stocks/historical: Fetch historical stock data for a specific ticker and a designated date range.
+GET /stocks/realtime: Retrieve real-time stock prices and related market data.
+GET /forex/historical: Obtain historical foreign exchange rates for specified currency pairs.
+GET /forex/realtime: Access real-time foreign exchange rates for the selected currency pairs.
+GET /derivatives/data: Retrieve analytical data on derivatives, including options and futures.
+POST /alerts/configure: Create or update market movement alert settings for personalized monitoring.
+DELETE /alerts/remove: Delete an existing market alert configuration.
+GET /markets/overview: Acquire a summary of the current global market status, segmented by categories.
+GET /reports/daily: Download daily report summaries covering financial sectors and trends.
+GET /trends/analysis: Analyze and display significant financial trends based on pre-selected conditions.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

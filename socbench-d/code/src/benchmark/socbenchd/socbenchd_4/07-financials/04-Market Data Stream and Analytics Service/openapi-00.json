@@ -1,0 +1,283 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Live Market Data and Analytics Service",
+    "description": "This API provides live market updates, data streaming, analytical insights into financial trends, and tools for financial analysts and professionals to track market activities efficiently.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.financials.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/markets/live-updates": {
+      "get": {
+        "summary": "Get Real-Time Market Updates",
+        "description": "Fetches real-time updates and data for specified financial instruments such as stocks, bonds, or indices.",
+        "parameters": [
+          {
+            "name": "instrument",
+            "in": "query",
+            "description": "The financial instrument or symbol (e.g., 'AAPL' for Apple Inc.) for which to retrieve live updates.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exchange",
+            "in": "query",
+            "description": "The name of the exchange from which to fetch the live updates (optional).",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with live market data."
+          },
+          "400": {
+            "description": "Invalid request parameters."
+          }
+        }
+      }
+    },
+    "/trends/analytics": {
+      "get": {
+        "summary": "Get Market Trend Analytics",
+        "description": "Retrieves detailed analytical insights based on recent market trends.",
+        "parameters": [
+          {
+            "name": "sector",
+            "in": "query",
+            "description": "Specific market sector (e.g., 'Technology', 'Healthcare') for trend analytics (optional).",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "instrument",
+            "in": "query",
+            "description": "Specific financial instrument (e.g., 'AAPL') to analyze trends (optional).",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved market trend analytics."
+          },
+          "400": {
+            "description": "Invalid request parameters."
+          }
+        }
+      }
+    },
+    "/alerts/set": {
+      "post": {
+        "summary": "Set Custom Alerts",
+        "description": "Sets up custom alerts for specific market conditions or price thresholds.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "instrument": {
+                    "type": "string",
+                    "description": "The financial instrument to set the alert for (e.g., 'AAPL')."
+                  },
+                  "threshold": {
+                    "type": "number",
+                    "description": "The price or value threshold that triggers the alert."
+                  },
+                  "condition": {
+                    "type": "string",
+                    "description": "The condition for the alert (e.g., 'greater than', 'less than')."
+                  }
+                },
+                "required": ["instrument", "threshold", "condition"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Alert successfully created."
+          },
+          "400": {
+            "description": "Invalid request or parameters."
+          }
+        }
+      }
+    },
+    "/exchanges/list": {
+      "get": {
+        "summary": "List Covered Exchanges",
+        "description": "Retrieves a list of all financial exchanges whose data is covered by this service.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved list of financial exchanges."
+          }
+        }
+      }
+    },
+    "/indices/performance": {
+      "get": {
+        "summary": "Get Indices Performance",
+        "description": "Provides performance metrics (e.g., daily changes, YTD) for major financial indices.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved index performance data."
+          }
+        }
+      }
+    },
+    "/sectors/overview": {
+      "get": {
+        "summary": "Get Sector Performance Overview",
+        "description": "Provides an overview of market performance segmented by various sectors.",
+        "responses": {
+          "200": {
+            "description": "Successfully fetched sector overview data."
+          }
+        }
+      }
+    },
+    "/recommendations/request": {
+      "post": {
+        "summary": "Request Tailored Financial Recommendations",
+        "description": "Submits a request for tailored financial recommendations based on user-defined criteria.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "preferences": {
+                    "type": "string",
+                    "description": "User's investment or trading preferences."
+                  },
+                  "riskLevel": {
+                    "type": "string",
+                    "description": "Risk tolerance level for recommendations (e.g., 'low', 'medium', 'high')."
+                  }
+                },
+                "required": ["preferences", "riskLevel"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful request for recommendations."
+          },
+          "400": {
+            "description": "Invalid request format."
+          }
+        }
+      }
+    },
+    "/news/latest": {
+      "get": {
+        "summary": "Fetch Latest Financial News",
+        "description": "Delivers the latest financial news and market updates.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the latest news."
+          }
+        }
+      }
+    },
+    "/historical-data": {
+      "get": {
+        "summary": "Retrieve Historical Market Data",
+        "description": "Accesses historical market data for a specific financial instrument or index.",
+        "parameters": [
+          {
+            "name": "instrument",
+            "in": "query",
+            "description": "The financial instrument or symbol to fetch historical data for.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "The start date for the historical data range (YYYY-MM-DD).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "The end date for the historical data range (YYYY-MM-DD).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved historical market data."
+          },
+          "400": {
+            "description": "Invalid request parameters."
+          }
+        }
+      }
+    },
+    "/currencies/rates": {
+      "get": {
+        "summary": "Get Current Currency Exchange Rates",
+        "description": "Shows the current foreign exchange rates for selected currencies.",
+        "parameters": [
+          {
+            "name": "baseCurrency",
+            "in": "query",
+            "description": "The base currency (e.g., 'USD') for the exchange rate comparison.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "targetCurrency",
+            "in": "query",
+            "description": "The target currency (e.g., 'EUR') for the exchange rate comparison.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved exchange rates."
+          },
+          "400": {
+            "description": "Invalid request parameters."
+          }
+        }
+      }
+    }
+  }
+}

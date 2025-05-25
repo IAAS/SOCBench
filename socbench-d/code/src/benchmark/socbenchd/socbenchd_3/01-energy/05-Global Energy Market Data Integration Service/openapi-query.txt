@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+This API aggregates and provides access to global energy market data, including pricing, supply levels, and geopolitical factors that influence the energy sector. By integrating this service, energy businesses can make informed pricing and investment decisions. For example, a fuel distributor can analyze real-time oil price trends to adjust their strategies accordingly.
+
+Endpoints:
+GET /energy/pricing: Fetch current and historical energy pricing data for all supported energy types.
+GET /energy/supply-levels: Retrieve data on current supply levels for various energy resources.
+GET /energy/geopolitical-impact: Analyze effects of geopolitical changes on the energy market.
+POST /analysis/request: Submit a request for custom analysis of energy market data based on specified parameters.
+GET /energy/trade-flows: Obtain data on international energy trade flows and transactions.
+GET /energy/statistics/annual: Access annual statistics for production, consumption, and pricing of energy types.
+GET /analytics/price-prediction: Access predictive analytics on future pricing trends for energy commodities.
+GET /renewables/trends: Retrieve trends and updates on the renewable energy sector.
+GET /environmental/impact: Evaluate the environmental impact data related to energy sourcing and usage.
+GET /energy/alerts: Receive alerts about sudden changes in metrics such as price or supply.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

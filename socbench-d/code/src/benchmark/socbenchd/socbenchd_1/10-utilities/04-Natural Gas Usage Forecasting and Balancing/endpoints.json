@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /forecast",
+            "description": "Retrieve the predicted gas consumption patterns for specified time intervals."
+        },
+        {
+            "endpoint": "POST /forecast",
+            "description": "Submit parameters for generating a custom consumption pattern forecast."
+        },
+        {
+            "endpoint": "GET /supply/balance",
+            "description": "Fetch the current supply-demand balance metrics for a specified region."
+        },
+        {
+            "endpoint": "PUT /supply/balance",
+            "description": "Update the supply allocation plan based on forecast adjustments."
+        },
+        {
+            "endpoint": "GET /distribution/status",
+            "description": "Retrieve the live gas distribution status across the network."
+        },
+        {
+            "endpoint": "POST /distribution/manipulate",
+            "description": "Trigger adjustments in the gas distribution network settings."
+        },
+        {
+            "endpoint": "GET /efficiency/metrics",
+            "description": "Retrieve efficiency analysis metrics based on current operations."
+        },
+        {
+            "endpoint": "POST /efficiency/metrics",
+            "description": "Submit parameters for a detailed efficiency analysis request."
+        },
+        {
+            "endpoint": "GET /regions/config",
+            "description": "Retrieve configuration details for monitored regions."
+        },
+        {
+            "endpoint": "PUT /regions/config",
+            "description": "Update configuration settings for a specific monitored region."
+        }
+    ]
+}

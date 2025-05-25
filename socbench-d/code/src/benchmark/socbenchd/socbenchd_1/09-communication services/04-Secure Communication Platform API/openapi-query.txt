@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+Aimed at developers, this service supports the creation of encrypted messaging and calling applications, ensuring privacy and compliance with data protection regulations through advanced cryptographic protocols.
+
+Endpoints:
+POST /messages/send: Send an encrypted message to a specified recipient.
+GET /messages/received: Retrieve all encrypted messages received by the authenticated user.
+POST /messages/reply: Send a reply to a received encrypted message.
+GET /messages/status: Fetch the status (delivered, read) of a specific sent message.
+POST /calls/start: Initiate an encrypted voice or video call with another user.
+GET /calls/history: View the call history of the authenticated user.
+POST /user/encrypt-keys: Generate and store encryption keys for secure communication.
+GET /user/settings: Retrieve the current privacy and app settings of the authenticated user.
+POST /group/create: Create a new group for secure messaging and calling.
+POST /group/add-user: Add new members to an existing communication group.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

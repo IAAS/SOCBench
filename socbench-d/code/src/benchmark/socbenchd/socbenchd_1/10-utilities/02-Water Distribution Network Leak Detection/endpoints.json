@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /leak-detections",
+            "description": "Retrieve recent leak detection data based on sensor analytics."
+        },
+        {
+            "endpoint": "POST /leak-detections/analyze",
+            "description": "Trigger analysis of collected sensor data to detect potential leaks."
+        },
+        {
+            "endpoint": "GET /leak-detections/{id}",
+            "description": "Fetch detailed information about a specific leak detection event based on its identifier."
+        },
+        {
+            "endpoint": "GET /distribution-points",
+            "description": "Obtain a list of monitored water distribution points in the network."
+        },
+        {
+            "endpoint": "PUT /distribution-points/{id}",
+            "description": "Update or modify monitoring parameters for a specific water distribution point."
+        },
+        {
+            "endpoint": "GET /sensor-data",
+            "description": "Access raw data collected by all active sensors in the network within a defined period."
+        },
+        {
+            "endpoint": "DELETE /distribution-points/{id}",
+            "description": "Remove monitoring for a specific water distribution point from the network."
+        },
+        {
+            "endpoint": "GET /analytics/reports",
+            "description": "Retrieve analytical reports summarizing water distribution and leak detection efficiency."
+        },
+        {
+            "endpoint": "PATCH /sensors/{id}",
+            "description": "Adjust the configuration settings of a particular sensor to optimize data collection."
+        },
+        {
+            "endpoint": "POST /alerts/notifications",
+            "description": "Send out repair crew notifications based on confirmed leak detections and severity assessments."
+        }
+    ]
+}

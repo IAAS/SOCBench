@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Service:
+Delivers real-time and historical financial data, including stock prices, indices, and market news, for brokers and investors.
+
+Endpoints:
+GET /stock-prices: Retrieve the real-time stock prices for specified companies.
+GET /historical-data: Obtain historical financial data and trends for analysis.
+GET /indices: Access information about major market indices and their values.
+GET /market-news: Fetch the latest news articles and updates related to financial markets.
+GET /securities/details: Retrieve detailed financial data for a given security.
+POST /alerts/subscribe: Subscribe to real-time alerts based on predefined triggers.
+GET /exchange-rates: Provide current foreign exchange rates with respect to major currencies.
+GET /commodities-prices: Get current prices of major traded commodities, including precious metals and oil.
+POST /portfolio/analyze: Offer an analysis of a portfolio against market conditions and fund performance.
+GET /financial-calendar: Present key financial dates and upcoming events affecting the market.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

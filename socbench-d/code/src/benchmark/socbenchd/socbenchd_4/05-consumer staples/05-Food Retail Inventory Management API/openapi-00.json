@@ -1,0 +1,292 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Consumer Staples Real-Time Inventory Tracking API",
+    "version": "1.0.0",
+    "description": "This API facilitates real-time inventory tracking for retail companies dealing with consumer staples, featuring functionalities such as stock level alerts, demand forecasting, and integrations with ERP systems to streamline supply chain management."
+  },
+  "servers": [
+    {
+      "url": "https://api.consumerstaplesinventory.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/inventory": {
+      "get": {
+        "summary": "Retrieve Inventory Levels",
+        "description": "Retrieve the current inventory levels of all listed consumer staples products.",
+        "responses": {
+          "200": {
+            "description": "Inventory levels retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "products": [
+                    {
+                      "product_id": "12345",
+                      "name": "Toothpaste 200g",
+                      "quantity": 100,
+                      "unit": "units"
+                    },
+                    {
+                      "product_id": "67890",
+                      "name": "Orange Juice 1L",
+                      "quantity": 50,
+                      "unit": "units"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/update": {
+      "post": {
+        "summary": "Update Inventory Levels",
+        "description": "Update the inventory levels with new data provided by the retailer.",
+        "requestBody": {
+          "description": "Inventory update payload.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "product_id": "12345",
+                "quantity": 120,
+                "update_reason": "Manual inventory count adjustment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Inventory levels updated successfully."
+          }
+        }
+      }
+    },
+    "/alerts": {
+      "get": {
+        "summary": "Retrieve Stock Level Alerts",
+        "description": "Retrieve a list of stock level alerts based on predefined thresholds.",
+        "responses": {
+          "200": {
+            "description": "Stock level alerts retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "alerts": [
+                    {
+                      "product_id": "12345",
+                      "name": "Toothpaste 200g",
+                      "quantity": 20,
+                      "threshold": 30,
+                      "status": "LOW STOCK"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts/configure": {
+      "post": {
+        "summary": "Configure Stock Level Alerts",
+        "description": "Set up or modify stock level alert parameters for specific products.",
+        "requestBody": {
+          "description": "Alert configuration payload.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "product_id": "12345",
+                "threshold": 25
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Alert configuration updated successfully."
+          }
+        }
+      }
+    },
+    "/forecast/demand": {
+      "get": {
+        "summary": "Demand Forecasting Data",
+        "description": "Access demand forecasting data for future sales of consumer staples.",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "query",
+            "description": "The ID of the product to get forecasting data for.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Demand forecasting data retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "product_id": "12345",
+                  "forecast_data": [
+                    {
+                      "date": "2023-11-01",
+                      "predicted_sales": 50
+                    },
+                    {
+                      "date": "2023-11-02",
+                      "predicted_sales": 45
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/erp/integrations": {
+      "get": {
+        "summary": "List ERP Integrations",
+        "description": "List active integrations with ERP systems.",
+        "responses": {
+          "200": {
+            "description": "ERP integrations retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "integrations": [
+                    {
+                      "id": "101",
+                      "erp_name": "SAP",
+                      "status": "ACTIVE"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/erp/integrations/add": {
+      "post": {
+        "summary": "Add ERP Integration",
+        "description": "Add a new integration setup with an ERP system.",
+        "requestBody": {
+          "description": "Payload to add a new ERP integration.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "erp_name": "Oracle",
+                "access_key": "abc123XYZ"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "ERP integration added successfully."
+          }
+        }
+      }
+    },
+    "/orders": {
+      "get": {
+        "summary": "Retrieve Orders",
+        "description": "Retrieve recent and pending orders related to consumer staples inventory.",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Filter by order status (e.g., 'pending', 'completed').",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Orders retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "orders": [
+                    {
+                      "order_id": "ORD123",
+                      "product_id": "12345",
+                      "name": "Toothpaste 200g",
+                      "quantity": 50,
+                      "status": "PENDING"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/new": {
+      "post": {
+        "summary": "Place New Restock Order",
+        "description": "Place a new restock order for specified items.",
+        "requestBody": {
+          "description": "Payload to place a new order.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "orders": [
+                  {
+                    "product_id": "12345",
+                    "quantity": 100
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Restock order placed successfully."
+          }
+        }
+      }
+    },
+    "/inventory/remove": {
+      "delete": {
+        "summary": "Remove Product from Inventory",
+        "description": "Remove a product from the inventory tracking system.",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "query",
+            "description": "The ID of the product to remove.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product removed from inventory successfully."
+          }
+        }
+      }
+    }
+  }
+}

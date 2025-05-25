@@ -1,0 +1,365 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Data Center Infrastructure Monitoring and Management API",
+        "description": "This RESTful API enables real-time monitoring and analysis of data center infrastructure metrics, supporting administrators in optimizing resources, managing energy consumption, and ensuring system integrity. The API provides endpoints for retrieving monitoring data, configuring alerts and sensors, generating reports, and managing system health and resource optimization strategies.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.datacentermonitoring.example.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/metrics": {
+            "get": {
+                "summary": "Retrieve infrastructure metrics",
+                "description": "Retrieve current metrics data collected from the data center infrastructure for analysis, including CPU usage, memory consumption, network activity, and more.",
+                "responses": {
+                    "200": {
+                        "description": "A list of current metrics and their values.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "timestamp": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "Timestamp of the metrics snapshot."
+                                        },
+                                        "metrics": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "number"
+                                            },
+                                            "description": "A key-value pair of metric names and their values."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "post": {
+                "summary": "Create an alert configuration",
+                "description": "Send an alert configuration that will trigger notifications when specific conditions are met based on the metrics data.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "metric": {
+                                        "type": "string",
+                                        "description": "The name of the metric to monitor for the alert."
+                                    },
+                                    "condition": {
+                                        "type": "string",
+                                        "enum": [
+                                            "greater_than",
+                                            "less_than",
+                                            "equals"
+                                        ],
+                                        "description": "The condition for triggering the alert."
+                                    },
+                                    "threshold": {
+                                        "type": "number",
+                                        "description": "The threshold value for the specified condition."
+                                    },
+                                    "notificationMethod": {
+                                        "type": "string",
+                                        "description": "The notification method (e.g., email, SMS) to alert when the conditions are met."
+                                    }
+                                },
+                                "required": [
+                                    "metric",
+                                    "condition",
+                                    "threshold"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert configuration created successfully."
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve active alert configurations",
+                "description": "Retrieve a list of active alert configurations applied to monitor infrastructure status.",
+                "responses": {
+                    "200": {
+                        "description": "A list of active alert configurations.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the alert."
+                                            },
+                                            "metric": {
+                                                "type": "string",
+                                                "description": "The name of the metric being monitored."
+                                            },
+                                            "condition": {
+                                                "type": "string",
+                                                "description": "The trigger condition for the alert."
+                                            },
+                                            "threshold": {
+                                                "type": "number",
+                                                "description": "The threshold value for the condition."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensors/{sensorId}": {
+            "put": {
+                "summary": "Update sensor configuration",
+                "description": "Update the configuration of a specific sensor by its unique identifier. Adjust parameters such as sampling rate or thresholds.",
+                "parameters": [
+                    {
+                        "name": "sensorId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique ID of the sensor to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "samplingRate": {
+                                        "type": "number",
+                                        "description": "Frequency at which the sensor collects data."
+                                    },
+                                    "thresholds": {
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "type": "number"
+                                        },
+                                        "description": "Threshold values for the sensor."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sensor configuration updated successfully."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a sensor configuration",
+                "description": "Remove a specific sensor's configuration by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "sensorId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique ID of the sensor to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Sensor configuration removed successfully."
+                    }
+                }
+            }
+        },
+        "/reports/daily": {
+            "get": {
+                "summary": "Retrieve daily performance report",
+                "description": "Generate and retrieve the daily performance report of the data center infrastructure, including metrics summaries and trends.",
+                "responses": {
+                    "200": {
+                        "description": "Download link or the content of the daily report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reportUrl": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "URL to download the daily report."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/custom": {
+            "post": {
+                "summary": "Request a custom report",
+                "description": "Request and generate a custom report based on specified metrics and time ranges.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "metrics": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of metrics to include in the custom report."
+                                    },
+                                    "timeRange": {
+                                        "type": "object",
+                                        "properties": {
+                                            "start": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Start time for the custom report."
+                                            },
+                                            "end": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "End time for the custom report."
+                                            }
+                                        },
+                                        "required": [
+                                            "start",
+                                            "end"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Custom report request accepted for processing."
+                    }
+                }
+            }
+        },
+        "/energy-consumption": {
+            "get": {
+                "summary": "Retrieve energy consumption breakdown",
+                "description": "Retrieve a breakdown of energy consumption across various data center components to monitor usage and efficiency.",
+                "responses": {
+                    "200": {
+                        "description": "Detailed energy consumption breakdown.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "components": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "number"
+                                            },
+                                            "description": "Key-value pair of data center components and their energy consumption."
+                                        },
+                                        "totalConsumption": {
+                                            "type": "number",
+                                            "description": "Total energy consumption in the data center."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/optimization-settings": {
+            "patch": {
+                "summary": "Adjust optimization settings",
+                "description": "Modify the parameters and thresholds for resource optimization strategies within the data center infrastructure.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "parameters": {
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "type": "number"
+                                        },
+                                        "description": "Key-value pairs of optimization parameters and their values."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Optimization settings updated successfully."
+                    }
+                }
+            }
+        },
+        "/system-health": {
+            "get": {
+                "summary": "Retrieve system health overview",
+                "description": "Retrieve a comprehensive overview of the data center's system integrity and health, including subsystem statuses, error codes, and uptime statistics.",
+                "responses": {
+                    "200": {
+                        "description": "System health status overview.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Overall system health status (e.g., healthy, degraded, critical)."
+                                        },
+                                        "subsidiaryComponents": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "string"
+                                            },
+                                            "description": "Health statuses of subsidiary components within the data center."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

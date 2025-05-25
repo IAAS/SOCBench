@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /equipment-status",
+            "description": "Retrieve the current operational status and diagnostics of all registered equipment."
+        },
+        {
+            "endpoint": "POST /maintenance-schedule",
+            "description": "Create and schedule a new maintenance operation for a specified piece of equipment."
+        },
+        {
+            "endpoint": "GET /maintenance-history/{equipmentId}",
+            "description": "Fetch the maintenance logs and actions performed on a specific piece of equipment."
+        },
+        {
+            "endpoint": "DELETE /maintenance-schedule/{scheduleId}",
+            "description": "Cancel a previously scheduled maintenance operation by its unique identifier."
+        },
+        {
+            "endpoint": "PUT /equipment/{equipmentId}",
+            "description": "Update the information or operational parameters of a specific equipment."
+        },
+        {
+            "endpoint": "GET /predictive-analysis",
+            "description": "Run predictive maintenance analysis and receive insights for future operations."
+        },
+        {
+            "endpoint": "POST /equipment",
+            "description": "Register a new piece of equipment within the maintenance tracking system."
+        },
+        {
+            "endpoint": "DELETE /equipment/{equipmentId}",
+            "description": "Remove an equipment entry from the tracking system by its unique identifier."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Retrieve the list of all active maintenance and status alerts."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit feedback or report issues concerning equipment management or maintenance processes."
+        }
+    ]
+}

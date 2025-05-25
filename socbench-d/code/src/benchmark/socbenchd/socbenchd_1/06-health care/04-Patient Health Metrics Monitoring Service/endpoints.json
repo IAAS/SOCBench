@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /patients",
+            "description": "Create a new patient profile allowing association with health metrics."
+        },
+        {
+            "endpoint": "GET /patients",
+            "description": "Retrieve a list of registered patients in the system."
+        },
+        {
+            "endpoint": "GET /patients/{id}",
+            "description": "Return detailed information about a specific patient using their unique ID."
+        },
+        {
+            "endpoint": "POST /readings",
+            "description": "Submit health metric readings from specific sensors for a patient."
+        },
+        {
+            "endpoint": "GET /readings",
+            "description": "Retrieve all health metric readings within a specified time frame."
+        },
+        {
+            "endpoint": "GET /readings/{patient_id}",
+            "description": "Fetch all health metric readings associated with a particular patient."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Create an alert based on predefined thresholds for health metrics."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Retrieve the list of active alerts requiring attention."
+        },
+        {
+            "endpoint": "PUT /patients/{id}",
+            "description": "Update information related to a specific patient profile."
+        },
+        {
+            "endpoint": "DELETE /patients/{id}",
+            "description": "Remove a patient's profile and associated data from the system."
+        }
+    ]
+}

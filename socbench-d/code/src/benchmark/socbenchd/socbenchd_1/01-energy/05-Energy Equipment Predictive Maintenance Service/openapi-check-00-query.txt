@@ -1,0 +1,469 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Energy Sector Predictive Maintenance API",
+        "description": "This API provides functionalities for predictive analytics to ensure timely maintenance of energy infrastructure, mitigating unplanned downtimes. The API enables users to retrieve maintenance schedules, manage incident reports, analyze sensor data, and assess potential failure risks.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/maintenance-schedule": {
+            "get": {
+                "summary": "Retrieve maintenance schedule",
+                "description": "Fetch the entire maintenance schedule for all facilities, including planned maintenance activities and timelines.",
+                "responses": {
+                    "200": {
+                        "description": "The complete maintenance schedule retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the schedule entry."
+                                            },
+                                            "facility": {
+                                                "type": "string",
+                                                "description": "Name or identifier of the facility."
+                                            },
+                                            "activity": {
+                                                "type": "string",
+                                                "description": "Description of the maintenance activity."
+                                            },
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Scheduled maintenance date."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "Pending",
+                                                    "Completed",
+                                                    "In Progress"
+                                                ],
+                                                "description": "Status of the maintenance activity."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error while retrieving the maintenance schedule."
+                    }
+                }
+            }
+        },
+        "/incident-report": {
+            "post": {
+                "summary": "Submit an incident report",
+                "description": "Upload a detailed report for any observed incidents or issues to report maintenance or operational problems.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "timestamp": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "The timestamp when the incident occurred."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Detailed description of the incident."
+                                    },
+                                    "severity": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Low",
+                                            "Medium",
+                                            "High"
+                                        ],
+                                        "description": "The severity level of the incident."
+                                    },
+                                    "affectedArea": {
+                                        "type": "string",
+                                        "description": "Location or area affected by the incident."
+                                    }
+                                },
+                                "required": [
+                                    "timestamp",
+                                    "description",
+                                    "severity"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Incident report submitted successfully."
+                    },
+                    "400": {
+                        "description": "Invalid input format or missing required fields."
+                    },
+                    "500": {
+                        "description": "Server error while submitting the incident report."
+                    }
+                }
+            }
+        },
+        "/prediction-summary": {
+            "get": {
+                "summary": "Retrieve predictive findings",
+                "description": "Fetch the summaries of predictive maintenance algorithms and findings based on historical and real-time data.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved predictive maintenance summaries.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "summary": {
+                                            "type": "string",
+                                            "description": "Overview of predictive findings, such as trends and insights."
+                                        },
+                                        "lastUpdated": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "Timestamp indicating when the findings were last updated."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error while retrieving the predictive summaries."
+                    }
+                }
+            }
+        },
+        "/sensor-data": {
+            "post": {
+                "summary": "Upload sensor data",
+                "description": "Upload new sensor data collected from energy facilities for analysis.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "sensorId": {
+                                        "type": "string",
+                                        "description": "Identifier of the sensor that collected the data."
+                                    },
+                                    "timestamp": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Timestamp when the data was collected."
+                                    },
+                                    "data": {
+                                        "type": "object",
+                                        "description": "The sensor readings and their values."
+                                    }
+                                },
+                                "required": [
+                                    "sensorId",
+                                    "timestamp",
+                                    "data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully uploaded sensor data."
+                    },
+                    "400": {
+                        "description": "Invalid input format or missing required fields."
+                    },
+                    "500": {
+                        "description": "Server error while uploading sensor data."
+                    }
+                }
+            }
+        },
+        "/failure-likelihood": {
+            "get": {
+                "summary": "Retrieve failure likelihood",
+                "description": "Retrieve the probability of potential failures for system components based on predictive models.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved failure likelihood data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "component": {
+                                                "type": "string",
+                                                "description": "Name or ID of the component."
+                                            },
+                                            "failureProbability": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "The likelihood of failure as a percentage."
+                                            },
+                                            "lastAnalyzed": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Timestamp when this likelihood was last analyzed."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error while retrieving failure likelihood data."
+                    }
+                }
+            }
+        },
+        "/maintenance-schedule/{id}": {
+            "put": {
+                "summary": "Update maintenance schedule entry",
+                "description": "Modify an existing scheduled maintenance activity by its ID.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the schedule to update."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "activity": {
+                                        "type": "string",
+                                        "description": "Updated description of the maintenance activity."
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Updated scheduled date for the maintenance activity."
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Pending",
+                                            "Completed",
+                                            "In Progress"
+                                        ],
+                                        "description": "Updated status of the maintenance activity."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated the maintenance schedule entry."
+                    },
+                    "400": {
+                        "description": "Invalid input format or missing fields."
+                    },
+                    "404": {
+                        "description": "Maintenance schedule entry with the given ID not found."
+                    },
+                    "500": {
+                        "description": "Server error while updating the maintenance schedule entry."
+                    }
+                }
+            }
+        },
+        "/incident-report/{id}": {
+            "delete": {
+                "summary": "Delete an incident report",
+                "description": "Remove a specific incident report by its unique ID.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the incident report to delete."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted the incident report."
+                    },
+                    "404": {
+                        "description": "Incident report with the given ID not found."
+                    },
+                    "500": {
+                        "description": "Server error while deleting the incident report."
+                    }
+                }
+            }
+        },
+        "/equipment-status": {
+            "get": {
+                "summary": "Retrieve equipment status",
+                "description": "Obtain the current status and performance metrics of all monitored equipment.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved the equipment status and metrics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "equipmentId": {
+                                                "type": "string",
+                                                "description": "Identifier of the equipment."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current operational status of the equipment."
+                                            },
+                                            "metrics": {
+                                                "type": "object",
+                                                "description": "Performance metrics collected from the equipment."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error while retrieving equipment status."
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "get": {
+                "summary": "Access active alerts",
+                "description": "Retrieve all currently active alerts and warnings related to system performance.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully accessed active alerts and warnings.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "alertId": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the alert."
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "description": "Type of alert, such as warning or critical issue."
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "description": "Detailed information about the alert."
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Timestamp of when the alert was triggered."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error while retrieving active alerts."
+                    }
+                }
+            }
+        },
+        "/custom-query": {
+            "post": {
+                "summary": "Execute custom analytics query",
+                "description": "Run custom analytics queries on existing datasets to derive specific insights.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "query": {
+                                        "type": "string",
+                                        "description": "Custom analytics query string."
+                                    }
+                                },
+                                "required": [
+                                    "query"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully executed the custom query and retrieved the results.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "description": "Query results in JSON format."
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query syntax or request format."
+                    },
+                    "500": {
+                        "description": "Server error while executing the custom query."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

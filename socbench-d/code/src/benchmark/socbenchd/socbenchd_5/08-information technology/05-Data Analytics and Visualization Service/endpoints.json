@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /data/upload",
+            "description": "Upload a new dataset for processing and analysis."
+        },
+        {
+            "endpoint": "GET /data/summary",
+            "description": "Retrieve a summary of the uploaded datasets, including metadata."
+        },
+        {
+            "endpoint": "POST /analysis/start",
+            "description": "Initiate the analytical processing on the selected dataset."
+        },
+        {
+            "endpoint": "GET /analysis/results",
+            "description": "Retrieve the completed analysis results for a specific dataset."
+        },
+        {
+            "endpoint": "POST /model/train",
+            "description": "Initiate the training of a predictive model using the uploaded dataset."
+        },
+        {
+            "endpoint": "GET /model/status",
+            "description": "Retrieve the current training status of the predictive model."
+        },
+        {
+            "endpoint": "GET /visualizations",
+            "description": "Retrieve a list of available visualizations for processed datasets."
+        },
+        {
+            "endpoint": "POST /dashboard/configure",
+            "description": "Customize the dashboard settings to include specific visualizations."
+        },
+        {
+            "endpoint": "GET /dashboard/view",
+            "description": "Access the interactive dashboard with configured visualizations and insights."
+        },
+        {
+            "endpoint": "POST /alerts/set",
+            "description": "Set up alerts for key indicators derived from dataset analysis."
+        }
+    ]
+}

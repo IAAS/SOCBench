@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /media",
+            "description": "Retrieve a list of all media items managed within the service."
+        },
+        {
+            "endpoint": "POST /media",
+            "description": "Add a new media item, including its content, metadata, and tags."
+        },
+        {
+            "endpoint": "PATCH /media/{mediaId}",
+            "description": "Update information or metadata of an existing media item."
+        },
+        {
+            "endpoint": "DELETE /media/{mediaId}",
+            "description": "Remove a specific media item from management."
+        },
+        {
+            "endpoint": "GET /channels",
+            "description": "Retrieve a list of all broadcast channels configured in the service."
+        },
+        {
+            "endpoint": "POST /channels",
+            "description": "Create a new broadcast channel with configuration settings."
+        },
+        {
+            "endpoint": "PATCH /channels/{channelId}",
+            "description": "Modify the settings or scheduling of a broadcast channel."
+        },
+        {
+            "endpoint": "DELETE /channels/{channelId}",
+            "description": "Remove an existing broadcast channel from the platform."
+        },
+        {
+            "endpoint": "POST /schedule",
+            "description": "Add scheduled records linking media to specific broadcast times and channels."
+        },
+        {
+            "endpoint": "GET /schedule",
+            "description": "Retrieve the schedule of broadcasts for all channels."
+        }
+    ]
+}

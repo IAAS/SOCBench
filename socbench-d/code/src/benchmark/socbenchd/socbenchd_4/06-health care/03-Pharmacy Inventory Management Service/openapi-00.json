@@ -1,0 +1,451 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Pharmacy Inventory and Sales Management API",
+    "description": "This API facilitates pharmacies in managing inventory levels, automating order placements, tracking expirations, and analyzing sales trends to optimize stock management.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.pharmacy-management.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/inventory": {
+      "get": {
+        "summary": "Retrieve Current Inventory Levels",
+        "description": "Fetch all inventory items including product details, quantities, and expiration dates.",
+        "responses": {
+          "200": {
+            "description": "A list of inventory items.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventoryItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/order": {
+      "post": {
+        "summary": "Place Inventory Replenishment Order",
+        "description": "Automatically place an order to replenish inventory based on minimum threshold requirements.",
+        "requestBody": {
+          "description": "Details of the order to be placed.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Order placed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/{itemID}": {
+      "get": {
+        "summary": "Fetch Item Details",
+        "description": "Retrieve detailed information about a specific inventory item by its unique ID.",
+        "parameters": [
+          {
+            "name": "itemID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the inventory item.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the requested item.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventoryItem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Item not found."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove Item from Inventory",
+        "description": "Delete an inventory item using its unique ID.",
+        "parameters": [
+          {
+            "name": "itemID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the inventory item.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Item deleted successfully."
+          },
+          "404": {
+            "description": "Item not found."
+          }
+        }
+      }
+    },
+    "/sales/trends": {
+      "get": {
+        "summary": "Retrieve Sales Trends",
+        "description": "Analyze sales data to identify trends that support stocking decisions.",
+        "responses": {
+          "200": {
+            "description": "Sales trend data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesTrends"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/adjust": {
+      "post": {
+        "summary": "Adjust Inventory Levels",
+        "description": "Manually adjust inventory levels to reconcile discrepancies or apply corrections.",
+        "requestBody": {
+          "description": "Details of the adjustment to be made.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdjustmentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Inventory levels adjusted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdjustmentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications": {
+      "get": {
+        "summary": "Retrieve Notifications",
+        "description": "Fetch notifications for upcoming product expirations or low stock levels.",
+        "responses": {
+          "200": {
+            "description": "List of notifications.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Notification"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications/acknowledge": {
+      "post": {
+        "summary": "Acknowledge Notifications",
+        "description": "Mark notifications as acknowledged to avoid further alerts for already-reviewed items.",
+        "requestBody": {
+          "description": "Details of notifications to acknowledge.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcknowledgeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Notifications acknowledged successfully."
+          }
+        }
+      }
+    },
+    "/reports/sales-summary": {
+      "get": {
+        "summary": "Retrieve Sales Summary",
+        "description": "Access a summarized report of sales for a given time period.",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "description": "Start date for the sales summary report (YYYY-MM-DD).",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "description": "End date for the sales summary report (YYYY-MM-DD).",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sales summary report.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/check": {
+      "post": {
+        "summary": "Initiate Inventory Check",
+        "description": "Start an inventory check process to verify actual stock levels.",
+        "responses": {
+          "200": {
+            "description": "Inventory check initiated successfully."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "InventoryItem": {
+        "type": "object",
+        "properties": {
+          "itemID": {
+            "type": "string",
+            "description": "Unique identifier for the inventory item."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the inventory item."
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Quantity of the item in stock."
+          },
+          "expirationDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Expiration date of the inventory item."
+          }
+        }
+      },
+      "OrderRequest": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "List of items to reorder.",
+            "items": {
+              "$ref": "#/components/schemas/InventoryItem"
+            }
+          }
+        }
+      },
+      "OrderResponse": {
+        "type": "object",
+        "properties": {
+          "orderID": {
+            "type": "string",
+            "description": "Unique identifier for the order."
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the order."
+          }
+        }
+      },
+      "SalesTrends": {
+        "type": "object",
+        "properties": {
+          "trends": {
+            "type": "array",
+            "description": "A list of sales trends.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "itemID": {
+                  "type": "string",
+                  "description": "Unique identifier for the inventory item."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the inventory item."
+                },
+                "salesData": {
+                  "type": "array",
+                  "description": "Historical sales data.",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Date of sales data."
+                      },
+                      "quantitySold": {
+                        "type": "integer",
+                        "description": "Number of items sold."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "AdjustmentRequest": {
+        "type": "object",
+        "properties": {
+          "itemID": {
+            "type": "string",
+            "description": "Unique identifier for the inventory item."
+          },
+          "adjustmentType": {
+            "type": "string",
+            "description": "Type of adjustment (e.g., 'add', 'remove')."
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "The quantity to adjust."
+          }
+        }
+      },
+      "AdjustmentResponse": {
+        "type": "object",
+        "properties": {
+          "itemID": {
+            "type": "string",
+            "description": "Unique identifier for the inventory item."
+          },
+          "newQuantity": {
+            "type": "integer",
+            "description": "New quantity of the item after adjustment."
+          }
+        }
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "notificationID": {
+            "type": "string",
+            "description": "Unique identifier for the notification."
+          },
+          "message": {
+            "type": "string",
+            "description": "Notification message details."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of notification (e.g., 'low_stock', 'expire_soon')."
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Notification timestamp."
+          }
+        }
+      },
+      "AcknowledgeRequest": {
+        "type": "object",
+        "properties": {
+          "notificationIDs": {
+            "type": "array",
+            "description": "List of notification IDs to acknowledge.",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SalesSummary": {
+        "type": "object",
+        "properties": {
+          "totalSales": {
+            "type": "number",
+            "description": "Total sales in the selected period."
+          },
+          "salesByItem": {
+            "type": "array",
+            "description": "Sales data broken down by inventory item.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "itemID": {
+                  "type": "string",
+                  "description": "Unique identifier for the inventory item."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the inventory item."
+                },
+                "quantitySold": {
+                  "type": "integer",
+                  "description": "Total quantity sold in the selected period."
+                },
+                "revenue": {
+                  "type": "number",
+                  "description": "Revenue generated by item sales."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

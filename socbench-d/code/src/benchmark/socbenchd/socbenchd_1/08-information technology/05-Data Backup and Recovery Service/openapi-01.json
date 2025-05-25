@@ -1,0 +1,73 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Data Backup and Restoration Service",
+        "description": "This service provides secure storage and reliable restoration of organizational data for business continuity and disaster recovery planning.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.example.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/data/validate": {
+            "post": {
+                "summary": "Validate a backup",
+                "description": "Performs validation checks on a specific backup to ensure its data integrity.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ValidationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Validation successful.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationResult"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ValidationRequest": {
+                "type": "object",
+                "properties": {
+                    "backupId": {
+                        "type": "string",
+                        "description": "The ID of the backup to validate."
+                    }
+                }
+            },
+            "ValidationResult": {
+                "type": "object",
+                "properties": {
+                    "isValid": {
+                        "type": "boolean",
+                        "description": "Indicates if the backup passed validation."
+                    },
+                    "issuesFound": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of issues found during validation, if any."
+                    }
+                }
+            }
+        }
+    }
+}

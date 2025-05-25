@@ -1,0 +1,420 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Real Estate Property and Ownership Verification Service API",
+        "description": "This API authenticates and verifies records of property transactions and ownership. It integrates with government or regional legal systems to ensure seamless compliance and accurate legal status checks for properties.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.realestate.example.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/properties": {
+            "get": {
+                "summary": "Retrieve all registered properties",
+                "description": "Fetches a comprehensive list of all properties registered in the system.",
+                "responses": {
+                    "200": {
+                        "description": "A list of registered properties",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the property"
+                                            },
+                                            "address": {
+                                                "type": "string",
+                                                "description": "Full address of the property"
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current status of the property (e.g., registered, pending verification)"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/property": {
+            "post": {
+                "summary": "Submit a new property record",
+                "description": "Allows users to submit a new property record for verification and registration in the system.",
+                "requestBody": {
+                    "description": "The details of the property to be added",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "address": {
+                                        "type": "string",
+                                        "description": "Full address of the property"
+                                    },
+                                    "owner": {
+                                        "type": "string",
+                                        "description": "Name of the current owner of the property"
+                                    },
+                                    "value": {
+                                        "type": "number",
+                                        "description": "Estimated value of the property"
+                                    },
+                                    "registration_number": {
+                                        "type": "string",
+                                        "description": "Official registration number for the property"
+                                    }
+                                },
+                                "required": [
+                                    "address",
+                                    "owner",
+                                    "registration_number"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The property record has been successfully submitted and is pending verification."
+                    }
+                }
+            }
+        },
+        "/property/{id}": {
+            "get": {
+                "summary": "Fetch property details",
+                "description": "Retrieves detailed information about a specific property given its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the property"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the specific property",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the property"
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "description": "Full address of the property"
+                                        },
+                                        "owner": {
+                                            "type": "string",
+                                            "description": "Name of the current property owner"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current registration status of the property"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update property details",
+                "description": "Allows updates to the details of a registered property, including owner, address, and status.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the property"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Details of the property to be updated",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "address": {
+                                        "type": "string",
+                                        "description": "Updated address of the property"
+                                    },
+                                    "owner": {
+                                        "type": "string",
+                                        "description": "Updated owner of the property"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "description": "Updated registration status of the property"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Property details have been successfully updated."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a property record",
+                "description": "Removes a specific property record from the system given its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the property to be deleted"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The property record has been successfully removed."
+                    }
+                }
+            }
+        },
+        "/ownership-history/{id}": {
+            "get": {
+                "summary": "Retrieve ownership history",
+                "description": "Fetches the entire ownership history of a specified property based on its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the property"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ownership history of the property",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "owner": {
+                                                "type": "string",
+                                                "description": "Name of the owner"
+                                            },
+                                            "transfer_date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Date when ownership was transferred"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/legal-compliance-check/{id}": {
+            "get": {
+                "summary": "Check legal compliance status",
+                "description": "Validates the legal compliance status of a specific property.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the property"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Legal compliance status of the property",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "compliance_status": {
+                                            "type": "string",
+                                            "description": "Legal compliance status (e.g., compliant, non-compliant)"
+                                        },
+                                        "issues": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "description": "List of legal issues, if any"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/region/{region_id}/properties": {
+            "get": {
+                "summary": "Fetch all properties in a region",
+                "description": "Retrieves a list of all properties located within a specific region.",
+                "parameters": [
+                    {
+                        "name": "region_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the region"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of properties in the specified region",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the property"
+                                            },
+                                            "address": {
+                                                "type": "string",
+                                                "description": "Full address of the property"
+                                            },
+                                            "owner": {
+                                                "type": "string",
+                                                "description": "Name of the property owner"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/property/compliance-status": {
+            "get": {
+                "summary": "Obtain compliance status report",
+                "description": "Provides a detailed compliance verification report for a property.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Compliance status report",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "report_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the compliance report"
+                                        },
+                                        "properties_verified": {
+                                            "type": "number",
+                                            "description": "Total count of properties verified"
+                                        },
+                                        "compliant_properties": {
+                                            "type": "number",
+                                            "description": "Number of compliant properties"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ownership-transfer": {
+            "post": {
+                "summary": "Transfer ownership of a property",
+                "description": "Facilitates the transfer of property ownership between two parties, ensuring proper validation of documents.",
+                "requestBody": {
+                    "description": "Details required for ownership transfer",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "property_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the property to be transferred"
+                                    },
+                                    "new_owner": {
+                                        "type": "string",
+                                        "description": "Name of the new owner"
+                                    },
+                                    "transfer_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Date of ownership transfer"
+                                    },
+                                    "legal_documents": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "List of legal document URLs required for the transfer"
+                                    }
+                                },
+                                "required": [
+                                    "property_id",
+                                    "new_owner",
+                                    "transfer_date"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ownership transfer has been successfully completed."
+                    }
+                }
+            }
+        }
+    }
+}

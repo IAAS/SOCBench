@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /infrastructure/resources",
+            "description": "Retrieve the list of all managed infrastructure resources to monitor and organize."
+        },
+        {
+            "endpoint": "POST /infrastructure/resources",
+            "description": "Add a new resource to the managed infrastructure list for monitoring purposes."
+        },
+        {
+            "endpoint": "PATCH /infrastructure/resources/{resource_id}",
+            "description": "Update the configuration or properties of an existing infrastructure resource."
+        },
+        {
+            "endpoint": "DELETE /infrastructure/resources/{resource_id}",
+            "description": "Remove an existing resource from the managed infrastructure list."
+        },
+        {
+            "endpoint": "GET /performance/metrics",
+            "description": "Retrieve performance metrics for the managed infrastructure to analyze and ensure efficiency."
+        },
+        {
+            "endpoint": "GET /security/events",
+            "description": "Retrieve the list of recent security events for review and action."
+        },
+        {
+            "endpoint": "POST /scaling/policies",
+            "description": "Define a new scaling policy for automatic infrastructure scaling."
+        },
+        {
+            "endpoint": "PATCH /scaling/policies/{policy_id}",
+            "description": "Modify an existing scaling policy to adjust its parameters."
+        },
+        {
+            "endpoint": "DELETE /scaling/policies/{policy_id}",
+            "description": "Remove an existing scaling policy from the system."
+        },
+        {
+            "endpoint": "GET /health/status",
+            "description": "Retrieve the overall health status of the entire managed infrastructure."
+        }
+    ]
+}

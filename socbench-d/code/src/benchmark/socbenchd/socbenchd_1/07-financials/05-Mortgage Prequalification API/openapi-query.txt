@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Service:
+Assesses applicants’ qualifications for mortgage loans by analyzing financial data, creditworthiness, and repayment potential through a secure interface.
+
+Endpoints:
+POST /applications: Submit a new mortgage application with complete financial and personal information.
+GET /applications/{id}: Retrieve the details of a submitted mortgage application using a unique identifier.
+PUT /applications/{id}: Update information on an existing mortgage application.
+DELETE /applications/{id}: Remove a specific mortgage application by its unique identifier.
+POST /applications/{id}/calculate: Analyze and estimate loan feasibility for a specific application.
+GET /applications/{id}/status: Check the current status and progress of a submitted mortgage application.
+POST /applications/{id}/submit: Formalize and submit the mortgage application for further review.
+GET /loans/interest-rates: Fetch the current interest rates for different loan types and durations.
+POST /users/{id}/documents: Upload required documents for mortgage processing to a user's profile.
+GET /users/{id}/documents: Retrieve a list of documents uploaded for a user's mortgage applications.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

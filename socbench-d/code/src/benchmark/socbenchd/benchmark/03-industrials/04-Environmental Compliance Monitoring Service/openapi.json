@@ -1,0 +1,434 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Environmental Compliance Monitoring API",
+        "description": "This API serves environmental regulators and industrial organizations by monitoring compliance with environmental standards, specifically focusing on emissions and waste management.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.environmentalcompliance.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/emissions": {
+            "get": {
+                "summary": "Retrieve Emissions Data",
+                "description": "Fetch a comprehensive overview of current emissions data for all registered facilities. Provides detailed metrics of emissions to help monitor environmental impact in real-time.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of emissions data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "facilities": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "facilityId": {
+                                                        "type": "string",
+                                                        "description": "Unique identifier for the facility."
+                                                    },
+                                                    "emissionLevel": {
+                                                        "type": "number",
+                                                        "description": "Current emission level of the facility."
+                                                    },
+                                                    "timestamp": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "description": "Timestamp of the emissions data record."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/emissions/audit-report": {
+            "post": {
+                "summary": "Generate Emission Audit Report",
+                "description": "Create a detailed emission audit report for regulatory submission and internal review. Specify the timeframe and parameters for the report.",
+                "requestBody": {
+                    "description": "Timeframe and parameters for the report",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "startDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Start date for audit period."
+                                    },
+                                    "endDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "End date for audit period."
+                                    }
+                                },
+                                "required": [
+                                    "startDate",
+                                    "endDate"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Audit report successfully generated.",
+                        "content": {
+                            "application/pdf": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/waste/overview": {
+            "get": {
+                "summary": "Fetch Waste Analytics",
+                "description": "Retrieve detailed analytics on waste production and disposal practices for a specified period. Includes sorting by material type, disposal method, and compliance status.",
+                "parameters": [
+                    {
+                        "name": "fromDate",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "Start date for the analytics period."
+                    },
+                    {
+                        "name": "toDate",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "description": "End date for the analytics period."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of waste analytics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "wasteData": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "materialType": {
+                                                        "type": "string",
+                                                        "description": "Type of waste material."
+                                                    },
+                                                    "disposalMethod": {
+                                                        "type": "string",
+                                                        "description": "Method of waste disposal."
+                                                    },
+                                                    "complianceStatus": {
+                                                        "type": "string",
+                                                        "description": "Compliance status of waste disposal."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/configure": {
+            "post": {
+                "summary": "Set Up Alert Thresholds",
+                "description": "Configure custom alert thresholds for emissions and waste metrics. Ensures timely notifications when environmental benchmarks are breached.",
+                "requestBody": {
+                    "description": "Parameters for alert configuration.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "emissionThreshold": {
+                                        "type": "number",
+                                        "description": "Threshold level for emissions alerts."
+                                    },
+                                    "wasteThreshold": {
+                                        "type": "number",
+                                        "description": "Threshold level for waste alerts."
+                                    }
+                                },
+                                "required": [
+                                    "emissionThreshold",
+                                    "wasteThreshold"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Alert thresholds successfully configured.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Operation status."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/compliance/status": {
+            "get": {
+                "summary": "Check Compliance Status",
+                "description": "Retrieve the current compliance status of all operational metrics against industry standards and legal requirements. Useful for assessing adherence to environmental regulations.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved compliance status.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "metrics": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "metric": {
+                                                        "type": "string",
+                                                        "description": "Name of the compliance metric."
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "description": "Compliance status (e.g., compliant, non-compliant)."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/integration/settings": {
+            "put": {
+                "summary": "Manage Integration Settings",
+                "description": "Update and manage settings for data integration with existing environmental management systems to ensure seamless data flow and synchronization.",
+                "requestBody": {
+                    "description": "Integration settings to be updated.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "systemEndpoint": {
+                                        "type": "string",
+                                        "description": "Endpoint for the external management system."
+                                    },
+                                    "apiKey": {
+                                        "type": "string",
+                                        "description": "API key for authenticating with the external system."
+                                    }
+                                },
+                                "required": [
+                                    "systemEndpoint",
+                                    "apiKey"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Integration settings successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Operation status."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/regulatory/standards": {
+            "get": {
+                "summary": "Retrieve Regulatory Standards",
+                "description": "Fetch a list of applicable regulatory standards and limits for emissions and waste management. Crucial for compliance officers to align operations with legal requirements.",
+                "responses": {
+                    "200": {
+                        "description": "Regulatory standards successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "standardId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the regulatory standard."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Description of the standard."
+                                            },
+                                            "limit": {
+                                                "type": "number",
+                                                "description": "Limit defined by the standard."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/data/sync": {
+            "post": {
+                "summary": "Initiate Manual Data Synchronization",
+                "description": "Start a manual synchronization of data from all industrial sensors to update the central database, ensuring that reports and analytics are based on the latest data.",
+                "responses": {
+                    "200": {
+                        "description": "Data synchronization initiated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Operation status."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/logs/{logId}": {
+            "delete": {
+                "summary": "Remove Specified Entry Logs",
+                "description": "Delete specified entry logs related to emissions or waste data. Useful for data hygiene and maintaining relevant information.",
+                "parameters": [
+                    {
+                        "name": "logId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier for the log entry to be deleted."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Log entry successfully deleted.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Operation status."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/history": {
+            "get": {
+                "summary": "Access Historical Alert Records",
+                "description": "Retrieve historical records of all alerts triggered due to breaches in environmental standards. Useful for developing prevention strategies and making operational adjustments.",
+                "responses": {
+                    "200": {
+                        "description": "Historical alert records successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "alerts": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "alertId": {
+                                                        "type": "string",
+                                                        "description": "Unique identifier for the alert."
+                                                    },
+                                                    "thresholdBreached": {
+                                                        "type": "string",
+                                                        "description": "Description of the threshold breached."
+                                                    },
+                                                    "timestamp": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "description": "Timestamp of when the alert was triggered."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

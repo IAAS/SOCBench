@@ -1,0 +1,437 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Version Control Repository Management API",
+    "description": "API for managing version control repositories, enhancing coordination among software development teams. The service allows operations such as creating repositories, managing branches, commit histories, and configuring user permissions.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.versioncontrol.example.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/repositories": {
+      "get": {
+        "summary": "Retrieve All Repositories",
+        "description": "Fetches a list of all version control repositories available in the system.",
+        "responses": {
+          "200": {
+            "description": "List of repositories retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the repository."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the repository."
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Brief description of the repository."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a New Repository",
+        "description": "Allows users to create a new repository to manage version-controlled content.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the new repository."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Optional brief description of the repository."
+                  }
+                },
+                "required": ["name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Repository created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique identifier for the newly created repository."
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the repository."
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Description of the repository."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{id}": {
+      "get": {
+        "summary": "Retrieve Specific Repository",
+        "description": "Fetches the details of a specific repository identified by its unique identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the repository to retrieve."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Repository details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique identifier for the repository."
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the repository."
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Description of the repository."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Repository Metadata",
+        "description": "Allows updates to the configuration or metadata of the specified repository.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the repository to update."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "New name for the repository."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "New description for the repository."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Repository metadata updated successfully."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Repository",
+        "description": "Permanently removes a specific repository from the system.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the repository to delete."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Repository deleted successfully."
+          }
+        }
+      }
+    },
+    "/repositories/{id}/branches": {
+      "get": {
+        "summary": "List Repository Branches",
+        "description": "Retrieves a list of all branches associated with a particular repository.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the repository."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of branches retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the branch."
+                      },
+                      "lastCommitId": {
+                        "type": "string",
+                        "description": "Identifier of the last commit in the branch."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a New Branch",
+        "description": "Allows the creation of a new branch within a specified repository.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the repository."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the new branch to be created."
+                  },
+                  "sourceBranch": {
+                    "type": "string",
+                    "description": "Name of the source branch from which the new branch is to be created."
+                  }
+                },
+                "required": ["name", "sourceBranch"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Branch created successfully."
+          }
+        }
+      }
+    },
+    "/repositories/{id}/commits": {
+      "get": {
+        "summary": "Retrieve Repository Commit History",
+        "description": "Fetches the commit history of a specified repository.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the repository."
+          },
+          {
+            "name": "branch",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional branch name to filter commit history."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Commit history retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Unique identifier of the commit."
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Commit message summarizing the changes."
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Date and time of the commit."
+                      },
+                      "author": {
+                        "type": "string",
+                        "description": "Name or identifier of the commit author."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{id}/merge": {
+      "post": {
+        "summary": "Merge Branch Changes",
+        "description": "Merges changes from a source branch to a target branch within the specified repository.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the repository."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sourceBranch": {
+                    "type": "string",
+                    "description": "Name of the branch to merge from."
+                  },
+                  "targetBranch": {
+                    "type": "string",
+                    "description": "Name of the branch to merge into."
+                  }
+                },
+                "required": ["sourceBranch", "targetBranch"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Merge operation completed successfully."
+          }
+        }
+      }
+    },
+    "/repositories/{id}/permissions": {
+      "post": {
+        "summary": "Set or Modify Repository Permissions",
+        "description": "Configures or updates user permissions for a specific repository.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the repository."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "description": "Unique identifier of the user."
+                  },
+                  "permissions": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": ["read", "write", "admin"]
+                    },
+                    "description": "Permissions to assign to the user."
+                  }
+                },
+                "required": ["userId", "permissions"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Permissions set/modified successfully."
+          }
+        }
+      }
+    }
+  }
+}

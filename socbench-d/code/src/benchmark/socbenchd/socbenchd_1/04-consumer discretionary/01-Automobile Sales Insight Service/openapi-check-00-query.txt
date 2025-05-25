@@ -1,0 +1,537 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Vehicle Sales Data and Analytics Service",
+        "description": "This RESTful service provides dealerships and manufacturers with comprehensive data on vehicle sales trends, customer preferences, and market demands. Users can access detailed reports and predictive analytics to make informed decisions and enhance operational strategies.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.vehiclesanalytics.com",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/vehicle-data/trends": {
+            "get": {
+                "summary": "Retrieve Aggregated Vehicle Sales Trends",
+                "description": "Retrieve aggregated trends of vehicle sales categorized by region, model, and timeframe. This endpoint provides comprehensive insights into sales to help identify patterns over specified periods.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "Filter results by region (e.g., North America, Europe).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "model",
+                        "in": "query",
+                        "description": "Specify a vehicle model to focus the trends data.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "timeframe",
+                        "in": "query",
+                        "description": "Specify the time range for the trends (e.g., last 6 months, year-to-date).",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "2023-01-01 to 2023-10-31"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with aggregated vehicle sales trends.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "region": {
+                                                "type": "string"
+                                            },
+                                            "model": {
+                                                "type": "string"
+                                            },
+                                            "timeframe": {
+                                                "type": "string"
+                                            },
+                                            "sales": {
+                                                "type": "number",
+                                                "description": "Number of vehicles sold."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicle-data/preferences": {
+            "post": {
+                "summary": "Submit Data for Customer Preferences Analysis",
+                "description": "Submit survey data to analyze customer preferences based on recent inputs. The service will return insights from the analysis.",
+                "requestBody": {
+                    "description": "Survey data for preference analysis.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "surveyId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the survey."
+                                    },
+                                    "customerResponses": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "question": {
+                                                    "type": "string"
+                                                },
+                                                "answer": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response with analyzed customer preferences.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "preferences": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/market-demand/forecasts": {
+            "get": {
+                "summary": "Access Market Demand Predictive Analytics",
+                "description": "Retrieve predictive analytics reports on market demands for upcoming periods to aid planning and manufacturing strategies.",
+                "parameters": [
+                    {
+                        "name": "timePeriod",
+                        "in": "query",
+                        "description": "Specify the forecast period (e.g., next quarter, next year).",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "2024-Q1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Predictive analytics for market demand forecasts.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "region": {
+                                            "type": "string"
+                                        },
+                                        "predictedDemand": {
+                                            "type": "number",
+                                            "description": "Expected market demand."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dealerships/sales-report": {
+            "get": {
+                "summary": "Obtain Sales Report for a Dealership",
+                "description": "Access a detailed sales performance report for a given dealership, including sales numbers, revenue, and trends.",
+                "parameters": [
+                    {
+                        "name": "dealershipId",
+                        "in": "query",
+                        "description": "ID of the dealership to retrieve the sales report for.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "timeframe",
+                        "in": "query",
+                        "description": "Specify a timeframe for the sales report.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detailed dealership sales report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "dealershipId": {
+                                            "type": "string"
+                                        },
+                                        "salesData": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "model": {
+                                                        "type": "string"
+                                                    },
+                                                    "unitsSold": {
+                                                        "type": "number"
+                                                    },
+                                                    "revenue": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/manufacturer/goals": {
+            "post": {
+                "summary": "Set Sales Goals for Manufacturers",
+                "description": "Submit desired sales goals for manufacturers and receive insights and strategies to meet the targets.",
+                "requestBody": {
+                    "description": "Sales goals and targets.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "manufacturerId": {
+                                        "type": "string"
+                                    },
+                                    "salesGoals": {
+                                        "type": "number"
+                                    },
+                                    "timeframe": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Insights and strategies to achieve sales goals.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "manufacturerId": {
+                                            "type": "string"
+                                        },
+                                        "insights": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/customer-segments": {
+            "get": {
+                "summary": "Retrieve Customer Segmentation Data",
+                "description": "Access data on customer segmentation for targeted marketing and strategic planning purposes.",
+                "responses": {
+                    "200": {
+                        "description": "Customer segmentation data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "segment": {
+                                                "type": "string",
+                                                "description": "Customer segment (e.g., budget-conscious)."
+                                            },
+                                            "characteristics": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicle-pricing/trends": {
+            "get": {
+                "summary": "Analyze Vehicle Pricing Trends",
+                "description": "Retrieve historical and current pricing trends for various vehicle categories to understand market dynamics.",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Vehicle category (e.g., sedan, SUV).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Vehicle pricing trends data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "type": "string"
+                                            },
+                                            "pricing": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "number"
+                                                }
+                                            },
+                                            "timeframe": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/optimize": {
+            "post": {
+                "summary": "Optimize Vehicle Inventory",
+                "description": "Upload the current inventory data to receive insights on optimizing the inventory to match market demand.",
+                "requestBody": {
+                    "description": "Inventory data for optimization.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "inventoryItems": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "model": {
+                                                    "type": "string"
+                                                },
+                                                "quantity": {
+                                                    "type": "number"
+                                                },
+                                                "location": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Recommendations for inventory optimization.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "recommendations": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "model": {
+                                                        "type": "string"
+                                                    },
+                                                    "action": {
+                                                        "type": "string",
+                                                        "description": "Recommendation for inventory adjustment (e.g., move to region X)."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/regional/sales-comparisons": {
+            "get": {
+                "summary": "Compare Regional Sales Data",
+                "description": "Compare vehicle sales performance across different geographical regions to identify top-performing markets.",
+                "responses": {
+                    "200": {
+                        "description": "Regional sales comparison data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "region": {
+                                                "type": "string"
+                                            },
+                                            "sales": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/marketing/campaign-effectiveness": {
+            "post": {
+                "summary": "Evaluate Marketing Campaign Effectiveness",
+                "description": "Submit marketing campaign data to evaluate its effectiveness and calculate ROI to improve marketing strategies.",
+                "requestBody": {
+                    "description": "Campaign data for evaluation.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "campaignId": {
+                                        "type": "string"
+                                    },
+                                    "metrics": {
+                                        "type": "object",
+                                        "properties": {
+                                            "adSpend": {
+                                                "type": "number"
+                                            },
+                                            "clickThroughRate": {
+                                                "type": "number"
+                                            },
+                                            "conversions": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Campaign effectiveness report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "campaignId": {
+                                            "type": "string"
+                                        },
+                                        "roi": {
+                                            "type": "number",
+                                            "description": "Return on investment."
+                                        },
+                                        "insights": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /evaluate-credit-risk",
+            "description": "Submit client details to receive a calculated risk score and suggestions."
+        },
+        {
+            "endpoint": "GET /risk-score/{clientId}",
+            "description": "Retrieve the previously calculated risk score for a specific client."
+        },
+        {
+            "endpoint": "POST /add-client-profile",
+            "description": "Add a new client profile with relevant financial information."
+        },
+        {
+            "endpoint": "GET /client-profile/{clientId}",
+            "description": "Retrieve details of a specific client profile."
+        },
+        {
+            "endpoint": "PUT /update-client-profile",
+            "description": "Update existing client profile data with newer information."
+        },
+        {
+            "endpoint": "POST /risk-analytics",
+            "description": "Analyze trends and statistics over accumulated risk scores."
+        },
+        {
+            "endpoint": "GET /suggested-lending-terms/{clientId}",
+            "description": "Retrieve detailed recommended lending terms for a specific client."
+        },
+        {
+            "endpoint": "DELETE /delete-client-profile/{clientId}",
+            "description": "Remove a specific client profile from the system."
+        },
+        {
+            "endpoint": "GET /algorithm-insights",
+            "description": "Receive insights into algorithm performance and reliability metrics."
+        },
+        {
+            "endpoint": "POST /report-compliance-check",
+            "description": "Submit data usage for compliance verification as per legal requirements."
+        }
+    ]
+}

@@ -1,0 +1,426 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Real Estate Management Service API",
+        "description": "This API facilitates organizations to manage stakeholder communications and records, including prospective buyer interactions and historical inquiries, within the real estate sector.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/properties": {
+            "get": {
+                "summary": "Retrieve all properties",
+                "description": "Fetch a list of all properties currently managed by the system.",
+                "responses": {
+                    "200": {
+                        "description": "A list of properties successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "propertyId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the property."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the property."
+                                            },
+                                            "location": {
+                                                "type": "string",
+                                                "description": "Address or location of the property."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "Current status (e.g., available, sold)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new property",
+                "description": "Register a new property in the management system.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the property."
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "description": "Address or location of the property."
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "description": "Current status of the property (e.g., available, sold)."
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "location",
+                                    "status"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "New property successfully added.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "propertyId": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the newly created property."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/properties/{propertyId}": {
+            "get": {
+                "summary": "Retrieve property details",
+                "description": "Fetch detailed information about a specific property using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "propertyId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the property to retrieve."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the specified property.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "propertyId": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "location": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Property not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update property details",
+                "description": "Modify the details of an existing property using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "propertyId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the property to update."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Updated name of the property."
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "description": "Updated location of the property."
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "description": "Updated status of the property (e.g., available, sold)."
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "location",
+                                    "status"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Property details successfully updated."
+                    },
+                    "404": {
+                        "description": "Property not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a property",
+                "description": "Remove a property from the system using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "propertyId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the property to delete."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Property successfully deleted."
+                    },
+                    "404": {
+                        "description": "Property not found."
+                    }
+                }
+            }
+        },
+        "/inquiries": {
+            "get": {
+                "summary": "Retrieve all inquiries",
+                "description": "Fetch a list of all recorded inquiries related to properties.",
+                "responses": {
+                    "200": {
+                        "description": "A list of inquiries successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "inquiryId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the inquiry."
+                                            },
+                                            "propertyId": {
+                                                "type": "string",
+                                                "description": "The identifier of the property related to the inquiry."
+                                            },
+                                            "buyerName": {
+                                                "type": "string",
+                                                "description": "Name of the prospective buyer."
+                                            },
+                                            "contactInfo": {
+                                                "type": "string",
+                                                "description": "Contact details of the buyer."
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "description": "Details of the inquiry."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new inquiry",
+                "description": "Add a new entry for a prospective buyer inquiry.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "propertyId": {
+                                        "type": "string",
+                                        "description": "The identifier of the property related to the inquiry."
+                                    },
+                                    "buyerName": {
+                                        "type": "string",
+                                        "description": "Name of the prospective buyer."
+                                    },
+                                    "contactInfo": {
+                                        "type": "string",
+                                        "description": "Contact details of the buyer."
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "description": "Details of the inquiry."
+                                    }
+                                },
+                                "required": [
+                                    "propertyId",
+                                    "buyerName",
+                                    "contactInfo",
+                                    "message"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Inquiry successfully created."
+                    }
+                }
+            }
+        },
+        "/reports": {
+            "get": {
+                "summary": "Get aggregated reports",
+                "description": "Generate and retrieve aggregated reports of inquiries and property interactions.",
+                "responses": {
+                    "200": {
+                        "description": "Aggregated reports successfully generated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "totalProperties": {
+                                            "type": "integer",
+                                            "description": "Total number of properties managed."
+                                        },
+                                        "totalInquiries": {
+                                            "type": "integer",
+                                            "description": "Total number of recorded inquiries."
+                                        },
+                                        "propertyStatistics": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "propertyId": {
+                                                        "type": "string"
+                                                    },
+                                                    "inquiryCount": {
+                                                        "type": "integer"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/stakeholders": {
+            "get": {
+                "summary": "Retrieve all stakeholders",
+                "description": "Fetch a list of all stakeholders associated with the real estate services.",
+                "responses": {
+                    "200": {
+                        "description": "A list of stakeholders successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "stakeholderId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the stakeholder."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the stakeholder."
+                                            },
+                                            "role": {
+                                                "type": "string",
+                                                "description": "Role or position of the stakeholder."
+                                            },
+                                            "contactInfo": {
+                                                "type": "string",
+                                                "description": "Contact details of the stakeholder."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new stakeholder",
+                "description": "Register a new stakeholder to the service for record keeping and communication purposes.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the stakeholder."
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "description": "Role or position of the stakeholder."
+                                    },
+                                    "contactInfo": {
+                                        "type": "string",
+                                        "description": "Contact details of the stakeholder."
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "role",
+                                    "contactInfo"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Stakeholder successfully added."
+                    }
+                }
+            }
+        }
+    }
+}

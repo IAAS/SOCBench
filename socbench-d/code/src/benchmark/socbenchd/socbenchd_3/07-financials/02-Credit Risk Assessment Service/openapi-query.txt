@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Financials Sector: The Financials Sector contains companies engaged in banking, financial services, consumer finance, capital markets and insurance activities. It also includes Financial Exchanges & Data and Mortgage REITs.
+
+Service:
+With this API, financial institutions can evaluate the creditworthiness of clients using advanced algorithms and historical data. Users provide client details, and the service calculates a risk score along with detailed insights. Institutions must adhere to legally compliant data usage policies when utilizing this service. For example, by submitting a POST request with a client's financial data, the service returns a structured JSON response containing the risk profile and recommended lending terms.
+
+Endpoints:
+POST /evaluate-credit-risk: Submit client details to receive a calculated risk score and suggestions.
+GET /risk-score/{clientId}: Retrieve the previously calculated risk score for a specific client.
+POST /add-client-profile: Add a new client profile with relevant financial information.
+GET /client-profile/{clientId}: Retrieve details of a specific client profile.
+PUT /update-client-profile: Update existing client profile data with newer information.
+POST /risk-analytics: Analyze trends and statistics over accumulated risk scores.
+GET /suggested-lending-terms/{clientId}: Retrieve detailed recommended lending terms for a specific client.
+DELETE /delete-client-profile/{clientId}: Remove a specific client profile from the system.
+GET /algorithm-insights: Receive insights into algorithm performance and reliability metrics.
+POST /report-compliance-check: Submit data usage for compliance verification as per legal requirements.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,442 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Environmental Compliance Monitoring API",
+        "description": "This API enables organizations to monitor and ensure compliance with environmental regulations by providing features such as emissions tracking, waste management, and regulatory reporting tools.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/emissions": {
+            "post": {
+                "summary": "Submit New Emission Data",
+                "description": "Create a new record for emission data from a specific source.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "sourceId": {
+                                        "type": "string",
+                                        "description": "Identifier for the emission source."
+                                    },
+                                    "emissionType": {
+                                        "type": "string",
+                                        "description": "Type of emission, e.g., CO2, NOx, Particulate Matter."
+                                    },
+                                    "quantity": {
+                                        "type": "number",
+                                        "description": "Amount of emissions produced, measured in applicable units (e.g., kg, tons)."
+                                    },
+                                    "timestamp": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Date and time when the emissions were recorded."
+                                    }
+                                },
+                                "required": [
+                                    "sourceId",
+                                    "emissionType",
+                                    "quantity",
+                                    "timestamp"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Emission data successfully recorded."
+                    },
+                    "400": {
+                        "description": "Invalid request payload."
+                    }
+                }
+            }
+        },
+        "/emissions/{id}": {
+            "get": {
+                "summary": "Get Emission Data by ID",
+                "description": "Retrieve detailed information about a specific emission record by provided ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique identifier of the emission record.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of emission data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "sourceId": {
+                                            "type": "string"
+                                        },
+                                        "emissionType": {
+                                            "type": "string"
+                                        },
+                                        "quantity": {
+                                            "type": "number"
+                                        },
+                                        "timestamp": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Emission record not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update Emission Data",
+                "description": "Update data for an already recorded emission by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique identifier of the emission record to update.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "sourceId": {
+                                        "type": "string",
+                                        "description": "Updated identifier for the emission source."
+                                    },
+                                    "emissionType": {
+                                        "type": "string",
+                                        "description": "Updated type of emission, e.g., CO2, NOx."
+                                    },
+                                    "quantity": {
+                                        "type": "number",
+                                        "description": "Updated amount of emissions produced."
+                                    },
+                                    "timestamp": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Updated recording date and time."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Emission record successfully updated."
+                    },
+                    "400": {
+                        "description": "Invalid request payload."
+                    },
+                    "404": {
+                        "description": "Emission record not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete Emission Data",
+                "description": "Remove an emission record identified by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique identifier of the emission record to be deleted.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Emission record successfully deleted."
+                    },
+                    "404": {
+                        "description": "Emission record not found."
+                    }
+                }
+            }
+        },
+        "/waste-management": {
+            "get": {
+                "summary": "Get Waste Management Activities",
+                "description": "Retrieve a summary of all activities related to waste management.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of waste management activities.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "activityId": {
+                                                "type": "string"
+                                            },
+                                            "activityType": {
+                                                "type": "string"
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "details": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Submit Waste Management Activity",
+                "description": "Add a record of a new waste management activity.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "activityType": {
+                                        "type": "string",
+                                        "description": "Type of waste management activity."
+                                    },
+                                    "timestamp": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Date and time of the activity."
+                                    },
+                                    "details": {
+                                        "type": "string",
+                                        "description": "Additional details about the activity."
+                                    }
+                                },
+                                "required": [
+                                    "activityType",
+                                    "timestamp",
+                                    "details"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Waste management activity successfully recorded."
+                    },
+                    "400": {
+                        "description": "Invalid request payload."
+                    }
+                }
+            }
+        },
+        "/regulations": {
+            "get": {
+                "summary": "Get Environmental Regulations",
+                "description": "Retrieve a list of all environmental regulations relevant to the user.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of environmental regulations.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "regulationId": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            },
+                                            "complianceDeadline": {
+                                                "type": "string",
+                                                "format": "date"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/compliance": {
+            "get": {
+                "summary": "Generate Compliance Report",
+                "description": "Generate and retrieve a compliance report based on all submitted data.",
+                "responses": {
+                    "200": {
+                        "description": "Successful generation and retrieval of a compliance report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reportId": {
+                                            "type": "string"
+                                        },
+                                        "generatedAt": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "details": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "post": {
+                "summary": "Create Alert for Regulatory Threshold Violation",
+                "description": "Set up an alert triggered when a certain regulatory threshold is violated.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "regulationId": {
+                                        "type": "string",
+                                        "description": "Identifier for the regulation being monitored."
+                                    },
+                                    "thresholdValue": {
+                                        "type": "number",
+                                        "description": "Value which, when exceeded, triggers the alert."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Description of the alert."
+                                    }
+                                },
+                                "required": [
+                                    "regulationId",
+                                    "thresholdValue",
+                                    "description"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert successfully created."
+                    },
+                    "400": {
+                        "description": "Invalid request payload."
+                    }
+                }
+            }
+        },
+        "/alerts/{id}": {
+            "get": {
+                "summary": "Get Alert by ID",
+                "description": "Retrieve detailed information about a specific alert using its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique identifier of the alert.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of the alert.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "regulationId": {
+                                            "type": "string"
+                                        },
+                                        "thresholdValue": {
+                                            "type": "number"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "triggeredAt": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Alert not found."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

@@ -1,0 +1,402 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Targeted Advertisement Integration Service",
+        "description": "A service to facilitate seamless integration of targeted advertisements in various media channels. The service includes features for audience segmentation, advertisement performance tracking, and revenue distribution management.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.communication-services.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/audiences": {
+            "get": {
+                "summary": "Retrieve audience segments",
+                "description": "Retrieve a list of all defined audience segments and their detailed attributes such as demographics, interests, and behavioral traits.",
+                "responses": {
+                    "200": {
+                        "description": "List of audience segments retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/AudienceSegment"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new audience segment",
+                "description": "Create a new audience segment by specifying its criteria such as demographics, geographic location, and user interests.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewAudienceSegment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Audience segment created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AudienceSegment"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/audiences/{id}": {
+            "put": {
+                "summary": "Update audience segment",
+                "description": "Modify the properties or criteria of an existing audience segment by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the audience segment.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateAudienceSegment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Audience segment updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AudienceSegment"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete audience segment",
+                "description": "Securely delete an existing audience segment and remove all associated data by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the audience segment.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Audience segment deleted successfully. No content."
+                    }
+                }
+            }
+        },
+        "/ads-performance": {
+            "get": {
+                "summary": "Get ad performance analytics",
+                "description": "Fetch detailed analytics for all advertisements, including views, clicks, and conversions.",
+                "responses": {
+                    "200": {
+                        "description": "Ad performance analytics retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/AdPerformance"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ads-performance/compare": {
+            "post": {
+                "summary": "Compare advertisement performance",
+                "description": "Submit criteria to compare the performance of multiple advertisements.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CompareAdsCriteria"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Comparison of advertisement performance completed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/AdPerformanceComparison"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/revenue-distribution": {
+            "get": {
+                "summary": "Get revenue distribution",
+                "description": "Retrieve an overview of revenue distribution generated by advertisements.",
+                "responses": {
+                    "200": {
+                        "description": "Revenue distribution details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RevenueDistribution"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/settings/targeting": {
+            "patch": {
+                "summary": "Modify targeting configurations",
+                "description": "Update targeting configurations such as geographical regions or demographic filters.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TargetingConfiguration"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Targeting configurations updated successfully."
+                    }
+                }
+            }
+        },
+        "/ads/predict": {
+            "post": {
+                "summary": "Predict advertisement metrics",
+                "description": "Submit parameters to predict estimated performance metrics for an advertisement. Predictions could include estimated impressions, clicks, and conversions.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AdPredictionRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Predicted performance metrics retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdPredictionResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ads/recommended": {
+            "get": {
+                "summary": "Get recommended advertisements",
+                "description": "Retrieve a list of recommended advertisements tailored for the currently active audience segments.",
+                "responses": {
+                    "200": {
+                        "description": "List of recommended advertisements retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RecommendedAd"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AudienceSegment": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "criteria": {
+                        "type": "object"
+                    }
+                }
+            },
+            "NewAudienceSegment": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "criteria": {
+                        "type": "object"
+                    }
+                }
+            },
+            "UpdateAudienceSegment": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "criteria": {
+                        "type": "object"
+                    }
+                }
+            },
+            "AdPerformance": {
+                "type": "object",
+                "properties": {
+                    "adId": {
+                        "type": "string"
+                    },
+                    "views": {
+                        "type": "integer"
+                    },
+                    "clicks": {
+                        "type": "integer"
+                    },
+                    "conversions": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "CompareAdsCriteria": {
+                "type": "object",
+                "properties": {
+                    "adIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "metrics": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "AdPerformanceComparison": {
+                "type": "object",
+                "properties": {
+                    "adId": {
+                        "type": "string"
+                    },
+                    "performanceMetrics": {
+                        "type": "object"
+                    }
+                }
+            },
+            "RevenueDistribution": {
+                "type": "object",
+                "properties": {
+                    "adId": {
+                        "type": "string"
+                    },
+                    "revenueAmount": {
+                        "type": "number"
+                    }
+                }
+            },
+            "TargetingConfiguration": {
+                "type": "object",
+                "properties": {
+                    "regions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "demographics": {
+                        "type": "object"
+                    }
+                }
+            },
+            "AdPredictionRequest": {
+                "type": "object",
+                "properties": {
+                    "adAttributes": {
+                        "type": "object"
+                    }
+                }
+            },
+            "AdPredictionResponse": {
+                "type": "object",
+                "properties": {
+                    "estimatedImpressions": {
+                        "type": "integer"
+                    },
+                    "estimatedClicks": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "RecommendedAd": {
+                "type": "object",
+                "properties": {
+                    "adId": {
+                        "type": "string"
+                    },
+                    "recommendationReason": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

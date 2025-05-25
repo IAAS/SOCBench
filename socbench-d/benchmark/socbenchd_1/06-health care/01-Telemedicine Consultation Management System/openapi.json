@@ -1,0 +1,498 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Healthcare Remote Consultation Management API",
+        "description": "This API enables healthcare providers to efficiently manage remote patient consultations. It supports features like appointment scheduling, virtual consultation setup, secure medical data exchange, and access to patient history and diagnostic tools, optimizing remote healthcare delivery.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/appointments": {
+            "post": {
+                "summary": "Create a new appointment",
+                "description": "Schedule a new appointment by providing patient and appointment details.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "patient_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the patient."
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Scheduled date and time for the appointment."
+                                    },
+                                    "reason": {
+                                        "type": "string",
+                                        "description": "Reason for the appointment or consultation."
+                                    }
+                                },
+                                "required": [
+                                    "patient_id",
+                                    "date",
+                                    "reason"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Appointment successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "appointment_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the created appointment."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/appointments/{id}": {
+            "get": {
+                "summary": "Retrieve appointment details",
+                "description": "Fetch detailed information about a specific appointment using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the appointment."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detailed information about the specified appointment.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "appointment_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the appointment."
+                                        },
+                                        "patient_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the patient."
+                                        },
+                                        "date": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "Scheduled date and time for the appointment."
+                                        },
+                                        "reason": {
+                                            "type": "string",
+                                            "description": "Reason for the appointment."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the appointment (e.g., scheduled, completed, canceled)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Modify an appointment",
+                "description": "Update specific details of an existing appointment using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the appointment."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Updated date and time for the appointment."
+                                    },
+                                    "reason": {
+                                        "type": "string",
+                                        "description": "Updated reason for the appointment."
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "description": "Updated status of the appointment."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Appointment details successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Confirmation message for the update."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Cancel an appointment",
+                "description": "Remove an existing appointment using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the appointment."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Appointment successfully canceled.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Confirmation message for the cancellation."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/patients/{id}/history": {
+            "get": {
+                "summary": "Get patient medical history",
+                "description": "Retrieve the detailed medical history of a specific patient using their unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the patient."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Patient's medical history retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "record_id": {
+                                                "type": "string",
+                                                "description": "Unique ID of the medical record."
+                                            },
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Date of the medical record."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Details about the patient's medical record."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/virtual-consultations": {
+            "post": {
+                "summary": "Initialize a virtual consultation",
+                "description": "Start a new virtual consultation session between a healthcare provider and a patient.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "provider_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the healthcare provider."
+                                    },
+                                    "patient_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the patient."
+                                    }
+                                },
+                                "required": [
+                                    "provider_id",
+                                    "patient_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Virtual consultation successfully initialized.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "consultation_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier of the initiated virtual consultation."
+                                        },
+                                        "meeting_link": {
+                                            "type": "string",
+                                            "description": "URL link to join the virtual consultation session."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/consultation-tools": {
+            "get": {
+                "summary": "Retrieve diagnostic tools",
+                "description": "Get a list of available diagnostic tools for use in virtual consultations.",
+                "responses": {
+                    "200": {
+                        "description": "List of diagnostic tools retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "tool_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the diagnostic tool."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the diagnostic tool."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Detailed information about the diagnostic tool."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/secure-data-exchange": {
+            "post": {
+                "summary": "Securely exchange medical data",
+                "description": "Submit encrypted medical data for exchange between users to maintain data privacy.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "sender_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the data sender."
+                                    },
+                                    "receiver_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the data receiver."
+                                    },
+                                    "data": {
+                                        "type": "string",
+                                        "description": "Encrypted medical data to be transmitted."
+                                    }
+                                },
+                                "required": [
+                                    "sender_id",
+                                    "receiver_id",
+                                    "data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data successfully exchanged.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Confirmation of successful data exchange."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/patients/{id}/scheduled-consultations": {
+            "get": {
+                "summary": "Retrieve upcoming consultations for a patient",
+                "description": "Get a list of all future consultations scheduled for a specific patient.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the patient."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of upcoming consultations successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "consultation_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the consultation."
+                                            },
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "description": "Scheduled date and time of the consultation."
+                                            },
+                                            "provider_id": {
+                                                "type": "string",
+                                                "description": "Unique identifier of the healthcare provider."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/consultations/{id}/status": {
+            "patch": {
+                "summary": "Update consultation status",
+                "description": "Modify the status of an ongoing virtual consultation.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the consultation."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "description": "Updated status for the consultation (e.g., 'in progress', 'completed')."
+                                    }
+                                },
+                                "required": [
+                                    "status"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Consultation status updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Confirmation message for status update."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    }
+}

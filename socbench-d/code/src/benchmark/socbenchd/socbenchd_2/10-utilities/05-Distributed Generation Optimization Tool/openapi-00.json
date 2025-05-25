@@ -1,0 +1,337 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Distributed Energy Resource Management API",
+    "description": "This API facilitates interaction with distributed energy resources such as solar panels and batteries. It enables functionalities like load balancing, energy storage optimization, and synchronization with the main grid, promoting efficient energy utilization.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.energy-management.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/distributed-resources": {
+      "get": {
+        "summary": "Retrieve all distributed energy resources",
+        "description": "Fetches detailed information about all connected distributed energy resources.",
+        "responses": {
+          "200": {
+            "description": "A list of connected distributed energy resources.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DistributedResource"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/distributed-resources/sync": {
+      "post": {
+        "summary": "Synchronize distributed resources",
+        "description": "Initiates the synchronization process of distributed energy resources with the main grid.",
+        "responses": {
+          "200": {
+            "description": "Synchronization successfully initiated."
+          }
+        }
+      }
+    },
+    "/energy-storage/status": {
+      "get": {
+        "summary": "Fetch energy storage status",
+        "description": "Returns the current operational status and performance metrics of the energy storage systems.",
+        "responses": {
+          "200": {
+            "description": "Current status and performance metrics of energy storage.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnergyStorageStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-balancing/calibrate": {
+      "post": {
+        "summary": "Calibrate energy load balancing",
+        "description": "Performs calibration operations to ensure optimal energy load balancing among distributed resources.",
+        "responses": {
+          "200": {
+            "description": "Calibration successfully performed."
+          }
+        }
+      }
+    },
+    "/demand-trends": {
+      "get": {
+        "summary": "Retrieve energy demand trends",
+        "description": "Provides analytics data detailing energy demand trends observed on the grid over time.",
+        "responses": {
+          "200": {
+            "description": "Analytics data on grid energy demand trends.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DemandTrends"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resource-config/{id}": {
+      "put": {
+        "summary": "Update distributed resource configuration",
+        "description": "Updates configuration parameters for a specific distributed energy resource identified by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The identifier of the distributed energy resource to update."
+          }
+        ],
+        "requestBody": {
+          "description": "Updated configuration data for the resource.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResourceConfig"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Configuration updated successfully."
+          }
+        }
+      }
+    },
+    "/distributed-resources/{id}": {
+      "delete": {
+        "summary": "Remove distributed energy resource",
+        "description": "Removes a distributed energy resource from the management system using its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The identifier of the distributed energy resource to be removed."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The resource was removed successfully."
+          }
+        }
+      }
+    },
+    "/alerts": {
+      "get": {
+        "summary": "Retrieve current alerts",
+        "description": "Provides a list of current alerts related to the operation of distributed energy resources.",
+        "responses": {
+          "200": {
+            "description": "A list of active alerts.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Alert"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/renewable-sources/analytics": {
+      "post": {
+        "summary": "Submit renewable source analytics",
+        "description": "Accepts analytic data for monitoring and evaluating the performance of renewable energy sources.",
+        "requestBody": {
+          "description": "Analytic data for monitoring renewable energy performance.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RenewableSourceAnalytics"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Analytics data submitted successfully."
+          }
+        }
+      }
+    },
+    "/grid-synchronization/logs": {
+      "get": {
+        "summary": "Retrieve grid synchronization logs",
+        "description": "Fetches logs detailing past synchronization events between the main grid and distributed energy resources.",
+        "responses": {
+          "200": {
+            "description": "Logs of grid synchronization events.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SynchronizationLog"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DistributedResource": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the resource."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of resource, e.g., solar panel, battery."
+          },
+          "status": {
+            "type": "string",
+            "description": "Operational status of the resource."
+          }
+        }
+      },
+      "EnergyStorageStatus": {
+        "type": "object",
+        "properties": {
+          "capacity": {
+            "type": "number",
+            "description": "Available storage capacity in kilowatt-hours (kWh)."
+          },
+          "chargeLevel": {
+            "type": "number",
+            "description": "Current charge level as a percentage."
+          },
+          "performanceMetrics": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Key performance metrics for storage systems."
+          }
+        }
+      },
+      "DemandTrends": {
+        "type": "object",
+        "properties": {
+          "timePeriod": {
+            "type": "string",
+            "description": "Covered time period for the analytics data."
+          },
+          "trends": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "timestamp": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Time of the recorded trend."
+                },
+                "demand": {
+                  "type": "number",
+                  "description": "Energy demand in kilowatts (kW)."
+                }
+              }
+            },
+            "description": "List of time-series data for demand trends."
+          }
+        }
+      },
+      "ResourceConfig": {
+        "type": "object",
+        "properties": {
+          "parameter": {
+            "type": "string",
+            "description": "Name of the configuration parameter."
+          },
+          "value": {
+            "type": "string",
+            "description": "Value to set for the parameter."
+          }
+        }
+      },
+      "Alert": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique alert identifier."
+          },
+          "message": {
+            "type": "string",
+            "description": "Detail of the alert."
+          },
+          "severity": {
+            "type": "string",
+            "description": "Severity level of the alert."
+          }
+        }
+      },
+      "RenewableSourceAnalytics": {
+        "type": "object",
+        "properties": {
+          "sourceId": {
+            "type": "string",
+            "description": "Identifier of the renewable source."
+          },
+          "data": {
+            "type": "object",
+            "description": "Analytics data collected for the source."
+          }
+        }
+      },
+      "SynchronizationLog": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time of the synchronization event."
+          },
+          "details": {
+            "type": "string",
+            "description": "Details of the synchronization event."
+          }
+        }
+      }
+    }
+  }
+}

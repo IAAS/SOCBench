@@ -1,0 +1,399 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Dynamic Power Resource Allocation API",
+        "version": "1.0.0",
+        "description": "This API enables utility providers to dynamically allocate power resources based on real-time electricity demand and forecasts. The service ensures grid stability, efficiency, and optimized power distribution strategies, while also providing insights into renewable energy production and grid performance."
+    },
+    "paths": {
+        "/realtime-demand": {
+            "get": {
+                "summary": "Retrieve real-time electricity demand data.",
+                "description": "Fetch real-time data showing electricity demand across all designated zones for monitoring and decision-making.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of real-time demand data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "timestamp": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "The time the data was retrieved."
+                                        },
+                                        "zones": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "zone_id": {
+                                                        "type": "string",
+                                                        "description": "The identifier of the zone."
+                                                    },
+                                                    "demand": {
+                                                        "type": "number",
+                                                        "description": "The current electricity demand in the zone (in MW)."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/allocate-resources": {
+            "post": {
+                "summary": "Request dynamic allocation of power resources.",
+                "description": "Submit parameters to request the dynamic allocation of power resources across zones based on real-time demands and forecasts.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "zone_id": {
+                                        "type": "string",
+                                        "description": "The identifier of the zone for resource allocation."
+                                    },
+                                    "allocated_power": {
+                                        "type": "number",
+                                        "description": "The amount of power to allocate to the specified zone (in MW)."
+                                    },
+                                    "priority": {
+                                        "type": "string",
+                                        "enum": [
+                                            "high",
+                                            "medium",
+                                            "low"
+                                        ],
+                                        "description": "The priority level for this allocation request."
+                                    }
+                                },
+                                "required": [
+                                    "zone_id",
+                                    "allocated_power"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Power resources successfully allocated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "The status of the allocation request, e.g., 'success'."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/forecast-patterns": {
+            "get": {
+                "summary": "Access electricity usage forecast models.",
+                "description": "Retrieve the latest forecast models for electricity demand patterns across various regions for future planning.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved forecast patterns.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "region": {
+                                                "type": "string",
+                                                "description": "The name of the region."
+                                            },
+                                            "forecast": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "time_frame": {
+                                                        "type": "string",
+                                                        "description": "The time frame of the forecast."
+                                                    },
+                                                    "predicted_demand": {
+                                                        "type": "number",
+                                                        "description": "The predicted electricity demand (in MW)."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/adjust-distribution": {
+            "put": {
+                "summary": "Modify electricity distribution strategies.",
+                "description": "Adjust the current distribution plan to meet new requirements or address unexpected demand or supply changes.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "zone_id": {
+                                        "type": "string",
+                                        "description": "The identifier of the zone to adjust."
+                                    },
+                                    "new_distribution_strategy": {
+                                        "type": "object",
+                                        "properties": {
+                                            "supply_limit": {
+                                                "type": "number",
+                                                "description": "The maximum power supply limit (in MW)."
+                                            },
+                                            "time_frame": {
+                                                "type": "string",
+                                                "description": "The effective time frame for the new distribution strategy."
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "zone_id",
+                                    "new_distribution_strategy"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated the distribution strategy."
+                    }
+                }
+            }
+        },
+        "/zones-status": {
+            "get": {
+                "summary": "Fetch operational status for distribution zones.",
+                "description": "Retrieve the operational performance and metrics of all power distribution zones.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully fetched status metrics for distribution zones.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "zone_id": {
+                                                "type": "string",
+                                                "description": "The identifier of the zone."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "The overall operational status of the zone."
+                                            },
+                                            "power_usage": {
+                                                "type": "number",
+                                                "description": "The total power used (in MW)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/override-settings": {
+            "delete": {
+                "summary": "Remove manual override settings.",
+                "description": "Erase any manual override settings in the system and restore automated power management operations.",
+                "responses": {
+                    "204": {
+                        "description": "Successfully removed override settings."
+                    }
+                }
+            }
+        },
+        "/renewables-status": {
+            "get": {
+                "summary": "View renewable energy production metrics.",
+                "description": "Access data related to the production of electricity generated from renewable energy sources, such as solar, wind, and hydro.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully fetched renewable energy metrics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "solar": {
+                                            "type": "number",
+                                            "description": "Electricity produced from solar energy (in MW)."
+                                        },
+                                        "wind": {
+                                            "type": "number",
+                                            "description": "Electricity produced from wind energy (in MW)."
+                                        },
+                                        "hydro": {
+                                            "type": "number",
+                                            "description": "Electricity produced from hydro energy (in MW)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/update-thresholds": {
+            "patch": {
+                "summary": "Update thresholds for demand surges.",
+                "description": "Modify the predefined thresholds to handle unexpected demand surges by dynamically allocating reserves.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "zone_id": {
+                                        "type": "string",
+                                        "description": "The identifier of the zone."
+                                    },
+                                    "new_threshold": {
+                                        "type": "number",
+                                        "description": "The updated demand threshold (in MW)."
+                                    }
+                                },
+                                "required": [
+                                    "zone_id",
+                                    "new_threshold"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated thresholds."
+                    }
+                }
+            }
+        },
+        "/efficiency-reports": {
+            "get": {
+                "summary": "Retrieve grid efficiency reports.",
+                "description": "Fetch reports on the grid's efficiency and optimization performances over a specified time period.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully fetched efficiency reports.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "report_id": {
+                                                "type": "string",
+                                                "description": "The identifier of the efficiency report."
+                                            },
+                                            "report_date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "The date of the report."
+                                            },
+                                            "efficiency_score": {
+                                                "type": "number",
+                                                "description": "The grid efficiency score."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/incident-response": {
+            "post": {
+                "summary": "Report incidents affecting grid stability.",
+                "description": "Submit incidents that impact grid stability and request necessary remediation actions.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "incident_type": {
+                                        "type": "string",
+                                        "description": "The type of incident encountered."
+                                    },
+                                    "zone_id": {
+                                        "type": "string",
+                                        "description": "The identifier of the affected zone."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Detailed description of the incident."
+                                    }
+                                },
+                                "required": [
+                                    "incident_type",
+                                    "zone_id",
+                                    "description"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Incident successfully reported."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

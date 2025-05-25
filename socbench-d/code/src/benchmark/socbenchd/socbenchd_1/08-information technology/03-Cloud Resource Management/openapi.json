@@ -1,0 +1,435 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Cloud Resource Management API",
+        "description": "API offering efficient allocation, monitoring, and optimization of cloud computing resources to improve scalability and cost-effectiveness.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.cloudresources.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/resources": {
+            "get": {
+                "summary": "List all resource allocations",
+                "description": "Retrieve a comprehensive list of all current cloud resource allocations.",
+                "responses": {
+                    "200": {
+                        "description": "A list of resource allocations",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Resource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new resource allocation",
+                "description": "Create a new cloud computing allocation request with specified parameters.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResourceCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Resource allocation created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Resource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/resources/{id}": {
+            "get": {
+                "summary": "Retrieve a specific resource allocation",
+                "description": "Retrieve detailed information about a specific resource allocation using its identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the resource allocation.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the requested resource allocation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Resource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a specific resource allocation",
+                "description": "Update the configuration or scaling properties of an existing resource allocation.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the resource allocation.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResourceUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Resource allocation updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Resource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove a specific resource allocation",
+                "description": "Remove an active cloud computing resource allocation.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the resource allocation.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Resource allocation successfully deleted"
+                    }
+                }
+            }
+        },
+        "/optimization-strategies": {
+            "get": {
+                "summary": "Retrieve optimization strategies",
+                "description": "Fetch all available optimization strategies applicable for scaling operations on resources.",
+                "responses": {
+                    "200": {
+                        "description": "List of optimization strategies",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/OptimizationStrategy"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/resources/{id}/scale": {
+            "post": {
+                "summary": "Initiate resource scaling",
+                "description": "Initiate a scaling operation for the specific resource, allowing adjustment of its usage or capacity.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the resource to be scaled.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ScaleRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Scaling operation initiated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Resource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/resource-usage/{id}": {
+            "get": {
+                "summary": "Get resource usage statistics",
+                "description": "Retrieve usage statistics and analysis for a specific resource allocation using its identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the resource.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usage statistics and analysis of the resource",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UsageStatistics"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "post": {
+                "summary": "Set up alerts",
+                "description": "Configure custom alerts for monitoring specific threshold conditions on resources.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AlertConfiguration"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Alert"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/{alert_id}": {
+            "delete": {
+                "summary": "Remove an alert",
+                "description": "Delete an existing alert from monitoring using its identifier.",
+                "parameters": [
+                    {
+                        "name": "alert_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the alert.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Alert successfully deleted"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Resource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the resource."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Descriptive name for the resource."
+                    },
+                    "configuration": {
+                        "type": "object",
+                        "description": "Details about the current configuration of the resource."
+                    },
+                    "usage": {
+                        "type": "object",
+                        "description": "Details about the usage of the resource."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Current status of the resource (e.g., active, scaling, terminated)."
+                    }
+                }
+            },
+            "ResourceCreateRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name for the new resource allocation."
+                    },
+                    "configuration": {
+                        "type": "object",
+                        "description": "Initial configuration for the resource."
+                    }
+                },
+                "required": [
+                    "name",
+                    "configuration"
+                ]
+            },
+            "ResourceUpdateRequest": {
+                "type": "object",
+                "properties": {
+                    "configuration": {
+                        "type": "object",
+                        "description": "Updated configuration for the resource."
+                    }
+                },
+                "required": [
+                    "configuration"
+                ]
+            },
+            "OptimizationStrategy": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier of the strategy."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Descriptive name of the optimization strategy."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Detailed explanation of how the strategy works."
+                    }
+                }
+            },
+            "ScaleRequest": {
+                "type": "object",
+                "properties": {
+                    "scaleFactor": {
+                        "type": "number",
+                        "description": "Factor by which to scale the resource."
+                    }
+                },
+                "required": [
+                    "scaleFactor"
+                ]
+            },
+            "UsageStatistics": {
+                "type": "object",
+                "properties": {
+                    "cpuUsage": {
+                        "type": "number",
+                        "description": "CPU usage percentage."
+                    },
+                    "memoryUsage": {
+                        "type": "number",
+                        "description": "Memory usage in megabytes."
+                    },
+                    "cost": {
+                        "type": "number",
+                        "description": "Cost of resource usage over the monitored period."
+                    }
+                }
+            },
+            "AlertConfiguration": {
+                "type": "object",
+                "properties": {
+                    "resourceId": {
+                        "type": "string",
+                        "description": "Identifier of the resource to monitor."
+                    },
+                    "threshold": {
+                        "type": "number",
+                        "description": "Threshold value at which the alert should trigger."
+                    },
+                    "metric": {
+                        "type": "string",
+                        "description": "Metric to monitor (e.g., CPU, memory, cost)."
+                    }
+                },
+                "required": [
+                    "resourceId",
+                    "threshold",
+                    "metric"
+                ]
+            },
+            "Alert": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the alert."
+                    },
+                    "resourceId": {
+                        "type": "string",
+                        "description": "The resource being monitored by this alert."
+                    },
+                    "metric": {
+                        "type": "string",
+                        "description": "The metric being monitored."
+                    },
+                    "threshold": {
+                        "type": "number",
+                        "description": "Value at which the alert is triggered."
+                    }
+                }
+            }
+        }
+    }
+}

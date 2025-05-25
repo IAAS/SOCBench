@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /suppliers",
+            "description": "Retrieve a list of all registered suppliers in the system."
+        },
+        {
+            "endpoint": "GET /distributors",
+            "description": "Obtain a list of all distributors currently associated with the supply chain."
+        },
+        {
+            "endpoint": "POST /orders",
+            "description": "Create a new order request between a supplier and a distributor."
+        },
+        {
+            "endpoint": "GET /orders",
+            "description": "Retrieve a list of all orders placed within the system."
+        },
+        {
+            "endpoint": "PUT /orders/{order_id}",
+            "description": "Update the details or status of a specific order."
+        },
+        {
+            "endpoint": "GET /inventory/supplier/{supplier_id}",
+            "description": "View the inventory of a specified supplier."
+        },
+        {
+            "endpoint": "POST /inventory/update",
+            "description": "Modify the inventory details of a supplier or distributor."
+        },
+        {
+            "endpoint": "GET /shipping-status/{order_id}",
+            "description": "Fetch the current shipping status of a specific order."
+        },
+        {
+            "endpoint": "GET /analytics/supply-chain",
+            "description": "Access analytics and performance metrics of the supply chain."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Retrieve a list of system alerts or notifications for supply chain issues."
+        }
+    ]
+}

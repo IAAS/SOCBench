@@ -1,0 +1,445 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Water Distribution Network Service API",
+    "description": "This API enables efficient planning and management of water distribution networks, supporting sustainable use of water resources through advanced modeling and monitoring tools.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.water-distribution.example.com",
+      "description": "Main production server"
+    }
+  ],
+  "paths": {
+    "/networks": {
+      "get": {
+        "summary": "Retrieve water distribution networks overview",
+        "description": "Fetch a list of all water distribution networks, including basic information such as their names, IDs, and statuses.",
+        "responses": {
+          "200": {
+            "description": "A list of water distribution networks.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Unique identifier of the network."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the network."
+                      },
+                      "status": {
+                        "type": "string",
+                        "description": "Current operational status of the network."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new water distribution network",
+        "description": "Add a new water distribution network configuration by providing relevant details such as its name, location, and initial setup parameters.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the new network."
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "Geographical location of the network."
+                  },
+                  "setupParameters": {
+                    "type": "object",
+                    "description": "Initial setup parameters for the network.",
+                    "additionalProperties": true
+                  }
+                },
+                "required": ["name", "location"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The network was successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The unique identifier of the newly created network."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/networks/{id}": {
+      "get": {
+        "summary": "Retrieve specific network details",
+        "description": "Get detailed information about a specific water distribution network by its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the water distribution network."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detailed information about the water distribution network.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID of the network."
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the network."
+                    },
+                    "location": {
+                      "type": "string",
+                      "description": "Location of the network."
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Operational status of the network."
+                    },
+                    "analytics": {
+                      "type": "object",
+                      "description": "Analytics data overview.",
+                      "additionalProperties": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update specific network configuration",
+        "description": "Modify the details or configuration of a specific water distribution network by its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the water distribution network."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Updated name of the network."
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Updated operational status of the network."
+                  },
+                  "parameters": {
+                    "type": "object",
+                    "description": "Updated configuration parameters.",
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The network configuration was successfully updated."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete specific network configuration",
+        "description": "Remove a specified water distribution network by its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the water distribution network to delete."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The network was successfully deleted."
+          }
+        }
+      }
+    },
+    "/networks/{id}/analytics": {
+      "get": {
+        "summary": "Retrieve analytics data for a specific network",
+        "description": "Fetch analytics for a specified water distribution network, including resource usage and efficiency metrics.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the network."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Analytics data of the specified network.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "usageMetrics": {
+                      "type": "object",
+                      "description": "Metrics related to water usage.",
+                      "additionalProperties": true
+                    },
+                    "efficiencyMetrics": {
+                      "type": "object",
+                      "description": "Metrics related to distribution efficiency.",
+                      "additionalProperties": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts": {
+      "post": {
+        "summary": "Create an alert for metrics",
+        "description": "Set up a notification alert based on specified conditions related to water distribution metrics.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "metric": {
+                    "type": "string",
+                    "description": "Metric to monitor (e.g., water usage, efficiency)."
+                  },
+                  "threshold": {
+                    "type": "number",
+                    "description": "Threshold value that triggers the alert."
+                  },
+                  "notificationType": {
+                    "type": "string",
+                    "description": "Type of notification to be sent (e.g., email, SMS)."
+                  }
+                },
+                "required": ["metric", "threshold"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The alert was successfully created."
+          }
+        }
+      }
+    },
+    "/sensors/{id}/data": {
+      "get": {
+        "summary": "Retrieve sensor data",
+        "description": "Fetch data collected by a specific sensor over a given time frame.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the sensor."
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "The start time for the data retrieval."
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "The end time for the data retrieval."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sensor data retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Time of the data recording."
+                      },
+                      "value": {
+                        "type": "number",
+                        "description": "Recorded value."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/{id}": {
+      "put": {
+        "summary": "Update maintenance schedule/status",
+        "description": "Modify the maintenance schedule or status for a specific component within the water distribution network.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the component to update maintenance for."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "schedule": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Updated maintenance schedule."
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Current status of maintenance (e.g., pending, completed)."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The maintenance update was successful."
+          }
+        }
+      }
+    },
+    "/reports": {
+      "get": {
+        "summary": "Generate water usage reports",
+        "description": "Create comprehensive reports summarizing water usage and distribution efficiency across networks.",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "Start date for the report."
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "End date for the report."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The report was successfully generated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reportUrl": {
+                      "type": "string",
+                      "description": "URL to download or view the generated report."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

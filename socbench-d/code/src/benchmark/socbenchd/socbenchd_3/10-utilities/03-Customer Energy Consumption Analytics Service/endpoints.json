@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /usage-patterns",
+            "description": "Retrieve an analysis of the customer's historical energy usage patterns."
+        },
+        {
+            "endpoint": "POST /sustainability-advice",
+            "description": "Submit data to calculate and obtain energy-saving advice."
+        },
+        {
+            "endpoint": "GET /consumption/summary",
+            "description": "Fetch the summarized energy consumption statistics for a given time period."
+        },
+        {
+            "endpoint": "GET /tariff-analysis",
+            "description": "Request an analysis of current energy tariffs to identify opportunities for savings."
+        },
+        {
+            "endpoint": "POST /peak-alert",
+            "description": "Set up customer notifications for approaching peak energy usage times."
+        },
+        {
+            "endpoint": "GET /solar-availability",
+            "description": "Check localized availability and efficiency of solar energy options."
+        },
+        {
+            "endpoint": "PUT /setting/threshold",
+            "description": "Modify the user's energy usage threshold for monitoring."
+        },
+        {
+            "endpoint": "GET /reports/monthly",
+            "description": "Retrieve a comprehensive monthly energy usage report."
+        },
+        {
+            "endpoint": "DELETE /alert-settings/{alertId}",
+            "description": "Remove an existing alert setting by its unique identifier."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit user feedback regarding energy consumption or service experience."
+        }
+    ]
+}

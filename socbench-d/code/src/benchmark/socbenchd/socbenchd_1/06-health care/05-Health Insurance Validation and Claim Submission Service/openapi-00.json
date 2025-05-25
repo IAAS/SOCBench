@@ -1,0 +1,346 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Healthcare Insurance Validation and Claim Submission System",
+    "description": "A service that provides a systematic approach for validating health insurance policies and streamlining claim submissions for medical services, enabling real-time policy coverage confirmation, claim management, and statistical insights.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.healthcaresector.com",
+      "description": "Production server for Healthcare Insurance Validation and Claim Submission System"
+    }
+  ],
+  "paths": {
+    "/policies": {
+      "get": {
+        "summary": "Retrieve all health insurance policies",
+        "description": "Returns a list of available health insurance policies that an organization can access.",
+        "responses": {
+          "200": {
+            "description": "A list of insurance policies.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "policy_id": "12345",
+                    "name": "Basic Health Plan",
+                    "status": "Active"
+                  },
+                  {
+                    "policy_id": "67890",
+                    "name": "Premium Health Plan",
+                    "status": "Inactive"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/policies/validate": {
+      "post": {
+        "summary": "Validate health insurance policy",
+        "description": "Submits policy details to validate coverage status in real-time, ensuring accurate data for patient eligibility.",
+        "requestBody": {
+          "description": "Details of the policy to validate.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "policy_id": "12345",
+                "patient_id": "abcd123",
+                "service_date": "2023-10-01"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Validation result for the submitted policy.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "valid": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "valid": true,
+                  "message": "Policy is active and covers the requested service."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/claims": {
+      "get": {
+        "summary": "Retrieve submitted insurance claims",
+        "description": "Fetches the statuses of all insurance claims submitted by an organization.",
+        "responses": {
+          "200": {
+            "description": "A list of claims and their statuses.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "claim_id": "c001",
+                    "status": "Pending",
+                    "amount": 250.00
+                  },
+                  {
+                    "claim_id": "c002",
+                    "status": "Approved",
+                    "amount": 500.00
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/claims/submit": {
+      "post": {
+        "summary": "Submit a new insurance claim",
+        "description": "Allows a healthcare provider to submit a claim for services rendered, with all required details.",
+        "requestBody": {
+          "description": "Details of the claim to submit.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "patient_id": "abcd123",
+                "policy_id": "12345",
+                "description": "Consultation and laboratory testing",
+                "amount": 300.00,
+                "service_date": "2023-10-01"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Acknowledgement of the new claim submission.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "claim_id": "c003",
+                  "status": "Submitted",
+                  "message": "Claim has been successfully submitted."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/claims/{claim_id}": {
+      "put": {
+        "summary": "Update an existing insurance claim",
+        "description": "Allows modifications to the details of a submitted insurance claim.",
+        "parameters": [
+          {
+            "name": "claim_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the claim to be updated",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated claim details.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "description": "Updated consultation details",
+                "amount": 350.00
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledgement of the updated claim.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Claim updated successfully."
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an insurance claim",
+        "description": "Removes an existing insurance claim from the system.",
+        "parameters": [
+          {
+            "name": "claim_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the claim to delete",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Confirmation of claim deletion.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Claim deleted successfully."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/policies/{policy_id}/coverage": {
+      "get": {
+        "summary": "Retrieve coverage details for a policy",
+        "description": "Fetches specific coverage details for a given health insurance policy.",
+        "parameters": [
+          {
+            "name": "policy_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the policy",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Coverage details for the specified policy.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "policy_id": "12345",
+                  "coverage": "Full",
+                  "services": [
+                    "Consultations",
+                    "Prescription Drugs",
+                    "Hospitalization"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/providers/register": {
+      "post": {
+        "summary": "Register a new healthcare provider",
+        "description": "Allows a healthcare provider to register with the system.",
+        "requestBody": {
+          "description": "Details of the healthcare provider to register.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "provider_name": "ABC Healthcare",
+                "address": "123 Elm St, Cityville",
+                "contact_number": "555-1234"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Acknowledgement of provider registration.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Provider registered successfully.",
+                  "provider_id": "p001"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/patients/{patient_id}/history": {
+      "get": {
+        "summary": "Fetch patient claim and coverage history",
+        "description": "Retrieves the full claim and coverage history for a specific patient based on their unique ID.",
+        "parameters": [
+          {
+            "name": "patient_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the patient",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Claim and coverage history for the specified patient.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "patient_id": "abcd123",
+                  "history": [
+                    {
+                      "type": "claim",
+                      "claim_id": "c001",
+                      "status": "Approved",
+                      "amount": 500.00
+                    },
+                    {
+                      "type": "policy",
+                      "policy_id": "12345",
+                      "coverage": "Full"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/claim-statistics": {
+      "get": {
+        "summary": "Retrieve aggregated claim statistics",
+        "description": "Returns aggregated statistics for the number of claims submitted, approved, pending, and rejected.",
+        "responses": {
+          "200": {
+            "description": "Aggregated statistics for claim submissions.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "total_claims": 1000,
+                  "approved_claims": 700,
+                  "pending_claims": 200,
+                  "rejected_claims": 100
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

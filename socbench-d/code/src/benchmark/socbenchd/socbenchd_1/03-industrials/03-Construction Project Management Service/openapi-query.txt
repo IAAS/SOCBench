@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+Aimed at the construction sector, this service supports scheduling, resource allocation, and cost management, ensuring project efficiency.
+
+Endpoints:
+POST /projects: Create a new project by defining its name, start date, expected end date, and initial budget details.
+GET /projects/{projectId}: Retrieve detailed information about a specific project, including its tasks, resources, and financial metrics.
+POST /tasks: Add a new task within a project, specifying its title, description, duration, and associated resources.
+PUT /tasks/{taskId}: Update the details of an existing task, such as its timeline, assigned personnel, or dependencies.
+GET /resources: List all available resources for allocation, including their current status, availability, and associated costs.
+POST /allocation: Allocate specific resources to a task or project, ensuring their availability and adjusting schedules as needed.
+GET /reports: Generate and retrieve customized reports on project progress, resource utilization, and financial expenditures.
+DELETE /projects/{projectId}: Remove a project and its associated tasks and allocations, freeing up all related resources.
+PUT /budgets/{projectId}: Adjust the budget allocations for a project, including category-specific updates and fund reallocations.
+GET /forecast: Simulate future project resource needs and budget requirements based on current trends and historical data.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

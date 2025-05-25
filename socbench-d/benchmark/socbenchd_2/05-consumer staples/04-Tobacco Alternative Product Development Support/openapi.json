@@ -1,0 +1,372 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Alternative Tobacco Product Innovation and Compliance Service",
+        "description": "This API provides analytical tools for tobacco companies to innovate and test alternative products, catering to evolving consumer preferences and regulatory frameworks.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.alternative-tobacco-service.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/product-tests": {
+            "post": {
+                "summary": "Initiate a product innovation test",
+                "description": "Starts a new product innovation test with specified parameters for alternative tobacco products.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "product_name": {
+                                        "type": "string",
+                                        "description": "Name of the alternative tobacco product."
+                                    },
+                                    "test_parameters": {
+                                        "type": "object",
+                                        "description": "Parameters defining the scope and objectives of the test.",
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "product_name",
+                                    "test_parameters"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product test initiation successful.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "test_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the initiated test."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the test."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request parameters."
+                    }
+                }
+            }
+        },
+        "/test-results/{test_id}": {
+            "get": {
+                "summary": "Retrieve test results",
+                "description": "Fetches detailed results for a specific product innovation test using its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "test_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the test for which results are to be retrieved."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of test results.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Test ID not found."
+                    }
+                }
+            }
+        },
+        "/consumer-insights": {
+            "get": {
+                "summary": "Access consumer insights",
+                "description": "Provides aggregated data and trends reflecting consumer preferences in the tobacco sector.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of consumer insights.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/regulation-check": {
+            "post": {
+                "summary": "Check product regulatory compliance",
+                "description": "Submits product details to ensure compliance with the relevant regulatory frameworks.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "product_details": {
+                                        "type": "object",
+                                        "description": "Details of the product to be reviewed for compliance.",
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "product_details"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Compliance check completed.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "compliance_status": {
+                                            "type": "string",
+                                            "description": "Result of the compliance evaluation."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid product details provided."
+                    }
+                }
+            }
+        },
+        "/innovation-trends": {
+            "get": {
+                "summary": "Explore innovation trends",
+                "description": "Retrieves current market trends in alternative tobacco product innovations.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of innovation trends.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "additionalProperties": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback-analysis": {
+            "post": {
+                "summary": "Analyze consumer feedback",
+                "description": "Analyzes submitted consumer feedback to identify key insights and recommendations for product refinement.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "feedback_data": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "Array of consumer feedback strings to be analyzed."
+                                    }
+                                },
+                                "required": [
+                                    "feedback_data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback analysis completed.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid feedback data provided."
+                    }
+                }
+            }
+        },
+        "/compliance-guidelines": {
+            "get": {
+                "summary": "Retrieve compliance guidelines",
+                "description": "Returns guidelines and regulations applicable to alternative tobacco products.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of compliance guidelines.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sustainability-assessment": {
+            "post": {
+                "summary": "Assess product sustainability",
+                "description": "Evaluates the environmental impact of a product to align with sustainability objectives.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "product_details": {
+                                        "type": "object",
+                                        "description": "Details of the product to assess sustainability.",
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "product_details"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sustainability assessment completed.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "impact_score": {
+                                            "type": "number",
+                                            "description": "Environmental impact score of the product."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid product details provided."
+                    }
+                }
+            }
+        },
+        "/testing-facilities": {
+            "get": {
+                "summary": "Retrieve testing facility information",
+                "description": "Provides information on available testing facilities tailored for alternative tobacco products.",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of testing facility information.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "additionalProperties": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/market-entry-analysis": {
+            "post": {
+                "summary": "Conduct market entry analysis",
+                "description": "Analyzes the feasibility and strategy for introducing a product into a specified market.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "product_details": {
+                                        "type": "object",
+                                        "description": "Details of the product to analyze for market entry.",
+                                        "additionalProperties": true
+                                    },
+                                    "market_region": {
+                                        "type": "string",
+                                        "description": "Target market region for analysis."
+                                    }
+                                },
+                                "required": [
+                                    "product_details",
+                                    "market_region"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Market entry analysis completed.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input details."
+                    }
+                }
+            }
+        }
+    }
+}

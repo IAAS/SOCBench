@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /metrics",
+            "description": "Retrieve current metrics data collected from the data center infrastructure for analysis."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Send an alert configuration to be triggered on specific conditions met within the metrics."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Retrieve the list of active alert configurations for monitoring infrastructure status."
+        },
+        {
+            "endpoint": "PUT /sensors/{sensorId}",
+            "description": "Update the configuration of a specific sensor by its unique identifier."
+        },
+        {
+            "endpoint": "DELETE /sensors/{sensorId}",
+            "description": "Remove a specific sensor configuration by its unique identifier."
+        },
+        {
+            "endpoint": "GET /reports/daily",
+            "description": "Generate and retrieve the daily performance report of the data center infrastructure."
+        },
+        {
+            "endpoint": "POST /reports/custom",
+            "description": "Request and generate a custom report based on specified metrics and time ranges."
+        },
+        {
+            "endpoint": "GET /energy-consumption",
+            "description": "Retrieve the current breakdown of energy consumption across the data center components."
+        },
+        {
+            "endpoint": "PATCH /optimization-settings",
+            "description": "Adjust the parameters and thresholds for resource optimization strategies."
+        },
+        {
+            "endpoint": "GET /system-health",
+            "description": "Retrieve a health overview of the entire data center system integrity status."
+        }
+    ]
+}

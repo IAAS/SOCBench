@@ -1,0 +1,424 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Industrial Goods Flow Coordination and Optimization API",
+        "description": "API designed for the coordination and optimization of industrial goods flow, including tools for inventory tracking, order processing, and transportation route planning.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.industrialgoods.example.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/items": {
+            "post": {
+                "summary": "Add a new item to the inventory",
+                "description": "Adds a new industrial good item to the inventory system with all necessary details.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The name of the industrial good."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "A detailed description of the item."
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "description": "The quantity of the item to be added to the inventory."
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "description": "The unit price of the item."
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "quantity",
+                                    "price"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Item successfully added to inventory."
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve inventory list",
+                "description": "Fetches the complete list of all items currently in the inventory system.",
+                "responses": {
+                    "200": {
+                        "description": "List of inventory items retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "The unique identifier for the item."
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "The name of the item."
+                                            },
+                                            "quantity": {
+                                                "type": "integer",
+                                                "description": "The quantity of the item in stock."
+                                            },
+                                            "price": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "The unit price of the item."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/items/{id}": {
+            "get": {
+                "summary": "Fetch item details",
+                "description": "Retrieves details for a specific inventory item identified by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique ID of the item to retrieve."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "The unique identifier for the item."
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "description": "The name of the item."
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "description": "A detailed description of the item."
+                                        },
+                                        "quantity": {
+                                            "type": "integer",
+                                            "description": "The quantity of the item in stock."
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "description": "The unit price of the item."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update item details",
+                "description": "Updates the details of a specific inventory item identified by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique ID of the item to update."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Updated name of the item."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Updated description of the item."
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "description": "Updated quantity of the item."
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "description": "Updated unit price of the item."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item details updated successfully."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove an item from inventory",
+                "description": "Deletes a specific inventory item by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique ID of the item to delete."
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Item deleted successfully."
+                    }
+                }
+            }
+        },
+        "/orders": {
+            "post": {
+                "summary": "Create a new order",
+                "description": "Creates a new order for industrial goods from the current inventory.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "item_id": {
+                                                    "type": "string",
+                                                    "description": "The unique ID of the item being ordered."
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "description": "The quantity of the item being ordered."
+                                                }
+                                            }
+                                        },
+                                        "description": "List of items included in the order."
+                                    }
+                                },
+                                "required": [
+                                    "items"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order successfully created."
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve all orders",
+                "description": "Fetches a list of all orders placed through the system.",
+                "responses": {
+                    "200": {
+                        "description": "List of orders retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "The unique ID of the order."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "The status of the order."
+                                            },
+                                            "items": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "item_id": {
+                                                            "type": "string",
+                                                            "description": "The unique ID of the item in the order."
+                                                        },
+                                                        "quantity": {
+                                                            "type": "integer",
+                                                            "description": "The quantity of the item in the order."
+                                                        }
+                                                    }
+                                                },
+                                                "description": "The list of items in the order."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/{id}": {
+            "get": {
+                "summary": "Retrieve order details",
+                "description": "Fetches detailed information for a specific order by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique ID of the order to retrieve."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order details retrieved successfully."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update order details",
+                "description": "Updates information about a specific order identified by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique ID of the order to update."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "description": "The updated status of the order."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order updated successfully."
+                    }
+                }
+            }
+        },
+        "/transport/routes": {
+            "post": {
+                "summary": "Plan transportation routes",
+                "description": "Generates optimal transportation routes for goods delivery.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "start_location": {
+                                        "type": "string",
+                                        "description": "The starting point for the route planning."
+                                    },
+                                    "destinations": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "description": "List of delivery destinations."
+                                        },
+                                        "description": "The list of destinations for goods delivery."
+                                    }
+                                },
+                                "required": [
+                                    "start_location",
+                                    "destinations"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Routes planned successfully."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

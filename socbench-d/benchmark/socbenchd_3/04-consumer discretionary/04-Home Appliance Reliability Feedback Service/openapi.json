@@ -1,0 +1,304 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Consumer Discretionary Feedback Service API",
+        "description": "This API enables feedback submission and analysis for products and services within the Consumer Discretionary sector, including household durable goods, leisure products, textiles, apparel, hotels, restaurants, and other discretionary businesses. It features insights into trends, regional performance, and economic cycles.",
+        "version": "1.1.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.consumerdiscretionaryfeedback.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/submit-feedback": {
+            "post": {
+                "summary": "Submit feedback for a product or service",
+                "description": "Allows users to submit feedback for a specific product or service in the Consumer Discretionary sector.",
+                "requestBody": {
+                    "description": "The feedback details to be submitted.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "itemId": {
+                                        "type": "string",
+                                        "description": "The unique ID of the product or service being reviewed."
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "description": "The category of the item being reviewed (e.g., 'Household Durable', 'Hotel', 'Textile')."
+                                    },
+                                    "rating": {
+                                        "type": "integer",
+                                        "description": "Rating between 1 (poor) to 5 (excellent)."
+                                    },
+                                    "comments": {
+                                        "type": "string",
+                                        "description": "Optional. Additional feedback comments."
+                                    }
+                                },
+                                "required": [
+                                    "itemId",
+                                    "category",
+                                    "rating"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback submitted successfully."
+                    },
+                    "400": {
+                        "description": "Validation error or missing required fields."
+                    }
+                }
+            }
+        },
+        "/feedback-summary": {
+            "get": {
+                "summary": "Retrieve a summary of all feedback",
+                "description": "Provides a summary analysis of feedback data, aggregated by product or service category.",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Optional. Filter summary by category (e.g., 'Household Durable', 'Hotel').",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Feedback summary retrieved successfully."
+                    },
+                    "400": {
+                        "description": "Invalid category provided."
+                    }
+                }
+            }
+        },
+        "/products": {
+            "get": {
+                "summary": "List supported products and services",
+                "description": "Retrieve a list of all products and services currently supported for feedback submission.",
+                "responses": {
+                    "200": {
+                        "description": "Products and services retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/register-product": {
+            "post": {
+                "summary": "Register a new product or service",
+                "description": "Allows manufacturers or administrators to register a new product or service for feedback collection.",
+                "requestBody": {
+                    "description": "Product or service details to be registered.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The name of the product or service."
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "description": "The category of the new product or service (e.g., 'Household Durable', 'Restaurant')."
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "category"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product or service registered successfully."
+                    }
+                }
+            }
+        },
+        "/manufacturer-reports": {
+            "get": {
+                "summary": "Retrieve manufacturer-specific reports",
+                "description": "Provide detailed feedback reports for selected manufacturers based on submitted data.",
+                "parameters": [
+                    {
+                        "name": "manufacturerId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique ID of the manufacturer."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reports retrieved successfully."
+                    },
+                    "404": {
+                        "description": "Manufacturer not found."
+                    }
+                }
+            }
+        },
+        "/flag-feedback": {
+            "post": {
+                "summary": "Flag a feedback entry for moderation",
+                "description": "Allows administrators or users to flag specific feedback for review or moderation.",
+                "requestBody": {
+                    "description": "Details of the flagged feedback entry.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "feedbackId": {
+                                        "type": "string",
+                                        "description": "The unique ID of the feedback being flagged."
+                                    },
+                                    "reason": {
+                                        "type": "string",
+                                        "description": "The reason for flagging the feedback."
+                                    }
+                                },
+                                "required": [
+                                    "feedbackId",
+                                    "reason"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback flagged successfully."
+                    }
+                }
+            }
+        },
+        "/trend-analysis": {
+            "get": {
+                "summary": "Retrieve trend analysis",
+                "description": "Provides trend analysis based on feedback data over time for selected categories.",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Optional. Filter trend analysis by category."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Trend analysis retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/regional-insights": {
+            "get": {
+                "summary": "Retrieve regional feedback insights",
+                "description": "Fetches insights related to feedback for specific geographic regions.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The name of the region to filter insights."
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Optional. Filter insights by a specific category."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Regional insights retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/comparison-statistics": {
+            "get": {
+                "summary": "Compare feedback statistics for products or services",
+                "description": "Returns comparative statistics between specific products or services based on collected feedback.",
+                "parameters": [
+                    {
+                        "name": "itemIds",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "example": [
+                                "item1",
+                                "item2"
+                            ]
+                        },
+                        "description": "List of product or service IDs to compare."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comparison statistics retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/remove-feedback": {
+            "delete": {
+                "summary": "Request feedback removal",
+                "description": "Allows administrators to request the removal of specific feedback. Subject to approval and policies.",
+                "parameters": [
+                    {
+                        "name": "feedbackId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The ID of the feedback to be removed."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Feedback removal request submitted successfully."
+                    },
+                    "404": {
+                        "description": "Feedback ID not found."
+                    }
+                }
+            }
+        }
+    }
+}

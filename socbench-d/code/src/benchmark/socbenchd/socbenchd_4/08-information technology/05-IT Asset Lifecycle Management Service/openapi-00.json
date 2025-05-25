@@ -1,0 +1,409 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Asset Management API",
+    "description": "This API enables efficient management of organizational assets, supporting operations such as acquisition, maintenance, auditing, and decommissioning of assets.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.assetmanagement.com",
+      "description": "Production Server"
+    }
+  ],
+  "paths": {
+    "/assets/register": {
+      "post": {
+        "summary": "Register a new asset",
+        "description": "Register a new asset in the organization by providing details such as a unique identifier, category, and location.",
+        "tags": ["Assets"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique identifier for the asset."
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "Category of the asset (e.g., Electronics, Furniture)."
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "The current location of the asset."
+                  },
+                  "details": {
+                    "type": "object",
+                    "description": "Additional metadata about the asset.",
+                    "properties": {
+                      "manufacturer": {
+                        "type": "string",
+                        "description": "Manufacturer of the asset."
+                      },
+                      "model": {
+                        "type": "string",
+                        "description": "Model identifier for the asset."
+                      }
+                    }
+                  }
+                },
+                "required": ["id", "category", "location"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Asset successfully registered.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "assetId": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request due to invalid input."
+          }
+        }
+      }
+    },
+    "/assets/{assetId}": {
+      "get": {
+        "summary": "Retrieve asset details",
+        "description": "Get detailed information about a specific asset using its unique ID.",
+        "tags": ["Assets"],
+        "parameters": [
+          {
+            "name": "assetId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the asset.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Asset details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string" },
+                    "category": { "type": "string" },
+                    "location": { "type": "string" },
+                    "details": {
+                      "type": "object",
+                      "properties": {
+                        "manufacturer": { "type": "string" },
+                        "model": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Asset not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update asset details",
+        "description": "Update information about an existing asset, such as its usage status or assigned department.",
+        "tags": ["Assets"],
+        "parameters": [
+          {
+            "name": "assetId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the asset to be updated.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "description": "Current status of the asset (e.g., Active, Inactive)."
+                  },
+                  "assignedDepartment": {
+                    "type": "string",
+                    "description": "Department where the asset is currently assigned."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Asset updated successfully."
+          },
+          "404": {
+            "description": "Asset not found."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an asset",
+        "description": "Remove the record of a specified asset in case of decommissioning or disposal.",
+        "tags": ["Assets"],
+        "parameters": [
+          {
+            "name": "assetId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the asset to be deleted.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Asset deleted successfully."
+          },
+          "404": {
+            "description": "Asset not found."
+          }
+        }
+      }
+    },
+    "/assets/audit": {
+      "get": {
+        "summary": "Fetch asset audit report",
+        "description": "Retrieve a comprehensive report of asset audits, including details about asset conditions and discrepancies.",
+        "tags": ["Audits"],
+        "responses": {
+          "200": {
+            "description": "Audit report retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "assetId": { "type": "string" },
+                      "status": { "type": "string" },
+                      "discrepancy": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{assetId}/assign": {
+      "patch": {
+        "summary": "Assign an asset",
+        "description": "Assign an asset to a specific user or department, recording the allocation details.",
+        "tags": ["Assets"],
+        "parameters": [
+          {
+            "name": "assetId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the asset to be assigned.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "type": "string",
+                    "description": "The user to whom the asset is being assigned."
+                  },
+                  "department": {
+                    "type": "string",
+                    "description": "The department receiving the asset."
+                  }
+                },
+                "required": ["user"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Asset assigned successfully."
+          },
+          "404": {
+            "description": "Asset not found."
+          }
+        }
+      }
+    },
+    "/assets/categories": {
+      "get": {
+        "summary": "List asset categories",
+        "description": "Fetch a list of all available asset categories and their descriptions.",
+        "tags": ["Assets"],
+        "responses": {
+          "200": {
+            "description": "Categories retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "category": { "type": "string" },
+                      "description": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/maintenance/{assetId}": {
+      "post": {
+        "summary": "Schedule maintenance",
+        "description": "Schedule and record a maintenance activity for a specific asset by its ID.",
+        "tags": ["Maintenance"],
+        "parameters": [
+          {
+            "name": "assetId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the asset for maintenance.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "activity": {
+                    "type": "string",
+                    "description": "Description of the maintenance activity."
+                  },
+                  "scheduledDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Scheduled date for maintenance activity."
+                  }
+                },
+                "required": ["activity", "scheduledDate"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Maintenance scheduled successfully."
+          },
+          "404": {
+            "description": "Asset not found."
+          }
+        }
+      }
+    },
+    "/assets/maintenance/history": {
+      "get": {
+        "summary": "Fetch maintenance history",
+        "description": "Retrieve the maintenance history of all or specific assets.",
+        "tags": ["Maintenance"],
+        "responses": {
+          "200": {
+            "description": "Maintenance history retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "assetId": { "type": "string" },
+                      "activity": { "type": "string" },
+                      "performedDate": {
+                        "type": "string",
+                        "format": "date"
+                      },
+                      "details": {
+                        "type": "string",
+                        "description": "Details of the maintenance performed."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/overview": {
+      "get": {
+        "summary": "Fetch assets overview",
+        "description": "Obtain a summary overview of organizational assets categorized by status and location.",
+        "tags": ["Assets"],
+        "responses": {
+          "200": {
+            "description": "Overview retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusSummary": {
+                      "type": "object",
+                      "additionalProperties": { "type": "integer" }
+                    },
+                    "locationSummary": {
+                      "type": "object",
+                      "additionalProperties": { "type": "integer" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

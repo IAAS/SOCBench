@@ -1,0 +1,446 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Smart Grid Management Service API",
+        "description": "API for electric utility companies to manage and optimize grid operations through real-time monitoring, control, and analytics.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.smartgrid.example.com"
+        }
+    ],
+    "paths": {
+        "/real-time-grid-monitoring": {
+            "get": {
+                "summary": "Fetch real-time grid data",
+                "description": "Retrieve current power flow, consumption data, grid voltage, and frequency readings for real-time grid analysis.",
+                "operationId": "getRealTimeGridData",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of grid data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GridData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/load-balancing/adjust": {
+            "post": {
+                "summary": "Adjust load balancing",
+                "description": "Update and adjust dynamic load distribution settings to optimize power flow and prevent overloads across the grid.",
+                "operationId": "postLoadBalancingAdjust",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoadBalancingSettings"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Load balancing settings adjusted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/renewable-integration/status": {
+            "get": {
+                "summary": "Check renewable integration status",
+                "description": "Check the integration status and performance monitoring of renewable energy sources in the grid.",
+                "operationId": "getRenewableIntegrationStatus",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of renewable integration status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RenewableIntegrationStatus"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/outage-management/report": {
+            "post": {
+                "summary": "Report power outage",
+                "description": "Submit a detailed report about detected power outages, for immediate analysis and response planning.",
+                "operationId": "postOutageManagementReport",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OutageReport"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Outage report submitted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/outages/current": {
+            "get": {
+                "summary": "Retrieve current power outages",
+                "description": "Retrieve a list of all current power outages across the network to evaluate and address issues swiftly.",
+                "operationId": "getCurrentOutages",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of current outages",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CurrentOutage"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/settings": {
+            "get": {
+                "summary": "Access alert settings",
+                "description": "Access current configurations for anomaly detection alerts, such as thresholds, notification channels, and escalations.",
+                "operationId": "getAlertSettings",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of alert settings",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlertSettings"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/settings/update": {
+            "post": {
+                "summary": "Update alert settings",
+                "description": "Modify settings for anomaly alerts to improve response times and ensure efficient grid management.",
+                "operationId": "postAlertSettingsUpdate",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AlertSettings"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Alert settings updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensors/register": {
+            "post": {
+                "summary": "Register new sensors",
+                "description": "Enroll new smart meters and sensors into the grid monitoring system, enhancing data collection and accuracy.",
+                "operationId": "postSensorsRegister",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SensorRegistration"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sensors registered successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/consumption/historical": {
+            "get": {
+                "summary": "Fetch historical consumption data",
+                "description": "Obtain historical power consumption data to analyze trends and improve future load predictions.",
+                "operationId": "getHistoricalConsumptionData",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The start date for the historical data range, in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The end date for the historical data range, in YYYY-MM-DD format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of historical consumption data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/HistoricalConsumptionData"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/data/encrypt": {
+            "post": {
+                "summary": "Encrypt grid operation data",
+                "description": "Securely transmit sensitive grid operation data over the network using robust encryption protocols.",
+                "operationId": "postDataEncrypt",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DataEncryptionRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data encrypted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DataEncryptionResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "GridData": {
+                "type": "object",
+                "properties": {
+                    "powerFlow": {
+                        "type": "number",
+                        "description": "Current power flow in megawatts."
+                    },
+                    "consumption": {
+                        "type": "number",
+                        "description": "Current power consumption in megawatt-hours."
+                    },
+                    "voltage": {
+                        "type": "number",
+                        "description": "Current grid voltage in volts."
+                    },
+                    "frequency": {
+                        "type": "number",
+                        "description": "Current grid frequency in hertz."
+                    }
+                }
+            },
+            "LoadBalancingSettings": {
+                "type": "object",
+                "properties": {
+                    "targetLoadDistribution": {
+                        "type": "string",
+                        "description": "Target distribution scheme for load balancing."
+                    }
+                }
+            },
+            "SuccessResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "The success message."
+                    }
+                }
+            },
+            "RenewableIntegrationStatus": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Current status of renewable energy integration."
+                    },
+                    "performanceMetrics": {
+                        "type": "object",
+                        "description": "Performance metrics of integrated renewable energy sources.",
+                        "properties": {
+                            "production": {
+                                "type": "number",
+                                "description": "Current energy production from renewables in megawatts."
+                            },
+                            "efficiency": {
+                                "type": "number",
+                                "description": "Efficiency percentage of renewable integration."
+                            }
+                        }
+                    }
+                }
+            },
+            "OutageReport": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string",
+                        "description": "Location of the power outage."
+                    },
+                    "severity": {
+                        "type": "string",
+                        "description": "Severity level of the power outage."
+                    }
+                }
+            },
+            "CurrentOutage": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier of the outage."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Location affected by the outage."
+                    }
+                }
+            },
+            "AlertSettings": {
+                "type": "object",
+                "properties": {
+                    "thresholds": {
+                        "type": "object",
+                        "description": "Threshold values for alerts.",
+                        "properties": {
+                            "voltage": {
+                                "type": "number",
+                                "description": "Threshold for grid voltage."
+                            },
+                            "frequency": {
+                                "type": "number",
+                                "description": "Threshold for grid frequency."
+                            }
+                        }
+                    },
+                    "notificationChannels": {
+                        "type": "array",
+                        "description": "Channels used for sending notifications.",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "SensorRegistration": {
+                "type": "object",
+                "properties": {
+                    "sensorId": {
+                        "type": "string",
+                        "description": "Unique identifier for the smart meter or sensor."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Physical location of the smart meter or sensor."
+                    }
+                }
+            },
+            "HistoricalConsumptionData": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Date of the recorded consumption data."
+                    },
+                    "consumption": {
+                        "type": "number",
+                        "description": "Amount of power consumed in megawatt-hours on this date."
+                    }
+                }
+            },
+            "DataEncryptionRequest": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "string",
+                        "description": "The raw data that needs to be encrypted."
+                    }
+                }
+            },
+            "DataEncryptionResponse": {
+                "type": "object",
+                "properties": {
+                    "encryptedData": {
+                        "type": "string",
+                        "description": "The encrypted data string."
+                    }
+                }
+            }
+        }
+    }
+}

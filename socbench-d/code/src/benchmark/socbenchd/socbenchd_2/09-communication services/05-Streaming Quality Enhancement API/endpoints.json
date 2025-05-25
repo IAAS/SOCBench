@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /videos",
+            "description": "Retrieve a list of videos available for streaming, along with metadata such as title and duration."
+        },
+        {
+            "endpoint": "POST /videos/analyze",
+            "description": "Analyze a specific video for potential quality enhancements based on provided criteria."
+        },
+        {
+            "endpoint": "GET /streams/status",
+            "description": "Retrieve the current status and analytics of ongoing live video streams."
+        },
+        {
+            "endpoint": "POST /streams/optimize",
+            "description": "Optimize the bandwidth and quality of an ongoing live video stream."
+        },
+        {
+            "endpoint": "GET /protocols/adaptive",
+            "description": "List the adaptive streaming protocols supported by the service."
+        },
+        {
+            "endpoint": "POST /settings/video",
+            "description": "Update video quality settings to improve compatibility and performance."
+        },
+        {
+            "endpoint": "PUT /platforms/integrations",
+            "description": "Configure the service for integration with a third-party video platform."
+        },
+        {
+            "endpoint": "GET /analytics/reports",
+            "description": "Generate and retrieve detailed reports on the performance of video streams."
+        },
+        {
+            "endpoint": "DELETE /streams/{id}",
+            "description": "Terminate a specified live video stream by its identifier."
+        },
+        {
+            "endpoint": "POST /videos/enhance",
+            "description": "Enhance the visual and transmission quality of a submitted video for better viewing."
+        }
+    ]
+}

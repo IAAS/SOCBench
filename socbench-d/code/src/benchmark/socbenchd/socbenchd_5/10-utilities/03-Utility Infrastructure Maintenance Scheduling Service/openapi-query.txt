@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+Facilitates scheduling and tracking maintenance tasks for utility infrastructures, ensuring reliability and minimizing downtime by using predictive analytics and resource allocation.
+
+Endpoints:
+GET /maintenance-schedule: Retrieve the current maintenance schedules for all utility infrastructure components.
+POST /maintenance-schedule: Create a new maintenance schedule for a specified set of infrastructure components.
+PUT /maintenance-schedule/{id}: Update the existing maintenance schedule identified by the unique ID.
+DELETE /maintenance-schedule/{id}: Remove a maintenance schedule from the system using its unique identifier.
+GET /component-status: Get the real-time operational status of all monitored components in the utility infrastructure.
+POST /predictive-analysis: Submit data for predictive analysis to identify potential future maintenance needs.
+GET /resource-allocation: Retrieve information about allocated resources for specific maintenance tasks.
+POST /resource-allocation: Allocate resources, such as personnel or equipment, for planned maintenance activities.
+GET /alerts: Return a list of active alerts and notifications regarding infrastructure status.
+PUT /settings: Update system configuration and preferences for maintenance scheduling and tracking.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

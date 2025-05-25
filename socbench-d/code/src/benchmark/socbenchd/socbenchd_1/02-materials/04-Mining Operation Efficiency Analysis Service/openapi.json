@@ -1,0 +1,314 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Mining Operations Insights API",
+        "description": "This API delivers insights into mining operations by analyzing machinery data and production metrics, helping companies maximize resource extraction and minimize operational costs.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.miningoperations.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/equipment-status": {
+            "get": {
+                "summary": "Get operational status of all machinery",
+                "description": "Retrieve the current operational status of all mining machinery in the system.",
+                "responses": {
+                    "200": {
+                        "description": "A list of all mining machinery with their operational statuses.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "machines": [
+                                        {
+                                            "id": "123",
+                                            "name": "Excavator A",
+                                            "status": "Operational"
+                                        },
+                                        {
+                                            "id": "124",
+                                            "name": "Drill B",
+                                            "status": "Under Maintenance"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/equipment/maintenance-schedule": {
+            "post": {
+                "summary": "Submit or update maintenance schedule",
+                "description": "Submit a new or updated maintenance schedule for a specific piece of equipment.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "equipmentId": "123",
+                                "schedule": "2023-10-15T08:00:00Z"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The maintenance schedule has been successfully updated."
+                    }
+                }
+            }
+        },
+        "/sites/resources-overview": {
+            "get": {
+                "summary": "Fetch resource overview by site",
+                "description": "Fetch detailed reports on the types and quantities of resources available across all mining sites.",
+                "responses": {
+                    "200": {
+                        "description": "Detailed reports of resources across mining sites.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "sites": [
+                                        {
+                                            "siteId": "1",
+                                            "resources": [
+                                                {
+                                                    "type": "Iron Ore",
+                                                    "quantity": 5000
+                                                },
+                                                {
+                                                    "type": "Coal",
+                                                    "quantity": 10000
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "siteId": "2",
+                                            "resources": [
+                                                {
+                                                    "type": "Copper",
+                                                    "quantity": 750
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analysis/start": {
+            "post": {
+                "summary": "Start performance analysis",
+                "description": "Initialize a detailed performance analysis for selected mining equipment.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "equipmentId": "123"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Performance analysis started successfully."
+                    }
+                }
+            }
+        },
+        "/equipment/{id}/metrics": {
+            "get": {
+                "summary": "Get real-time metrics for machinery",
+                "description": "Retrieve real-time metrics, such as resource extraction rates, for a specific piece of mining machinery.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the equipment.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of real-time metrics for the specified equipment.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "equipmentId": "123",
+                                    "metrics": {
+                                        "extractionRate": 15.5,
+                                        "operatingHours": 120
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/equipment/{id}/settings": {
+            "put": {
+                "summary": "Update equipment settings",
+                "description": "Update operational settings for a specified piece of machinery.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the equipment whose settings are to be updated.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "operatingMode": "Energy Saving",
+                                "maxLoad": 100
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Equipment settings updated successfully."
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "get": {
+                "summary": "Retrieve active alerts",
+                "description": "Retrieve a list of active alerts and warnings for mining machinery and operations.",
+                "responses": {
+                    "200": {
+                        "description": "A list of alerts currently active in the system.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "alerts": [
+                                        {
+                                            "id": "alert_1",
+                                            "type": "Maintenance Required",
+                                            "equipmentId": "123",
+                                            "timestamp": "2023-10-10T10:23:00Z"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/add": {
+            "post": {
+                "summary": "Add a new mining site",
+                "description": "Add a new mining site to the monitoring system.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "name": "Site X",
+                                "location": "45.4215\u00b0 N, 75.6972\u00b0 W"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "New mining site added successfully."
+                    }
+                }
+            }
+        },
+        "/equipment/{id}": {
+            "delete": {
+                "summary": "Delete equipment",
+                "description": "Remove a piece of machinery from the data monitoring system by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the equipment to be removed.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Equipment successfully removed from the system."
+                    }
+                }
+            }
+        },
+        "/data/historical": {
+            "get": {
+                "summary": "Fetch historical data logs",
+                "description": "Fetch and download historical data logs for equipment and site production metrics.",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "The start date for the data retrieval in ISO 8601 format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "The end date for the data retrieval in ISO 8601 format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historical data logs retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "logs": [
+                                        {
+                                            "equipmentId": "123",
+                                            "timestamp": "2023-09-15T12:00:00Z",
+                                            "metric": "extractionRate",
+                                            "value": 20.5
+                                        }
+                                    ]
+                                }
+                            },
+                            "application/octet-stream": {
+                                "example": "binary data representing the logs"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

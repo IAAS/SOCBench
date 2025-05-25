@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+Enables consumers and businesses to monitor and analyze their energy consumption patterns, identify inefficiencies, and recommend actionable improvements.
+
+Endpoints:
+GET /consumption/daily: Retrieve daily energy consumption data for a specified time period.
+GET /consumption/monthly: Access summarized monthly energy consumption statistics.
+POST /recommendations/improvements: Submit energy usage data to receive actionable efficiency recommendations.
+GET /resources/efficiency-tips: List available general tips to improve energy efficiency.
+GET /sensors/configuration: Retrieve configurations of operational sensors collecting energy usage data.
+PATCH /sensors/settings: Update settings for specific sensors used in consumption monitoring.
+GET /alerts/thresholds: Fetch configured thresholds for consumption alerts.
+POST /alerts/notifications: Set up notifications for exceeding energy usage thresholds.
+GET /devices/status: Check the current operational status of connected devices monitoring consumption.
+DELETE /reports/history: Remove historical energy usage reports from the system.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

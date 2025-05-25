@@ -1,0 +1,314 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Real Estate Data Insights Service",
+    "description": "This API provides data insights and tools to analyze market trends, property value estimations, and demographic information for professionals in the real estate sector.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.realestateinsights.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/market-trends": {
+      "get": {
+        "summary": "Retrieve market trends",
+        "description": "Get current and historical trends in the real estate market. This includes data like average property price trends, market performance over time, and comparative analysis by regions.",
+        "parameters": [
+          {
+            "name": "region",
+            "in": "query",
+            "description": "The geographic region for which market trends data is required.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date_range",
+            "in": "query",
+            "description": "The date range for the market trends data, formatted as YYYY-MM-DD to YYYY-MM-DD.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Market trends data retrieved successfully."
+          },
+          "400": {
+            "description": "Invalid parameters were provided."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/property-estimation": {
+      "get": {
+        "summary": "Fetch property value estimation",
+        "description": "Retrieve an accurate market value estimation of a specified property based on location, size, type, and other attributes.",
+        "parameters": [
+          {
+            "name": "property_id",
+            "in": "query",
+            "description": "Unique identifier of the property for which value estimation is required.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Property value estimation retrieved successfully."
+          },
+          "404": {
+            "description": "Property not found."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/demographics": {
+      "get": {
+        "summary": "Access demographic information",
+        "description": "Retrieve demographic details such as population size, median age, income levels, and employment rate for a specific geographic area.",
+        "parameters": [
+          {
+            "name": "region",
+            "in": "query",
+            "description": "The geographic region to retrieve demographic information for.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Demographic information retrieved successfully."
+          },
+          "400": {
+            "description": "Invalid region parameter provided."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/custom-reports": {
+      "post": {
+        "summary": "Generate a tailored report",
+        "description": "Create a custom report based on given criteria such as geographic area, property type, and analysis preferences.",
+        "requestBody": {
+          "description": "Body parameters for generating a custom report.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "criteria": {
+                    "type": "object",
+                    "description": "Selection criteria for report generation.",
+                    "properties": {
+                      "region": {
+                        "type": "string"
+                      },
+                      "property_type": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "preferences": {
+                    "type": "object",
+                    "description": "User's analysis preferences."
+                  }
+                },
+                "required": ["criteria"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Custom report generated successfully."
+          },
+          "400": {
+            "description": "Invalid input data provided."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/real-estate-investments": {
+      "get": {
+        "summary": "List top investment opportunities",
+        "description": "Retrieve a list of top-performing real estate investment opportunities with relevant metrics and details.",
+        "responses": {
+          "200": {
+            "description": "Investment opportunities retrieved successfully."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/reits-data": {
+      "get": {
+        "summary": "Review REITs data",
+        "description": "Access data and performance metrics for Equity Real Estate Investment Trusts (REITs).",
+        "responses": {
+          "200": {
+            "description": "REITs data retrieved successfully."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/neighborhood-analysis": {
+      "get": {
+        "summary": "Comprehensive neighborhood analysis",
+        "description": "Obtain detailed information about a neighborhood's characteristics, including schools, amenities, and crime rates.",
+        "parameters": [
+          {
+            "name": "neighborhood_id",
+            "in": "query",
+            "description": "Unique identifier of the neighborhood to analyze.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Neighborhood analysis data retrieved successfully."
+          },
+          "404": {
+            "description": "Neighborhood not found."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/user-preferences": {
+      "post": {
+        "summary": "Save user preferences",
+        "description": "Save user-defined preferences for personalized recommendations of data and insights.",
+        "requestBody": {
+          "description": "User preferences to be saved.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "preferences": {
+                    "type": "object",
+                    "description": "User preferences object."
+                  }
+                },
+                "required": ["preferences"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User preferences saved successfully."
+          },
+          "400": {
+            "description": "Invalid user preferences data."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/recent-property-sales": {
+      "get": {
+        "summary": "Retrieve recent property sales",
+        "description": "Fetch records of recently sold properties in a specified area.",
+        "parameters": [
+          {
+            "name": "region",
+            "in": "query",
+            "description": "Geographic area to retrieve recent property sales data for.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recent property sales data retrieved successfully."
+          },
+          "400": {
+            "description": "Invalid region parameter."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/property-notifications": {
+      "patch": {
+        "summary": "Subscribe to property notifications",
+        "description": "Subscribe to notifications for updates about specific properties or market changes.",
+        "requestBody": {
+          "description": "Details for property notifications subscription.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "property_id": {
+                    "type": "string",
+                    "description": "Unique identifier of the property for updates."
+                  },
+                  "notification_preferences": {
+                    "type": "object",
+                    "description": "Preferences for notifications."
+                  }
+                },
+                "required": ["property_id", "notification_preferences"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Subscribed to property notifications successfully."
+          },
+          "400": {
+            "description": "Invalid subscription data provided."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    }
+  }
+}

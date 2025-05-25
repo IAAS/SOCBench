@@ -1,0 +1,375 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Glass Production Optimization Service API",
+        "description": "This API is designed for glass manufacturers to analyze production processes, optimize quality, and reduce energy consumption using advanced data analytics techniques.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/glass-production-data": {
+            "get": {
+                "summary": "Retrieve Glass Production Data",
+                "description": "Retrieve historical data related to glass production from connected manufacturing units to aid in analysis and monitoring.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved the historical production data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "timestamp": {
+                                                "type": "string",
+                                                "description": "Timestamp of the recorded production data in ISO 8601 format."
+                                            },
+                                            "unit": {
+                                                "type": "string",
+                                                "description": "The identifier of the manufacturing unit."
+                                            },
+                                            "data": {
+                                                "type": "object",
+                                                "description": "Detailed data associated with glass production for the specified timestamp."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/process-optimization/sequences": {
+            "post": {
+                "summary": "Submit Production Process Sequences for Optimization",
+                "description": "Submit the production process sequences to analyze for potential optimizations and strategies to improve efficiency.",
+                "requestBody": {
+                    "description": "Production sequences data for analysis.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "sequences": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "stepId": {
+                                                    "type": "string",
+                                                    "description": "Identifier for the production step."
+                                                },
+                                                "parameters": {
+                                                    "type": "object",
+                                                    "description": "Key-value pairs representing the parameters of this step."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Analysis results with optimization suggestions."
+                    }
+                }
+            }
+        },
+        "/energy-consumption/overview": {
+            "get": {
+                "summary": "Retrieve Energy Consumption Overview",
+                "description": "Fetch a summary of energy consumption metrics across all connected production facilities.",
+                "responses": {
+                    "200": {
+                        "description": "The energy consumption overview.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "totalEnergy": {
+                                            "type": "number",
+                                            "description": "Total energy consumed across production units."
+                                        },
+                                        "unitBreakdown": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "unit": {
+                                                        "type": "string",
+                                                        "description": "Manufacturing unit identifier."
+                                                    },
+                                                    "energyUsed": {
+                                                        "type": "number",
+                                                        "description": "Energy consumed by this unit."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/quality-check/analyze": {
+            "post": {
+                "summary": "Submit Production Data for Quality Analysis",
+                "description": "Analyze production data for quality checks and generate a comprehensive quality assessment report.",
+                "requestBody": {
+                    "description": "Production data to perform quality analysis.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "productionId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the production batch."
+                                    },
+                                    "data": {
+                                        "type": "object",
+                                        "description": "Key-value pairs of production metrics for quality analysis."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful quality analysis with report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "description": "The quality analysis results."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/recommended-actions/latest": {
+            "get": {
+                "summary": "Retrieve Latest Recommended Actions",
+                "description": "Get the latest recommendations for improving production efficiency, based on analyzed data.",
+                "responses": {
+                    "200": {
+                        "description": "List of latest recommended actions.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "actionId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the recommended action."
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Details of the recommendation."
+                                            },
+                                            "priority": {
+                                                "type": "string",
+                                                "description": "Recommendation priority (e.g., high, medium, low)."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/materials-usage/report": {
+            "get": {
+                "summary": "Retrieve Materials Usage Report",
+                "description": "Access detailed reports on raw materials utilization and efficiency.",
+                "responses": {
+                    "200": {
+                        "description": "Materials usage report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "materials": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "materialId": {
+                                                        "type": "string",
+                                                        "description": "Identifier for the raw material."
+                                                    },
+                                                    "usage": {
+                                                        "type": "number",
+                                                        "description": "Amount of the material used."
+                                                    },
+                                                    "waste": {
+                                                        "type": "number",
+                                                        "description": "Amount of material wasted."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/create": {
+            "post": {
+                "summary": "Create Custom Alert",
+                "description": "Configure custom alerts based on specific production or quality thresholds.",
+                "requestBody": {
+                    "description": "Details for the alert being configured.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "alertName": {
+                                        "type": "string",
+                                        "description": "Name of the alert."
+                                    },
+                                    "thresholds": {
+                                        "type": "object",
+                                        "description": "Key-value pair of thresholds for triggering this alert."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully created the alert."
+                    }
+                }
+            }
+        },
+        "/system-health/status": {
+            "get": {
+                "summary": "Get System Health Status",
+                "description": "Retrieve the current operational status of production monitoring systems.",
+                "responses": {
+                    "200": {
+                        "description": "System health status report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Status of the system (e.g., operational, degraded, offline)."
+                                        },
+                                        "details": {
+                                            "type": "string",
+                                            "description": "Detailed health report."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/data-import/manual": {
+            "post": {
+                "summary": "Import Data Manually",
+                "description": "Upload and integrate manually collected data for inclusion in the analytics system.",
+                "requestBody": {
+                    "description": "Manually collected data to be uploaded.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "data": {
+                                        "type": "object",
+                                        "description": "Manually collected data."
+                                    },
+                                    "source": {
+                                        "type": "string",
+                                        "description": "Description of the data source."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully uploaded data."
+                    }
+                }
+            }
+        },
+        "/alerts/{id}": {
+            "delete": {
+                "summary": "Delete Alert",
+                "description": "Remove a specific previously configured alert based on its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The unique identifier of the alert to be deleted.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successfully deleted the alert."
+                    },
+                    "404": {
+                        "description": "Alert not found."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

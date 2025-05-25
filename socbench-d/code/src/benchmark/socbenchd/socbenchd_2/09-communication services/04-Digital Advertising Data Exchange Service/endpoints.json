@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /campaigns",
+            "description": "Retrieve a list of all advertising campaigns, including their identifiers and metadata."
+        },
+        {
+            "endpoint": "GET /campaigns/{campaign_id}",
+            "description": "Get detailed information about a specific advertising campaign specified by its ID."
+        },
+        {
+            "endpoint": "POST /campaigns",
+            "description": "Create a new advertising campaign by specifying required parameters and content."
+        },
+        {
+            "endpoint": "PUT /campaigns/{campaign_id}",
+            "description": "Update an existing advertising campaign's details using the campaign's ID."
+        },
+        {
+            "endpoint": "DELETE /campaigns/{campaign_id}",
+            "description": "Remove an advertised campaign using its unique identifier."
+        },
+        {
+            "endpoint": "GET /analytics/performance",
+            "description": "Fetch performance metrics for campaigns over a given period and segmentations."
+        },
+        {
+            "endpoint": "GET /inventory",
+            "description": "List available advertisement inventory items and their current statuses."
+        },
+        {
+            "endpoint": "POST /click-tracking",
+            "description": "Submit click data associated with advertisements for analysis and recording."
+        },
+        {
+            "endpoint": "GET /user-activity",
+            "description": "Retrieve anonymized aggregated user interaction data with ads."
+        },
+        {
+            "endpoint": "PATCH /settings/privacy",
+            "description": "Update advertisement platform privacy configurations and consent settings."
+        }
+    ]
+}

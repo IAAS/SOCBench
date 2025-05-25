@@ -1,0 +1,373 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Industrial Machinery Operational Health Monitoring",
+        "description": "This service monitors the operational health of industrial machinery in real-time using IoT sensors and predictive analytics, reducing downtime.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.machinery-health-monitor.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/machinery_health": {
+            "get": {
+                "summary": "Retrieve real-time operational status of all monitored machinery",
+                "description": "Fetch the current operational health status of all industrial machinery being monitored. This endpoint provides insights into real-time status.",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with real-time machinery status.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "machinery": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "description": "Unique identifier for the machinery."
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "description": "Current operational health status (e.g., Good, Warning, Critical)."
+                                                    },
+                                                    "lastUpdated": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "description": "Timestamp of the last status update."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts": {
+            "post": {
+                "summary": "Set up alerts for specific machinery condition thresholds",
+                "description": "Define alerts for specific conditions or thresholds for monitored machinery. Alerts will notify in case of abnormal behavior.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "machineryId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the machinery."
+                                    },
+                                    "threshold": {
+                                        "type": "string",
+                                        "description": "Condition or threshold that triggers the alert, e.g., temperature > 80\u00b0C."
+                                    },
+                                    "alertType": {
+                                        "type": "string",
+                                        "description": "Type of alert (e.g., Email, SMS, Push Notification)."
+                                    }
+                                },
+                                "required": [
+                                    "machineryId",
+                                    "threshold",
+                                    "alertType"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alert successfully created."
+                    }
+                }
+            }
+        },
+        "/analytics/predictions": {
+            "get": {
+                "summary": "Access predictive maintenance analytics and insights for machinery",
+                "description": "Retrieve insights and predictions for the maintenance needs of monitored machinery based on sensor data and analytics.",
+                "responses": {
+                    "200": {
+                        "description": "Predictive analytics data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "machineryId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the machinery."
+                                            },
+                                            "prediction": {
+                                                "type": "string",
+                                                "description": "Predicted maintenance requirement or issue."
+                                            },
+                                            "nextMaintenanceDate": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Recommended next maintenance date."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensor_data/{id}": {
+            "get": {
+                "summary": "Retrieve historical sensor data for the specified machinery by its ID",
+                "description": "Fetch historical sensor data for analysis and trend identification for a specific machinery ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the machinery.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historical sensor data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "timestamp": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "description": "Timestamp of the sensor reading."
+                                                    },
+                                                    "value": {
+                                                        "type": "number",
+                                                        "description": "Sensor value recorded at the given timestamp."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/machinery_config/{id}": {
+            "put": {
+                "summary": "Update configuration settings for the specified machinery by its ID",
+                "description": "Enable updates to the operational configuration and thresholds for specific machinery by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the machinery.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "settings": {
+                                        "type": "object",
+                                        "description": "Configuration settings to update for the machinery."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Machinery configuration updated successfully."
+                    }
+                }
+            }
+        },
+        "/alerts/{id}": {
+            "delete": {
+                "summary": "Remove an existing alert by its ID",
+                "description": "Delete an existing alert by its unique identifier.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the alert.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Alert deleted successfully."
+                    }
+                }
+            }
+        },
+        "/sensor_data/upload": {
+            "post": {
+                "summary": "Upload sensor data files for processing and analysis",
+                "description": "Allow the upload of sensor data files for storage, processing, and analytics.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Sensor data file to upload."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "File uploaded and processed successfully."
+                    }
+                }
+            }
+        },
+        "/system_report": {
+            "get": {
+                "summary": "Generate and download a comprehensive system health report",
+                "description": "Request a detailed system health report summarizing the status and health of all monitored machinery.",
+                "responses": {
+                    "200": {
+                        "description": "System report generated successfully.",
+                        "content": {
+                            "application/pdf": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/maintenance_schedule": {
+            "get": {
+                "summary": "Retrieve scheduled maintenance details for all monitored machinery",
+                "description": "Return upcoming maintenance schedules for all monitored machinery.",
+                "responses": {
+                    "200": {
+                        "description": "Maintenance schedules retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "machineryId": {
+                                                "type": "string",
+                                                "description": "Unique identifier for the machinery."
+                                            },
+                                            "schedule": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Date for the scheduled maintenance."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "summary": "Submit user feedback regarding the service and its endpoints",
+                "description": "Allow users to provide feedback about their experience with the service.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the user submitting feedback."
+                                    },
+                                    "comments": {
+                                        "type": "string",
+                                        "description": "User feedback comments."
+                                    }
+                                },
+                                "required": [
+                                    "userId",
+                                    "comments"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Feedback submitted successfully."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

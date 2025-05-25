@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /carbon-emissions",
+            "description": "Retrieve measured and calculated carbon emissions data for the specified industry."
+        },
+        {
+            "endpoint": "POST /carbon-reduction-plan",
+            "description": "Submit a carbon reduction plan for the industry, specifying targets and timetables."
+        },
+        {
+            "endpoint": "GET /regulatory-compliance",
+            "description": "Obtain the current compliance status and recommendations to meet environmental regulations."
+        },
+        {
+            "endpoint": "POST /offset-projects",
+            "description": "Register a project intended to offset carbon emissions for review and analysis."
+        },
+        {
+            "endpoint": "GET /energy-usage",
+            "description": "Access detailed insights into the energy usage of industry operations."
+        },
+        {
+            "endpoint": "POST /equipment-efficiency-check",
+            "description": "Enable the submission of equipment details to evaluate its efficiency and propose upgrades."
+        },
+        {
+            "endpoint": "GET /best-practices",
+            "description": "Discover recommended best practices based on the industry type and location."
+        },
+        {
+            "endpoint": "POST /team-training",
+            "description": "Enroll organizational staff in training programs about sustainable energy practices."
+        },
+        {
+            "endpoint": "GET /financial-incentives",
+            "description": "List available financial incentives for adopting sustainable operations."
+        },
+        {
+            "endpoint": "POST /report-feedback",
+            "description": "Submit feedback or flag inaccuracies in generated environmental reports or data."
+        }
+    ]
+}

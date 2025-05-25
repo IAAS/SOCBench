@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /maintenance/schedule",
+            "description": "Retrieve the scheduled maintenance activities for various energy equipment."
+        },
+        {
+            "endpoint": "POST /maintenance/create",
+            "description": "Create a new maintenance activity schedule."
+        },
+        {
+            "endpoint": "PUT /maintenance/update/{id}",
+            "description": "Update an existing maintenance schedule identified by its ID."
+        },
+        {
+            "endpoint": "DELETE /maintenance/delete/{id}",
+            "description": "Remove a specific maintenance activity from the schedule using its unique ID."
+        },
+        {
+            "endpoint": "GET /equipment/status",
+            "description": "Fetch the current operational status of the energy sector equipment."
+        },
+        {
+            "endpoint": "POST /alerts/create",
+            "description": "Generate a new alert for specified equipment based on predefined conditions."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "List all current alerts associated with energy sector equipment."
+        },
+        {
+            "endpoint": "PUT /equipment/{id}/maintenance-status",
+            "description": "Mark the maintenance status of specific equipment identified by its ID."
+        },
+        {
+            "endpoint": "GET /reports/maintenance",
+            "description": "Retrieve detailed reports on past maintenance activities."
+        },
+        {
+            "endpoint": "GET /metrics/performance",
+            "description": "Access performance metrics for equipment to ensure operational reliability."
+        }
+    ]
+}

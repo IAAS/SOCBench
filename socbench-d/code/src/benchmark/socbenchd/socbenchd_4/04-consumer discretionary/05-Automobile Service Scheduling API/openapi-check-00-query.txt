@@ -1,0 +1,421 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Vehicle Maintenance Scheduling Service",
+        "description": "This service facilitates automobile owners in scheduling maintenance appointments with authorized service centers. It integrates with manufacturers' databases to provide reminders for scheduled maintenance and identify nearby authorized service centers.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.vehicleservice.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/maintenance-schedule": {
+            "get": {
+                "summary": "Retrieve Maintenance Schedule",
+                "description": "Retrieve the scheduled maintenance requirements for a specified vehicle using its Vehicle Identification Number (VIN).",
+                "parameters": [
+                    {
+                        "name": "vin",
+                        "in": "query",
+                        "required": true,
+                        "description": "The Vehicle Identification Number of the car.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Scheduled maintenance retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "maintenanceItems": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "task": {
+                                                        "type": "string"
+                                                    },
+                                                    "dueDate": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "serviceCenterRequired": {
+                                                        "type": "boolean"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Vehicle not found."
+                    }
+                }
+            }
+        },
+        "/schedule-appointment": {
+            "post": {
+                "summary": "Schedule Maintenance Appointment",
+                "description": "Create a new maintenance appointment for a specified vehicle at a chosen service center.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "vin": {
+                                        "type": "string",
+                                        "description": "The Vehicle Identification Number of the car."
+                                    },
+                                    "serviceCenterId": {
+                                        "type": "string",
+                                        "description": "The ID of the chosen service center."
+                                    },
+                                    "appointmentDate": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "The desired date and time for the appointment."
+                                    }
+                                },
+                                "required": [
+                                    "vin",
+                                    "serviceCenterId",
+                                    "appointmentDate"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Appointment successfully scheduled."
+                    },
+                    "400": {
+                        "description": "Invalid request data."
+                    }
+                }
+            }
+        },
+        "/service-centers": {
+            "get": {
+                "summary": "List Nearby Authorized Service Centers",
+                "description": "List all nearby authorized service centers based on the provided location.",
+                "parameters": [
+                    {
+                        "name": "latitude",
+                        "in": "query",
+                        "required": true,
+                        "description": "Latitude of the current location.",
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "required": true,
+                        "description": "Longitude of the current location.",
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of authorized service centers.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "address": {
+                                                "type": "string"
+                                            },
+                                            "contactNumber": {
+                                                "type": "string"
+                                            },
+                                            "distance": {
+                                                "type": "number",
+                                                "format": "float"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicle-history": {
+            "get": {
+                "summary": "Access Vehicle Service History",
+                "description": "Access the complete service history of a vehicle.",
+                "parameters": [
+                    {
+                        "name": "vin",
+                        "in": "query",
+                        "required": true,
+                        "description": "The Vehicle Identification Number of the car.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Service history retrieved successfully."
+                    },
+                    "404": {
+                        "description": "Vehicle not found."
+                    }
+                }
+            }
+        },
+        "/add-vehicle": {
+            "post": {
+                "summary": "Add Vehicle for Maintenance Tracking",
+                "description": "Add a new vehicle to the user's account for maintenance tracking.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "vin": {
+                                        "type": "string",
+                                        "description": "The Vehicle Identification Number of the car."
+                                    },
+                                    "owner": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "format": "email"
+                                            },
+                                            "phone": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "vin",
+                                    "owner"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Vehicle successfully added."
+                    },
+                    "400": {
+                        "description": "Invalid vehicle or owner details."
+                    }
+                }
+            }
+        },
+        "/notifications": {
+            "get": {
+                "summary": "Retrieve Maintenance Notifications",
+                "description": "Retrieve upcoming notifications for scheduled vehicle maintenance.",
+                "parameters": [
+                    {
+                        "name": "vin",
+                        "in": "query",
+                        "required": true,
+                        "description": "The Vehicle Identification Number of the car.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Notifications retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/cancel-appointment": {
+            "post": {
+                "summary": "Cancel Maintenance Appointment",
+                "description": "Cancel a previously scheduled maintenance appointment.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "appointmentId": {
+                                        "type": "string",
+                                        "description": "The ID of the appointment to be canceled."
+                                    }
+                                },
+                                "required": [
+                                    "appointmentId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Appointment successfully canceled."
+                    },
+                    "400": {
+                        "description": "Invalid appointment ID."
+                    }
+                }
+            }
+        },
+        "/parts-availability": {
+            "get": {
+                "summary": "Check Parts Availability",
+                "description": "Check the availability of parts required for scheduled maintenance at a specific service center.",
+                "parameters": [
+                    {
+                        "name": "vin",
+                        "in": "query",
+                        "required": true,
+                        "description": "The Vehicle Identification Number of the car.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "serviceCenterId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The ID of the service center.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Parts availability retrieved successfully."
+                    },
+                    "404": {
+                        "description": "Service center not found or parts unavailable."
+                    }
+                }
+            }
+        },
+        "/update-appointment": {
+            "put": {
+                "summary": "Reschedule or Modify Maintenance Appointment",
+                "description": "Reschedule or modify an existing maintenance appointment.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "appointmentId": {
+                                        "type": "string",
+                                        "description": "The ID of the appointment to be modified."
+                                    },
+                                    "newDate": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "The new desired date and time for the appointment."
+                                    }
+                                },
+                                "required": [
+                                    "appointmentId",
+                                    "newDate"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Appointment successfully updated."
+                    },
+                    "400": {
+                        "description": "Invalid appointment details."
+                    }
+                }
+            }
+        },
+        "/remove-vehicle": {
+            "delete": {
+                "summary": "Remove Vehicle from Maintenance Tracking",
+                "description": "Remove a vehicle from the user's account, stopping maintenance tracking for it.",
+                "parameters": [
+                    {
+                        "name": "vin",
+                        "in": "query",
+                        "required": true,
+                        "description": "The Vehicle Identification Number of the car.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Vehicle successfully removed."
+                    },
+                    "404": {
+                        "description": "Vehicle not found."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

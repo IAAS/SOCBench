@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+Service:
+Designed for pharmacies, this service facilitates the monitoring and management of inventory levels, automatic order placements for replenishment, expiration tracking, and sales analysis to optimize stock management.
+
+Endpoints:
+GET /inventory: Retrieve the current inventory levels including product details, quantities, and expiration dates.
+POST /inventory/order: Place a new order for replenishment based on required inventory thresholds.
+GET /inventory/{itemID}: Fetch detailed information about a specific item in the inventory by its ID.
+DELETE /inventory/{itemID}: Remove an item from the inventory list using its unique ID.
+GET /sales/trends: Analyze and retrieve trending data on sales to help inform stocking decisions.
+POST /inventory/adjust: Make manual adjustments to the inventory levels for discrepancies or corrections.
+GET /notifications: Obtain notifications related to upcoming product expirations or low stock levels.
+POST /notifications/acknowledge: Mark notifications as acknowledged to maintain streamlined operations.
+GET /reports/sales-summary: Access a summarized report of sales over a selected time period.
+POST /inventory/check: Start a comprehensive inventory check process for actual stock verification.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

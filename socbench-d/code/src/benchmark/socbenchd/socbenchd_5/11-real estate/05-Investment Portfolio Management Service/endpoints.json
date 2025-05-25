@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /investment-portfolio",
+            "description": "Retrieve a summary of the investor's real estate investment portfolio."
+        },
+        {
+            "endpoint": "POST /investment-portfolio",
+            "description": "Create a new investor portfolio entry for real estate investments."
+        },
+        {
+            "endpoint": "GET /investment-portfolio/{portfolioId}",
+            "description": "Fetch detailed information about a specific investment portfolio."
+        },
+        {
+            "endpoint": "PUT /investment-portfolio/{portfolioId}",
+            "description": "Update the specified investment portfolio details."
+        },
+        {
+            "endpoint": "DELETE /investment-portfolio/{portfolioId}",
+            "description": "Remove a specific investment portfolio from the system."
+        },
+        {
+            "endpoint": "GET /market-insights",
+            "description": "Access market insights and trends for the real estate industry."
+        },
+        {
+            "endpoint": "POST /real-estate-analyzer",
+            "description": "Submit properties for analysis and valuation within the context of the investor's portfolio."
+        },
+        {
+            "endpoint": "GET /real-estate-trends",
+            "description": "Retrieve current trends and forecasts for specified real estate markets."
+        },
+        {
+            "endpoint": "GET /performance-reports/{portfolioId}",
+            "description": "Generate and download performance reports for a specific portfolio."
+        },
+        {
+            "endpoint": "POST /transaction-history",
+            "description": "Log a new transaction or activity within a designated investment portfolio."
+        }
+    ]
+}

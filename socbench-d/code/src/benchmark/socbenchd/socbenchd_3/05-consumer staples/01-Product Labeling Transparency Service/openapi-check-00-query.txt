@@ -1,0 +1,419 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Consumer Staples Product Information Service",
+        "description": "This service provides detailed product ingredient information and sourcing practices for consumer staples, enabling manufacturers and consumers to make informed choices.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.consumerstaplesinfo.com",
+            "description": "Main API Server"
+        }
+    ],
+    "paths": {
+        "/products": {
+            "get": {
+                "summary": "Retrieve a list of consumer staples products",
+                "description": "Returns a list of consumer staples products along with detailed ingredient information. Supports filtering by category or ingredient.",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Filter products by category ID.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ingredient",
+                        "in": "query",
+                        "description": "Filter products by specific ingredient name.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of products retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Product"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter provided."
+                    }
+                }
+            }
+        },
+        "/products/{id}": {
+            "get": {
+                "summary": "Retrieve detailed information for a specific product",
+                "description": "Returns detailed ingredient and sourcing information for a product identified by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the product to retrieve.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product information retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found."
+                    }
+                }
+            }
+        },
+        "/products/compare": {
+            "post": {
+                "summary": "Compare detailed ingredient and sourcing information between multiple products",
+                "description": "Allows users to compare products based on their ingredient composition and sourcing details.",
+                "requestBody": {
+                    "description": "List of product IDs to compare.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Comparison results retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductComparison"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input or missing product IDs."
+                    }
+                }
+            }
+        },
+        "/categories": {
+            "get": {
+                "summary": "Retrieve a list of product categories",
+                "description": "Returns a list of all product categories within the consumer staples sector.",
+                "responses": {
+                    "200": {
+                        "description": "List of categories retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Category"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/categories/{id}/products": {
+            "get": {
+                "summary": "Retrieve all products belonging to a specific category",
+                "description": "Returns a list of all products under a given category identified by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the category to retrieve products for.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of products retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Product"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sources": {
+            "get": {
+                "summary": "List all ingredient sources and their practices",
+                "description": "Returns a list of all sources of ingredients used in consumer staples, along with information on their sourcing practices.",
+                "responses": {
+                    "200": {
+                        "description": "List of ingredient sources retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Source"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sources/{id}": {
+            "get": {
+                "summary": "Retrieve detailed practices and information on a specific source",
+                "description": "Returns detailed sourcing practices and data for a specific ingredient source identified by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the ingredient source to retrieve.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ingredient source information retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Source"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{id}/report": {
+            "put": {
+                "summary": "Update a report associated with a specific product",
+                "description": "Updates or adds a report for a specific product identified by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the product for which to update the report.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Details of the report to update or add.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Report"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Report updated successfully."
+                    },
+                    "404": {
+                        "description": "Product not found."
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "summary": "Submit user feedback",
+                "description": "Allows users to submit feedback about the service or specific products.",
+                "requestBody": {
+                    "description": "User feedback details.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Feedback"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback submitted successfully."
+                    },
+                    "400": {
+                        "description": "Invalid feedback data provided."
+                    }
+                }
+            }
+        },
+        "/trends": {
+            "get": {
+                "summary": "Analyze and retrieve current trends",
+                "description": "Provides analysis of current trends in consumer staples product sourcing and composition.",
+                "responses": {
+                    "200": {
+                        "description": "Trends data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Trends"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Product": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "type": "string"
+                    },
+                    "ingredients": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "source": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ProductComparison": {
+                "type": "object",
+                "properties": {
+                    "products": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Product"
+                        }
+                    },
+                    "comparisonDetails": {
+                        "type": "object"
+                    }
+                }
+            },
+            "Category": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Source": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "practices": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Report": {
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Feedback": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Trends": {
+                "type": "object",
+                "properties": {
+                    "trendDetails": {
+                        "type": "object"
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

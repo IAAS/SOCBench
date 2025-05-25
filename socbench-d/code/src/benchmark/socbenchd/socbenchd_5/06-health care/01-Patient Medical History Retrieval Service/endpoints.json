@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /patients/{patient_id}/records",
+            "description": "Retrieve the medical records for a specific patient using their unique identifier."
+        },
+        {
+            "endpoint": "POST /records/{record_id}/update",
+            "description": "Update an existing medical record with the provided information."
+        },
+        {
+            "endpoint": "GET /patients/search",
+            "description": "Search for patients based on demographic information or medical attributes."
+        },
+        {
+            "endpoint": "POST /records/{record_id}/annotate",
+            "description": "Add annotations or comments to a specific medical record."
+        },
+        {
+            "endpoint": "GET /records/{record_id}/history",
+            "description": "Retrieve the change history of a specific medical record."
+        },
+        {
+            "endpoint": "DELETE /records/{record_id}",
+            "description": "Permanently remove a medical record from the system."
+        },
+        {
+            "endpoint": "GET /patients/recent-visits",
+            "description": "Fetch a list of patients and their recent visit details to the healthcare facility."
+        },
+        {
+            "endpoint": "GET /reports/summary",
+            "description": "Generate and retrieve a summary report of patient record statistics."
+        },
+        {
+            "endpoint": "PUT /patients/{patient_id}/merge",
+            "description": "Merge duplicate patient records into one unified record."
+        },
+        {
+            "endpoint": "GET /alerts/critical-records",
+            "description": "Retrieve a list of patients whose records meet critical alert conditions."
+        }
+    ]
+}

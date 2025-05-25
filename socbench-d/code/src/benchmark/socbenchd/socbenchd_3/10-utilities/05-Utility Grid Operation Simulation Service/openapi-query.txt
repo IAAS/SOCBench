@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+Using this service, planners and engineers can simulate and analyze the operational performance of utility grids under various expansion scenarios and load conditions. Through virtualization and scenario testing, they can predict impacts of new infrastructures, optimize load balancing, and minimize blackout risks.
+
+Endpoints:
+GET /grids: Retrieve the list of all utility grids available for simulation and analysis.
+POST /grids/{gridId}/simulate: Initiate a simulation for the specified grid to analyze operational performance under various conditions.
+GET /scenarios: Retrieve all predefined and custom simulation scenarios.
+POST /scenarios: Create a new scenario specifying expansion plans and load conditions.
+DELETE /scenarios/{scenarioId}: Remove an existing simulation scenario by its ID.
+GET /results/{simulationId}: Retrieve the results of a completed simulation by simulation ID.
+PUT /grids/{gridId}/infrastructure: Update the infrastructure data for a given grid before initiating simulations.
+POST /optimizations: Run an optimization process to achieve load balancing for a specific grid configuration.
+GET /reports: Access detailed reports and analytical data derived from past simulations.
+POST /alerts: Set up alert notifications for specific grid conditions or simulation parameters.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

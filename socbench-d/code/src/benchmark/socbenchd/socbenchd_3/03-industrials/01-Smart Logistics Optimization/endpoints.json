@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /logistics/routes",
+            "description": "Retrieve the current planned logistics routes and schedules."
+        },
+        {
+            "endpoint": "POST /logistics/routes/optimize",
+            "description": "Submit data to optimize existing routes using AI-driven algorithms."
+        },
+        {
+            "endpoint": "PUT /logistics/routes/update",
+            "description": "Update specific details of a previously planned route."
+        },
+        {
+            "endpoint": "DELETE /logistics/routes",
+            "description": "Remove a planned route from the system."
+        },
+        {
+            "endpoint": "GET /analytics/fuel-efficiency",
+            "description": "Retrieve analytical insights about vehicle fuel efficiency."
+        },
+        {
+            "endpoint": "GET /analytics/delivery-times",
+            "description": "Access data and trends related to delivery times."
+        },
+        {
+            "endpoint": "POST /integrations/third-party",
+            "description": "Enable integration with a third-party logistics service provider."
+        },
+        {
+            "endpoint": "GET /integrations/third-party/status",
+            "description": "Check the status of integrated third-party services."
+        },
+        {
+            "endpoint": "PATCH /alerts/notifications",
+            "description": "Modify the settings for delivery notifications and alerts."
+        },
+        {
+            "endpoint": "GET /reports/weekly-summary",
+            "description": "Generate and retrieve a weekly summary report for logistics operations."
+        }
+    ]
+}

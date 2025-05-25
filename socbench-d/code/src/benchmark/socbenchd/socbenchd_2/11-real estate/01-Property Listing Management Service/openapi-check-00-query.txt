@@ -1,0 +1,408 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Real Estate Advertisement API",
+        "description": "This API enables real estate agencies to dynamically manage property advertisements. It supports creating, updating, deleting listings, uploading high-resolution photos, and attaching legal and promotional documents.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.realestate.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/properties": {
+            "get": {
+                "summary": "Retrieve All Properties",
+                "description": "Fetch the list of all available property advertisements in the system.",
+                "responses": {
+                    "200": {
+                        "description": "List of property advertisements retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Property"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a New Property Advertisement",
+                "description": "Create and post a new property advertisement.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Property"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Property advertisement created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Property"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/properties/{property_id}": {
+            "get": {
+                "summary": "Get Property Details",
+                "description": "Retrieve detailed information about a specific property advertisement.",
+                "parameters": [
+                    {
+                        "name": "property_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the property.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Property details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Property"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Property not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update Property Details",
+                "description": "Update the details of an existing property advertisement.",
+                "parameters": [
+                    {
+                        "name": "property_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the property.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Property"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Property updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Property"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Property not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete Property",
+                "description": "Delete a property advertisement from the system.",
+                "parameters": [
+                    {
+                        "name": "property_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the property.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Property deleted successfully."
+                    },
+                    "404": {
+                        "description": "Property not found."
+                    }
+                }
+            }
+        },
+        "/properties/search": {
+            "get": {
+                "summary": "Search Properties",
+                "description": "Search properties based on specific criteria such as location and price range.",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "Filter properties by location.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "price_min",
+                        "in": "query",
+                        "description": "Minimum price of the properties.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "price_max",
+                        "in": "query",
+                        "description": "Maximum price of the properties.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Properties matching criteria retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Property"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/properties/{property_id}/photos": {
+            "post": {
+                "summary": "Upload Property Photos",
+                "description": "Upload high-resolution photos for a specific property advertisement.",
+                "parameters": [
+                    {
+                        "name": "property_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the property.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "photo": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "High-resolution photo file."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Photo uploaded successfully."
+                    }
+                }
+            }
+        },
+        "/properties/{property_id}/photos/{photo_id}": {
+            "delete": {
+                "summary": "Delete Property Photo",
+                "description": "Delete a specific photo from a property advertisement.",
+                "parameters": [
+                    {
+                        "name": "property_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the property.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "photo_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the photo.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Photo deleted successfully."
+                    },
+                    "404": {
+                        "description": "Photo or property not found."
+                    }
+                }
+            }
+        },
+        "/properties/{property_id}/documents": {
+            "post": {
+                "summary": "Upload Property Documents",
+                "description": "Attach legal or promotional documents to a property advertisement.",
+                "parameters": [
+                    {
+                        "name": "property_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the property.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "document": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Document file."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Document uploaded successfully."
+                    }
+                }
+            }
+        },
+        "/properties/{property_id}/documents/{document_id}": {
+            "delete": {
+                "summary": "Delete Property Document",
+                "description": "Remove a specific document from a property advertisement.",
+                "parameters": [
+                    {
+                        "name": "property_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the property.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "document_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier of the document.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Document deleted successfully."
+                    },
+                    "404": {
+                        "description": "Document or property not found."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Property": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier of the property."
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Title or headline of the property advertisement."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Detailed description of the property."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Location of the property."
+                    },
+                    "price": {
+                        "type": "integer",
+                        "description": "Price of the property."
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of when the property was created."
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of when the property was last updated."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

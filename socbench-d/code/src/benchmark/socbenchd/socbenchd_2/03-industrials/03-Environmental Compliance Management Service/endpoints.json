@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /emissions",
+            "description": "Submit new emission data for a specific source."
+        },
+        {
+            "endpoint": "GET /emissions/{id}",
+            "description": "Retrieve detailed information about a specific emission record by ID."
+        },
+        {
+            "endpoint": "PUT /emissions/{id}",
+            "description": "Update emission data for a specific record by ID."
+        },
+        {
+            "endpoint": "DELETE /emissions/{id}",
+            "description": "Remove a specific emission record by ID."
+        },
+        {
+            "endpoint": "GET /waste-management",
+            "description": "Retrieve a comprehensive summary of all waste management activities."
+        },
+        {
+            "endpoint": "POST /waste-management",
+            "description": "Submit new waste management activity data."
+        },
+        {
+            "endpoint": "GET /regulations",
+            "description": "Retrieve a list of relevant environmental regulations applicable to the user."
+        },
+        {
+            "endpoint": "GET /reports/compliance",
+            "description": "Generate and retrieve a compliance report based on the submitted data."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Create a new alert for specific regulatory threshold violations."
+        },
+        {
+            "endpoint": "GET /alerts/{id}",
+            "description": "Retrieve detailed information about a specific alert by ID."
+        }
+    ]
+}

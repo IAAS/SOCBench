@@ -1,0 +1,506 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Real Estate Search API",
+        "description": "This API allows users to search and interact with real estate properties, view multimedia resources, access amenities data, and manage favorites or inquiries about properties.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.realestate.com/v1",
+            "description": "Production Server"
+        },
+        {
+            "url": "https://sandbox.api.realestate.com/v1",
+            "description": "Sandbox/Testing Server"
+        }
+    ],
+    "paths": {
+        "/properties": {
+            "get": {
+                "summary": "Retrieve a list of real estate properties",
+                "description": "Search for real estate properties using criteria such as location, price range, property type, or other filters.",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "Filter properties by location or region.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "price_min",
+                        "in": "query",
+                        "description": "Filter properties by minimum price.",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "price_max",
+                        "in": "query",
+                        "description": "Filter properties by maximum price.",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "property_type",
+                        "in": "query",
+                        "description": "Filter properties by type, e.g., apartment, house, commercial, etc.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Properties retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Property"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query parameters."
+                    }
+                }
+            }
+        },
+        "/properties/{id}": {
+            "get": {
+                "summary": "Get property details",
+                "description": "Retrieve detailed information about a specific property by its unique ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The unique identifier of the property.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Property details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PropertyDetails"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Property not found."
+                    }
+                }
+            }
+        },
+        "/favorites": {
+            "post": {
+                "summary": "Add a property to favorites",
+                "description": "Save a property to the user's list of favorite properties for quick access.",
+                "requestBody": {
+                    "description": "Property data to add to favorites.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "property_id": {
+                                        "type": "string",
+                                        "description": "The unique ID of the property to add to favorites."
+                                    }
+                                },
+                                "required": [
+                                    "property_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Property added to favorites successfully."
+                    },
+                    "400": {
+                        "description": "Invalid request data."
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve favorite properties",
+                "description": "Get a list of properties added to the user's favorites.",
+                "responses": {
+                    "200": {
+                        "description": "Favorite properties retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Property"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/amenities": {
+            "get": {
+                "summary": "Retrieve amenities",
+                "description": "Get a list of amenities available by location or property category.",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "Filter amenities by the given location.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "property_category",
+                        "in": "query",
+                        "description": "Filter amenities by property category.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Amenities retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Amenities"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/multimedia/{id}": {
+            "get": {
+                "summary": "Access property multimedia",
+                "description": "Retrieve multimedia resources such as images and videos for a specific property.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The unique identifier of the property.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Multimedia resources retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "images": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "format": "uri"
+                                            }
+                                        },
+                                        "videos": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "format": "uri"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Property not found."
+                    }
+                }
+            }
+        },
+        "/inquiries": {
+            "post": {
+                "summary": "Submit an inquiry",
+                "description": "Submit a question or inquiry about a specific property, including contact details.",
+                "requestBody": {
+                    "description": "Inquiry details including property ID, contact info, and message.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "property_id": {
+                                        "type": "string",
+                                        "description": "ID of the property."
+                                    },
+                                    "contact": {
+                                        "type": "string",
+                                        "description": "Contact details of the user."
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "description": "Inquiry message or question."
+                                    }
+                                },
+                                "required": [
+                                    "property_id",
+                                    "contact",
+                                    "message"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Inquiry submitted successfully."
+                    },
+                    "400": {
+                        "description": "Invalid request data."
+                    }
+                }
+            },
+            "get": {
+                "summary": "View inquiries",
+                "description": "Retrieve a list of inquiries submitted by the user and their current statuses.",
+                "responses": {
+                    "200": {
+                        "description": "User inquiries retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Inquiry"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/developers": {
+            "get": {
+                "summary": "Retrieve developer information",
+                "description": "Fetch details about developers or companies associated with properties.",
+                "responses": {
+                    "200": {
+                        "description": "Developer details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Developer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/locations": {
+            "get": {
+                "summary": "Retrieve available locations",
+                "description": "List available locations or regions for property searches.",
+                "responses": {
+                    "200": {
+                        "description": "Locations retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Location"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Property": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the property."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name or title of the property."
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "The price of the property."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "The location or address of the property."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of property (e.g., apartment, house)."
+                    }
+                }
+            },
+            "PropertyDetails": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the property."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name or title of the property."
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "The price of the property."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "The location or address of the property."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Detailed description of the property."
+                    },
+                    "features": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of features or attributes of the property."
+                    }
+                }
+            },
+            "Amenities": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the amenity."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type or category of the amenity."
+                    }
+                }
+            },
+            "Inquiry": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier for the inquiry."
+                    },
+                    "property_id": {
+                        "type": "string",
+                        "description": "ID of the property related to the inquiry."
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "The content of the inquiry message."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The current status of the inquiry (e.g., pending, responded)."
+                    }
+                }
+            },
+            "Developer": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the developer."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the developer or company."
+                    },
+                    "contact": {
+                        "type": "string",
+                        "description": "Contact details for the developer."
+                    }
+                }
+            },
+            "Location": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the location."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the location or region."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

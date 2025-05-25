@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /loan/eligibility",
+            "description": "Calculate mortgage loan eligibility based on user-provided financial and credit data."
+        },
+        {
+            "endpoint": "GET /rates/current",
+            "description": "Retrieve the current applicable interest rates for mortgage loans in different categories."
+        },
+        {
+            "endpoint": "POST /loan/simulate",
+            "description": "Simulate potential loan repayments and terms based on input financial scenarios."
+        },
+        {
+            "endpoint": "GET /user/credit-score",
+            "description": "Fetch the user's updated credit score if authorized."
+        },
+        {
+            "endpoint": "POST /loan/application",
+            "description": "Submit a new mortgage loan application with detailed user data."
+        },
+        {
+            "endpoint": "GET /loan/application/{id}",
+            "description": "Retrieve the current status of a specified mortgage loan application."
+        },
+        {
+            "endpoint": "POST /property/valuation",
+            "description": "Request a valuation report for a property intended for mortgage."
+        },
+        {
+            "endpoint": "GET /user/financial-summary",
+            "description": "Fetch a summarized report of the user's financial history for loan consideration."
+        },
+        {
+            "endpoint": "GET /loan/history",
+            "description": "Retrieve a historical summary of loans taken by the user."
+        },
+        {
+            "endpoint": "GET /documentation/api",
+            "description": "Access detailed documentation of the mortgage service's API features and usage."
+        }
+    ]
+}

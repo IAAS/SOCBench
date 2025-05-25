@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /energy-data",
+            "description": "Retrieve energy consumption data from integrated smart devices."
+        },
+        {
+            "endpoint": "GET /insights",
+            "description": "Acquire analytical insights based on collected energy consumption data."
+        },
+        {
+            "endpoint": "POST /device-profile",
+            "description": "Submit a new smart device energy usage profile for analysis."
+        },
+        {
+            "endpoint": "GET /recommendations",
+            "description": "Receive customized recommendations for energy consumption optimization."
+        },
+        {
+            "endpoint": "PUT /update-device-profile/{deviceId}",
+            "description": "Update the energy usage profile of a specific smart device."
+        },
+        {
+            "endpoint": "DELETE /remove-device/{deviceId}",
+            "description": "Remove a specific smart device from the energy tracking service."
+        },
+        {
+            "endpoint": "POST /utility-integration",
+            "description": "Submit utility platform information for further energy consumption insights."
+        },
+        {
+            "endpoint": "GET /dashboard-overview",
+            "description": "Retrieve an overview dashboard showing energy usage and savings."
+        },
+        {
+            "endpoint": "GET /report/{reportId}",
+            "description": "Download a detailed report on energy consumption and recommendations."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Send user feedback on the provided insights and recommendations."
+        }
+    ]
+}

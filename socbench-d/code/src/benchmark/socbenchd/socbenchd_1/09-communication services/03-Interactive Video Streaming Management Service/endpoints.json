@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /video/upload",
+            "description": "Upload a new video to the platform for processing and streaming."
+        },
+        {
+            "endpoint": "GET /video/{videoID}/streamingUrl",
+            "description": "Retrieve the streaming URL for a specific video."
+        },
+        {
+            "endpoint": "POST /live/start",
+            "description": "Initiate a live video streaming session."
+        },
+        {
+            "endpoint": "PATCH /live/{sessionID}/advertisement",
+            "description": "Insert an advertisement dynamically into a live stream session."
+        },
+        {
+            "endpoint": "GET /analytics/viewership",
+            "description": "Retrieve analytics data regarding viewer engagement and statistics."
+        },
+        {
+            "endpoint": "DELETE /video/{videoID}",
+            "description": "Remove a specific video from the platform."
+        },
+        {
+            "endpoint": "POST /live/{sessionID}/end",
+            "description": "Terminate an active live streaming session."
+        },
+        {
+            "endpoint": "GET /video/metadata",
+            "description": "Obtain metadata for videos, including titles and descriptions."
+        },
+        {
+            "endpoint": "PUT /video/{videoID}/advertisement",
+            "description": "Replace advertisements associated with an on-demand video."
+        },
+        {
+            "endpoint": "GET /platform/health",
+            "description": "Check the current health and operational status of the streaming platform."
+        }
+    ]
+}

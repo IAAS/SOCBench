@@ -1,0 +1,296 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Media and Advertisement Data Exchange Service",
+    "description": "This service is designed for media and advertisement platforms. It facilitates secure and scalable exchange of ad-related data, offering inventory tracking, campaign performance metrics, and click-through analytics.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.adplatform.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/campaigns": {
+      "get": {
+        "summary": "Retrieve all advertising campaigns",
+        "description": "This endpoint retrieves a list of all existing advertising campaigns, including their unique identifiers and metadata.",
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of campaigns list",
+            "content": {
+              "application/json": {
+                "example": {
+                  "campaigns": [
+                    { "id": "123", "name": "Campaign A", "status": "Active" },
+                    { "id": "456", "name": "Campaign B", "status": "Paused" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new advertising campaign",
+        "description": "This endpoint allows the creation of a new advertising campaign by specifying the required parameters and content.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "New Campaign",
+                "budget": 5000,
+                "startDate": "2023-10-01",
+                "endDate": "2023-10-31",
+                "targetAudience": {
+                  "ageGroup": "18-35",
+                  "location": "USA"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Campaign successfully created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "789",
+                  "name": "New Campaign"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/campaigns/{campaign_id}": {
+      "get": {
+        "summary": "Retrieve specific campaign details",
+        "description": "Fetch details of a specific advertising campaign using the campaign's unique identifier.",
+        "parameters": [
+          {
+            "name": "campaign_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the campaign",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Campaign details retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "123",
+                  "name": "Campaign A",
+                  "budget": 10000,
+                  "status": "Active"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a specific campaign",
+        "description": "Modify details of an existing advertising campaign using its unique identifier.",
+        "parameters": [
+          {
+            "name": "campaign_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the campaign to update",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Updated Campaign",
+                "budget": 7000,
+                "status": "Active"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Campaign successfully updated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "123",
+                  "name": "Updated Campaign"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a specific campaign",
+        "description": "Remove an advertising campaign using its unique identifier.",
+        "parameters": [
+          {
+            "name": "campaign_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the campaign to delete",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Campaign successfully deleted"
+          }
+        }
+      }
+    },
+    "/analytics/performance": {
+      "get": {
+        "summary": "Fetch campaign performance metrics",
+        "description": "Retrieve performance metrics for campaigns over a specified time period and segmentations.",
+        "parameters": [
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": true,
+            "description": "Start date for the performance metrics, in YYYY-MM-DD format",
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": true,
+            "description": "End date for the performance metrics, in YYYY-MM-DD format",
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "segments",
+            "in": "query",
+            "required": false,
+            "description": "Optional segmentation criteria (e.g., 'age', 'region')",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Performance metrics successfully retrieved",
+            "content": {
+              "application/json": {
+                "example": {
+                  "metrics": [
+                    { "segment": "18-25", "clicks": 1000, "impressions": 50000 }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory": {
+      "get": {
+        "summary": "Retrieve advertisement inventory",
+        "description": "Fetch a list of available advertisement inventory items and their current statuses.",
+        "responses": {
+          "200": {
+            "description": "Inventory list retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "inventory": [
+                    { "id": "i001", "status": "Available" },
+                    { "id": "i002", "status": "Reserved" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/click-tracking": {
+      "post": {
+        "summary": "Submit click data",
+        "description": "Send click data related to advertisements for tracking and analysis purposes.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "ad_id": "a123",
+                "timestamp": "2023-10-01T12:34:56Z",
+                "user_agent": "Mozilla/5.0"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Click data successfully submitted"
+          }
+        }
+      }
+    },
+    "/user-activity": {
+      "get": {
+        "summary": "Retrieve user activity data",
+        "description": "Fetch anonymized aggregated user interaction data with advertisements.",
+        "responses": {
+          "200": {
+            "description": "User activity data successfully retrieved",
+            "content": {
+              "application/json": {
+                "example": {
+                  "activity": [
+                    { "interactionType": "Click", "count": 5000 },
+                    { "interactionType": "View", "count": 20000 }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/settings/privacy": {
+      "patch": {
+        "summary": "Update privacy configurations",
+        "description": "Modify privacy-related settings and consent configurations for the advertisement platform.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "consentSettings": {
+                  "gdpr": true,
+                  "ccpa": false
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Privacy settings successfully updated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Updated"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

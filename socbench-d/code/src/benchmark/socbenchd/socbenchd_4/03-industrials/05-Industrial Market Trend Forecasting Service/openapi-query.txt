@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Industrials Sector: The Industrials Sector includes manufacturers and distributors of capital goods such as aerospace & defense, building products, electrical equipment and machinery and companies that offer construction & engineering services. It also includes providers of commercial & professional services including printing, environmental and facilities services, office services & supplies, security & alarm services, human resource & employment services, research & consulting services. It also includes companies that provide transportation services.
+
+Service:
+This API supports companies in analyzing market trends within the industrial sector. Integrating external market dynamics, historical data, and AI-driven forecasting models, it produces actionable insights. Use cases include resource allocation and investment decisions. Clients can input industry parameters and retrieve comprehensive reports predicting trends helpful for strategic planning. For example, an aerospace entity might leverage the API to anticipate demand shifts in next generation component manufacturing.
+
+Endpoints:
+GET /market-trends: Retrieve historical and forecasted market trends data for the specified industrial sub-sector.
+POST /scenario-analysis: Submit hypothetical market scenarios to understand potential impacts in the industrial sector.
+GET /insights-summary: Get a summarized analysis of actionable insights for the specified industry category.
+GET /trend-visualizations: Access graphical visualizations and analytics representations of market trends.
+POST /demand-prediction: Send parameters to predict future demands for specific industrial category products.
+GET /sector-comparison: Obtain comparative statistics between multiple industrial sub-sectors.
+POST /resource-optimization: Provide input for optimal resource allocation recommendations based on trends.
+GET /regional-distribution: Retrieve distribution analysis data of industrial resources and demands by region.
+POST /investment-opportunities: Submit criteria to generate investment opportunities and risk assessments.
+GET /support-documents: Access comprehensive documentation and guides about the dataset and methodologies utilized by this service.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

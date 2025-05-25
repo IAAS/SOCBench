@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Chemical Inventory Management API",
+            "description": "This API provides manufacturing companies with real-time tracking and managing of their chemical inventory levels. The service facilitates compliance with safety regulations and optimized inventory control."
+        },
+        {
+            "name": "Construction Material Delivery Tracker",
+            "description": "Enables companies to monitor the transport and delivery of construction materials, ensuring timely deliveries, minimizing delays, and improving supply chain management."
+        },
+        {
+            "name": "Forest Product Yield Calculation Service",
+            "description": "Offers logging companies tools to calculate and forecast yields from forest product harvesting based on data such as location, tree type, and environmental factors."
+        },
+        {
+            "name": "Glass Manufacturing Process Automation API",
+            "description": "Designed for glass production facilities to manage production workflows, monitor machine performance, and ensure quality control metrics are met effectively."
+        },
+        {
+            "name": "Mine and Mineral Operational Analytics",
+            "description": "Supports mining operators by providing insights into excavation operations, tracking output levels, and ensuring adherence to mining regulation standards."
+        }
+    ]
+}

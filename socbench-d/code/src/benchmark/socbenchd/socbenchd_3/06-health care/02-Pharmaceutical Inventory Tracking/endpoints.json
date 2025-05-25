@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /stock-levels",
+            "description": "Retrieve the current stock levels for all pharmaceutical items in the inventory."
+        },
+        {
+            "endpoint": "GET /stock-levels/{item-id}",
+            "description": "Retrieve the stock level status for a specific pharmaceutical item identified by its unique ID."
+        },
+        {
+            "endpoint": "POST /inventory-update",
+            "description": "Submit updates to the stock levels, reflecting received or dispensed inventory."
+        },
+        {
+            "endpoint": "GET /expiration-dates",
+            "description": "Retrieve a list of pharmaceutical items with their respective expiration dates."
+        },
+        {
+            "endpoint": "GET /expiration-dates/near-expiry",
+            "description": "Retrieve items approaching their expiration dates to facilitate prioritized usage."
+        },
+        {
+            "endpoint": "GET /inventory-requirements",
+            "description": "Retrieve a report detailing inventory levels that require restocking."
+        },
+        {
+            "endpoint": "POST /restock-notifications",
+            "description": "Set up notifications for items that fall below a specified stock level."
+        },
+        {
+            "endpoint": "DELETE /restock-notifications/{notification-id}",
+            "description": "Remove a previously configured restock notification utilizing its unique identifier."
+        },
+        {
+            "endpoint": "GET /reports/consumption-trends",
+            "description": "Retrieve analysis and trends based on historical pharmaceutical consumption data."
+        },
+        {
+            "endpoint": "POST /feedback",
+            "description": "Submit user feedback regarding stock management or service functionality."
+        }
+    ]
+}

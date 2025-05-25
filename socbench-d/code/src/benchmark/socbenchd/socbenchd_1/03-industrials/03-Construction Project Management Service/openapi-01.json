@@ -1,0 +1,460 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Construction Project Management API",
+    "version": "1.0.0",
+    "description": "This API provides tools for managing construction sector projects, optimized for scheduling, resource allocation, cost management, and ensuring project efficiency."
+  },
+  "paths": {
+    "/projects": {
+      "post": {
+        "summary": "Create a new project",
+        "description": "Creates a new project by providing its name, start date, expected end date, and initial budget details.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the project."
+                  },
+                  "startDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Start date of the project in YYYY-MM-DD format."
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Expected end date of the project in YYYY-MM-DD format."
+                  },
+                  "initialBudget": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "The initial budget assigned to the project."
+                  }
+                },
+                "required": ["name", "startDate", "endDate", "initialBudget"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Project created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "projectId": {
+                      "type": "string",
+                      "description": "The ID of the created project."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}": {
+      "get": {
+        "summary": "Retrieve project details",
+        "description": "Retrieves detailed information about a specific project, including its tasks, resources, and financial metrics.",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the project.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "projectId": {
+                      "type": "string",
+                      "description": "The ID of the project."
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the project."
+                    },
+                    "startDate": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "The start date of the project."
+                    },
+                    "endDate": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "The expected end date of the project."
+                    },
+                    "budget": {
+                      "type": "number",
+                      "format": "float",
+                      "description": "The budget allocated to the project."
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "taskId": {
+                            "type": "string",
+                            "description": "The ID of the task."
+                          },
+                          "title": {
+                            "type": "string",
+                            "description": "The title of the task."
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "The status of the task (e.g., pending, in-progress, completed)."
+                          }
+                        },
+                        "required": ["taskId", "title", "status"]
+                      }
+                    },
+                    "resources": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "resourceId": {
+                            "type": "string",
+                            "description": "The ID of the resource."
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the resource."
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "The current status of the resource."
+                          }
+                        },
+                        "required": ["resourceId", "name", "status"]
+                      }
+                    }
+                  },
+                  "required": ["projectId", "name", "startDate", "endDate", "budget", "tasks", "resources"]
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a project",
+        "description": "Removes a project's details, tasks, and allocations. Any related resources are freed up for future use.",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the project to delete.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project deleted successfully."
+          }
+        }
+      }
+    },
+    "/tasks": {
+      "post": {
+        "summary": "Add a new task to a project",
+        "description": "Creates a new task within a specified project. Details like title, description, duration, and associated resources should be provided.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "description": "The ID of the project this task belongs to."
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "The title or name of the task."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "A detailed description of the task."
+                  },
+                  "duration": {
+                    "type": "integer",
+                    "description": "The expected duration of the task, in days."
+                  },
+                  "resources": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "The IDs of resources associated with this task."
+                    }
+                  }
+                },
+                "required": ["projectId", "title", "description", "duration"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Task created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "taskId": {
+                      "type": "string",
+                      "description": "The ID of the newly created task."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/{taskId}": {
+      "put": {
+        "summary": "Update an existing task",
+        "description": "Updates details of a specified task, including timeline, assigned personnel, or dependencies.",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the task to update.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "Updated title of the task."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Updated description of the task."
+                  },
+                  "duration": {
+                    "type": "integer",
+                    "description": "Updated duration of the task, in days."
+                  },
+                  "resources": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "Updated list of resource IDs allocated to this task."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Task updated successfully."
+          }
+        }
+      }
+    },
+    "/resources": {
+      "get": {
+        "summary": "List available resources",
+        "description": "Lists all available resources for project and task allocation, detailing their current status, availability, and associated costs.",
+        "responses": {
+          "200": {
+            "description": "A list of available resources was retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "resourceId": {
+                        "type": "string",
+                        "description": "The unique ID of the resource."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "The name or description of the resource."
+                      },
+                      "status": {
+                        "type": "string",
+                        "description": "Current availability status of the resource (e.g., available, allocated)."
+                      },
+                      "cost": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Cost associated with using the resource, if applicable."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/allocation": {
+      "post": {
+        "summary": "Allocate resources to a project or task",
+        "description": "Assigns resources to a specific project or task, ensuring their availability and adjusting schedules accordingly.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "resourceId": {
+                    "type": "string",
+                    "description": "The ID of the resource to allocate."
+                  },
+                  "taskId": {
+                    "type": "string",
+                    "description": "The ID of the task to allocate the resource to."
+                  },
+                  "projectId": {
+                    "type": "string",
+                    "description": "The ID of the project if allocation is project-wide."
+                  }
+                },
+                "required": ["resourceId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resource allocated successfully."
+          }
+        }
+      }
+    },
+    "/reports": {
+      "get": {
+        "summary": "Generate project reports",
+        "description": "Generates customized reports for project progress, resource utilization, or financial analysis.",
+        "responses": {
+          "200": {
+            "description": "Report generated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "A summary of the generated report."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/budgets/{projectId}": {
+      "put": {
+        "summary": "Adjust project budget allocations",
+        "description": "Updates the budget allocations for a specific project, including category-specific adjustments or fund reallocations.",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the project for which the budget is being updated.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "categories": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "number",
+                      "format": "float",
+                      "description": "New budget allocation for the category."
+                    },
+                    "description": "A mapping of budget categories to their new allocated amounts."
+                  },
+                  "totalBudget": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "The updated total budget for the project."
+                  }
+                },
+                "required": ["categories"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Budget allocation updated successfully."
+          }
+        }
+      }
+    },
+    "/forecast": {
+      "get": {
+        "summary": "Simulate future project needs",
+        "description": "Simulates future project resource needs and budget requirements based on trends and historical data.",
+        "responses": {
+          "200": {
+            "description": "Forecast data retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "Simulated forecast data for resource and budget planning."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {}
+}

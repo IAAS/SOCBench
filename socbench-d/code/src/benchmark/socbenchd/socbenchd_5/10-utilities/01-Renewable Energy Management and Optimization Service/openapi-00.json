@@ -1,0 +1,324 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Renewable Energy Monitoring and Optimization API",
+    "description": "API for monitoring, optimizing, and managing the generation and distribution of renewable energy sources such as wind and solar. This service includes tools for data analysis, real-time adjustments, and operational management.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/generation-data": {
+      "get": {
+        "summary": "Retrieve Renewable Energy Generation Data",
+        "description": "Fetch real-time and historical data related to the generation of renewable energy sources such as wind and solar.",
+        "parameters": [
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "Start date for historical data retrieval in ISO 8601 format (YYYY-MM-DD).",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "End date for historical data retrieval in ISO 8601 format (YYYY-MM-DD).",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "source",
+            "in": "query",
+            "description": "Specify the energy source (e.g., wind, solar) for data retrieval.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["wind", "solar"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of generation data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "timestamp": { "type": "string", "format": "date-time" },
+                          "source": { "type": "string" },
+                          "generation": { "type": "number", "description": "Generated energy in megawatts (MW)." }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/optimization-parameters": {
+      "post": {
+        "summary": "Submit Optimization Parameters",
+        "description": "Submit parameters to optimize the distribution of renewable energy sources.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "parameters": {
+                    "type": "object",
+                    "additionalProperties": { "type": "number" },
+                    "description": "Key-value pairs of optimization parameters (e.g., max_load, efficiency_target)."
+                  }
+                },
+                "required": ["parameters"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Optimization parameters submitted successfully."
+          }
+        }
+      }
+    },
+    "/weather-forecasts": {
+      "get": {
+        "summary": "Access Weather Forecasts",
+        "description": "Retrieve weather forecasts useful for managing renewable energy generation (e.g., wind and solar conditions).",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "query",
+            "description": "Specify the geographical location for the weather forecast.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "description": "Retrieve weather forecast for a specific date in ISO 8601 format (YYYY-MM-DD).",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Weather forecast retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "forecast": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts": {
+      "get": {
+        "summary": "Fetch System Alerts",
+        "description": "Retrieve current system alerts and recommendations for action to ensure efficient energy distribution.",
+        "responses": {
+          "200": {
+            "description": "Alerts fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "message": { "type": "string" },
+                      "timestamp": { "type": "string", "format": "date-time" },
+                      "action_required": { "type": "boolean" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sensor-calibrations": {
+      "post": {
+        "summary": "Submit Sensor Calibration Details",
+        "description": "Send calibration details for on-site sensors to ensure accurate data collection.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sensor_id": { "type": "string" },
+                  "calibration_data": {
+                    "type": "object",
+                    "additionalProperties": { "type": "string" },
+                    "description": "Key-value pairs of calibration properties and their values."
+                  }
+                },
+                "required": ["sensor_id", "calibration_data"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Calibration details submitted successfully."
+          }
+        }
+      }
+    },
+    "/performance-reports": {
+      "get": {
+        "summary": "Retrieve Performance Reports",
+        "description": "Fetch performance reports of renewable energy installations over specified periods.",
+        "responses": {
+          "200": {
+            "description": "Reports retrieved successfully."
+          }
+        }
+      }
+    },
+    "/sensor-status/{id}": {
+      "put": {
+        "summary": "Update Sensor Status",
+        "description": "Update the operational status of a specific sensor using its unique ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique ID of the sensor to update.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string", "description": "New operational status (e.g., 'active', 'inactive', 'faulty')." }
+                },
+                "required": ["status"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sensor status updated successfully."
+          }
+        }
+      }
+    },
+    "/data-cache/{resource}": {
+      "delete": {
+        "summary": "Clear Cached Data",
+        "description": "Delete cached data for a specific resource to force data updates.",
+        "parameters": [
+          {
+            "name": "resource",
+            "in": "path",
+            "description": "Identifier of the resource whose cached data is to be cleared.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cached data cleared successfully."
+          }
+        }
+      }
+    },
+    "/maintenance-mode": {
+      "patch": {
+        "summary": "Toggle Maintenance Mode",
+        "description": "Enable or disable the service's maintenance mode.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": { "type": "boolean", "description": "Set to true to enable maintenance mode, false to disable." }
+                },
+                "required": ["enabled"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Maintenance mode adjusted successfully."
+          }
+        }
+      }
+    },
+    "/generate-energy-scenarios": {
+      "post": {
+        "summary": "Generate Energy Scenarios",
+        "description": "Create simulated scenarios for forecasting renewable energy generation and distribution.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "scenario_settings": {
+                    "type": "object",
+                    "description": "Settings for generating energy scenarios such as load requirements, weather patterns, and grid constraints.",
+                    "additionalProperties": { "type": "string" }
+                  }
+                },
+                "required": ["scenario_settings"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Energy scenarios generated successfully."
+          }
+        }
+      }
+    }
+  }
+}

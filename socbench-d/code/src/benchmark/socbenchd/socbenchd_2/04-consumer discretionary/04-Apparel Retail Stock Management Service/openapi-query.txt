@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+Supports clothing retailers in managing inventory, tracking stock levels, and streamlining the supply chain to ensure optimal customer satisfaction and operational efficiency.
+
+Endpoints:
+GET /inventory: Retrieve the current inventory levels for all products.
+POST /inventory: Update inventory details for a specific product.
+GET /stock/alerts: Retrieve notifications for low-stock or out-of-stock products.
+POST /orders: Record new supply orders to restock inventory.
+GET /sales/trends: Retrieve sales data highlighting trends and demands.
+PUT /products/{productId}: Modify information related to a specific product.
+DELETE /products/{productId}: Remove a product from the inventory database.
+GET /supply-chain/status: Retrieve the operational status of the supply chain.
+GET /suppliers: Retrieve details of all associated suppliers.
+POST /feedback: Submit feedback on inventory management operations.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

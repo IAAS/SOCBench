@@ -1,0 +1,420 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Restaurant Management Service API",
+    "description": "This API provides a comprehensive service for restaurants to manage operations efficiently. It includes functionalities for menu management, order processing, kitchen operations, payments, reservations, customer feedback, and inventory management.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.yourrestaurant.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/menus": {
+      "get": {
+        "summary": "Retrieve Menus",
+        "description": "Get the list of menus available for display to customers, including items, descriptions, and pricing.",
+        "responses": {
+          "200": {
+            "description": "A list of menus.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Menu"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders": {
+      "post": {
+        "summary": "Submit a New Order",
+        "description": "Create a new customer order for processing in the kitchen. Include menu items and quantities.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Order successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/{orderId}": {
+      "put": {
+        "summary": "Update an Order",
+        "description": "Modify the details or status of an existing order by specifying its unique `orderId`.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the order to update.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Cancel an Order",
+        "description": "Cancel an order and remove it from the processing queue by using its unique `orderId`.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the order to cancel.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order canceled successfully."
+          }
+        }
+      }
+    },
+    "/kitchen/status": {
+      "get": {
+        "summary": "Retrieve Kitchen Status",
+        "description": "Fetch the current operational status and workload of the kitchen, including active orders being prepared.",
+        "responses": {
+          "200": {
+            "description": "Kitchen status and workload.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KitchenStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payments": {
+      "post": {
+        "summary": "Process a Payment",
+        "description": "Process a secure payment for an order. Provide payment details, including order ID and payment method.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Payment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Payment processed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reservations": {
+      "get": {
+        "summary": "Retrieve Reservations",
+        "description": "Get a list of current reservations to facilitate seating of customers.",
+        "responses": {
+          "200": {
+            "description": "List of current reservations.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Reservation"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback": {
+      "post": {
+        "summary": "Submit Customer Feedback",
+        "description": "Submit feedback from a customer for future review and analysis.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Feedback"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Feedback submitted successfully."
+          }
+        }
+      }
+    },
+    "/inventory": {
+      "get": {
+        "summary": "Check Inventory",
+        "description": "Retrieve the current inventory levels for ingredient and supply management.",
+        "responses": {
+          "200": {
+            "description": "List of inventory levels.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventoryItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/settings": {
+      "patch": {
+        "summary": "Update Service Settings",
+        "description": "Update configuration settings for restaurant service operations.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SettingsUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Settings updated successfully."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Menu": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique ID of the menu item."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the menu item."
+          },
+          "description": {
+            "type": "string",
+            "description": "Details about the menu item."
+          },
+          "price": {
+            "type": "number",
+            "description": "Price of the menu item."
+          }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "List of menu items in the order.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "totalPrice": {
+            "type": "number",
+            "description": "Total price of the order."
+          }
+        }
+      },
+      "OrderResponse": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "description": "Unique ID of the created/updated order."
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the order."
+          }
+        }
+      },
+      "OrderUpdate": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "New status of the order."
+          }
+        }
+      },
+      "KitchenStatus": {
+        "type": "object",
+        "properties": {
+          "activeOrders": {
+            "type": "number",
+            "description": "Number of active orders being processed."
+          },
+          "status": {
+            "type": "string",
+            "description": "General operational status of the kitchen."
+          }
+        }
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "description": "Order ID for which the payment is made."
+          },
+          "amount": {
+            "type": "number",
+            "description": "Payment amount."
+          },
+          "paymentMethod": {
+            "type": "string",
+            "description": "Payment method used (e.g., card, cash)."
+          }
+        }
+      },
+      "PaymentResponse": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "description": "Unique payment transaction ID."
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the payment transaction."
+          }
+        }
+      },
+      "Reservation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique reservation ID."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the customer."
+          },
+          "time": {
+            "type": "string",
+            "description": "Reservation time in ISO 8601 format."
+          },
+          "partySize": {
+            "type": "integer",
+            "description": "Number of people in the reservation."
+          }
+        }
+      },
+      "Feedback": {
+        "type": "object",
+        "properties": {
+          "customerName": {
+            "type": "string",
+            "description": "Name of the customer providing feedback."
+          },
+          "message": {
+            "type": "string",
+            "description": "Feedback message content."
+          }
+        }
+      },
+      "InventoryItem": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string",
+            "description": "Name of the inventory item."
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Quantity available in stock."
+          }
+        }
+      },
+      "SettingsUpdate": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Configuration setting key to update."
+          },
+          "value": {
+            "type": "string",
+            "description": "New value for the specified setting."
+          }
+        }
+      }
+    }
+  }
+}

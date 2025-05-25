@@ -1,0 +1,430 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Energy Consumption Analytics and Optimization API",
+        "description": "API for observing and analyzing energy consumption in smart grid systems. Enables users to gather energy usage data, view efficiency statistics, examine load distribution, and optimize energy usage at household and industrial levels. Supports feedback to improve functionality.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/household/consumption": {
+            "get": {
+                "summary": "Retrieve household energy consumption data",
+                "description": "Fetch detailed energy consumption data at the household level over a specified time range to analyze patterns.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "Filter energy consumption data from this start date (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "Filter energy consumption data up to this end date (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved household energy consumption data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ConsumptionData"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/industrial/consumption": {
+            "get": {
+                "summary": "Access industrial energy usage data",
+                "description": "Retrieve energy consumption data for industrial facilities over a specified time period to evaluate usage patterns and identify improvement areas.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "Filter energy consumption data from this start date (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "Filter energy consumption data up to this end date (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved industrial energy usage data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ConsumptionData"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/grid/efficiency": {
+            "get": {
+                "summary": "Retrieve smart grid efficiency statistics",
+                "description": "Fetch current and historical smart grid efficiency statistics to measure overall performance.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved grid efficiency statistics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GridEfficiency"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/energy/load-distribution": {
+            "get": {
+                "summary": "Examine load distribution across grid segments",
+                "description": "Analyze the distribution of energy load across various grid segments to ensure balanced operations.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved load distribution data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/LoadDistribution"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/optimize/household": {
+            "post": {
+                "summary": "Optimize household energy usage",
+                "description": "Submit household-specific parameters to optimize energy consumption patterns and reduce waste.",
+                "requestBody": {
+                    "description": "Parameters for household energy optimization.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OptimizationParameters"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully optimized household energy usage."
+                    }
+                }
+            }
+        },
+        "/optimize/industrial": {
+            "post": {
+                "summary": "Optimize industrial energy usage",
+                "description": "Submit industrial-specific parameters to enhance energy usage efficiency in industrial facilities.",
+                "requestBody": {
+                    "description": "Parameters for industrial energy optimization.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OptimizationParameters"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully optimized industrial energy usage."
+                    }
+                }
+            }
+        },
+        "/renewable/usage-stats": {
+            "get": {
+                "summary": "Access renewable energy usage statistics",
+                "description": "Retrieve statistics on the usage of renewable energy sources across the grid.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved renewable energy statistics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RenewableUsageStats"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/trend": {
+            "get": {
+                "summary": "Analyze energy consumption trends",
+                "description": "Retrieve long-term trends and patterns in energy consumption across all grid segments.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved energy consumption trends.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TrendAnalysis"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/report/custom": {
+            "get": {
+                "summary": "Request a custom energy consumption report",
+                "description": "Request a report tailored to specific energy consumption parameters for meaningful insights.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "Start date for the custom report (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "End date for the custom report (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filters",
+                        "in": "query",
+                        "required": false,
+                        "description": "Additional filters or criteria for the report.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved the custom energy report.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomReport"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "summary": "Submit feedback regarding the system",
+                "description": "Provide feedback to help improve the various functionalities of the energy consumption analytics system.",
+                "requestBody": {
+                    "description": "User feedback data.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Feedback"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully submitted feedback."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ConsumptionData": {
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of the recorded energy consumption."
+                    },
+                    "consumption": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Amount of energy consumed in kilowatt-hours (kWh)."
+                    }
+                }
+            },
+            "GridEfficiency": {
+                "type": "object",
+                "properties": {
+                    "efficiency_percentage": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Percentage efficiency of the grid."
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of the efficiency measurement."
+                    }
+                }
+            },
+            "LoadDistribution": {
+                "type": "object",
+                "properties": {
+                    "grid_segment": {
+                        "type": "string",
+                        "description": "The segment of the grid."
+                    },
+                    "load": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Energy load in the segment (kWh)."
+                    }
+                }
+            },
+            "OptimizationParameters": {
+                "type": "object",
+                "properties": {
+                    "target_efficiency": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Desired efficiency improvement in percentage."
+                    },
+                    "timeframe": {
+                        "type": "string",
+                        "description": "Timeframe for optimization (e.g., daily, weekly)."
+                    }
+                }
+            },
+            "RenewableUsageStats": {
+                "type": "object",
+                "properties": {
+                    "renewable_source": {
+                        "type": "string",
+                        "description": "Type of renewable energy source (e.g., solar, wind)."
+                    },
+                    "percentage_usage": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Percentage share of renewables in energy usage."
+                    }
+                }
+            },
+            "TrendAnalysis": {
+                "type": "object",
+                "properties": {
+                    "time_period": {
+                        "type": "string",
+                        "description": "Time period of the trend analysis."
+                    },
+                    "trend_data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ConsumptionData"
+                        }
+                    }
+                }
+            },
+            "CustomReport": {
+                "type": "object",
+                "properties": {
+                    "report_id": {
+                        "type": "string",
+                        "description": "Unique ID for the custom report."
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ConsumptionData"
+                        },
+                        "description": "Data included in the custom report."
+                    }
+                }
+            },
+            "Feedback": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "type": "string",
+                        "description": "Identifier for the user providing feedback."
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Feedback message."
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Time the feedback was provided."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

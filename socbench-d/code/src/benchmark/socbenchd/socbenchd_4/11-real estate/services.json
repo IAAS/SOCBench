@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "name": "Property Availability Service",
+            "description": "This RESTful API aids users in searching for available real estate properties based on given criteria such as location, price range, and property type. Users can perform queries to gather detailed property information, view multimedia resources, and access data regarding surrounding amenities."
+        },
+        {
+            "name": "Real Estate Valuation Service",
+            "description": "Provides clients with tools to estimate a property's value considering factors like market trends, location desirability, and property features. Users supply property attributes to retrieve an updated market value assessment through the API."
+        },
+        {
+            "name": "Rental Property Management Service",
+            "description": "Assists landlords and property managers in organizing rental properties, tenant details, and rental income tracking. Features include maintenance request handling, payment reminders, and agreement management."
+        },
+        {
+            "name": "Real Estate Market Trends Analytics",
+            "description": "Offers developers and investors market analytics, identifying price trends, demand forecasts, and investment hotspots. Users submit filter parameters to obtain comprehensive reports and visualizations for data-driven decision-making."
+        },
+        {
+            "name": "Property Transaction Validation Service",
+            "description": "Authenticates and verifies records of property transactions and ownership. Integrates with government or regional legal systems to ensure seamless compliance and accurate property legal status checks."
+        }
+    ]
+}

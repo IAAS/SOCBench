@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+Monitor and predict electricity demand using historical and real-time data ensuring a balanced and stable energy grid.
+
+Endpoints:
+GET /electricity-demand: Fetch the historical electricity demand data for analysis.
+POST /electricity-demand/prediction: Submit parameters for predicting future electricity demand.
+GET /real-time-data: Retrieve the current real-time data related to energy consumption and demand.
+POST /smart-meters/data: Upload data collected from smart meters for processing.
+GET /grid/balance/status: Obtain the current status of grid stability and balance.
+POST /alerts/configure: Set up configurations to receive alerts related to demand and supply issues.
+GET /reports/monthly: Download monthly reports on electricity consumption and grid performance.
+PUT /sensors/calibration: Adjust sensor calibration settings for accurate measurements.
+GET /weather-impact-analysis: Analyze and display the impact of weather conditions on electricity demand.
+POST /renewable/integration/status: Submit data regarding the integration of renewable energy sources into the grid.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

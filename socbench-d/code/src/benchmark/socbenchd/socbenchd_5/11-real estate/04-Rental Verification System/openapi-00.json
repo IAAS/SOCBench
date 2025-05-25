@@ -1,0 +1,324 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Rental Applicant Validation API",
+    "description": "This API allows for verifying and validating rental applicant credentials and history to improve tenant selection and ensure compliance with leasing policies.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/applicants/{applicant_id}": {
+      "get": {
+        "summary": "Retrieve Applicant Details",
+        "description": "Retrieve detailed information about a specific rental applicant based on their unique identifier.",
+        "parameters": [
+          {
+            "name": "applicant_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the rental applicant.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Applicant details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "applicant_id": "12345",
+                  "name": "Jane Doe",
+                  "email": "jane.doe@example.com",
+                  "phone": "555-1234",
+                  "status": "Pending Review"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Applicant not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Applicant Information",
+        "description": "Update information for a rental applicant based on their unique identifier.",
+        "parameters": [
+          {
+            "name": "applicant_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the rental applicant.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated rental applicant data.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Jane Doe",
+                "email": "jane.doe@updatedemail.com",
+                "phone": "555-5678",
+                "status": "Approved"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Applicant information updated successfully."
+          },
+          "404": {
+            "description": "Applicant not found."
+          }
+        }
+      }
+    },
+    "/applicants": {
+      "post": {
+        "summary": "Submit New Applicant",
+        "description": "Create a new rental applicant by providing their data for review and validation.",
+        "requestBody": {
+          "description": "Rental applicant data.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "John Smith",
+                "email": "john.smith@example.com",
+                "phone": "555-6789",
+                "status": "Pending Review"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Rental applicant created successfully."
+          },
+          "400": {
+            "description": "Invalid request data."
+          }
+        }
+      }
+    },
+    "/verifications": {
+      "get": {
+        "summary": "List Completed Verifications",
+        "description": "Retrieve a list of all completed verifications performed for rental applicants.",
+        "responses": {
+          "200": {
+            "description": "Verifications retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "verification_id": "abc123",
+                    "applicant_id": "12345",
+                    "status": "Completed",
+                    "date": "2023-10-01"
+                  },
+                  {
+                    "verification_id": "def456",
+                    "applicant_id": "67890",
+                    "status": "Completed",
+                    "date": "2023-10-15"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Initiate New Verification",
+        "description": "Initiate a background check and credential verification for a rental applicant.",
+        "requestBody": {
+          "description": "Details of the applicant for whom the verification is being initiated.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "applicant_id": "12345",
+                "verification_type": "Tenant Background Check"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Verification initiated successfully."
+          },
+          "400": {
+            "description": "Invalid request data."
+          }
+        }
+      }
+    },
+    "/history/{applicant_id}": {
+      "get": {
+        "summary": "Retrieve Applicant History",
+        "description": "Fetch the rental and payment history for a specific rental applicant.",
+        "parameters": [
+          {
+            "name": "applicant_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the rental applicant.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rental history fetched successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "applicant_id": "12345",
+                  "rental_history": [
+                    {
+                      "property": "123 Main St",
+                      "start_date": "2022-01-01",
+                      "end_date": "2023-01-01",
+                      "status": "Paid On Time"
+                    },
+                    {
+                      "property": "456 Elm St",
+                      "start_date": "2023-02-01",
+                      "end_date": "2023-10-01",
+                      "status": "Late Payments"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Applicant not found."
+          }
+        }
+      }
+    },
+    "/properties": {
+      "get": {
+        "summary": "Browse Rental Properties",
+        "description": "Access a list of registered rental properties.",
+        "responses": {
+          "200": {
+            "description": "Rental properties retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "property_id": "1",
+                    "address": "123 Main St",
+                    "price": 1500
+                  },
+                  {
+                    "property_id": "2",
+                    "address": "456 Elm St",
+                    "price": 2000
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports": {
+      "post": {
+        "summary": "Generate Compliance Report",
+        "description": "Generate a compliance and eligibility report for a rental applicant.",
+        "requestBody": {
+          "description": "Details of the applicant for whom the report is being generated.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "applicant_id": "12345"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Report generated successfully."
+          },
+          "400": {
+            "description": "Invalid request data."
+          }
+        }
+      }
+    },
+    "/status/{verification_id}": {
+      "get": {
+        "summary": "Check Verification Status",
+        "description": "Retrieve the current status of a verification process by its unique identifier.",
+        "parameters": [
+          {
+            "name": "verification_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the verification process.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verification status retrieved successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "verification_id": "abc123",
+                  "status": "In Progress",
+                  "progress": "75%"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Verification process not found."
+          }
+        }
+      }
+    },
+    "/verifications/{verification_id}": {
+      "delete": {
+        "summary": "Cancel Verification",
+        "description": "Cancel an ongoing or completed verification process by its unique identifier.",
+        "parameters": [
+          {
+            "name": "verification_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the verification process.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verification process canceled successfully."
+          },
+          "404": {
+            "description": "Verification process not found."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  }
+}

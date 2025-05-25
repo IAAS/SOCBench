@@ -1,0 +1,471 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+OpenAPI:
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Renewable Energy Integration Service API",
+        "version": "1.0.0",
+        "description": "The Renewable Energy Integration Service provides utilities with data and automation capabilities to seamlessly integrate renewable energy sources like wind and solar into existing energy grids. This API allows users to manage energy grids, fetch real-time and predictive data, configure alerts, and more."
+    },
+    "servers": [
+        {
+            "url": "https://api.renewable-energy-integration.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "ApiTokenAuth": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header",
+                "description": "API Token for authenticating requests. Use 'Bearer {token}' format."
+            }
+        }
+    },
+    "security": [
+        {
+            "ApiTokenAuth": []
+        }
+    ],
+    "paths": {
+        "/integration/grid": {
+            "post": {
+                "summary": "Enable and configure renewable energy integration",
+                "description": "Enable and configure the integration of a renewable energy source (e.g., wind or solar) into the existing energy grid.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "sourceType": {
+                                        "type": "string",
+                                        "enum": [
+                                            "wind",
+                                            "solar",
+                                            "other"
+                                        ],
+                                        "description": "Type of renewable energy source being integrated."
+                                    },
+                                    "capacity": {
+                                        "type": "number",
+                                        "description": "Total capacity of the renewable energy source in MW."
+                                    },
+                                    "gridId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the grid where the energy source will be integrated."
+                                    }
+                                },
+                                "required": [
+                                    "sourceType",
+                                    "capacity",
+                                    "gridId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Integration successfully configured.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/production/real-time": {
+            "get": {
+                "summary": "Retrieve real-time production metrics",
+                "description": "Retrieve real-time production metrics of renewable energy sources such as wind and solar.",
+                "parameters": [
+                    {
+                        "name": "sourceType",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "wind",
+                                "solar",
+                                "all"
+                            ]
+                        },
+                        "description": "Specify the type of renewable energy source to retrieve metrics for. Defaults to 'all'."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved real-time metrics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "sourceType": {
+                                            "type": "string"
+                                        },
+                                        "production": {
+                                            "type": "number",
+                                            "description": "Energy production in MW."
+                                        },
+                                        "timestamp": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found for the specified source type or time range."
+                    }
+                }
+            }
+        },
+        "/grid/status": {
+            "get": {
+                "summary": "Fetch energy grid status",
+                "description": "Fetch the current status and performance metrics of the energy grid interface.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved grid status and performance metrics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "active",
+                                                "down",
+                                                "maintenance"
+                                            ]
+                                        },
+                                        "performanceMetrics": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error fetching grid status."
+                    }
+                }
+            }
+        },
+        "/alerts/settings": {
+            "post": {
+                "summary": "Set up grid or production alerts",
+                "description": "Configure alert notifications based on grid or production events.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "alertType": {
+                                        "type": "string",
+                                        "enum": [
+                                            "grid-status",
+                                            "production-drop",
+                                            "capacity-limit"
+                                        ],
+                                        "description": "Type of event to configure alerts for."
+                                    },
+                                    "threshold": {
+                                        "type": "number",
+                                        "description": "Threshold at which the alert will be triggered."
+                                    },
+                                    "recipients": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "email"
+                                        },
+                                        "description": "List of email addresses to receive the alert notifications."
+                                    }
+                                },
+                                "required": [
+                                    "alertType",
+                                    "threshold",
+                                    "recipients"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Alerts successfully created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "alertId": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "active",
+                                                "pending"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data."
+                    }
+                }
+            }
+        },
+        "/forecast/demand": {
+            "get": {
+                "summary": "Predict energy demand",
+                "description": "Generate and retrieve predictions for energy demand based on historical data and predictive modeling.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved predictive data for energy demand.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "timeRange": {
+                                            "type": "string"
+                                        },
+                                        "prediction": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "timestamp": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "value": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/supply/overview": {
+            "get": {
+                "summary": "View renewable energy supply overview",
+                "description": "Retrieve a summary of energy supply from renewable sources.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved energy supply overview.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "renewableSources": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "totalSupply": {
+                                            "type": "number",
+                                            "description": "Total supply in MW."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/data/upload": {
+            "post": {
+                "summary": "Upload external data",
+                "description": "Allow utilities to upload external data for modeling and integration.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "data": {
+                                        "type": "string",
+                                        "description": "External data in JSON format."
+                                    },
+                                    "metadata": {
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        },
+                                        "description": "Metadata for the uploaded data."
+                                    }
+                                },
+                                "required": [
+                                    "data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data uploaded successfully."
+                    },
+                    "400": {
+                        "description": "Invalid data format."
+                    }
+                }
+            }
+        },
+        "/grid/control": {
+            "put": {
+                "summary": "Update grid configurations",
+                "description": "Update configurations for grid energy distribution settings.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "gridId": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the grid."
+                                    },
+                                    "config": {
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        },
+                                        "description": "Updated grid distribution settings."
+                                    }
+                                },
+                                "required": [
+                                    "gridId",
+                                    "config"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Grid configurations updated successfully."
+                    },
+                    "404": {
+                        "description": "Grid not found."
+                    }
+                }
+            }
+        },
+        "/resource/remove": {
+            "delete": {
+                "summary": "Remove obsolete renewable resources",
+                "description": "Remove obsolete or inactive renewable resources from the system.",
+                "parameters": [
+                    {
+                        "name": "resourceId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique identifier of the renewable resource to be removed."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resource removed successfully."
+                    },
+                    "404": {
+                        "description": "Resource not found."
+                    }
+                }
+            }
+        },
+        "/reports/summary": {
+            "get": {
+                "summary": "Generate custom reports",
+                "description": "Generate and download custom reports about renewable energy integration and performance.",
+                "responses": {
+                    "200": {
+                        "description": "Custom report generated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reportUrl": {
+                                            "type": "string",
+                                            "description": "URL to download the generated report."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error generating report."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

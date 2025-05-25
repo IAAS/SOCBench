@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /infrastructure/status",
+            "description": "Retrieve the status of all monitored infrastructure components, including pipelines and power grids."
+        },
+        {
+            "endpoint": "POST /alerts/anomaly-detection",
+            "description": "Receive detailed analysis and notifications regarding detected anomalies in the monitored data."
+        },
+        {
+            "endpoint": "PUT /infrastructure/maintenance-schedule",
+            "description": "Update the scheduled maintenance activities for specific infrastructure elements."
+        },
+        {
+            "endpoint": "GET /infrastructure/failure-predictions",
+            "description": "Access reports containing predictions about potential failures in the infrastructure."
+        },
+        {
+            "endpoint": "POST /infrastructure/evaluation",
+            "description": "Submit historical performance data for infrastructure for evaluation and analysis."
+        },
+        {
+            "endpoint": "GET /sensors/overview",
+            "description": "Obtain an overview summary of sensor readings and performance analytics."
+        },
+        {
+            "endpoint": "DELETE /alerts/clear-all",
+            "description": "Remove all current alerts and notifications, resetting the system state."
+        },
+        {
+            "endpoint": "PATCH /settings/notification-preferences",
+            "description": "Modify user-defined preferences for receiving notifications about the infrastructure."
+        },
+        {
+            "endpoint": "GET /reports/system-reliability",
+            "description": "Fetch comprehensive reports on the overall reliability and performance trends of the infrastructure."
+        },
+        {
+            "endpoint": "POST /diagnostics/run-check",
+            "description": "Initiate a real-time diagnostic check for specified infrastructure components to ensure optimal operation."
+        }
+    ]
+}

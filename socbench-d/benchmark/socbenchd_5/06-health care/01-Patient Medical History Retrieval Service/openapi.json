@@ -1,0 +1,465 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Healthcare Records API",
+        "description": "This API enables healthcare providers secure access to a patient's historical medical records, facilitating diagnosis and treatment planning. It integrates with hospital EMR systems and allows authenticated users to manage and retrieve patient and medical records.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.healthcare.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/patients/{patient_id}/records": {
+            "get": {
+                "summary": "Retrieve a patient's medical records",
+                "description": "Fetch the complete historical medical records for a specific patient using their unique identifier (e.g., patient ID).",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the patient.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of patient's medical records.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MedicalRecord"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Patient not found."
+                    }
+                }
+            }
+        },
+        "/records/{record_id}/update": {
+            "post": {
+                "summary": "Update a medical record",
+                "description": "Update details of an existing medical record identified by its unique record ID.",
+                "parameters": [
+                    {
+                        "name": "record_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the medical record.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Data for updating the medical record.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MedicalRecordUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Medical record successfully updated."
+                    },
+                    "404": {
+                        "description": "Medical record not found."
+                    }
+                }
+            }
+        },
+        "/patients/search": {
+            "get": {
+                "summary": "Search for patients",
+                "description": "Search for patients using demographic details (like name, date of birth) or medical information.",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "description": "Patient's full name.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "dob",
+                        "in": "query",
+                        "required": false,
+                        "description": "Date of birth (format: YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "medical_attribute",
+                        "in": "query",
+                        "required": false,
+                        "description": "Medical attribute of the patient (e.g., chronic condition).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of patients matching search criteria.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Patient"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/records/{record_id}/annotate": {
+            "post": {
+                "summary": "Annotate a medical record",
+                "description": "Add annotations or comments to a specific medical record.",
+                "parameters": [
+                    {
+                        "name": "record_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the medical record.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Annotation data.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Annotation"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Annotation successfully added to record."
+                    },
+                    "404": {
+                        "description": "Medical record not found."
+                    }
+                }
+            }
+        },
+        "/records/{record_id}/history": {
+            "get": {
+                "summary": "Retrieve medical record history",
+                "description": "Fetch the change history of a specific medical record.",
+                "parameters": [
+                    {
+                        "name": "record_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the medical record.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Change history fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RecordChangeHistory"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Medical record not found."
+                    }
+                }
+            }
+        },
+        "/records/{record_id}": {
+            "delete": {
+                "summary": "Delete a medical record",
+                "description": "Permanently delete a medical record identified by its unique record ID.",
+                "parameters": [
+                    {
+                        "name": "record_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the medical record.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Medical record successfully deleted."
+                    },
+                    "404": {
+                        "description": "Medical record not found."
+                    }
+                }
+            }
+        },
+        "/patients/recent-visits": {
+            "get": {
+                "summary": "Fetch recent patient visits",
+                "description": "Retrieve a list of patients and their recent visit details to the healthcare facility.",
+                "responses": {
+                    "200": {
+                        "description": "List of patients with recent visit details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RecentVisit"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reports/summary": {
+            "get": {
+                "summary": "Generate summary report",
+                "description": "Generate and retrieve a summary report of patient record statistics, such as the number of records, latest updates, or flagged cases.",
+                "responses": {
+                    "200": {
+                        "description": "Summary report successfully generated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SummaryReport"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/patients/{patient_id}/merge": {
+            "put": {
+                "summary": "Merge duplicate patient records",
+                "description": "Merge multiple patient records into one unified record, identified by the main patient ID.",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique identifier for the primary patient record to retain.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "List of patient IDs to merge.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Patient records successfully merged."
+                    },
+                    "404": {
+                        "description": "One or more patient records not found."
+                    }
+                }
+            }
+        },
+        "/alerts/critical-records": {
+            "get": {
+                "summary": "Fetch critical records",
+                "description": "Retrieve a list of patients whose medical records meet critical alert conditions.",
+                "responses": {
+                    "200": {
+                        "description": "List of critical patient records.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CriticalRecord"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "MedicalRecord": {
+                "type": "object",
+                "properties": {
+                    "record_id": {
+                        "type": "string",
+                        "description": "Unique identifier for the medical record."
+                    },
+                    "patient_id": {
+                        "type": "string",
+                        "description": "Unique identifier for the patient associated with the record."
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "Details of the medical record."
+                    },
+                    "last_updated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of the last update to the record."
+                    }
+                }
+            },
+            "MedicalRecordUpdate": {
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "type": "string",
+                        "description": "Updated details of the medical record."
+                    }
+                }
+            },
+            "Patient": {
+                "type": "object",
+                "properties": {
+                    "patient_id": {
+                        "type": "string",
+                        "description": "Unique identifier for the patient."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Full name of the patient."
+                    },
+                    "dob": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Date of birth of the patient."
+                    }
+                }
+            },
+            "Annotation": {
+                "type": "object",
+                "properties": {
+                    "comment": {
+                        "type": "string",
+                        "description": "Annotation or comment to be added."
+                    },
+                    "author": {
+                        "type": "string",
+                        "description": "Name or ID of the annotator."
+                    }
+                }
+            },
+            "RecordChangeHistory": {
+                "type": "object",
+                "properties": {
+                    "change_id": {
+                        "type": "string",
+                        "description": "Unique identifier for the change."
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Time when the change was made."
+                    },
+                    "changes": {
+                        "type": "string",
+                        "description": "Description of the changes made."
+                    }
+                }
+            },
+            "RecentVisit": {
+                "type": "object",
+                "properties": {
+                    "patient_id": {
+                        "type": "string",
+                        "description": "Unique identifier for the patient."
+                    },
+                    "visit_date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Date of the patient's recent visit."
+                    }
+                }
+            },
+            "SummaryReport": {
+                "type": "object",
+                "properties": {
+                    "total_records": {
+                        "type": "integer",
+                        "description": "Total number of medical records."
+                    },
+                    "updated_records": {
+                        "type": "integer",
+                        "description": "Number of recently updated records."
+                    },
+                    "flagged_records": {
+                        "type": "integer",
+                        "description": "Number of records flagged for review."
+                    }
+                }
+            },
+            "CriticalRecord": {
+                "type": "object",
+                "properties": {
+                    "record_id": {
+                        "type": "string",
+                        "description": "Unique identifier for the critical record."
+                    },
+                    "patient_id": {
+                        "type": "string",
+                        "description": "Unique identifier for the patient associated with the record."
+                    },
+                    "condition": {
+                        "type": "string",
+                        "description": "Critical alert condition associated with the record."
+                    }
+                }
+            }
+        }
+    }
+}

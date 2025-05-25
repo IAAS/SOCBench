@@ -1,0 +1,554 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Sustainability Tracking API for Timber and Paper Product Industries",
+        "description": "API designed to aid timber and paper product industries in tracking and complying with sustainability standards. The API facilitates data collection and reporting on resource usage, recycling initiatives, and carbon footprints to ensure compliance with regulatory requirements and promote eco-friendly practices.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.sustainabilityservice.com"
+        }
+    ],
+    "paths": {
+        "/api/v1/reports/carbon-footprint": {
+            "get": {
+                "summary": "Retrieve Carbon Footprint Data",
+                "description": "Allow sustainability officers to retrieve data about carbon emissions over a specific time range using various parameters to assess and analyze emissions.",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": true,
+                        "description": "The start date for the carbon footprint data range in ISO 8601 format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": true,
+                        "description": "The end date for the carbon footprint data range in ISO 8601 format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "department",
+                        "in": "query",
+                        "required": false,
+                        "description": "The department for which the carbon footprint data is requested, for more granular analysis.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of carbon footprint data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "emissions": {
+                                                        "type": "number"
+                                                    },
+                                                    "unit": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters."
+                    },
+                    "401": {
+                        "description": "Unauthorized access."
+                    }
+                }
+            }
+        },
+        "/api/v1/reports/upload": {
+            "post": {
+                "summary": "Submit Sustainability Report",
+                "description": "Submit and store detailed sustainability reports, including data on resource usage and recycling to ensure compliance and track sustainability initiatives.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "reportData": {
+                                        "type": "object",
+                                        "properties": {
+                                            "resourceUsage": {
+                                                "type": "string"
+                                            },
+                                            "recyclingData": {
+                                                "type": "string"
+                                            },
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date"
+                                            }
+                                        },
+                                        "required": [
+                                            "resourceUsage",
+                                            "recyclingData",
+                                            "date"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Report submitted successfully."
+                    },
+                    "400": {
+                        "description": "Bad request."
+                    }
+                }
+            }
+        },
+        "/api/v1/resources/usage": {
+            "get": {
+                "summary": "Fetch Resource Usage Data",
+                "description": "Fetch data related to the consumption of resources such as water, energy, and raw materials to visualize consumption trends and identify potential efficiencies.",
+                "parameters": [
+                    {
+                        "name": "resourceType",
+                        "in": "query",
+                        "required": false,
+                        "description": "Specify the type of resource for detailed analysis (e.g., water, energy).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": true,
+                        "description": "The start date for fetching the data in ISO 8601 format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": true,
+                        "description": "The end date for fetching the data in ISO 8601 format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of resource usage data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "resourceType": {
+                                                        "type": "string"
+                                                    },
+                                                    "consumption": {
+                                                        "type": "number"
+                                                    },
+                                                    "unit": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters."
+                    }
+                }
+            }
+        },
+        "/api/v1/metrics/update": {
+            "put": {
+                "summary": "Update Sustainability Metrics",
+                "description": "Update existing sustainability metrics with new data to maintain accuracy in ongoing reporting and analysis.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "metricId": {
+                                        "type": "string"
+                                    },
+                                    "newData": {
+                                        "type": "object",
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "metricId",
+                                    "newData"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Metrics updated successfully."
+                    },
+                    "400": {
+                        "description": "Bad request."
+                    }
+                }
+            }
+        },
+        "/api/v1/certifications/status": {
+            "get": {
+                "summary": "Check Certification Status",
+                "description": "Check the status of sustainability certifications and compliance checks for ongoing projects and initiatives.",
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "query",
+                        "required": false,
+                        "description": "The project ID to check the certification status for.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Certification status retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "certifications": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "certification": {
+                                                        "type": "string"
+                                                    },
+                                                    "status": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters."
+                    }
+                }
+            }
+        },
+        "/api/v1/initiatives/new": {
+            "post": {
+                "summary": "Register New Sustainability Initiative",
+                "description": "Register and track new sustainability initiatives, allowing companies to set goals and monitor progress over time.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "initiativeName": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "startDate": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "endDate": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "required": [
+                                    "initiativeName",
+                                    "startDate",
+                                    "endDate"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Initiative registered successfully."
+                    },
+                    "400": {
+                        "description": "Bad request."
+                    }
+                }
+            }
+        },
+        "/api/v1/recycling/initiatives": {
+            "get": {
+                "summary": "List Recycling Initiatives",
+                "description": "List active recycling initiatives, providing detailed information on types of materials recycled, volumes, and recycling partners involved.",
+                "parameters": [
+                    {
+                        "name": "partner",
+                        "in": "query",
+                        "required": false,
+                        "description": "Filter by recycling partner.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Recycling initiatives fetched successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "initiatives": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "material": {
+                                                        "type": "string"
+                                                    },
+                                                    "volume": {
+                                                        "type": "number"
+                                                    },
+                                                    "unit": {
+                                                        "type": "string"
+                                                    },
+                                                    "partner": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters."
+                    }
+                }
+            }
+        },
+        "/api/v1/data/remove": {
+            "delete": {
+                "summary": "Remove Outdated or Incorrect Data",
+                "description": "Remove outdated or incorrect data entries from the sustainability tracking system to ensure all reports remain current and accurate.",
+                "parameters": [
+                    {
+                        "name": "entryId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The ID of the data entry to be removed.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data entry removed successfully."
+                    },
+                    "400": {
+                        "description": "Invalid entry ID."
+                    }
+                }
+            }
+        },
+        "/api/v1/resources/allocate": {
+            "patch": {
+                "summary": "Modify Resource Allocation",
+                "description": "Modify the allocation of resources in response to the findings related to efficiency or changes in project needs, promoting sustainable practices.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "resourceId": {
+                                        "type": "string"
+                                    },
+                                    "newAllocation": {
+                                        "type": "object",
+                                        "properties": {
+                                            "amount": {
+                                                "type": "number"
+                                            },
+                                            "unit": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "amount",
+                                            "unit"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "resourceId",
+                                    "newAllocation"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Resource allocation updated successfully."
+                    },
+                    "400": {
+                        "description": "Bad request."
+                    }
+                }
+            }
+        },
+        "/api/v1/users/activities": {
+            "get": {
+                "summary": "Track User Activities",
+                "description": "Track user activities related to data submissions, report generation, and other interactions within the sustainability service platform, enhancing transparency and accountability.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": false,
+                        "description": "The ID of the user to filter activities.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "The start date for the activity log range in ISO 8601 format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "The end date for the activity log range in ISO 8601 format.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User activities tracked successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "activities": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "timestamp": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "action": {
+                                                        "type": "string"
+                                                    },
+                                                    "details": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "apiKeyAuth": {
+                "type": "apiKey",
+                "name": "api_key",
+                "in": "header"
+            }
+        }
+    },
+    "security": [
+        {
+            "apiKeyAuth": []
+        }
+    ]
+}

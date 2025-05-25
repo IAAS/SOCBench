@@ -1,0 +1,385 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Construction Materials Repository API",
+        "description": "A RESTful API offering a centralized repository for detailed specifications, standards, and best practices related to various construction materials to ensure quality and compliance in architectural projects.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.construction-materials.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/materials": {
+            "get": {
+                "summary": "Retrieve all materials",
+                "description": "Fetch a list of all available materials along with their detailed specifications.",
+                "responses": {
+                    "200": {
+                        "description": "A list of materials with their specifications.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Material"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new material",
+                "description": "Add a new construction material to the repository with its specifications.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Material"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Material added successfully."
+                    }
+                }
+            }
+        },
+        "/materials/{id}": {
+            "get": {
+                "summary": "Retrieve material details",
+                "description": "Retrieve detailed specifications and information for a specific material by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The identifier of the material to retrieve.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detailed material information.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Material"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Material not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update material details",
+                "description": "Update the specifications and details for a specific material by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The identifier of the material to update.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Material"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Material updated successfully."
+                    },
+                    "404": {
+                        "description": "Material not found."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a material",
+                "description": "Remove a specific material from the repository by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The identifier of the material to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Material deleted successfully."
+                    },
+                    "404": {
+                        "description": "Material not found."
+                    }
+                }
+            }
+        },
+        "/standards": {
+            "get": {
+                "summary": "Retrieve all material standards",
+                "description": "Fetch a list of all construction material standards.",
+                "responses": {
+                    "200": {
+                        "description": "A list of material standards.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Standard"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new material standard",
+                "description": "Add a new standard related to construction materials to the repository.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Standard"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Material standard added successfully."
+                    }
+                }
+            }
+        },
+        "/materials/{id}/compliance": {
+            "get": {
+                "summary": "Check material compliance",
+                "description": "Check the compliance status of a specific material against defined construction standards.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The identifier of the material to check compliance for.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Compliance status of the material.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "materialId": {
+                                            "type": "string"
+                                        },
+                                        "compliant": {
+                                            "type": "boolean"
+                                        },
+                                        "details": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Material not found."
+                    }
+                }
+            }
+        },
+        "/materials/{id}/feedback": {
+            "post": {
+                "summary": "Submit material feedback",
+                "description": "Submit feedback or a review regarding the specifications of a specific material.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The identifier of the material to provide feedback for.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Feedback"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Feedback submitted successfully."
+                    },
+                    "404": {
+                        "description": "Material not found."
+                    }
+                }
+            }
+        },
+        "/materials/search": {
+            "get": {
+                "summary": "Search for materials",
+                "description": "Search for materials based on criteria such as type, usage, or compliance status.",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": false,
+                        "description": "The type of material to search for (e.g., steel, glass, wood).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "usage",
+                        "in": "query",
+                        "required": false,
+                        "description": "The usage or application of the material (e.g., insulation, load-bearing).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "complianceStatus",
+                        "in": "query",
+                        "required": false,
+                        "description": "Filter materials by their compliance status (e.g., compliant, non-compliant).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Search results for materials.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Material"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Material": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "specifications": {
+                        "type": "object",
+                        "additionalProperties": true
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "name",
+                    "type",
+                    "specifications"
+                ]
+            },
+            "Standard": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name",
+                    "description"
+                ]
+            },
+            "Feedback": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "rating": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 5
+                    }
+                },
+                "required": [
+                    "message",
+                    "rating"
+                ]
+            }
+        }
+    }
+}

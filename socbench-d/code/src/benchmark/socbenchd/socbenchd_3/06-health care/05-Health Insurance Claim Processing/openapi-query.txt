@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+Service:
+This service facilitates seamless submission and processing of insurance claims associated with medical treatments. Patients and providers can submit claim details while insurance companies can review and approve claims efficiently, streamlining the reimbursement process.
+
+Endpoints:
+GET /claims: Retrieve a list of all submitted insurance claims.
+POST /claims: Submit a new insurance claim for processing.
+GET /claims/{claimId}: Retrieve detailed information about a specific insurance claim based on its unique identifier.
+PUT /claims/{claimId}: Update information or status of a specific insurance claim.
+DELETE /claims/{claimId}: Remove a specific insurance claim from the system.
+GET /policies: Retrieve information on insurance policies associated with providers.
+POST /providers: Register a new health care provider with their associated details.
+GET /patients/{patientId}/history: Retrieve the claim history for a specific patient identified by their unique identifier.
+POST /claims/{claimId}/approval: Submit approval for a specific claim after review.
+GET /analytics/reports: Generate and access data analysis related to claim submissions and processing times.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

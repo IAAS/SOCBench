@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /patients",
+            "description": "Add a new patient to the system database."
+        },
+        {
+            "endpoint": "GET /patients/{patientId}/reports",
+            "description": "Retrieve the health report generated for the specified patient."
+        },
+        {
+            "endpoint": "PUT /patients/{patientId}",
+            "description": "Update the medical information of an existing patient."
+        },
+        {
+            "endpoint": "POST /patients/{patientId}/data",
+            "description": "Submit new health data for the specified patient."
+        },
+        {
+            "endpoint": "GET /analytics/predictions",
+            "description": "Access predictive analytics based on aggregated patient data."
+        },
+        {
+            "endpoint": "GET /data/summary",
+            "description": "Retrieve summarized insights from health data."
+        },
+        {
+            "endpoint": "DELETE /patients/{patientId}",
+            "description": "Remove a patient's information completely from the system."
+        },
+        {
+            "endpoint": "GET /devices",
+            "description": "Get a list of health monitoring devices currently supported."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Create a new alert based on specific health data triggers."
+        },
+        {
+            "endpoint": "GET /reports/history",
+            "description": "Fetch historical reports for analysis and review."
+        }
+    ]
+}

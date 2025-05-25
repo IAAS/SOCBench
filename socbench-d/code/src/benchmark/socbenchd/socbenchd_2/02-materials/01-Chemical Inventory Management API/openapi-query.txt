@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+Service:
+This API provides manufacturing companies with real-time tracking and managing of their chemical inventory levels. The service facilitates compliance with safety regulations and optimized inventory control.
+
+Endpoints:
+GET /inventory: Retrieve detailed information about all chemical stocks and their current levels.
+POST /inventory: Add a new chemical item to the inventory with relevant specifications.
+PUT /inventory/{itemID}: Update the characteristics or storage information of a specific chemical item.
+DELETE /inventory/{itemID}: Remove a particular chemical item from the inventory.
+GET /regulations: Fetch the list of safety regulations and compliance rules relevant to the stored chemicals.
+POST /alerts: Create a notification or reminder for specific chemicals nearing minimum stock levels.
+GET /statistics: Gather statistics and analytics about chemical usage trends and inventory turnover.
+POST /inventory/reorder: Initiate a reorder process for chemicals that have reached minimum inventory thresholds.
+GET /storage-requirements/{itemID}: Retrieve safety and environmental requirements for storing a specific chemical.
+GET /item-hazard-info/{itemID}: Access hazard and safety information for a particular chemical item.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

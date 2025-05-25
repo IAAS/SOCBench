@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+Service:
+Supports distributors and retailers by offering seamless integration of consumer staple products into e-commerce platforms, enhancing digital presence.
+
+Endpoints:
+GET /products: Retrieve a list of all available consumer staple products for integration.
+POST /products: Add a new consumer staple product to the system for integration.
+PUT /products/{productId}: Update details of a specific consumer staple product using its ID.
+DELETE /products/{productId}: Remove a specific consumer staple product from the system using its ID.
+GET /categories: Retrieve a list of product categories for organizational purposes.
+POST /orders: Place a new order to restock specific consumer staple products.
+GET /orders/{orderId}: Retrieve details and status of a specific order using its ID.
+POST /analytics: Request analytics and sales trends for consumer staple products.
+GET /recommendations: Obtain product recommendations based on sales data and trends.
+GET /promotions: View active promotions and discounts for consumer staple products.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /market/forecasts",
+            "description": "Retrieve energy price forecasts for various time intervals and regions."
+        },
+        {
+            "endpoint": "POST /market/trade",
+            "description": "Submit a trade order specifying energy quantity, price, and other relevant parameters."
+        },
+        {
+            "endpoint": "PUT /trade/{trade_id}",
+            "description": "Modify an existing trade order using its unique identifier."
+        },
+        {
+            "endpoint": "DELETE /trade/{trade_id}",
+            "description": "Cancel a specific trade order by providing its unique identifier."
+        },
+        {
+            "endpoint": "GET /analytics/distribution",
+            "description": "Obtain analytics reports on energy distribution patterns and trends."
+        },
+        {
+            "endpoint": "POST /analytics/custom",
+            "description": "Generate customized analytics reports based on specified energy consumption criteria."
+        },
+        {
+            "endpoint": "GET /producers",
+            "description": "List registered energy producers along with their output capacities and availability."
+        },
+        {
+            "endpoint": "GET /consumers",
+            "description": "Retrieve details of registered energy consumers and their consumption patterns."
+        },
+        {
+            "endpoint": "GET /marketpatterns",
+            "description": "Retrieve historical patterns and trends in energy markets for analysis."
+        },
+        {
+            "endpoint": "PATCH /user/preferences",
+            "description": "Update user-specific settings and preferences related to service usage."
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+Service:
+This service provides detailed nutritional information for a wide array of consumer staple products including food, beverages, and non-durable household items. By integrating this API, retailers can display clear and easy-to-read nutritional facts, help consumers make informed decisions, and comply with food labeling regulations. Developers can access data via a unique API key, querying for product-specific details using UPC codes.
+
+Endpoints:
+GET /products: Retrieve a list of all supported products with detailed nutritional information.
+GET /products/{upc}: Fetch detailed nutritional data for a specific product identified by its UPC code.
+GET /categories: List all product categories and their descriptions available in the API.
+GET /categories/{categoryId}/products: Retrieve products belonging to a specific category identified by categoryId.
+GET /products/{upc}/ingredients: Get ingredient information for the given product identified by its UPC.
+GET /products/{upc}/allergens: Retrieve allergen information for the specific product identified by its UPC.
+GET /products/{upc}/labels: Fetch regulation labels like 'Gluten-Free' or 'Organic' for the given product.
+GET /products/{upc}/compare/{otherUpc}: Compare the nutritional values and ingredients of two products by their UPC codes.
+POST /feedback: Submit feedback or corrections regarding a specific product.
+GET /version: Retrieve the current version of the API for compatibility checks.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

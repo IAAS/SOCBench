@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Utilities Sector: The Utilities Sector comprises utility companies such as electric, gas and water utilities. It also includes independent power producers & energy traders and companies that engage in generation and distribution of electricity using renewable sources.
+
+Service:
+This RESTful API is built to monitor and analyze infrastructure data such as pipelines and power grids in real-time. It identifies anomalies, predicts failures, and advises preventive maintenance, ensuring uninterrupted service delivery.
+
+Endpoints:
+GET /infrastructure/status: Retrieve the status of all monitored infrastructure components, including pipelines and power grids.
+POST /alerts/anomaly-detection: Receive detailed analysis and notifications regarding detected anomalies in the monitored data.
+PUT /infrastructure/maintenance-schedule: Update the scheduled maintenance activities for specific infrastructure elements.
+GET /infrastructure/failure-predictions: Access reports containing predictions about potential failures in the infrastructure.
+POST /infrastructure/evaluation: Submit historical performance data for infrastructure for evaluation and analysis.
+GET /sensors/overview: Obtain an overview summary of sensor readings and performance analytics.
+DELETE /alerts/clear-all: Remove all current alerts and notifications, resetting the system state.
+PATCH /settings/notification-preferences: Modify user-defined preferences for receiving notifications about the infrastructure.
+GET /reports/system-reliability: Fetch comprehensive reports on the overall reliability and performance trends of the infrastructure.
+POST /diagnostics/run-check: Initiate a real-time diagnostic check for specified infrastructure components to ensure optimal operation.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,395 @@
+SUMMARY:
+Judge an OpenAPI for a domain.
+
+DOCUMENT:
+Domain:
+Real Estate Sector: The Real Estate Sector contains companies engaged in real estate development and operation. It also includes companies offering real estate related services and Equity Real Estate Investment Trusts (REITs).
+
+OpenAPI:
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Real Estate Tenant Screening Service API",
+        "version": "1.0.0",
+        "description": "This API supports landlords by offering identity verification, credit checks, and rental history reporting of prospective tenants."
+    },
+    "servers": [
+        {
+            "url": "https://api.realestate-screening.com",
+            "description": "Production environment"
+        }
+    ],
+    "paths": {
+        "/tenant/identity-verification": {
+            "post": {
+                "summary": "Initiate identity verification for a tenant",
+                "description": "Start the process of verifying the identity of a prospective tenant using their provided identification information.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "tenantId": {
+                                        "type": "string",
+                                        "description": "The unique identifier for the tenant."
+                                    },
+                                    "firstName": {
+                                        "type": "string",
+                                        "description": "The tenant's first name."
+                                    },
+                                    "lastName": {
+                                        "type": "string",
+                                        "description": "The tenant's last name."
+                                    },
+                                    "dateOfBirth": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "The tenant's date of birth in YYYY-MM-DD format."
+                                    },
+                                    "identificationNumber": {
+                                        "type": "string",
+                                        "description": "The tenant's identification (e.g., driver's license or passport number)."
+                                    }
+                                },
+                                "required": [
+                                    "tenantId",
+                                    "firstName",
+                                    "lastName",
+                                    "dateOfBirth",
+                                    "identificationNumber"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Identity verification request successfully initiated."
+                    },
+                    "400": {
+                        "description": "Invalid input data provided."
+                    }
+                }
+            }
+        },
+        "/tenant/identity-verification/status/{tenantId}": {
+            "get": {
+                "summary": "Retrieve tenant identity verification status",
+                "description": "Fetch the current status and results of a previously requested identity verification for a specific tenant.",
+                "parameters": [
+                    {
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier for the tenant."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Identity verification status retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "Pending",
+                                                "Completed",
+                                                "Failed"
+                                            ],
+                                            "description": "The status of the identity verification request."
+                                        },
+                                        "verificationDate": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "The date and time when the verification was completed, if applicable."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tenant not found or no identity verification request exists."
+                    }
+                }
+            }
+        },
+        "/tenant/credit-check": {
+            "post": {
+                "summary": "Request a credit check for a tenant",
+                "description": "Initiate a credit check for a prospective tenant, based on their financial history.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "tenantId": {
+                                        "type": "string",
+                                        "description": "The unique identifier for the tenant."
+                                    },
+                                    "ssn": {
+                                        "type": "string",
+                                        "description": "Social Security Number of the tenant."
+                                    }
+                                },
+                                "required": [
+                                    "tenantId",
+                                    "ssn"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Credit check successfully requested."
+                    },
+                    "400": {
+                        "description": "Invalid input data provided."
+                    }
+                }
+            }
+        },
+        "/tenant/credit-check/status/{tenantId}": {
+            "get": {
+                "summary": "Retrieve tenant credit check status",
+                "description": "Obtain the status and outcomes of a completed credit check for a specific tenant.",
+                "parameters": [
+                    {
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier for the tenant."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Credit check status retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "Pending",
+                                                "Completed",
+                                                "Failed"
+                                            ],
+                                            "description": "The status of the credit check."
+                                        },
+                                        "creditScore": {
+                                            "type": "integer",
+                                            "description": "The tenant's credit score, if applicable."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tenant not found or no credit check exists."
+                    }
+                }
+            }
+        },
+        "/tenant/rental-history": {
+            "post": {
+                "summary": "Submit rental history check for a tenant",
+                "description": "Request to validate and retrieve the past rental history of a prospective tenant.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "tenantId": {
+                                        "type": "string",
+                                        "description": "The unique identifier for the tenant."
+                                    },
+                                    "landlordContactInfo": {
+                                        "type": "string",
+                                        "description": "Contact information of prior landlords for validation."
+                                    }
+                                },
+                                "required": [
+                                    "tenantId",
+                                    "landlordContactInfo"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Rental history validation request successfully created."
+                    },
+                    "400": {
+                        "description": "Invalid input data provided."
+                    }
+                }
+            }
+        },
+        "/tenant/rental-history/{tenantId}": {
+            "get": {
+                "summary": "Retrieve tenant rental history",
+                "description": "Access the verified rental history information of a specific tenant.",
+                "parameters": [
+                    {
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier for the tenant."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Rental history retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "rentalHistory": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "propertyAddress": {
+                                                        "type": "string",
+                                                        "description": "Address of the rented property."
+                                                    },
+                                                    "duration": {
+                                                        "type": "string",
+                                                        "description": "Duration of the tenant's stay at the property."
+                                                    },
+                                                    "landlordContact": {
+                                                        "type": "string",
+                                                        "description": "Contact details of the landlord."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tenant not found or no rental history available."
+                    }
+                }
+            }
+        },
+        "/documentation": {
+            "get": {
+                "summary": "Retrieve API documentation",
+                "description": "Retrieve detailed documentation for available API endpoints and their usage.",
+                "responses": {
+                    "200": {
+                        "description": "API documentation retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/settings/notifications": {
+            "put": {
+                "summary": "Set notification preferences",
+                "description": "Configure preferences to receive notifications for updates on identity, credit, or rental history verification checks.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "emailNotifications": {
+                                        "type": "boolean",
+                                        "description": "Enable or disable email notifications."
+                                    },
+                                    "smsNotifications": {
+                                        "type": "boolean",
+                                        "description": "Enable or disable SMS notifications."
+                                    }
+                                },
+                                "required": [
+                                    "emailNotifications",
+                                    "smsNotifications"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Notification preferences updated successfully."
+                    }
+                }
+            }
+        },
+        "/support/contact": {
+            "get": {
+                "summary": "Retrieve support contact information",
+                "description": "Fetch information about how to contact support for assistance with the service.",
+                "responses": {
+                    "200": {
+                        "description": "Support contact information retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/tenant/data/{tenantId}": {
+            "delete": {
+                "summary": "Delete tenant data",
+                "description": "Remove all stored data for a specific tenant permanently from the system.",
+                "parameters": [
+                    {
+                        "name": "tenantId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier for the tenant to delete."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tenant data deleted successfully."
+                    },
+                    "404": {
+                        "description": "Tenant not found."
+                    }
+                }
+            }
+        }
+    }
+}
+
+TASK:
+You are given a domain and an OpenAPI specification. Check the semantics and return either "Valid" or "Invalid" followed by an explanation.
+
+EXAMPLE:
+Valid, because it covers the area of collecting sensor data. All parameters are available and all endpoints can be called
+Invalid, because it contains the following errors. 1. In endpoint POST /measurements, there is a parameter missing in the schema. [...]
+
+INSTRUCTIONS:
+You are an expert judge for an OpenAPI specification. First, check whether the specification fits to the given domain. Then, determine if the OpenAPI is reasonable, parameters are correct, and the API is self-contained. Check if, e.g., if an ID is needed this ID can be retrieved from another endpoint. Do not format the response.

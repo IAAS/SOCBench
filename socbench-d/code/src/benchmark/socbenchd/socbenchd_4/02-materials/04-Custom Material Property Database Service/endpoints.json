@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /materials",
+            "description": "Retrieve a list of available materials in the database."
+        },
+        {
+            "endpoint": "GET /materials/{id}",
+            "description": "Fetch detailed properties of a specific material identified by its ID."
+        },
+        {
+            "endpoint": "POST /materials/search",
+            "description": "Search for materials based on specific property criteria provided in the request body."
+        },
+        {
+            "endpoint": "GET /properties",
+            "description": "Obtain a list of property categories available for materials."
+        },
+        {
+            "endpoint": "GET /applications",
+            "description": "Access data on how different materials are typically used in various applications."
+        },
+        {
+            "endpoint": "GET /integration/guidelines",
+            "description": "Retrieve documentation and support files for integrating the API with existing design software."
+        },
+        {
+            "endpoint": "POST /projects/upload",
+            "description": "Upload a design project file to extract material requirements for optimization."
+        },
+        {
+            "endpoint": "GET /optimization/recommendations",
+            "description": "Receive material selection recommendations for enhancing project performance."
+        },
+        {
+            "endpoint": "GET /environmental/ratings",
+            "description": "Explore environmental ratings associated with specific materials."
+        },
+        {
+            "endpoint": "GET /datasets/export",
+            "description": "Download dataset exports for use in offline analysis or backup."
+        }
+    ]
+}

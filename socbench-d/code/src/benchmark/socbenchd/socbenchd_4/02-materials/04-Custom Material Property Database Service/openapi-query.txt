@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Materials Sector: The Materials Sector includes companies that manufacture chemicals, construction materials, forest products, glass, paper and related packaging products, and metals, minerals and mining companies, including producers of steel.
+
+Service:
+This service provides access to an extensive database of material properties curated from reliable sources to aid material selection and engineering applications. Users can query the database for materials matching specific mechanical, thermal, and chemical property criteria. The API supports integration with design software, allowing seamless incorporation of material data into projects to optimize design performance and reliability.
+
+Endpoints:
+GET /materials: Retrieve a list of available materials in the database.
+GET /materials/{id}: Fetch detailed properties of a specific material identified by its ID.
+POST /materials/search: Search for materials based on specific property criteria provided in the request body.
+GET /properties: Obtain a list of property categories available for materials.
+GET /applications: Access data on how different materials are typically used in various applications.
+GET /integration/guidelines: Retrieve documentation and support files for integrating the API with existing design software.
+POST /projects/upload: Upload a design project file to extract material requirements for optimization.
+GET /optimization/recommendations: Receive material selection recommendations for enhancing project performance.
+GET /environmental/ratings: Explore environmental ratings associated with specific materials.
+GET /datasets/export: Download dataset exports for use in offline analysis or backup.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /inventory/stock",
+            "description": "Retrieve the current stock levels of all medications managed by the system."
+        },
+        {
+            "endpoint": "POST /inventory/add",
+            "description": "Add a new medication to the inventory with specified details including initial stock level."
+        },
+        {
+            "endpoint": "PUT /inventory/update/{medicationId}",
+            "description": "Update the details of an existing medication including name, stock level, or other relevant attributes."
+        },
+        {
+            "endpoint": "DELETE /inventory/remove/{medicationId}",
+            "description": "Remove a medication from the inventory based on its unique identifier."
+        },
+        {
+            "endpoint": "GET /inventory/low-stock",
+            "description": "Retrieve a list of medications that are below the predefined low-stock threshold."
+        },
+        {
+            "endpoint": "GET /inventory/expiration-soon",
+            "description": "Retrieve a list of medications nearing their expiration dates within a specified timeframe."
+        },
+        {
+            "endpoint": "GET /inventory/reports",
+            "description": "Generate and retrieve detailed inventory management reports for analysis."
+        },
+        {
+            "endpoint": "POST /orders/new",
+            "description": "Create a new order to replenish stock for specified medications."
+        },
+        {
+            "endpoint": "GET /orders/status/{orderId}",
+            "description": "Retrieve the current status and details of a specific order."
+        },
+        {
+            "endpoint": "PUT /orders/cancel/{orderId}",
+            "description": "Cancel a pending order based on its unique order identifier."
+        }
+    ]
+}

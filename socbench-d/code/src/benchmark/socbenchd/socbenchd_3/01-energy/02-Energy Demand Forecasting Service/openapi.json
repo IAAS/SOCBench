@@ -1,0 +1,400 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Energy Demand Forecasting Service",
+        "description": "This API offers advanced analytical tools for predicting energy demand based on historical data, environmental factors, and market trends. It enables efficient resource planning, optimized grid management, and cost-effective energy distribution.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.energy-forecasting.com/v1",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/data/upload": {
+            "post": {
+                "summary": "Upload historical energy consumption data",
+                "description": "Upload historical energy consumption data for analysis and forecasting. The data is used to train and refine the forecasting model.",
+                "requestBody": {
+                    "description": "Historical energy consumption dataset in JSON format.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "timestamp": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "description": "The timestamp of the recorded energy consumption."
+                                                },
+                                                "energy_consumed": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "description": "The amount of energy consumed at the given time (in kWh)."
+                                                }
+                                            },
+                                            "required": [
+                                                "timestamp",
+                                                "energy_consumed"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "data"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data uploaded successfully."
+                    },
+                    "400": {
+                        "description": "Invalid data format or missing data."
+                    }
+                }
+            }
+        },
+        "/forecast/daily": {
+            "get": {
+                "summary": "Retrieve daily energy demand predictions",
+                "description": "Retrieve daily energy demand forecasts based on uploaded datasets and current market conditions.",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The start date for the forecast period (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true,
+                        "description": "The end date for the forecast period (YYYY-MM-DD).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Daily energy demand predictions retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "The date of the forecast."
+                                            },
+                                            "predicted_demand": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "The predicted energy demand for the day (in kWh)."
+                                            }
+                                        },
+                                        "required": [
+                                            "date",
+                                            "predicted_demand"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid date range provided."
+                    }
+                }
+            }
+        },
+        "/forecast/monthly": {
+            "get": {
+                "summary": "Fetch monthly aggregated energy demand forecasts",
+                "description": "Retrieve monthly aggregated energy demand forecasts for extended periods and high-level resource planning.",
+                "parameters": [
+                    {
+                        "name": "month",
+                        "in": "query",
+                        "required": true,
+                        "description": "The target month for the forecast (YYYY-MM).",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Monthly energy demand forecasts retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "month": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "The month of the forecast."
+                                            },
+                                            "predicted_demand": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "description": "The total predicted energy demand for the month (in MWh)."
+                                            }
+                                        },
+                                        "required": [
+                                            "month",
+                                            "predicted_demand"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid month format provided."
+                    }
+                }
+            }
+        },
+        "/environment/factors": {
+            "post": {
+                "summary": "Submit environmental variables",
+                "description": "Submit environmental variables to adjust the energy demand forecasting model dynamically based on factors such as weather or policy changes.",
+                "requestBody": {
+                    "description": "Environmental factors influencing energy demand.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "temperature": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "description": "The average temperature influencing energy demand."
+                                    },
+                                    "policy_changes": {
+                                        "type": "string",
+                                        "description": "Any relevant policy changes that may affect energy consumption."
+                                    },
+                                    "event": {
+                                        "type": "string",
+                                        "description": "Significant events influencing demand (e.g., holidays, natural disasters)."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Environmental factors submitted successfully."
+                    },
+                    "400": {
+                        "description": "Invalid data format or missing required fields."
+                    }
+                }
+            }
+        },
+        "/market/trends": {
+            "get": {
+                "summary": "Access current market trends",
+                "description": "Retrieve the latest market trends that are impacting energy consumption patterns.",
+                "responses": {
+                    "200": {
+                        "description": "Market trends retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "trends": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "trend": {
+                                                        "type": "string",
+                                                        "description": "Description of the market trend."
+                                                    },
+                                                    "impact": {
+                                                        "type": "string",
+                                                        "description": "Impact of the trend on energy demand."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/grid/parameters": {
+            "post": {
+                "summary": "Provide specific grid parameters",
+                "description": "Submit specific grid parameters to customize the forecasting model outputs for grid management purposes.",
+                "requestBody": {
+                    "description": "Details about grid-specific parameters.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "region": {
+                                        "type": "string",
+                                        "description": "The target region for grid optimization."
+                                    },
+                                    "capacity": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "description": "The capacity of the grid section (in MW)."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Grid parameters submitted successfully."
+                    },
+                    "400": {
+                        "description": "Invalid data format or missing required fields."
+                    }
+                }
+            }
+        },
+        "/grid/optimization": {
+            "get": {
+                "summary": "Retrieve grid optimization recommendations",
+                "description": "Get recommendations for optimal grid operation based on forecasted demand data.",
+                "responses": {
+                    "200": {
+                        "description": "Optimization recommendations retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "recommendations": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "action": {
+                                                        "type": "string",
+                                                        "description": "Recommended grid action."
+                                                    },
+                                                    "reason": {
+                                                        "type": "string",
+                                                        "description": "Reason for the recommendation."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/data/reset": {
+            "delete": {
+                "summary": "Clear all uploaded data",
+                "description": "Clear all previously uploaded datasets and reset for a new forecasting cycle.",
+                "responses": {
+                    "200": {
+                        "description": "Data reset successfully."
+                    },
+                    "500": {
+                        "description": "Server error while resetting the data."
+                    }
+                }
+            }
+        },
+        "/analysis/reports": {
+            "get": {
+                "summary": "Generate energy consumption analysis reports",
+                "description": "Generate detailed reports that provide insights into energy consumption trends and patterns.",
+                "responses": {
+                    "200": {
+                        "description": "Reports generated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "report_id": {
+                                            "type": "string",
+                                            "description": "Unique identifier for the generated report."
+                                        },
+                                        "summary": {
+                                            "type": "string",
+                                            "description": "Summary of the analysis report."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/status": {
+            "get": {
+                "summary": "Check operational status",
+                "description": "Check the current operational status and the most recent activity log for the forecasting service.",
+                "responses": {
+                    "200": {
+                        "description": "Service status retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "Current status of the service."
+                                        },
+                                        "last_activity": {
+                                            "type": "string",
+                                            "description": "Description of the last recorded activity."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

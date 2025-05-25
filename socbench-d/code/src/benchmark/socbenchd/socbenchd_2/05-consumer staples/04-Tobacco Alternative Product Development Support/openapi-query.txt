@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Staples Sector: The Consumer Staples Sector comprises companies whose businesses are less sensitive to economic cycles. It includes manufacturers and distributors of food, beverages and tobacco and producers of non-durable household goods and personal products. It also includes distributors and retailers of consumer staples products including food & drug retailing companies.
+
+Service:
+Offers analytical tools for tobacco companies to innovate and test alternative products, catering to evolving consumer preferences and regulatory frameworks.
+
+Endpoints:
+POST /product-tests: Initiate a new product innovation test with specified parameters for alternative tobacco products.
+GET /test-results/{test_id}: Retrieve the detailed results of a specific test using its associated identifier.
+GET /consumer-insights: Access aggregated data and trends reflecting consumer preferences in the tobacco sector.
+POST /regulation-check: Submit product details to ensure compliance with the related regulatory frameworks.
+GET /innovation-trends: Explore current market trends in alternative tobacco product innovations.
+POST /feedback-analysis: Analyze consumer feedback to identify key insights and recommendations for product refinement.
+GET /compliance-guidelines: Retrieve guidelines and regulations applicable to alternative tobacco products.
+POST /sustainability-assessment: Evaluate the environmental impact of a product to align with sustainability objectives.
+GET /testing-facilities: Retrieve information on available testing facilities tailored for alternative tobacco products.
+POST /market-entry-analysis: Conduct an analysis on the feasibility and strategy for introducing a product into a specified market.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

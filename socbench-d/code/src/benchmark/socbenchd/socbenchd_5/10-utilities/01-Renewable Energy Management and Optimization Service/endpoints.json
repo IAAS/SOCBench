@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /generation-data",
+            "description": "Retrieve real-time and historical renewable energy generation data."
+        },
+        {
+            "endpoint": "POST /optimization-parameters",
+            "description": "Submit parameters for optimization of energy distribution."
+        },
+        {
+            "endpoint": "GET /weather-forecasts",
+            "description": "Access weather forecasts relevant for renewable energy sources."
+        },
+        {
+            "endpoint": "GET /alerts",
+            "description": "Fetch current system alerts and recommendations for action."
+        },
+        {
+            "endpoint": "POST /sensor-calibrations",
+            "description": "Submit calibration details for on-site sensors and devices."
+        },
+        {
+            "endpoint": "GET /performance-reports",
+            "description": "Retrieve performance reports of renewable energy installations."
+        },
+        {
+            "endpoint": "PUT /sensor-status/{id}",
+            "description": "Update operational status of specified sensors."
+        },
+        {
+            "endpoint": "DELETE /data-cache/{resource}",
+            "description": "Remove cached data for a specific resource to ensure updates."
+        },
+        {
+            "endpoint": "PATCH /maintenance-mode",
+            "description": "Enable or disable maintenance mode for the service."
+        },
+        {
+            "endpoint": "POST /generate-energy-scenarios",
+            "description": "Create simulated scenarios for energy generation and distribution."
+        }
+    ]
+}

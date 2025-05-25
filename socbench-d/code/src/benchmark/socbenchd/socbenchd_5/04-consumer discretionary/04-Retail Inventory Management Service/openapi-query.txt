@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Consumer Discretionary Sector: The Consumer Discretionary Sector encompasses those businesses that tend to be the most sensitive to economic cycles. Its manufacturing segment includes automobiles & components, household durable goods, leisure products and textiles & apparel. The services segment includes hotels, restaurants, and other leisure facilities. It also includes distributors and retailers of consumer discretionary products.
+
+Service:
+Focused on assisting distributors and sellers, this API provides real-time details of product stock levels, upcoming inventory schedules, and automatic restock alerts, ensuring continuous availability for consumers’ needs.
+
+Endpoints:
+GET /stock-levels: Retrieve real-time current stock levels for a specified product.
+GET /inventory-schedules: Access upcoming delivery schedules for inventory items.
+POST /restock-alerts: Set up automatic restock notifications for a particular product.
+GET /alerts-log: View a historical log of triggered restock notifications.
+GET /product-catalog: Fetch a comprehensive list of all tracked products with inventory details.
+POST /order-restock: Initiate an order to restock a product based on upcoming demand forecasts.
+GET /distribution-centers: List all associated distribution centers and their respective stockholding details.
+GET /consumption-trends: Analyze and retrieve items' sales and consumption data to predict demand.
+DELETE /restock-alerts/{id}: Remove a previously set restock notification alert using its identifier.
+GET /threshold-violations: Retrieve a record of instances where stock quantities fell below defined thresholds.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

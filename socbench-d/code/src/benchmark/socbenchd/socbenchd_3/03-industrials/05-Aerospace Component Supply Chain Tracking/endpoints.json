@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /components",
+            "description": "Retrieve a list of all aerospace components tracked within the system."
+        },
+        {
+            "endpoint": "POST /components",
+            "description": "Add a new aerospace component to the tracking database."
+        },
+        {
+            "endpoint": "GET /components/{id}",
+            "description": "Retrieve detailed information of a specific aerospace component by its unique identifier."
+        },
+        {
+            "endpoint": "PATCH /components/{id}",
+            "description": "Update the details of a specific aerospace component."
+        },
+        {
+            "endpoint": "DELETE /components/{id}",
+            "description": "Remove an aerospace component from the tracking system by its unique identifier."
+        },
+        {
+            "endpoint": "GET /tracking/{id}/status",
+            "description": "Retrieve the current status and location of a specific tracked aerospace component."
+        },
+        {
+            "endpoint": "POST /tracking/{id}/update",
+            "description": "Report a status or location update for a specific aerospace component."
+        },
+        {
+            "endpoint": "GET /reports/delay",
+            "description": "Retrieve reports of components facing potential or actual delays within the supply chain."
+        },
+        {
+            "endpoint": "POST /notifications",
+            "description": "Set up alert notifications for specific aerospace component tracking events."
+        },
+        {
+            "endpoint": "GET /supplychain/stages",
+            "description": "Retrieve a list of all supply chain stages relevant to aerospace component tracking."
+        }
+    ]
+}

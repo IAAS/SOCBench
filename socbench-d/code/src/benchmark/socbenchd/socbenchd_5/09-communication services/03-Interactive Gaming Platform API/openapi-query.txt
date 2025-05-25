@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Communication Services Sector: The Communication Services Sector includes companies that facilitate communication and offer related content and information through various mediums. It includes telecom and media & entertainment companies including producers of interactive gaming products and companies engaged in content and information creation or distribution through proprietary platforms.
+
+Service:
+Enables developers to access interactive gaming features, including multiplayer matchmaking, leaderboards, and transaction systems, fostering an engaging gaming experience for end-users.
+
+Endpoints:
+POST /multiplayer/matchmaking: Initiate matchmaking to pair users for multiplayer gaming sessions.
+GET /leaderboards/{gameId}: Retrieve the leaderboard for a specified game, including player scores and rankings.
+POST /transactions/process: Process transactions for in-game purchases and currency exchanges.
+GET /player/stats: Retrieve statistical information about a player's performance across games.
+POST /game-session/create: Create a new game session accessible by multiple participants.
+GET /game-details/{gameId}: Fetch the detailed information and configuration of a specified game.
+DELETE /player/data/{playerId}: Remove a player's data from the system upon request.
+POST /achievements/record: Record a player's achievements during gameplay into the system.
+PUT /settings/customization: Update user-specific settings and customization preferences.
+GET /help/documentation: Access detailed API documentation and usage instructions.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

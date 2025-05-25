@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "POST /product-tests",
+            "description": "Initiate a new product innovation test with specified parameters for alternative tobacco products."
+        },
+        {
+            "endpoint": "GET /test-results/{test_id}",
+            "description": "Retrieve the detailed results of a specific test using its associated identifier."
+        },
+        {
+            "endpoint": "GET /consumer-insights",
+            "description": "Access aggregated data and trends reflecting consumer preferences in the tobacco sector."
+        },
+        {
+            "endpoint": "POST /regulation-check",
+            "description": "Submit product details to ensure compliance with the related regulatory frameworks."
+        },
+        {
+            "endpoint": "GET /innovation-trends",
+            "description": "Explore current market trends in alternative tobacco product innovations."
+        },
+        {
+            "endpoint": "POST /feedback-analysis",
+            "description": "Analyze consumer feedback to identify key insights and recommendations for product refinement."
+        },
+        {
+            "endpoint": "GET /compliance-guidelines",
+            "description": "Retrieve guidelines and regulations applicable to alternative tobacco products."
+        },
+        {
+            "endpoint": "POST /sustainability-assessment",
+            "description": "Evaluate the environmental impact of a product to align with sustainability objectives."
+        },
+        {
+            "endpoint": "GET /testing-facilities",
+            "description": "Retrieve information on available testing facilities tailored for alternative tobacco products."
+        },
+        {
+            "endpoint": "POST /market-entry-analysis",
+            "description": "Conduct an analysis on the feasibility and strategy for introducing a product into a specified market."
+        }
+    ]
+}

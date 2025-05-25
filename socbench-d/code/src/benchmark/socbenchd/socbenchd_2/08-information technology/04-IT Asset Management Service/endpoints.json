@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /assets",
+            "description": "Retrieve the complete list of IT assets with their details."
+        },
+        {
+            "endpoint": "GET /assets/{assetId}",
+            "description": "Retrieve detailed information about a specific IT asset by its ID."
+        },
+        {
+            "endpoint": "POST /assets",
+            "description": "Add a new IT asset to the tracking system."
+        },
+        {
+            "endpoint": "PUT /assets/{assetId}",
+            "description": "Update the details of a specific IT asset by its ID."
+        },
+        {
+            "endpoint": "DELETE /assets/{assetId}",
+            "description": "Remove an IT asset from the tracking system by its ID."
+        },
+        {
+            "endpoint": "GET /software/licenses",
+            "description": "Retrieve a list of all software license details managed by the system."
+        },
+        {
+            "endpoint": "POST /software/licenses",
+            "description": "Add a new software license to the tracking system."
+        },
+        {
+            "endpoint": "GET /audit/reports",
+            "description": "Generate and fetch an audit report of all IT assets for compliance purposes."
+        },
+        {
+            "endpoint": "GET /metrics/resource-usage",
+            "description": "Retrieve metrics and statistics on resource usage efficiency."
+        },
+        {
+            "endpoint": "POST /alerts",
+            "description": "Set up notifications or alerts for specific IT asset management events."
+        }
+    ]
+}

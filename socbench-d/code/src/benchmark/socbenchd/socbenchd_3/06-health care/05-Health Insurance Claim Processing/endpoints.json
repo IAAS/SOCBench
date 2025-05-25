@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /claims",
+            "description": "Retrieve a list of all submitted insurance claims."
+        },
+        {
+            "endpoint": "POST /claims",
+            "description": "Submit a new insurance claim for processing."
+        },
+        {
+            "endpoint": "GET /claims/{claimId}",
+            "description": "Retrieve detailed information about a specific insurance claim based on its unique identifier."
+        },
+        {
+            "endpoint": "PUT /claims/{claimId}",
+            "description": "Update information or status of a specific insurance claim."
+        },
+        {
+            "endpoint": "DELETE /claims/{claimId}",
+            "description": "Remove a specific insurance claim from the system."
+        },
+        {
+            "endpoint": "GET /policies",
+            "description": "Retrieve information on insurance policies associated with providers."
+        },
+        {
+            "endpoint": "POST /providers",
+            "description": "Register a new health care provider with their associated details."
+        },
+        {
+            "endpoint": "GET /patients/{patientId}/history",
+            "description": "Retrieve the claim history for a specific patient identified by their unique identifier."
+        },
+        {
+            "endpoint": "POST /claims/{claimId}/approval",
+            "description": "Submit approval for a specific claim after review."
+        },
+        {
+            "endpoint": "GET /analytics/reports",
+            "description": "Generate and access data analysis related to claim submissions and processing times."
+        }
+    ]
+}

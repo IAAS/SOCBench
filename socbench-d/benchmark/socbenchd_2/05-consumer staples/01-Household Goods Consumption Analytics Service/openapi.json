@@ -1,0 +1,402 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Consumer Staples Sector Insights API",
+        "description": "This API provides comprehensive insights into consumer habits on non-durable household items, enabling manufacturers and retailers to make data-driven decisions for product development and inventory strategies.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.consumerstaplesinsights.com",
+            "description": "Production server for Consumer Staples Sector Insights API"
+        }
+    ],
+    "paths": {
+        "/consumers/habits": {
+            "get": {
+                "summary": "Retrieve Aggregated Consumer Habits",
+                "description": "Retrieve aggregated data on consumer habits related to non-durable household items.",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "description": "Start date for filtering consumer habits data (format: YYYY-MM-DD).",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "description": "End date for filtering consumer habits data (format: YYYY-MM-DD).",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "habits": [
+                                        {
+                                            "itemCategory": "Cleaning Supplies",
+                                            "popularity": 85
+                                        },
+                                        {
+                                            "itemCategory": "Toiletries",
+                                            "popularity": 78
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products/feedback": {
+            "post": {
+                "summary": "Submit Consumer Feedback",
+                "description": "Submit consumer feedback on specific non-durable household products.",
+                "requestBody": {
+                    "description": "Consumer feedback data for submitting opinions on products.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "productId": {
+                                        "type": "string",
+                                        "description": "Unique identifier of the product."
+                                    },
+                                    "feedback": {
+                                        "type": "string",
+                                        "description": "Feedback provided by the consumer."
+                                    },
+                                    "rating": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "description": "Consumer rating for the product on a scale of 1-5."
+                                    }
+                                },
+                                "required": [
+                                    "productId",
+                                    "feedback",
+                                    "rating"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback successfully submitted"
+                    }
+                }
+            }
+        },
+        "/retailers/inventory/overview": {
+            "get": {
+                "summary": "Get Inventory Usage Patterns",
+                "description": "Get inventory usage patterns and projections for better stock management.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "inventoryPatterns": {
+                                        "itemA": {
+                                            "usage": 500,
+                                            "projection": 600
+                                        },
+                                        "itemB": {
+                                            "usage": 300,
+                                            "projection": 350
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/manufacturers/sales/data": {
+            "get": {
+                "summary": "Analyze Sales Data Trends",
+                "description": "Analyze sales data trends for household goods.",
+                "parameters": [
+                    {
+                        "name": "manufacturerId",
+                        "in": "query",
+                        "description": "The ID of the manufacturer to filter sales data.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "timePeriod",
+                        "in": "query",
+                        "description": "The time period for sales data analysis (e.g., weekly, monthly).",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "salesTrends": [
+                                        {
+                                            "productName": "Item A",
+                                            "sales": 200,
+                                            "trend": "up"
+                                        },
+                                        {
+                                            "productName": "Item B",
+                                            "sales": 150,
+                                            "trend": "steady"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/consumer/trends/insights": {
+            "post": {
+                "summary": "Request Detailed Consumer Trends Insights",
+                "description": "Request detailed insights into emerging consumer trends.",
+                "requestBody": {
+                    "description": "Parameters to tailor consumer trends insights.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "categories": {
+                                        "type": "array",
+                                        "description": "List of product categories to analyze.",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "region": {
+                                        "type": "string",
+                                        "description": "The geographical region for the trend analysis."
+                                    },
+                                    "timeFrame": {
+                                        "type": "string",
+                                        "description": "The time frame for analyzing trends (e.g., 'last 6 months')."
+                                    }
+                                },
+                                "required": [
+                                    "categories",
+                                    "region",
+                                    "timeFrame"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Trends insights successfully generated"
+                    }
+                }
+            }
+        },
+        "/items/popularity/metrics": {
+            "get": {
+                "summary": "Obtain Item Popularity Metrics",
+                "description": "Obtain metrics showcasing the popularity scores of various items.",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Product category to filter popularity metrics.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "popularityMetrics": [
+                                        {
+                                            "item": "Detergent",
+                                            "score": 85
+                                        },
+                                        {
+                                            "item": "Toothpaste",
+                                            "score": 90
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/recommendations/inventory": {
+            "post": {
+                "summary": "Receive Inventory Recommendations",
+                "description": "Receive recommendations for inventory adjustments based on data analysis.",
+                "requestBody": {
+                    "description": "Parameters for generating inventory recommendations.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "currentInventory": {
+                                        "type": "object",
+                                        "description": "Current inventory details.",
+                                        "additionalProperties": {
+                                            "type": "integer",
+                                            "description": "Quantity of each item."
+                                        }
+                                    },
+                                    "forecastPeriod": {
+                                        "type": "string",
+                                        "description": "The forecast period for the recommendations."
+                                    }
+                                },
+                                "required": [
+                                    "currentInventory",
+                                    "forecastPeriod"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Recommendations successfully generated"
+                    }
+                }
+            }
+        },
+        "/product/usage/comparison": {
+            "get": {
+                "summary": "Compare Usage Statistics",
+                "description": "Compare usage statistics of specific household items.",
+                "parameters": [
+                    {
+                        "name": "items",
+                        "in": "query",
+                        "description": "Comma-separated list of item IDs to compare.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful comparison of item usage data",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "usageComparison": [
+                                        {
+                                            "item": "Item A",
+                                            "usage": 200
+                                        },
+                                        {
+                                            "item": "Item B",
+                                            "usage": 150
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/data/custom/reports": {
+            "post": {
+                "summary": "Generate Custom Reports",
+                "description": "Generate custom reports tailored to specific criteria and datasets.",
+                "requestBody": {
+                    "description": "Parameters for generating custom reports.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "criteria": {
+                                        "type": "object",
+                                        "description": "Criteria for selecting data.",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "outputFormat": {
+                                        "type": "string",
+                                        "description": "Format of the report (e.g., PDF, CSV)."
+                                    }
+                                },
+                                "required": [
+                                    "criteria",
+                                    "outputFormat"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Custom report successfully generated"
+                    }
+                }
+            }
+        },
+        "/retailer/satisfaction/rate": {
+            "get": {
+                "summary": "View Retailer Satisfaction Rates",
+                "description": "View satisfaction rates from retailers regarding product availability.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of retailer satisfaction rates",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "satisfactionRate": 85
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

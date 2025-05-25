@@ -1,0 +1,500 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Retailer Insights API",
+        "description": "API that empowers retailers with insights on emerging product trends, enabling strategic inventory planning and marketing initiatives based on consumer behavior analytics.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.retailerinsights.com",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/trends/top-products": {
+            "get": {
+                "summary": "Retrieve Top Trending Products",
+                "description": "Fetches a list of products that are trending based on recent consumer engagement metrics such as clicks, views, and purchases.",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The maximum number of top products to return.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Filter trends by a specific product category.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of top trending products.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TrendingProduct"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/consumer-behavior/insights": {
+            "get": {
+                "summary": "Access Consumer Behavior Insights",
+                "description": "Provides aggregated analytics of consumer preferences and purchasing behaviors based on historical and real-time activity.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved consumer behavior analytics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConsumerBehavior"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/suggestions": {
+            "post": {
+                "summary": "Submit Inventory for Restocking Suggestions",
+                "description": "Accepts current inventory data to provide optimized recommendations for restocking based on market trends and consumer demand.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InventoryData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully calculated restocking suggestions.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RestockingSuggestions"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sales/predictions": {
+            "get": {
+                "summary": "Get Sales Forecasts",
+                "description": "Provides sales forecasts based on historical data and current market trends.",
+                "parameters": [
+                    {
+                        "name": "timeframe",
+                        "in": "query",
+                        "description": "Specify the timeframe for sales forecasts (e.g., weekly, monthly).",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "weekly",
+                                "monthly",
+                                "quarterly"
+                            ],
+                            "default": "monthly"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved sales forecasts.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SalesForecasts"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/categories/performance": {
+            "get": {
+                "summary": "Analyze Category Performance Metrics",
+                "description": "Generates performance metrics for different product categories, such as sales, engagement, and conversion rates.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved category performance metrics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CategoryPerformance"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/marketing/tasks": {
+            "post": {
+                "summary": "Submit Marketing Activities for Feedback",
+                "description": "Accept planned marketing tasks and provides feedback and suggestions for improvement based on trend data.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MarketingActivities"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully received feedback on the marketing tasks.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MarketingFeedback"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/geographic/trends": {
+            "get": {
+                "summary": "Identify Geographic Consumer Trends",
+                "description": "Fetch insights into consumer trends segmented by geographic regions.",
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "The specific geographic region to retrieve trends for.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved geographic trends.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GeographicTrends"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alerts/unwanted": {
+            "delete": {
+                "summary": "Remove Unwanted Alerts",
+                "description": "Deletes specified alerts or notifications from users' dashboards.",
+                "parameters": [
+                    {
+                        "name": "alertId",
+                        "in": "query",
+                        "description": "The ID of the alert to be removed.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully removed the alert.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlertRemovalResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/competitor/analysis": {
+            "get": {
+                "summary": "Retrieve Competitor Insights",
+                "description": "Provides information on competitors' activities and their relative positioning in the market.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved competitor insights.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CompetitorInsights"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/loyalty/engagement-stats": {
+            "get": {
+                "summary": "Analyze Loyalty Program Effectiveness",
+                "description": "Fetches analytics on loyalty program engagement and customer retention rates.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved loyalty program analytics.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoyaltyEngagement"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "TrendingProduct": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the product."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the product."
+                    },
+                    "category": {
+                        "type": "string",
+                        "description": "Category the product belongs to."
+                    },
+                    "engagementScore": {
+                        "type": "number",
+                        "description": "Score representing recent consumer engagement with the product."
+                    }
+                }
+            },
+            "ConsumerBehavior": {
+                "type": "object",
+                "properties": {
+                    "preferences": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "purchaseTrends": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "InventoryData": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "stock": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "RestockingSuggestions": {
+                "type": "object",
+                "properties": {
+                    "recommendations": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "restockQuantity": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "SalesForecasts": {
+                "type": "object",
+                "properties": {
+                    "forecasts": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "date": {
+                                    "type": "string",
+                                    "format": "date"
+                                },
+                                "salesAmount": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "CategoryPerformance": {
+                "type": "object",
+                "properties": {
+                    "categories": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "category": {
+                                    "type": "string"
+                                },
+                                "metrics": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "MarketingActivities": {
+                "type": "object",
+                "properties": {
+                    "activities": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "budget": {
+                                    "type": "number"
+                                },
+                                "goal": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "MarketingFeedback": {
+                "type": "object",
+                "properties": {
+                    "feedback": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "GeographicTrends": {
+                "type": "object",
+                "properties": {
+                    "regions": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "region": {
+                                    "type": "string"
+                                },
+                                "trends": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "AlertRemovalResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "removed": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "CompetitorInsights": {
+                "type": "object",
+                "properties": {
+                    "competitors": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "activities": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "LoyaltyEngagement": {
+                "type": "object",
+                "properties": {
+                    "engagementRate": {
+                        "type": "number"
+                    },
+                    "retentionRate": {
+                        "type": "number"
+                    }
+                }
+            }
+        }
+    }
+}

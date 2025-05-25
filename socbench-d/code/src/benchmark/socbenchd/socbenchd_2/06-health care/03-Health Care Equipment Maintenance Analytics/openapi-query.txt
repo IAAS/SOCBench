@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Health Care Sector: The Health Care Sector includes health care providers & services, companies that manufacture and distribute health care equipment & supplies, and health care technology companies. It also includes companies involved in the research, development, production and marketing of pharmaceuticals and biotechnology products.
+
+Service:
+This API enables tracking, reporting, and predictive maintenance scheduling of medical equipment. By connecting to on-device sensors, the service gathers operational data to predict maintenance needs, reducing unexpected downtime and enhancing equipment longevity. It provides detailed analytical reports for health care facilities.
+
+Endpoints:
+GET /devices: Retrieve a list of all registered medical devices with their respective details.
+POST /devices: Register a new medical device by providing its specifications and sensor details.
+GET /device/{id}/status: Retrieve the current operational status and performance metrics of the specified device.
+PUT /device/{id}/update: Update the device's information, such as location or specifications.
+GET /analytics/reports: Access generated analytical reports about device usage and health trends.
+POST /alerts/create: Create a new alert based on specified maintenance or operational thresholds for devices.
+GET /maintenance/schedule: Retrieve the current predictive maintenance schedule for all devices.
+POST /maintenance/schedule/update: Modify the maintenance schedule entries by specifying new tasks and timelines.
+DELETE /device/{id}: Remove a device from the tracking system, ceasing its monitoring and maintenance scheduling.
+GET /sensors/data/{id}: Retrieve raw data from the specified sensor for informed diagnostics and analysis.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

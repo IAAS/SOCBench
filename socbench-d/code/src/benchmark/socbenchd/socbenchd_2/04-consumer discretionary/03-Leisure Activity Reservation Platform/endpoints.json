@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /activities",
+            "description": "Retrieve a list of all available recreational activities available for booking."
+        },
+        {
+            "endpoint": "GET /activities/{id}",
+            "description": "Fetch detailed information about a specific activity, identified by its unique ID."
+        },
+        {
+            "endpoint": "POST /activities/{id}/reserve",
+            "description": "Reserve a spot for a specific activity, providing necessary user details and preferred time slots."
+        },
+        {
+            "endpoint": "DELETE /reservations/{reservation_id}",
+            "description": "Cancel an existing reservation, ensuring the spot becomes available for others."
+        },
+        {
+            "endpoint": "GET /tickets",
+            "description": "Retrieve a list of tickets for activities the user has reserved or purchased."
+        },
+        {
+            "endpoint": "GET /tickets/{ticket_id}",
+            "description": "Fetch detailed information about a specific purchased ticket."
+        },
+        {
+            "endpoint": "POST /tickets/{ticket_id}/validate",
+            "description": "Validate a ticket for user check-in and usage for the specified activity."
+        },
+        {
+            "endpoint": "GET /promotions",
+            "description": "List all active promotions and special offers for activities and reservations."
+        },
+        {
+            "endpoint": "POST /promotions/apply",
+            "description": "Apply a promotion code to a user account or reservation to gain associated benefits."
+        },
+        {
+            "endpoint": "PATCH /user/preferences",
+            "description": "Update user preferences for activity recommendations and reminders."
+        }
+    ]
+}

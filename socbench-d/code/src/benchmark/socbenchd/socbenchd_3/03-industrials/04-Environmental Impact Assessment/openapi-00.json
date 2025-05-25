@@ -1,0 +1,360 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Environmental Impact Evaluation API",
+    "description": "API designed for automated evaluation of environmental impacts of industrial sites, facilitating compliance with regulations through detailed reporting and analytics.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.environmentalimpact.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/sites": {
+      "get": {
+        "summary": "Retrieve all registered industrial sites",
+        "description": "Fetch a comprehensive list of all industrial sites registered in the system.",
+        "responses": {
+          "200": {
+            "description": "A list of industrial sites successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the industrial site."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the industrial site."
+                      },
+                      "location": {
+                        "type": "string",
+                        "description": "Geographical location of the industrial site."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sites/add": {
+      "post": {
+        "summary": "Register a new industrial site",
+        "description": "Provides the capability to register a new industrial site by supplying site-specific details.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the industrial site."
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "Physical address or coordinates of the industrial site."
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "The category/type of industrial activity carried out at the site."
+                  }
+                },
+                "required": ["name", "location"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Industrial site successfully registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "site_id": {
+                      "type": "string",
+                      "description": "Unique identifier assigned to the newly registered site."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sites/{site_id}/environmental_data": {
+      "get": {
+        "summary": "Get environmental data for a site",
+        "description": "Retrieve environmental impact data associated with a specific industrial site.",
+        "parameters": [
+          {
+            "name": "site_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the industrial site.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Environmental data successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "description": "Array of environmental data impact metrics.",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sites/{site_id}/report": {
+      "post": {
+        "summary": "Submit environmental impact report",
+        "description": "Submit an environmental impact report for a specific industrial site.",
+        "parameters": [
+          {
+            "name": "site_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the industrial site.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "report_data": {
+                    "type": "object",
+                    "description": "Details of the environmental impact report."
+                  }
+                },
+                "required": ["report_data"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Environmental report successfully submitted"
+          }
+        }
+      }
+    },
+    "/regulations/standards": {
+      "get": {
+        "summary": "Retrieve regulatory standards",
+        "description": "Fetch applicable environmental regulatory standards for industrial sites.",
+        "responses": {
+          "200": {
+            "description": "Regulatory standards successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "standard_id": {
+                        "type": "string",
+                        "description": "Unique identifier for the regulatory standard."
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Overview of the standard."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sites/{site_id}/configure_alerts": {
+      "put": {
+        "summary": "Set up monitoring alerts for a site",
+        "description": "Configure environmental monitoring alerts for a specific industrial site.",
+        "parameters": [
+          {
+            "name": "site_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the industrial site.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "thresholds": {
+                    "type": "object",
+                    "description": "Threshold values for triggering alerts."
+                  }
+                },
+                "required": ["thresholds"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Monitoring alerts successfully configured"
+          }
+        }
+      }
+    },
+    "/analytics/summary": {
+      "get": {
+        "summary": "Get analytics summary",
+        "description": "Retrieve an overview summary of analytics for all managed industrial sites.",
+        "responses": {
+          "200": {
+            "description": "Analytics summary successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "summary": {
+                      "type": "object",
+                      "description": "Overview analytics data."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/generate": {
+      "post": {
+        "summary": "Request a detailed analytics report",
+        "description": "Generate a detailed analytics report based on specified parameters.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "parameters": {
+                    "type": "object",
+                    "description": "Parameters for the analytics report generation."
+                  }
+                },
+                "required": ["parameters"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Analytics report successfully generated"
+          }
+        }
+      }
+    },
+    "/sites/{site_id}": {
+      "delete": {
+        "summary": "Remove a site",
+        "description": "Delete the registration of an industrial site from the system.",
+        "parameters": [
+          {
+            "name": "site_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the industrial site.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Industrial site successfully removed"
+          }
+        }
+      }
+    },
+    "/sites/{site_id}/update": {
+      "patch": {
+        "summary": "Update site details",
+        "description": "Update specific details of an industrial site.",
+        "parameters": [
+          {
+            "name": "site_id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier for the industrial site.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "updates": {
+                    "type": "object",
+                    "description": "Fields to update along with their new values."
+                  }
+                },
+                "required": ["updates"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Industrial site details successfully updated"
+          }
+        }
+      }
+    }
+  }
+}

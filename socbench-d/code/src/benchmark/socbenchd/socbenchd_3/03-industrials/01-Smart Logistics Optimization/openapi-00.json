@@ -1,0 +1,295 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Logistics Optimization Service API",
+    "description": "API for real-time optimization of logistics operations for transportation companies using AI-driven algorithms to enhance fuel efficiency and delivery times. It provides tools for route management, analytical insights, third-party integrations, and reporting.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.logistics-optimization.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/logistics/routes": {
+      "get": {
+        "summary": "Retrieve logistics routes and schedules",
+        "description": "Fetch the currently planned logistics routes and schedules, including details about stops, timings, and assigned vehicles.",
+        "responses": {
+          "200": {
+            "description": "Success. Retrieves a list of planned routes and schedules.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "routeId": "123",
+                    "vehicleId": "V456",
+                    "stops": ["Location A", "Location B", "Location C"],
+                    "schedule": "9:00 AM - 5:00 PM"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove a planned route",
+        "description": "Delete a specific planned logistics route from the system using its route ID.",
+        "parameters": [
+          {
+            "name": "routeId",
+            "in": "query",
+            "description": "The unique identifier of the route to delete.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success. The route has been deleted."
+          },
+          "404": {
+            "description": "Route not found."
+          }
+        }
+      }
+    },
+    "/logistics/routes/optimize": {
+      "post": {
+        "summary": "Optimize logistics routes",
+        "description": "Submit logistics data to optimize existing routes using AI-driven algorithms, improving fuel efficiency and delivery times.",
+        "requestBody": {
+          "description": "The data required for optimization, including current routes, vehicles, and constraints.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "routes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "routeId": { "type": "string" },
+                        "stops": { "type": "array", "items": { "type": "string" } },
+                        "schedule": { "type": "string" }
+                      }
+                    }
+                  },
+                  "constraints": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. Returns optimized routes and schedules.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "optimizedRoutes": [
+                    {
+                      "routeId": "123",
+                      "newStops": ["Location B", "Location A", "Location C"],
+                      "newSchedule": "8:30 AM - 4:30 PM"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logistics/routes/update": {
+      "put": {
+        "summary": "Update a planned route",
+        "description": "Update specific details of a previously planned logistics route, such as the schedule, vehicle assigned, or stops.",
+        "requestBody": {
+          "description": "Details of the route update.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "routeId": { "type": "string" },
+                  "updatedStops": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                  },
+                  "updatedSchedule": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. The route has been updated."
+          },
+          "404": {
+            "description": "Route not found."
+          }
+        }
+      }
+    },
+    "/analytics/fuel-efficiency": {
+      "get": {
+        "summary": "Retrieve fuel efficiency insights",
+        "description": "Access analytical data and trends about vehicle fleet fuel efficiency to monitor and improve performance.",
+        "responses": {
+          "200": {
+            "description": "Success. Returns fuel efficiency analytics.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "averageFuelEfficiency": "12 km/liter",
+                  "trends": [
+                    { "date": "2023-10-10", "fuelEfficiency": "11.8 km/liter" },
+                    { "date": "2023-10-11", "fuelEfficiency": "12.2 km/liter" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/delivery-times": {
+      "get": {
+        "summary": "Retrieve delivery time statistics",
+        "description": "Access data and trends regarding delivery performance, including average delivery times and on-time delivery rates.",
+        "responses": {
+          "200": {
+            "description": "Success. Returns delivery time analytics.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "averageDeliveryTime": "4 hours",
+                  "onTimeDeliveryRate": "93%",
+                  "trends": [
+                    { "date": "2023-10-10", "averageDeliveryTime": "4.1 hours" },
+                    { "date": "2023-10-11", "averageDeliveryTime": "3.9 hours" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integrations/third-party": {
+      "post": {
+        "summary": "Enable third-party integration",
+        "description": "Enable integration with a third-party logistics service provider. Requires the third-party service's credentials and configurations.",
+        "requestBody": {
+          "description": "Details for enabling third-party integration.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "providerName": { "type": "string" },
+                  "apiKey": { "type": "string" },
+                  "configurations": { "type": "object" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. Integration enabled."
+          },
+          "400": {
+            "description": "Failed. Invalid configuration details."
+          }
+        }
+      }
+    },
+    "/integrations/third-party/status": {
+      "get": {
+        "summary": "Check third-party integration status",
+        "description": "Fetch the current status of third-party logistics service integrations.",
+        "responses": {
+          "200": {
+            "description": "Success. Returns integration status.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "integrationStatus": "Active",
+                  "lastSync": "2023-10-10T14:00:00Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts/notifications": {
+      "patch": {
+        "summary": "Modify delivery notification settings",
+        "description": "Update the settings for delivery notifications and alerts, such as enabling/disabling notifications or changing recipients.",
+        "requestBody": {
+          "description": "Updates to notification settings.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": { "type": "boolean" },
+                  "recipients": {
+                    "type": "array",
+                    "items": { "type": "string", "format": "email" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. Notification settings updated."
+          }
+        }
+      }
+    },
+    "/reports/weekly-summary": {
+      "get": {
+        "summary": "Generate weekly logistics summary",
+        "description": "Generate and retrieve a weekly summary report for logistics operations, including key metrics and trends.",
+        "responses": {
+          "200": {
+            "description": "Success. Returns the weekly summary report.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "report": {
+                    "dateRange": "2023-10-01 to 2023-10-07",
+                    "totalDeliveries": 120,
+                    "averageDeliveryTime": "4 hours",
+                    "fuelEfficiency": "12.1 km/liter"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

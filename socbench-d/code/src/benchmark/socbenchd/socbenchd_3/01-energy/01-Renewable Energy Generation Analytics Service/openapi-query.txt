@@ -1,0 +1,26 @@
+SUMMARY:
+Return the OpenAPI for the given service.
+
+DOCUMENT:
+Energy Sector: The Energy Sector comprises companies engaged in exploration & production, refining & marketing, and storage & transportation of oil & gas and coal & consumable fuels. It also includes companies that offer oil & gas equipment and services.
+
+Service:
+This RESTful API provides stakeholders with detailed data and insights regarding renewable energy sources such as solar, wind, and hydroelectricity. Features include real-time performance tracking, predictive maintenance alerts, and integration with power grid systems for optimizing energy distribution. For example, a solar farm operator can use the API to monitor panel efficiency and receive alerts about potential shading issues, ensuring consistent energy output.
+
+Endpoints:
+GET /renewables/overview: Retrieve aggregated statistical data of all monitored renewable energy systems.
+GET /renewables/{id}/performance: Fetch real-time performance data for a specific renewable energy system identified by ID.
+POST /alerts/predictive-maintenance: Create a new predictive maintenance alert for a specific energy system.
+GET /alerts: List all active alerts related to monitored energy sources, categorized by type.
+PUT /renewables/{id}/settings: Update configuration settings for a specific energy system.
+GET /grids/integration-status: Obtain the integration status of all energy systems with power grids.
+POST /grids/dispatch: Send a dispatch command to integrate renewable energy into the grid.
+GET /simulation: Run a simulation of potential energy production under specified conditions.
+DELETE /renewables/{id}: Remove a specific renewable energy system from monitoring.
+GET /renewables/{id}/maintenance-history: Query the maintenance history for a specific renewable energy system.
+
+TASK:
+Given the description of the service and its endpoints, please return the OpenAPI.
+
+INSTRUCTIONS:
+You are an OpenAPI generator. You are given a domain, a service, and the available endpoints. Return the OpenAPI in JSON for the service. Add all necessary parameters and add an extensive description to each. If there is not enough information about the parameters, add the most likely. You are in an automated setting. Only return the complete JSON and no further data.

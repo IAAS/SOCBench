@@ -1,0 +1,44 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "GET /maintenance-schedule",
+            "description": "Retrieve the scheduled maintenance requirements for a specified vehicle using its identification number."
+        },
+        {
+            "endpoint": "POST /schedule-appointment",
+            "description": "Create a new maintenance appointment for a specified vehicle at a chosen service center."
+        },
+        {
+            "endpoint": "GET /service-centers",
+            "description": "List all nearby authorized service centers based on the provided location."
+        },
+        {
+            "endpoint": "GET /vehicle-history",
+            "description": "Access the service history of a vehicle."
+        },
+        {
+            "endpoint": "POST /add-vehicle",
+            "description": "Add a new vehicle to the user's account for maintenance tracking."
+        },
+        {
+            "endpoint": "GET /notifications",
+            "description": "Retrieve upcoming notifications for scheduled vehicle maintenance."
+        },
+        {
+            "endpoint": "POST /cancel-appointment",
+            "description": "Cancel a previously scheduled maintenance appointment."
+        },
+        {
+            "endpoint": "GET /parts-availability",
+            "description": "Check the availability of parts required for scheduled maintenance at a specific service center."
+        },
+        {
+            "endpoint": "PUT /update-appointment",
+            "description": "Reschedule or modify an existing maintenance appointment."
+        },
+        {
+            "endpoint": "DELETE /remove-vehicle",
+            "description": "Remove a vehicle from the user's account, stopping maintenance tracking for it."
+        }
+    ]
+}
