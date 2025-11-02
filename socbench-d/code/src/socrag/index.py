@@ -8,8 +8,9 @@ from llama_index.core import (
 )
 from llama_index.core.base.base_retriever import BaseRetriever
 from llama_index.core.node_parser import NodeParser
-from llama_index.core.node_parser.text.token import TokenTextSplitter
 from llama_index.core.node_parser.file.json import JSONNodeParser
+from llama_index.core import Settings
+from socrag.naivetextparser import NaiveTextParser
 from socrag.craft import CraftRetriever
 from socrag.endpointmetadataparser import (
     EndpointMetadataParser,
@@ -33,6 +34,9 @@ from os.path import join, isdir
 import shutil
 from pydantic import BaseModel
 import logging
+import benchmark
+
+Settings.tokenizer = benchmark.get_encoding()
 
 class ChunkingStrategy(BaseModel):
     path: str
@@ -44,7 +48,7 @@ CHUNKING_STRATEGIES = {
         path="whole_document_100_0",
         transformations=[
             EndpointMetadataParser(),
-            TokenTextSplitter(chunk_size=100, chunk_overlap=0),
+            NaiveTextParser(chunk_size=100, chunk_overlap=0),
             EndpointTokenTextSplitter(),
         ],
     ),
@@ -52,7 +56,23 @@ CHUNKING_STRATEGIES = {
         path="whole_document_100_20",
         transformations=[
             EndpointMetadataParser(),
-            TokenTextSplitter(chunk_size=100, chunk_overlap=20),
+            NaiveTextParser(chunk_size=100, chunk_overlap=20),
+            EndpointTokenTextSplitter(),
+        ],
+    ),
+    "WHOLE_DOCUMENT_150_0": ChunkingStrategy(
+        path="whole_document_150_0",
+        transformations=[
+            EndpointMetadataParser(),
+            NaiveTextParser(chunk_size=150, chunk_overlap=0),
+            EndpointTokenTextSplitter(),
+        ],
+    ),
+    "WHOLE_DOCUMENT_150_20": ChunkingStrategy(
+        path="whole_document_150_20",
+        transformations=[
+            EndpointMetadataParser(),
+            NaiveTextParser(chunk_size=150, chunk_overlap=20),
             EndpointTokenTextSplitter(),
         ],
     ),
@@ -60,7 +80,7 @@ CHUNKING_STRATEGIES = {
         path="whole_document_200_0",
         transformations=[
             EndpointMetadataParser(),
-            TokenTextSplitter(chunk_size=200, chunk_overlap=0),
+            NaiveTextParser(chunk_size=200, chunk_overlap=0),
             EndpointTokenTextSplitter(),
         ],
     ),
@@ -68,7 +88,7 @@ CHUNKING_STRATEGIES = {
         path="whole_document_200_20",
         transformations=[
             EndpointMetadataParser(),
-            TokenTextSplitter(chunk_size=200, chunk_overlap=20),
+            NaiveTextParser(chunk_size=200, chunk_overlap=20),
             EndpointTokenTextSplitter(),
         ],
     ),
@@ -76,7 +96,7 @@ CHUNKING_STRATEGIES = {
     #     path="whole_document_1024_0",
     #     transformations=[
     #         EndpointMetadataParser(),
-    #         TokenTextSplitter(chunk_size=1024, chunk_overlap=0),
+    #         NaiveTextParser(chunk_size=1024, chunk_overlap=0),
     #         EndpointTokenTextSplitter(),
     #     ],
     # ),
@@ -84,14 +104,14 @@ CHUNKING_STRATEGIES = {
         path="endpoint_split_1024_0",
         transformations=[
             EndpointParser(),
-            TokenTextSplitter(chunk_size=1024, chunk_overlap=0),
+            NaiveTextParser(chunk_size=1024, chunk_overlap=0),
         ],
     ),
     # "WHOLE_DOCUMENT_1024_50": ChunkingStrategy(
     #     path="whole_document_1024_50",
     #     transformations=[
     #         EndpointMetadataParser(),
-    #         TokenTextSplitter(chunk_size=1024, chunk_overlap=50),
+    #         NaiveTextParser(chunk_size=1024, chunk_overlap=50),
     #         EndpointTokenTextSplitter(),
     #     ],
     # ),
@@ -99,14 +119,14 @@ CHUNKING_STRATEGIES = {
         path="endpoint_split_1024_20",
         transformations=[
             EndpointParser(),
-            TokenTextSplitter(chunk_size=1024, chunk_overlap=20),
+            NaiveTextParser(chunk_size=1024, chunk_overlap=20),
         ],
     ),
     # "WHOLE_DOCUMENT_2048_0": ChunkingStrategy(
     #     path="whole_document_2048_0",
     #     transformations=[
     #         EndpointMetadataParser(),
-    #         TokenTextSplitter(chunk_size=2048, chunk_overlap=0),
+    #         NaiveTextParser(chunk_size=2048, chunk_overlap=0),
     #         EndpointTokenTextSplitter(),
     #     ],
     # ),
@@ -114,14 +134,14 @@ CHUNKING_STRATEGIES = {
     #     path="endpoint_split_2048_0",
     #     transformations=[
     #         EndpointParser(),
-    #         TokenTextSplitter(chunk_size=2048, chunk_overlap=0),
+    #         NaiveTextParser(chunk_size=2048, chunk_overlap=0),
     #     ],
     # ),
     # "WHOLE_DOCUMENT_2048_50": ChunkingStrategy(
     #     path="whole_document_2048_50",
     #     transformations=[
     #         EndpointMetadataParser(),
-    #         TokenTextSplitter(chunk_size=2048, chunk_overlap=50),
+    #         NaiveTextParser(chunk_size=2048, chunk_overlap=50),
     #         EndpointTokenTextSplitter(),
     #     ],
     # ),
@@ -129,14 +149,14 @@ CHUNKING_STRATEGIES = {
     #     path="endpoint_split_2048_50",
     #     transformations=[
     #         EndpointParser(),
-    #         TokenTextSplitter(chunk_size=2048, chunk_overlap=50),
+    #         NaiveTextParser(chunk_size=2048, chunk_overlap=50),
     #     ],
     # ),
     # "WHOLE_DOCUMENT_4096_0": ChunkingStrategy(
     #     path="whole_document_4096_0",
     #     transformations=[
     #         EndpointMetadataParser(),
-    #         TokenTextSplitter(chunk_size=4096, chunk_overlap=0),
+    #         NaiveTextParser(chunk_size=4096, chunk_overlap=0),
     #         EndpointTokenTextSplitter(),
     #     ],
     # ),
@@ -144,14 +164,14 @@ CHUNKING_STRATEGIES = {
     #     path="endpoint_split_4096_0",
     #     transformations=[
     #         EndpointParser(),
-    #         TokenTextSplitter(chunk_size=4096, chunk_overlap=0),
+    #         NaiveTextParser(chunk_size=4096, chunk_overlap=0),
     #     ],
     # ),
     # "WHOLE_DOCUMENT_4096_50": ChunkingStrategy(
     #     path="whole_document_4096_50",
     #     transformations=[
     #         EndpointMetadataParser(),
-    #         TokenTextSplitter(chunk_size=4096, chunk_overlap=50),
+    #         NaiveTextParser(chunk_size=4096, chunk_overlap=50),
     #         EndpointTokenTextSplitter(),
     #     ],
     # ),
@@ -159,14 +179,14 @@ CHUNKING_STRATEGIES = {
     #     path="endpoint_split_4096_50",
     #     transformations=[
     #         EndpointParser(),
-    #         TokenTextSplitter(chunk_size=4096, chunk_overlap=50),
+    #         NaiveTextParser(chunk_size=4096, chunk_overlap=50),
     #     ],
     # ),
     # "WHOLE_DOCUMENT_8191_0": ChunkingStrategy(
     #     path="whole_document_8191_0",
     #     transformations=[
     #         EndpointMetadataParser(),
-    #         TokenTextSplitter(chunk_size=8191, chunk_overlap=0),
+    #         NaiveTextParser(chunk_size=8191, chunk_overlap=0),
     #         EndpointTokenTextSplitter(),
     #     ],
     # ),
@@ -174,14 +194,14 @@ CHUNKING_STRATEGIES = {
     #     path="endpoint_split_8191_0",
     #     transformations=[
     #         EndpointParser(),
-    #         TokenTextSplitter(chunk_size=8191, chunk_overlap=0),
+    #         NaiveTextParser(chunk_size=8191, chunk_overlap=0),
     #     ],
     # ),
     # "WHOLE_DOCUMENT_8191_50": ChunkingStrategy(
     #     path="whole_document_8191_50",
     #     transformations=[
     #         EndpointMetadataParser(),
-    #         TokenTextSplitter(chunk_size=8191, chunk_overlap=50),
+    #         NaiveTextParser(chunk_size=8191, chunk_overlap=50),
     #         EndpointTokenTextSplitter(),
     #     ],
     # ),
@@ -189,7 +209,7 @@ CHUNKING_STRATEGIES = {
     #     path="endpoint_split_8191_50",
     #     transformations=[
     #         EndpointParser(),
-    #         TokenTextSplitter(chunk_size=8191, chunk_overlap=50),
+    #         NaiveTextParser(chunk_size=8191, chunk_overlap=50),
     #     ],
     # ),
     "ENDPOINT_SPLIT_THIN": ChunkingStrategy(
@@ -203,7 +223,7 @@ CHUNKING_STRATEGIES = {
         transformations=[
             EndpointMetadataParser(),
             JSONNodeParser(),
-            TokenTextSplitter(chunk_size=100, chunk_overlap=0),
+            NaiveTextParser(chunk_size=100, chunk_overlap=0),
             EndpointTokenTextSplitter(),
         ],
     ),
@@ -212,7 +232,43 @@ CHUNKING_STRATEGIES = {
         transformations=[
             EndpointMetadataParser(),
             JSONNodeParser(),
-            TokenTextSplitter(chunk_size=100, chunk_overlap=20),
+            NaiveTextParser(chunk_size=100, chunk_overlap=20),
+            EndpointTokenTextSplitter(),
+        ],
+    ),
+    "JSON_150_0": ChunkingStrategy(
+        path="json_150_0",
+        transformations=[
+            EndpointMetadataParser(),
+            JSONNodeParser(),
+            NaiveTextParser(chunk_size=150, chunk_overlap=0),
+            EndpointTokenTextSplitter(),
+        ],
+    ),
+    "JSON_150_20": ChunkingStrategy(
+        path="json_150_20",
+        transformations=[
+            EndpointMetadataParser(),
+            JSONNodeParser(),
+            NaiveTextParser(chunk_size=150, chunk_overlap=20),
+            EndpointTokenTextSplitter(),
+        ],
+    ),
+    "JSON_200_0": ChunkingStrategy(
+        path="json_200_0",
+        transformations=[
+            EndpointMetadataParser(),
+            JSONNodeParser(),
+            NaiveTextParser(chunk_size=200, chunk_overlap=0),
+            EndpointTokenTextSplitter(),
+        ],
+    ),
+    "JSON_200_20": ChunkingStrategy(
+        path="json_200_20",
+        transformations=[
+            EndpointMetadataParser(),
+            JSONNodeParser(),
+            NaiveTextParser(chunk_size=200, chunk_overlap=20),
             EndpointTokenTextSplitter(),
         ],
     ),
@@ -221,7 +277,7 @@ CHUNKING_STRATEGIES = {
     #     transformations=[
     #         EndpointMetadataParser(),
     #         JSONNodeParser(),
-    #         TokenTextSplitter(chunk_size=1024, chunk_overlap=0),
+    #         NaiveTextParser(chunk_size=1024, chunk_overlap=0),
     #         EndpointTokenTextSplitter(),
     #     ],
     # ),
@@ -230,7 +286,7 @@ CHUNKING_STRATEGIES = {
     #     transformations=[
     #         EndpointMetadataParser(),
     #         JSONNodeParser(),
-    #         TokenTextSplitter(chunk_size=2048, chunk_overlap=0),
+    #         NaiveTextParser(chunk_size=2048, chunk_overlap=0),
     #         EndpointTokenTextSplitter(),
     #     ],
     # ),
@@ -239,7 +295,7 @@ CHUNKING_STRATEGIES = {
     #     transformations=[
     #         EndpointMetadataParser(),
     #         JSONNodeParser(),
-    #         TokenTextSplitter(chunk_size=4096, chunk_overlap=0),
+    #         NaiveTextParser(chunk_size=4096, chunk_overlap=0),
     #         EndpointTokenTextSplitter(),
     #     ],
     # ),
@@ -248,7 +304,7 @@ CHUNKING_STRATEGIES = {
     #     transformations=[
     #         EndpointMetadataParser(),
     #         JSONNodeParser(),
-    #         TokenTextSplitter(chunk_size=8191, chunk_overlap=0),
+    #         NaiveTextParser(chunk_size=8191, chunk_overlap=0),
     #         EndpointTokenTextSplitter(),
     #     ],
     # ),
@@ -257,7 +313,7 @@ CHUNKING_STRATEGIES = {
     #     transformations=[
     #         EndpointMetadataParser(),
     #         JSONNodeParser(),
-    #         TokenTextSplitter(chunk_size=1024, chunk_overlap=50),
+    #         NaiveTextParser(chunk_size=1024, chunk_overlap=50),
     #         EndpointTokenTextSplitter(),
     #     ],
     # ),
@@ -266,7 +322,7 @@ CHUNKING_STRATEGIES = {
     #     transformations=[
     #         EndpointMetadataParser(),
     #         JSONNodeParser(),
-    #         TokenTextSplitter(chunk_size=2048, chunk_overlap=50),
+    #         NaiveTextParser(chunk_size=2048, chunk_overlap=50),
     #         EndpointTokenTextSplitter(),
     #     ],
     # ),
@@ -275,7 +331,7 @@ CHUNKING_STRATEGIES = {
     #     transformations=[
     #         EndpointMetadataParser(),
     #         JSONNodeParser(),
-    #         TokenTextSplitter(chunk_size=4096, chunk_overlap=50),
+    #         NaiveTextParser(chunk_size=4096, chunk_overlap=50),
     #         EndpointTokenTextSplitter(),
     #     ],
     # ),
@@ -284,7 +340,7 @@ CHUNKING_STRATEGIES = {
     #     transformations=[
     #         EndpointMetadataParser(),
     #         JSONNodeParser(),
-    #         TokenTextSplitter(chunk_size=8191, chunk_overlap=50),
+    #         NaiveTextParser(chunk_size=8191, chunk_overlap=50),
     #         EndpointTokenTextSplitter(),
     #     ],
     # ),
@@ -292,7 +348,7 @@ CHUNKING_STRATEGIES = {
         path="endpoint_json",
         transformations=[
             EndpointJsonParser(),
-            TokenTextSplitter(chunk_size=1024, chunk_overlap=0)
+            NaiveTextParser(chunk_size=1024, chunk_overlap=0)
         ],
     ),
     "QUERY_EXTRACTION": ChunkingStrategy(

@@ -1,4 +1,3 @@
-import os.path
 from enum import Enum
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.embeddings.openai import OpenAIEmbedding, OpenAIEmbeddingMode
@@ -9,7 +8,6 @@ from socrag.file import write_file
 from socrag.index import CHUNKING_STRATEGIES, get_retriever
 import benchmark
 import logging
-import sys
 
 logging.basicConfig(
     filename="data/socrag.log",
@@ -47,13 +45,12 @@ def setup_model(model: Model):
     llm = OpenAI(model="gpt-4o-2024-11-20")
     return embed_model, EMBEDDING_DIMENSIONS, MODEL_NAME, llm
 
-(embed_model, EMBEDDING_DIMENSIONS, MODEL_NAME, llm) = setup_model(Model.OpenAI)
+(embed_model, EMBEDDING_DIMENSIONS, MODEL_NAME, llm) = setup_model(Model.BGE)
 Settings.embed_model = embed_model
 Settings.llm = llm
 Settings.chunk_overlap = 20
 
 restbench = benchmark.get_restbench()
-# COUNT_SOCBENCHD_BENCHMARKS = 5
 COUNT_SOCBENCHD_BENCHMARKS = 5
 socbenchd = benchmark.get_socbenchd(COUNT_SOCBENCHD_BENCHMARKS)
 
@@ -141,8 +138,26 @@ def compute_results(top_k, chunking_strategy_name: str):
 # for top_k in [10]:
 #     for (chunking_strategy_name, chunking_strategy) in CHUNKING_STRATEGIES.items():
 #         compute_results(top_k, chunking_strategy_name)
-# for strategy in ["ENDPOINT_SPLIT_THIN", "ENDPOINT_SPLIT_FIELD", "ENDPOINT_SPLIT_1024_0", "ENDPOINT_JSON", "QUERY_EXTRACTION", "SUMMARY", "ENDPOINT_DESCRIPTION", "ENDPOINT_NAME", "CRAFT"]:
-#     for top_k in [5, 10, 20]:
-#         compute_results(top_k, strategy)
-compute_restbench_agent_results(100)
-compute_socbench_agend_results(100)
+strategies = [
+    "WHOLE_DOCUMENT_100_0",
+    "WHOLE_DOCUMENT_100_20",
+    "WHOLE_DOCUMENT_150_0",
+    "WHOLE_DOCUMENT_150_20",
+    "WHOLE_DOCUMENT_200_0",
+    "WHOLE_DOCUMENT_200_20",
+    "ENDPOINT_SPLIT_1024_0",
+    "ENDPOINT_SPLIT_1024_20",
+    "JSON_100_0",
+    "JSON_100_20",
+    "JSON_150_0",
+    "JSON_150_20",
+    "JSON_200_0",
+    "JSON_200_20",
+    "ENDPOINT_JSON"
+    ]
+for strategy in strategies:
+# for strategy in ["WHOLE_DOCUMENT_100_0", "WHOLE_DOCUMENT_200_0"]:
+    for top_k in [5, 10, 20]:
+        compute_results(top_k, strategy)
+# compute_restbench_agent_results(100)
+# compute_socbench_agend_results(100)
