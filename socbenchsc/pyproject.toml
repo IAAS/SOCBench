@@ -1,0 +1,26 @@
+[project]
+name = 'socbenchsc'
+description = 'SOCBench-SC'
+readme = "README.md"
+version = '1.0.0'
+license = {file = 'LICENSE'}
+authors = [
+    {name = 'Robin D. Pesl', email = 'robin.pesl@iaas.uni-stuttgart.de'},
+]
+dependencies = [
+    "pydantic == 2.11.7"
+]
+[project.optional-dependencies]
+test = [
+    "pytest == 8.3.5",
+    "flake8 == 7.2.0"
+]
+[tool.setuptools]
+py-modules = ["socbenchsc"]
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+pythonpath = "src"
+[tool.setuptools.packages.find]
+where = ["src"]
